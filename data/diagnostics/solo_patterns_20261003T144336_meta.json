@@ -1,0 +1,12 @@
+{
+ "args": {
+  "blocks": 4,
+  "tasks": 30,
+  "gap": 0.05,
+  "seed": 5
+ },
+ "profile": "D:\\cao project\\data\\profiles\\20261003T115606_profile.json",
+ "coordinator_core": 4,
+ "power_plugged": true,
+ "platform": "Windows-10-10.0.26100-SP0"
+}

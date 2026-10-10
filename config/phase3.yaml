@@ -1,0 +1,32 @@
+# Phase 3 configuration: estimator ladder E0-E5. Settings only, no measured values.
+# Execution time = kernel-only (wall_time_seconds) throughout.
+
+campaign:
+  # Randomized interference campaign (data collection for E4; not a scheduling experiment).
+  runs: 200
+  tasks_per_run: 30
+  seed: 31
+  concurrency_min: 1        # number of workers allowed per run, drawn uniformly
+  concurrency_max: 9
+  # Minimum idle gap a worker must have before receiving its next task, drawn
+  # per run; varies the candidate's recent-activity feature (target_busy_frac).
+  min_idle_choices_s: [0.0, 0.0, 0.005, 0.02, 0.05, 0.2]
+  workload_mix: {matmul: 1, image_filter: 1, compression: 1}
+  sizes: {matmul: [256, 512], image_filter: [512, 1024], compression: [1048576, 4194304]}  # = profiled sizes
+  run_timeout_s: 300
+
+estimators:
+  E2:
+    # Asymptotic complexity in each workload's size unit (matmul N, image side px, compression bytes).
+    exponents: {matmul: 3.0, image_filter: 2.0, compression: 1.0}
+    fit_exponent: false
+  E3:
+    window: 8
+  E4:
+    feature_set: occupancy+history   # or 'occupancy' (ablation)
+    ridge_lambda: 1.0
+    min_rows: 30
+    train_fraction: 0.7     # first 70% of campaign runs (time order) train, last 30% held out
+
+evaluation:
+  phase2_experiment: latest   # data/events/phase2_<stamp>/ ; 'latest' = newest

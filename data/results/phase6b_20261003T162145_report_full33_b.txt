@@ -1,0 +1,62 @@
+phase6b_20261003T162145: 99 blocks analysed; reference B4_greedy_eligible
+selection: filter=full_repeats planned_repeats=40 blocks_total=102 complete=101 kept=99 full_repeats=33
+excluded blocks: [{'repeat': '33', 'trace': 'forkjoin_mixed', 'runs': 7, 'reason': 'incomplete block'}, {'repeat': '33', 'trace': 'independent_mixed', 'runs': 14, 'reason': 'block of a partial repeat (balanced design)'}, {'repeat': '33', 'trace': 'layered_mixed', 'runs': 14, 'reason': 'block of a partial repeat (balanced design)'}]
+unreferenced logs: [{'log': 'block__forkjoin_mixed__EFT_E4f_rc__r33.jsonl', 'reason': 'run interrupted (no completed row in runs.csv; no run_finished)'}]
+power: {'median_paired_sd_log_makespan': 0.13290632539666297, 'n_blocks': 99, 'implied_ci_halfwidth_pct': 2.6526602681076428}
+
+Paired effect vs reference, % [95% bootstrap CI]; * = CI excludes 0 (negative = lower):
+  condition                                            makespan              mean response                 throughput
+  EFT_E4f_rc                              +6.0 [  +3.3,  +8.8]*     +16.5 [ +14.1, +19.1]*      -5.7 [  -8.1,  -3.2]*
+  B0_E_only                              +18.8 [ +16.1, +21.6]*     +31.8 [ +29.2, +34.4]*     -15.8 [ -17.7, -13.9]*
+  EFT_E1                                  +2.5 [  +0.3,  +4.8]*      +4.4 [  +2.6,  +6.2]*      -2.5 [  -4.6,  -0.3]*
+  EFT_E3                                  -1.1 [  -3.8,  +1.6]       +1.5 [  -0.7,  +3.6]       +1.2 [  -1.6,  +3.9] 
+  EFT_E1_rc_R@lan_1g                      -1.7 [  -3.9,  +0.6]       -0.2 [  -2.1,  +1.7]       +1.7 [  -0.6,  +4.0] 
+  EFT_E1_rc_e2e                           -2.7 [  -5.1,  -0.2]*      +0.6 [  -1.4,  +2.5]       +2.8 [  +0.2,  +5.4]*
+  EFT_E4f_rc_e2e                          +6.3 [  +4.0,  +8.7]*     +19.6 [ +17.5, +21.8]*      -5.9 [  -8.0,  -3.9]*
+  EFT_E1_rc                               -0.7 [  -3.2,  +1.9]       +1.0 [  -1.1,  +3.1]       +0.7 [  -1.9,  +3.3] 
+  B4_greedy_eligible_R@wifi_50m          +85.1 [ +75.8, +95.5]*     +18.3 [ +16.5, +20.3]*     -46.0 [ -48.9, -43.1]*
+  O_eft_E5                                +8.7 [  +5.3, +12.3]*     +23.6 [ +19.1, +28.2]*      -8.0 [ -10.9,  -5.0]*
+  EFT_E1_rc_R@wifi_50m                    +0.5 [  -2.2,  +3.6]       +2.0 [  +0.1,  +4.1]*      -0.5 [  -3.4,  +2.3] 
+  B4_greedy_eligible_R@lan_1g             +1.4 [  -0.9,  +3.8]       +1.2 [  -0.6,  +3.2]       -1.3 [  -3.6,  +1.0] 
+  EFT_E0                                  +7.0 [  +4.7,  +9.5]*      +3.3 [  +1.5,  +5.2]*      -6.6 [  -8.7,  -4.5]*
+
+Contrasts (makespan), % [95% CI]:
+  EFT_E1_rc vs EFT_E1                                       -3.2 [  -5.2,  -1.1]*
+  EFT_E1 vs EFT_E0                                          -4.2 [  -6.2,  -2.2]*
+  EFT_E3 vs EFT_E1                                          -3.6 [  -6.0,  -1.2]*
+  EFT_E4f_rc vs EFT_E1_rc                                   +6.8 [  +4.6,  +9.1]*
+  EFT_E1_rc_e2e vs EFT_E1_rc                                -2.0 [  -4.1,  +0.0] 
+  EFT_E4f_rc_e2e vs EFT_E4f_rc                              +0.3 [  -2.0,  +2.6] 
+  O_eft_E5 vs EFT_E1_rc                                     +9.5 [  +6.0, +13.0]*
+  EFT_E1_rc_R@lan_1g vs EFT_E1_rc                           -0.9 [  -3.2,  +1.3] 
+  EFT_E1_rc_R@wifi_50m vs EFT_E1_rc                         +1.2 [  -1.0,  +3.6] 
+  B4_greedy_eligible_R@lan_1g vs B4_greedy_eligible         +1.4 [  -0.9,  +3.8] 
+  B4_greedy_eligible_R@wifi_50m vs B4_greedy_eligible      +85.1 [ +75.5, +96.1]*
+
+Per condition (mean [95% CI] over runs):
+  condition                                     makespan ms         sched ms/run          decision us      exec medAPE %        regret k ms        optimal k %      regret e2e ms  R tasks
+  EFT_E4f_rc                            425.6 [418.1,432.8]  44.45 [43.36,45.47]  676.9 [660.0,693.1]   14.1 [13.5,14.7]   4.35 [4.03,4.66]   68.1 [67.2,69.1]   4.35 [4.02,4.66]     0.00
+  B0_E_only                             477.0 [468.6,485.5]     2.21 [2.14,2.27]        4.7 [4.6,4.8]                  -   9.59 [9.59,9.60]      0.0 [0.0,0.0] 11.89 [11.88,11.89]     0.00
+  EFT_E1                                416.5 [409.3,423.8]     3.24 [3.17,3.30]     48.6 [47.5,49.7]   37.2 [36.3,38.0]   3.75 [3.54,3.97]   68.4 [67.7,69.0]   3.40 [3.20,3.60]     0.00
+  EFT_E3                                402.4 [395.1,410.0]     3.62 [3.53,3.71]     54.7 [53.2,56.0]   20.1 [19.4,20.8]   2.98 [2.82,3.13]   70.0 [69.3,70.7]   2.77 [2.63,2.92]     0.00
+  EFT_E1_rc_R@lan_1g                    398.8 [392.9,404.7]     4.89 [4.80,4.97]     73.4 [71.9,74.8]   18.6 [17.9,19.2]                  -                  -                  -     1.36
+  EFT_E1_rc_e2e                         395.0 [387.8,402.1]     5.47 [5.34,5.59]     82.6 [80.5,84.6]   18.3 [17.5,19.0]   1.12 [1.01,1.25]   81.9 [81.1,82.6]   0.84 [0.74,0.96]     0.00
+  EFT_E4f_rc_e2e                        430.4 [422.8,438.5]  47.90 [46.75,49.06]  733.2 [714.3,751.4]   14.3 [13.7,14.9]   3.46 [3.08,3.85]   72.4 [71.6,73.1]   3.47 [3.08,3.86]     0.00
+  EFT_E1_rc                             402.8 [396.4,409.3]     4.11 [4.02,4.20]     61.6 [60.1,63.1]   17.8 [17.1,18.5]   3.03 [2.81,3.31]   70.3 [69.6,70.9]   2.70 [2.50,2.98]     0.00
+  B4_greedy_eligible_R@wifi_50m         930.3 [906.6,956.0]     0.71 [0.70,0.72]        9.7 [9.6,9.8]                  -                  -                  -                  -     2.19
+  O_eft_E5                              433.7 [423.6,443.8]  63.67 [55.22,72.38] 1000.7 [861.9,1139.1]      7.6 [6.7,8.5]   2.53 [2.35,2.73]   72.4 [71.3,73.4]   2.13 [1.96,2.31]     0.00
+  EFT_E1_rc_R@wifi_50m                  406.6 [398.1,416.3]     4.89 [4.78,5.00]     73.5 [71.7,75.2]   18.7 [17.9,19.4]                  -                  -                  -     0.00
+  B4_greedy_eligible_R@lan_1g           412.0 [404.5,419.6]     0.73 [0.71,0.76]      10.0 [9.7,10.5]                  -                  -                  -                  -     3.51
+  B4_greedy_eligible                    406.0 [398.2,413.8]     4.22 [4.11,4.32]        9.3 [9.1,9.5]                  -   2.45 [2.39,2.50]   72.4 [71.7,73.1]   3.55 [3.49,3.62]     0.00
+  EFT_E0                                429.1 [422.0,436.1]     2.66 [2.61,2.70]     39.7 [38.9,40.5]   62.8 [62.5,63.2] 16.10 [15.74,16.43]   56.2 [55.7,56.7] 16.23 [15.88,16.54]     0.00
+
+Offload: transfer per offloaded task (ms), share of makespan (%), measured/predicted transfer:
+  EFT_E1_rc_R@lan_1g                 14.7 [14.5,15.0]  share 8.4 [8.1,8.7]  meas/pred 1.01 [1.00,1.02]
+  B4_greedy_eligible_R@wifi_50m      278.7 [268.9,289.5]  share 72.1 [70.4,73.8]  meas/pred -
+  B4_greedy_eligible_R@lan_1g        28.9 [27.7,30.2]  share 27.7 [26.8,28.5]  meas/pred -
+
+Placement regret vs relative decision margin (all EFT decisions, local runs):
+  margin 0.00-0.02    n= 28315  regret ms 4.26 [4.09,4.43]  optimal 75.0%
+  margin 0.02-0.10    n=  9661  regret ms 7.52 [7.21,7.83]  optimal 49.2%
+  margin 0.10-0.30    n=  6798  regret ms 3.60 [3.40,3.82]  optimal 67.5%
+  margin 0.30-inf     n=  6178  regret ms 2.55 [2.30,2.80]  optimal 79.2%

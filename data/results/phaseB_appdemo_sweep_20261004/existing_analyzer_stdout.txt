@@ -1,0 +1,34 @@
+
+== appdemo_20261004T185921: denoise iterations 1; logs 26; final outputs {'exact': 26}; remote tasks verified 184/184; stop: None
+  img_denoise  kernel P/E/R 2.8/3.725/2.849 ms; transfer 4.918 ms (n=54); service P/E/R 30.652/33.997/23.099 ms; kernel/transfer E 0.757
+  img_edges    kernel P/E/R 3.958/5.276/4.238 ms; transfer 3.907 ms (n=58); service P/E/R 31.787/41.829/28.115 ms; kernel/transfer E 1.351
+  B4_greedy_eligible_R   10/10 runs; makespan median 1016.098 ms [919.511, 1089.791]; decision median 11.6 us; scheduling/run 1.426 ms; remote tasks 39 in 10 runs
+  EFT_E1_rc_R            10/10 runs; makespan median 1082.354 ms [1027.591, 1097.118]; decision median 95.95 us; scheduling/run 6.873 ms; remote tasks 9 in 8 runs
+  EFT vs B4 makespan +5.8% [+1.8, +10.0] (n=10 paired repeats, CI excludes 0: True)
+  EFT predicted remote-minus-best-local finish: {'n': 320, 'min': -1.633, 'median': 3.836, 'n_remote_predicted_better': 9}
+
+== appdemo_20261003T213900: denoise iterations 4; logs 26; final outputs {'exact': 26}; remote tasks verified 185/185; stop: None
+  img_denoise  kernel P/E/R 10.376/10.973/11.765 ms; transfer 4.79 ms (n=56); service P/E/R 34.5/45.046/38.544 ms; kernel/transfer E 2.291
+  img_edges    kernel P/E/R 3.554/4.302/5.214 ms; transfer 3.923 ms (n=57); service P/E/R 34.385/31.565/29.428 ms; kernel/transfer E 1.097
+  B4_greedy_eligible_R   10/10 runs; makespan median 827.433 ms [785.747, 920.836]; decision median 9.1 us; scheduling/run 1.092 ms; remote tasks 40 in 10 runs
+  EFT_E1_rc_R            10/10 runs; makespan median 891.171 ms [828.254, 1315.017]; decision median 80.45 us; scheduling/run 5.83 ms; remote tasks 9 in 7 runs
+  EFT vs B4 makespan +8.8% [+2.7, +17.2] (n=10 paired repeats, CI excludes 0: True)
+  EFT predicted remote-minus-best-local finish: {'n': 320, 'min': -4.374, 'median': 6.409, 'n_remote_predicted_better': 9}
+
+== appdemo_20261004T185801: denoise iterations 16; logs 26; final outputs {'exact': 26}; remote tasks verified 198/198; stop: None
+  img_denoise  kernel P/E/R 38.518/53.464/48.845 ms; transfer 4.857 ms (n=75); service P/E/R 66.133/82.189/79.572 ms; kernel/transfer E 11.008
+  img_edges    kernel P/E/R 4.035/5.582/3.17 ms; transfer 3.559 ms (n=51); service P/E/R 39.987/36.749/20.76 ms; kernel/transfer E 1.568
+  B4_greedy_eligible_R   10/10 runs; makespan median 1157.328 ms [933.04, 1216.306]; decision median 11.7 us; scheduling/run 1.174 ms; remote tasks 39 in 10 runs
+  EFT_E1_rc_R            10/10 runs; makespan median 1185.679 ms [1165.389, 1315.444]; decision median 102.55 us; scheduling/run 7.225 ms; remote tasks 23 in 10 runs
+  EFT vs B4 makespan +6.2% [+2.4, +11.2] (n=10 paired repeats, CI excludes 0: True)
+  EFT predicted remote-minus-best-local finish: {'n': 320, 'min': -34.997, 'median': 23.376, 'n_remote_predicted_better': 23}
+
+== appdemo_20261003T214453: denoise iterations 64; logs 26; final outputs {'exact': 26}; remote tasks verified 180/180; stop: None
+  img_denoise  kernel P/E/R 130.556/180.29/174.502 ms; transfer 4.683 ms (n=72); service P/E/R 173.089/205.618/198.902 ms; kernel/transfer E 38.502
+  img_edges    kernel P/E/R 2.485/3.99/4.366 ms; transfer 3.64 ms (n=36); service P/E/R 26.4/19.243/26.988 ms; kernel/transfer E 1.096
+  B4_greedy_eligible_R   10/10 runs; makespan median 1138.999 ms [1104.401, 1238.419]; decision median 10.0 us; scheduling/run 0.856 ms; remote tasks 24 in 10 runs
+  EFT_E1_rc_R            10/10 runs; makespan median 1188.742 ms [1146.681, 1301.558]; decision median 77.8 us; scheduling/run 5.595 ms; remote tasks 20 in 10 runs
+  EFT vs B4 makespan +4.7% [+1.0, +8.7] (n=10 paired repeats, CI excludes 0: True)
+  EFT predicted remote-minus-best-local finish: {'n': 320, 'min': -141.225, 'median': 76.949, 'n_remote_predicted_better': 20}
+
+-> data\results\phaseB_appdemo_sweep_20261004\existing_analyzer_analysis.json

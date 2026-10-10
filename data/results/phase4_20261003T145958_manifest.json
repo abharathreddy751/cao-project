@@ -1,0 +1,109 @@
+{
+ "experiment_id": "phase4_20261003T145958",
+ "config": {
+  "traces_from": "config/phase2.yaml",
+  "baseline_policy_config": "config/phase2.yaml",
+  "estimator_config": "config/phase3.yaml",
+  "policies": {
+   "baselines": [
+    "B0_P_only",
+    "B0_E_only",
+    "B4_greedy_eligible"
+   ],
+   "eft_estimators": [
+    "E0",
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E1+rc",
+    "E2+rc",
+    "E4+rc"
+   ],
+   "oracle": true
+  },
+  "rc": {
+   "alpha": 0.2,
+   "min_obs": 1,
+   "clamp": [
+    0.5,
+    3.0
+   ]
+  },
+  "e4_model": "data/models/e4_20261003T144301_occupancy_history.json",
+  "experiment": {
+   "repeats": 5,
+   "order_seed": 4040,
+   "run_timeout_s": 900
+  }
+ },
+ "estimator_config": {
+  "E2": {
+   "exponents": {
+    "matmul": 3.0,
+    "image_filter": 2.0,
+    "compression": 1.0
+   },
+   "fit_exponent": false
+  },
+  "E3": {
+   "window": 8
+  },
+  "E4": {
+   "feature_set": "occupancy+history",
+   "ridge_lambda": 1.0,
+   "min_rows": 30,
+   "train_fraction": 0.7
+  },
+  "rc": {
+   "alpha": 0.2,
+   "min_obs": 1,
+   "clamp": [
+    0.5,
+    3.0
+   ]
+  }
+ },
+ "profile": "D:\\cao project\\data\\profiles\\20261003T115606_profile.json",
+ "e4_model": "data\\models\\e4_20261003T144301_occupancy_history.json",
+ "policies_stage_A": [
+  "B0_P_only",
+  "B0_E_only",
+  "B4_greedy_eligible",
+  "EFT_E0",
+  "EFT_E1",
+  "EFT_E2",
+  "EFT_E3",
+  "EFT_E4",
+  "EFT_E1_rc",
+  "EFT_E2_rc",
+  "EFT_E4_rc"
+ ],
+ "oracle_stage_B": true,
+ "repeats": 5,
+ "traces": [
+  "layered_mixed",
+  "independent_mixed",
+  "forkjoin_mixed"
+ ],
+ "runtime_config": {
+  "p_core_slots": [
+   0,
+   2
+  ],
+  "e_core_slots": [
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ],
+  "coordinator_core": 4
+ },
+ "coordinator_core": 4,
+ "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+ "platform": "Windows-10-10.0.26100-SP0",
+ "regret_definition": "one-step hindsight regret from task READY time, E5 leave-run-out (caosched.analysis.decisions)"
+}

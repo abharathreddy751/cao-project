@@ -1,0 +1,3 @@
+repeat,order_index,policy,status,makespan_s,scheduling_time_s,n_tasks,tasks_P,tasks_E,tasks_R,transfer_total_s,output_match,output_sha256,available_gib,event_log
+0,0,B4_greedy_eligible_R,completed,0.8734845999861136,0.0008375997713301331,68,18,45,5,0.02321229994413443,exact,6acdbb7c19df0658f3b850811d8a1e3fc91d7d86b0661f616bd8bba210698518,0.54,data/events/appdemo_20261003T231850/demo_B4_greedy_eligible_R_r00.jsonl
+0,1,EFT_E1_rc_R,completed,0.9322592999960762,0.0058413996011950076,68,19,47,2,0.009444899973459542,exact,6acdbb7c19df0658f3b850811d8a1e3fc91d7d86b0661f616bd8bba210698518,0.528,data/events/appdemo_20261003T231850/demo_EFT_E1_rc_R_r00.jsonl

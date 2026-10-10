@@ -1,0 +1,18 @@
+command: .venv/Scripts/pytest tests/test_dataset.py tests/test_dataset_build.py -v
+============================= test session starts =============================
+platform win32 -- Python 3.11.9, pytest-9.1.1, pluggy-1.6.0 -- D:\cao project\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: D:\cao project
+configfile: pyproject.toml
+collecting ... collected 8 items
+
+tests/test_dataset.py::test_context_reconstructed_at_task_start PASSED   [ 12%]
+tests/test_dataset.py::test_failed_runs_are_excluded PASSED              [ 25%]
+tests/test_dataset.py::test_campaign_policy_only_uses_allowed_idle_workers PASSED [ 37%]
+tests/test_dataset.py::test_target_busy_frac_uses_logged_history_else_unknown PASSED [ 50%]
+tests/test_dataset.py::test_campaign_idle_gap_is_enforced_by_retry_after PASSED [ 62%]
+tests/test_dataset_build.py::test_classify_exclusions PASSED             [ 75%]
+tests/test_dataset_build.py::test_build_schema_provenance_and_validation PASSED [ 87%]
+tests/test_dataset_build.py::test_validation_detects_modified_raw_log PASSED [100%]
+
+============================== 8 passed in 0.75s ==============================

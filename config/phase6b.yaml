@@ -1,0 +1,49 @@
+# Phase 6B core experiment matrix. Settings only, fixed BEFORE running.
+# One pool for all conditions (2 P + 6 E + 1 remote node behind the link shim);
+# every block (repeat x trace) runs every condition once in shuffled order.
+
+profile: data/profiles/20261003T152700_profile.json
+e2e_terms: data/models/e2e_terms_20261003T152812.json
+e4_model: data/models/e4_20261003T144301_occupancy_history.json
+estimator_config: config/phase3.yaml
+traces_from: config/phase2.yaml
+rc: {alpha: 0.2, min_obs: 1, clamp: [0.5, 3.0]}
+
+reference: B4_greedy_eligible
+
+local:                              # R exists but is never used by these
+  baselines: [B0_E_only, B4_greedy_eligible]
+  eft: [E0, E1, E1+rc, E3, E4f+rc, E1+rc@e2e, E4f+rc@e2e]
+  oracle: true                      # O: EFT with E5 built from this session's completed runs only
+
+remote:
+  node_core: 11
+  proxy_core: 4
+  links:
+    lan_1g:   {latency_s: 0.0002, bandwidth_Bps: 125000000, per_message_s: 0.00005}
+    wifi_50m: {latency_s: 0.003,  bandwidth_Bps: 6250000,   per_message_s: 0.0001}
+  greedy: true                      # B4 with priority P > E > R, per link
+  eft: [E1+rc]                      # transfer-aware EFT allowed to use R, per link
+
+seed_stage:                         # gives O's replay table P/E coverage before block 1
+  repeats_per_trace: 2
+  policies: [B0_P_only, B0_E_only]
+
+contrasts:                          # [condition, reference] pairs of specific interest
+  - [EFT_E1_rc, EFT_E1]             # online recalibration
+  - [EFT_E1, EFT_E0]                # size-aware profile vs constant
+  - [EFT_E3, EFT_E1]                # moving history vs static profile
+  - [EFT_E4f_rc, EFT_E1_rc]         # learned interference-aware vs profile (both recalibrated)
+  - [EFT_E1_rc_e2e, EFT_E1_rc]      # end-to-end vs kernel-only
+  - [EFT_E4f_rc_e2e, EFT_E4f_rc]
+  - [O_eft_E5, EFT_E1_rc]           # replay oracle vs best online predictor candidate
+  - [EFT_E1_rc_R@lan_1g, EFT_E1_rc] # offloading over 1 Gb/s vs local only
+  - [EFT_E1_rc_R@wifi_50m, EFT_E1_rc]
+  - [B4_greedy_eligible_R@lan_1g, B4_greedy_eligible]
+  - [B4_greedy_eligible_R@wifi_50m, B4_greedy_eligible]
+
+experiment:
+  repeats: 40                       # 40 x 3 traces = 120 blocks (see PROJECT_STATUS power note)
+  order_seed: 6060
+  run_timeout_s: 1200
+  min_available_gib: 1.0            # preflight: refuse to start below this (added after the memory stop)

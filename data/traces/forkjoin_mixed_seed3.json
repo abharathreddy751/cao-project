@@ -1,0 +1,550 @@
+{
+ "schema_version": 1,
+ "name": "forkjoin_mixed",
+ "seed": 3,
+ "generator": {
+  "generator": "fork_join",
+  "width": 12,
+  "stages": 4,
+  "workload_mix": {
+   "matmul": 1,
+   "image_filter": 1,
+   "compression": 1
+  },
+  "sizes": {
+   "matmul": [
+    256,
+    512
+   ],
+   "image_filter": [
+    512,
+    1024
+   ],
+   "compression": [
+    1048576,
+    4194304
+   ]
+  }
+ },
+ "tasks": [
+  {
+   "id": "s0_root",
+   "workload": "compression",
+   "size": 1048576,
+   "seed": 1588945316,
+   "deps": []
+  },
+  {
+   "id": "s0_b0",
+   "workload": "matmul",
+   "size": 512,
+   "seed": 281444313,
+   "deps": [
+    "s0_root"
+   ]
+  },
+  {
+   "id": "s0_b1",
+   "workload": "image_filter",
+   "size": 1024,
+   "seed": 1113916996,
+   "deps": [
+    "s0_root"
+   ]
+  },
+  {
+   "id": "s0_b2",
+   "workload": "image_filter",
+   "size": 512,
+   "seed": 2019766388,
+   "deps": [
+    "s0_root"
+   ]
+  },
+  {
+   "id": "s0_b3",
+   "workload": "image_filter",
+   "size": 1024,
+   "seed": 1705680002,
+   "deps": [
+    "s0_root"
+   ]
+  },
+  {
+   "id": "s0_b4",
+   "workload": "image_filter",
+   "size": 512,
+   "seed": 996097414,
+   "deps": [
+    "s0_root"
+   ]
+  },
+  {
+   "id": "s0_b5",
+   "workload": "image_filter",
+   "size": 1024,
+   "seed": 65054739,
+   "deps": [
+    "s0_root"
+   ]
+  },
+  {
+   "id": "s0_b6",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 684617508,
+   "deps": [
+    "s0_root"
+   ]
+  },
+  {
+   "id": "s0_b7",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 1293934751,
+   "deps": [
+    "s0_root"
+   ]
+  },
+  {
+   "id": "s0_b8",
+   "workload": "matmul",
+   "size": 512,
+   "seed": 2030441878,
+   "deps": [
+    "s0_root"
+   ]
+  },
+  {
+   "id": "s0_b9",
+   "workload": "image_filter",
+   "size": 1024,
+   "seed": 1833671387,
+   "deps": [
+    "s0_root"
+   ]
+  },
+  {
+   "id": "s0_b10",
+   "workload": "image_filter",
+   "size": 1024,
+   "seed": 576166047,
+   "deps": [
+    "s0_root"
+   ]
+  },
+  {
+   "id": "s0_b11",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 154131935,
+   "deps": [
+    "s0_root"
+   ]
+  },
+  {
+   "id": "s0_join",
+   "workload": "compression",
+   "size": 1048576,
+   "seed": 1108020926,
+   "deps": [
+    "s0_b0",
+    "s0_b1",
+    "s0_b2",
+    "s0_b3",
+    "s0_b4",
+    "s0_b5",
+    "s0_b6",
+    "s0_b7",
+    "s0_b8",
+    "s0_b9",
+    "s0_b10",
+    "s0_b11"
+   ]
+  },
+  {
+   "id": "s1_b0",
+   "workload": "matmul",
+   "size": 512,
+   "seed": 1292897679,
+   "deps": [
+    "s0_join"
+   ]
+  },
+  {
+   "id": "s1_b1",
+   "workload": "image_filter",
+   "size": 1024,
+   "seed": 1507149061,
+   "deps": [
+    "s0_join"
+   ]
+  },
+  {
+   "id": "s1_b2",
+   "workload": "image_filter",
+   "size": 1024,
+   "seed": 998092292,
+   "deps": [
+    "s0_join"
+   ]
+  },
+  {
+   "id": "s1_b3",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 1201240939,
+   "deps": [
+    "s0_join"
+   ]
+  },
+  {
+   "id": "s1_b4",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 1401835598,
+   "deps": [
+    "s0_join"
+   ]
+  },
+  {
+   "id": "s1_b5",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 906774905,
+   "deps": [
+    "s0_join"
+   ]
+  },
+  {
+   "id": "s1_b6",
+   "workload": "image_filter",
+   "size": 1024,
+   "seed": 1223882989,
+   "deps": [
+    "s0_join"
+   ]
+  },
+  {
+   "id": "s1_b7",
+   "workload": "compression",
+   "size": 4194304,
+   "seed": 2076654211,
+   "deps": [
+    "s0_join"
+   ]
+  },
+  {
+   "id": "s1_b8",
+   "workload": "compression",
+   "size": 1048576,
+   "seed": 1762920126,
+   "deps": [
+    "s0_join"
+   ]
+  },
+  {
+   "id": "s1_b9",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 1262253303,
+   "deps": [
+    "s0_join"
+   ]
+  },
+  {
+   "id": "s1_b10",
+   "workload": "image_filter",
+   "size": 1024,
+   "seed": 510745611,
+   "deps": [
+    "s0_join"
+   ]
+  },
+  {
+   "id": "s1_b11",
+   "workload": "compression",
+   "size": 1048576,
+   "seed": 1622659115,
+   "deps": [
+    "s0_join"
+   ]
+  },
+  {
+   "id": "s1_join",
+   "workload": "matmul",
+   "size": 512,
+   "seed": 1198611525,
+   "deps": [
+    "s1_b0",
+    "s1_b1",
+    "s1_b2",
+    "s1_b3",
+    "s1_b4",
+    "s1_b5",
+    "s1_b6",
+    "s1_b7",
+    "s1_b8",
+    "s1_b9",
+    "s1_b10",
+    "s1_b11"
+   ]
+  },
+  {
+   "id": "s2_b0",
+   "workload": "image_filter",
+   "size": 512,
+   "seed": 1330022775,
+   "deps": [
+    "s1_join"
+   ]
+  },
+  {
+   "id": "s2_b1",
+   "workload": "compression",
+   "size": 1048576,
+   "seed": 134766440,
+   "deps": [
+    "s1_join"
+   ]
+  },
+  {
+   "id": "s2_b2",
+   "workload": "matmul",
+   "size": 512,
+   "seed": 1252465720,
+   "deps": [
+    "s1_join"
+   ]
+  },
+  {
+   "id": "s2_b3",
+   "workload": "image_filter",
+   "size": 512,
+   "seed": 182260451,
+   "deps": [
+    "s1_join"
+   ]
+  },
+  {
+   "id": "s2_b4",
+   "workload": "matmul",
+   "size": 512,
+   "seed": 1347891820,
+   "deps": [
+    "s1_join"
+   ]
+  },
+  {
+   "id": "s2_b5",
+   "workload": "image_filter",
+   "size": 512,
+   "seed": 1622592433,
+   "deps": [
+    "s1_join"
+   ]
+  },
+  {
+   "id": "s2_b6",
+   "workload": "image_filter",
+   "size": 1024,
+   "seed": 440546919,
+   "deps": [
+    "s1_join"
+   ]
+  },
+  {
+   "id": "s2_b7",
+   "workload": "image_filter",
+   "size": 1024,
+   "seed": 1851953618,
+   "deps": [
+    "s1_join"
+   ]
+  },
+  {
+   "id": "s2_b8",
+   "workload": "image_filter",
+   "size": 512,
+   "seed": 1293158237,
+   "deps": [
+    "s1_join"
+   ]
+  },
+  {
+   "id": "s2_b9",
+   "workload": "image_filter",
+   "size": 1024,
+   "seed": 1301345617,
+   "deps": [
+    "s1_join"
+   ]
+  },
+  {
+   "id": "s2_b10",
+   "workload": "image_filter",
+   "size": 512,
+   "seed": 1783314825,
+   "deps": [
+    "s1_join"
+   ]
+  },
+  {
+   "id": "s2_b11",
+   "workload": "matmul",
+   "size": 512,
+   "seed": 86126514,
+   "deps": [
+    "s1_join"
+   ]
+  },
+  {
+   "id": "s2_join",
+   "workload": "image_filter",
+   "size": 512,
+   "seed": 258043828,
+   "deps": [
+    "s2_b0",
+    "s2_b1",
+    "s2_b2",
+    "s2_b3",
+    "s2_b4",
+    "s2_b5",
+    "s2_b6",
+    "s2_b7",
+    "s2_b8",
+    "s2_b9",
+    "s2_b10",
+    "s2_b11"
+   ]
+  },
+  {
+   "id": "s3_b0",
+   "workload": "image_filter",
+   "size": 1024,
+   "seed": 2002530364,
+   "deps": [
+    "s2_join"
+   ]
+  },
+  {
+   "id": "s3_b1",
+   "workload": "image_filter",
+   "size": 1024,
+   "seed": 1197971220,
+   "deps": [
+    "s2_join"
+   ]
+  },
+  {
+   "id": "s3_b2",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 260175372,
+   "deps": [
+    "s2_join"
+   ]
+  },
+  {
+   "id": "s3_b3",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 1585550869,
+   "deps": [
+    "s2_join"
+   ]
+  },
+  {
+   "id": "s3_b4",
+   "workload": "compression",
+   "size": 4194304,
+   "seed": 1282633139,
+   "deps": [
+    "s2_join"
+   ]
+  },
+  {
+   "id": "s3_b5",
+   "workload": "image_filter",
+   "size": 1024,
+   "seed": 762017499,
+   "deps": [
+    "s2_join"
+   ]
+  },
+  {
+   "id": "s3_b6",
+   "workload": "image_filter",
+   "size": 1024,
+   "seed": 1585504255,
+   "deps": [
+    "s2_join"
+   ]
+  },
+  {
+   "id": "s3_b7",
+   "workload": "matmul",
+   "size": 512,
+   "seed": 1290225236,
+   "deps": [
+    "s2_join"
+   ]
+  },
+  {
+   "id": "s3_b8",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 115625695,
+   "deps": [
+    "s2_join"
+   ]
+  },
+  {
+   "id": "s3_b9",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 1331511564,
+   "deps": [
+    "s2_join"
+   ]
+  },
+  {
+   "id": "s3_b10",
+   "workload": "image_filter",
+   "size": 1024,
+   "seed": 1025187973,
+   "deps": [
+    "s2_join"
+   ]
+  },
+  {
+   "id": "s3_b11",
+   "workload": "compression",
+   "size": 4194304,
+   "seed": 416708004,
+   "deps": [
+    "s2_join"
+   ]
+  },
+  {
+   "id": "s3_join",
+   "workload": "compression",
+   "size": 4194304,
+   "seed": 1433460995,
+   "deps": [
+    "s3_b0",
+    "s3_b1",
+    "s3_b2",
+    "s3_b3",
+    "s3_b4",
+    "s3_b5",
+    "s3_b6",
+    "s3_b7",
+    "s3_b8",
+    "s3_b9",
+    "s3_b10",
+    "s3_b11"
+   ]
+  }
+ ]
+}

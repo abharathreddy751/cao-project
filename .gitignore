@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+
+# Generated data (raw results are regenerable evidence, not source — but keep
+# small summary/gate reports tracked; raw CSV/JSON dumps can get large)
+data/benchmarks/*.csv
+data/environment/*.json
+data/reports/*.json
+!data/**/.gitkeep

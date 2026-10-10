@@ -1,0 +1,419 @@
+{
+ "session": "appdemo_20261003T211356",
+ "runs": {
+  "demo_B4_greedy_eligible_R": {
+   "status": "completed",
+   "n_completed": 68,
+   "n_tasks": 68,
+   "makespan_ms": 805.3,
+   "final_output": "exact",
+   "final_sha256": "5a18729b92a37d78ab9c36257a2879d80ee1bc6eef1d65d40cec9d593ee28419",
+   "artifact_dir": "D:\\cao project\\data\\artifacts\\appdemo_20261003T211356\\demo_B4_greedy_eligible_R",
+   "placement": {
+    "img_aggregate": {
+     "P": 1
+    },
+    "img_denoise": {
+     "R": 2,
+     "E": 10,
+     "P": 4
+    },
+    "img_edges": {
+     "E": 11,
+     "P": 3,
+     "R": 2
+    },
+    "img_features": {
+     "E": 13,
+     "P": 3
+    },
+    "img_mosaic": {
+     "P": 1
+    },
+    "img_package": {
+     "P": 1
+    },
+    "img_source": {
+     "P": 1
+    },
+    "img_tile": {
+     "P": 4,
+     "E": 12
+    }
+   },
+   "remote_tasks": 4,
+   "remote_tasks_verified": 4,
+   "remote_bytes_total": 1311744,
+   "remote_transfer_ms_total": 27.756,
+   "remote_examples": [
+    {
+     "task": "denoise_1",
+     "payload_bytes": 393472,
+     "in_bytes": 196736,
+     "out_bytes": 196736,
+     "transfer_ms": 7.321,
+     "kernel_ms": 3.534,
+     "ok": true
+    },
+    {
+     "task": "denoise_8",
+     "payload_bytes": 393472,
+     "in_bytes": 196736,
+     "out_bytes": 196736,
+     "transfer_ms": 10.671,
+     "kernel_ms": 2.981,
+     "ok": true
+    },
+    {
+     "task": "edges_6",
+     "payload_bytes": 262400,
+     "in_bytes": 196736,
+     "out_bytes": 65664,
+     "transfer_ms": 4.589,
+     "kernel_ms": 3.747,
+     "ok": true
+    }
+   ]
+  },
+  "demo_EFT_E1_rc_R": {
+   "status": "completed",
+   "n_completed": 68,
+   "n_tasks": 68,
+   "makespan_ms": 828.9,
+   "final_output": "exact",
+   "final_sha256": "5a18729b92a37d78ab9c36257a2879d80ee1bc6eef1d65d40cec9d593ee28419",
+   "artifact_dir": "D:\\cao project\\data\\artifacts\\appdemo_20261003T211356\\demo_EFT_E1_rc_R",
+   "placement": {
+    "img_aggregate": {
+     "E": 1
+    },
+    "img_denoise": {
+     "E": 14,
+     "P": 2
+    },
+    "img_edges": {
+     "E": 12,
+     "P": 4
+    },
+    "img_features": {
+     "E": 15,
+     "P": 1
+    },
+    "img_mosaic": {
+     "E": 1
+    },
+    "img_package": {
+     "E": 1
+    },
+    "img_source": {
+     "P": 1
+    },
+    "img_tile": {
+     "P": 8,
+     "E": 8
+    }
+   },
+   "remote_tasks": 0,
+   "remote_tasks_verified": 0,
+   "remote_bytes_total": 0,
+   "remote_transfer_ms_total": 0,
+   "remote_examples": []
+  },
+  "profile_E_0": {
+   "status": "completed",
+   "n_completed": 68,
+   "n_tasks": 68,
+   "makespan_ms": 1036.4,
+   "final_output": "exact",
+   "final_sha256": "5a18729b92a37d78ab9c36257a2879d80ee1bc6eef1d65d40cec9d593ee28419",
+   "artifact_dir": "D:\\cao project\\data\\artifacts\\appdemo_20261003T211356\\profile_E_0",
+   "placement": {
+    "img_aggregate": {
+     "E": 1
+    },
+    "img_denoise": {
+     "E": 16
+    },
+    "img_edges": {
+     "E": 16
+    },
+    "img_features": {
+     "E": 16
+    },
+    "img_mosaic": {
+     "E": 1
+    },
+    "img_package": {
+     "E": 1
+    },
+    "img_source": {
+     "E": 1
+    },
+    "img_tile": {
+     "E": 16
+    }
+   },
+   "remote_tasks": 0,
+   "remote_tasks_verified": 0,
+   "remote_bytes_total": 0,
+   "remote_transfer_ms_total": 0,
+   "remote_examples": []
+  },
+  "profile_E_1": {
+   "status": "completed",
+   "n_completed": 68,
+   "n_tasks": 68,
+   "makespan_ms": 988.5,
+   "final_output": "exact",
+   "final_sha256": "5a18729b92a37d78ab9c36257a2879d80ee1bc6eef1d65d40cec9d593ee28419",
+   "artifact_dir": "D:\\cao project\\data\\artifacts\\appdemo_20261003T211356\\profile_E_1",
+   "placement": {
+    "img_aggregate": {
+     "E": 1
+    },
+    "img_denoise": {
+     "E": 16
+    },
+    "img_edges": {
+     "E": 16
+    },
+    "img_features": {
+     "E": 16
+    },
+    "img_mosaic": {
+     "E": 1
+    },
+    "img_package": {
+     "E": 1
+    },
+    "img_source": {
+     "E": 1
+    },
+    "img_tile": {
+     "E": 16
+    }
+   },
+   "remote_tasks": 0,
+   "remote_tasks_verified": 0,
+   "remote_bytes_total": 0,
+   "remote_transfer_ms_total": 0,
+   "remote_examples": []
+  },
+  "profile_P_0": {
+   "status": "completed",
+   "n_completed": 68,
+   "n_tasks": 68,
+   "makespan_ms": 1235.5,
+   "final_output": "exact",
+   "final_sha256": "5a18729b92a37d78ab9c36257a2879d80ee1bc6eef1d65d40cec9d593ee28419",
+   "artifact_dir": "D:\\cao project\\data\\artifacts\\appdemo_20261003T211356\\profile_P_0",
+   "placement": {
+    "img_aggregate": {
+     "P": 1
+    },
+    "img_denoise": {
+     "P": 16
+    },
+    "img_edges": {
+     "P": 16
+    },
+    "img_features": {
+     "P": 16
+    },
+    "img_mosaic": {
+     "P": 1
+    },
+    "img_package": {
+     "P": 1
+    },
+    "img_source": {
+     "P": 1
+    },
+    "img_tile": {
+     "P": 16
+    }
+   },
+   "remote_tasks": 0,
+   "remote_tasks_verified": 0,
+   "remote_bytes_total": 0,
+   "remote_transfer_ms_total": 0,
+   "remote_examples": []
+  },
+  "profile_P_1": {
+   "status": "completed",
+   "n_completed": 68,
+   "n_tasks": 68,
+   "makespan_ms": 1038.2,
+   "final_output": "exact",
+   "final_sha256": "5a18729b92a37d78ab9c36257a2879d80ee1bc6eef1d65d40cec9d593ee28419",
+   "artifact_dir": "D:\\cao project\\data\\artifacts\\appdemo_20261003T211356\\profile_P_1",
+   "placement": {
+    "img_aggregate": {
+     "P": 1
+    },
+    "img_denoise": {
+     "P": 16
+    },
+    "img_edges": {
+     "P": 16
+    },
+    "img_features": {
+     "P": 16
+    },
+    "img_mosaic": {
+     "P": 1
+    },
+    "img_package": {
+     "P": 1
+    },
+    "img_source": {
+     "P": 1
+    },
+    "img_tile": {
+     "P": 16
+    }
+   },
+   "remote_tasks": 0,
+   "remote_tasks_verified": 0,
+   "remote_bytes_total": 0,
+   "remote_transfer_ms_total": 0,
+   "remote_examples": []
+  },
+  "profile_R_0": {
+   "status": "completed",
+   "n_completed": 68,
+   "n_tasks": 68,
+   "makespan_ms": 2356.1,
+   "final_output": "exact",
+   "final_sha256": "5a18729b92a37d78ab9c36257a2879d80ee1bc6eef1d65d40cec9d593ee28419",
+   "artifact_dir": "D:\\cao project\\data\\artifacts\\appdemo_20261003T211356\\profile_R_0",
+   "placement": {
+    "img_aggregate": {
+     "R": 1
+    },
+    "img_denoise": {
+     "R": 16
+    },
+    "img_edges": {
+     "R": 16
+    },
+    "img_features": {
+     "R": 16
+    },
+    "img_mosaic": {
+     "R": 1
+    },
+    "img_package": {
+     "R": 1
+    },
+    "img_source": {
+     "R": 1
+    },
+    "img_tile": {
+     "R": 16
+    }
+   },
+   "remote_tasks": 68,
+   "remote_tasks_verified": 68,
+   "remote_bytes_total": 71487977,
+   "remote_transfer_ms_total": 741.618,
+   "remote_examples": [
+    {
+     "task": "source",
+     "payload_bytes": 3145856,
+     "in_bytes": 0,
+     "out_bytes": 3145856,
+     "transfer_ms": 30.538,
+     "kernel_ms": 642.75,
+     "ok": true
+    },
+    {
+     "task": "tile_0",
+     "payload_bytes": 3342592,
+     "in_bytes": 3145856,
+     "out_bytes": 196736,
+     "transfer_ms": 31.455,
+     "kernel_ms": 0.032,
+     "ok": true
+    },
+    {
+     "task": "tile_1",
+     "payload_bytes": 3342592,
+     "in_bytes": 3145856,
+     "out_bytes": 196736,
+     "transfer_ms": 31.306,
+     "kernel_ms": 0.032,
+     "ok": true
+    }
+   ]
+  },
+  "profile_R_1": {
+   "status": "completed",
+   "n_completed": 68,
+   "n_tasks": 68,
+   "makespan_ms": 2317.2,
+   "final_output": "exact",
+   "final_sha256": "5a18729b92a37d78ab9c36257a2879d80ee1bc6eef1d65d40cec9d593ee28419",
+   "artifact_dir": "D:\\cao project\\data\\artifacts\\appdemo_20261003T211356\\profile_R_1",
+   "placement": {
+    "img_aggregate": {
+     "R": 1
+    },
+    "img_denoise": {
+     "R": 16
+    },
+    "img_edges": {
+     "R": 16
+    },
+    "img_features": {
+     "R": 16
+    },
+    "img_mosaic": {
+     "R": 1
+    },
+    "img_package": {
+     "R": 1
+    },
+    "img_source": {
+     "R": 1
+    },
+    "img_tile": {
+     "R": 16
+    }
+   },
+   "remote_tasks": 68,
+   "remote_tasks_verified": 68,
+   "remote_bytes_total": 71487977,
+   "remote_transfer_ms_total": 736.004,
+   "remote_examples": [
+    {
+     "task": "source",
+     "payload_bytes": 3145856,
+     "in_bytes": 0,
+     "out_bytes": 3145856,
+     "transfer_ms": 29.017,
+     "kernel_ms": 590.056,
+     "ok": true
+    },
+    {
+     "task": "tile_0",
+     "payload_bytes": 3342592,
+     "in_bytes": 3145856,
+     "out_bytes": 196736,
+     "transfer_ms": 31.819,
+     "kernel_ms": 0.06,
+     "ok": true
+    },
+    {
+     "task": "tile_1",
+     "payload_bytes": 3342592,
+     "in_bytes": 3145856,
+     "out_bytes": 196736,
+     "transfer_ms": 32.005,
+     "kernel_ms": 0.082,
+     "ok": true
+    }
+   ]
+  }
+ }
+}
