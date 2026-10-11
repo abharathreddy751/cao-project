@@ -12,7 +12,9 @@ from caosched.estimators.base import EstimateContext, ExecutionTimeEstimator, Ta
 from caosched.estimators.constant import ConstantProfileEstimator
 from caosched.estimators.history import MovingHistoryEstimator
 from caosched.estimators.e2e import EndToEndTerms
-from caosched.estimators.learned import InterferenceRidgeEstimator, InterferenceRidgeFastEstimator, latest_model_path
+from caosched.estimators.learned import (
+    BaseProfileMismatchError, InterferenceRidgeEstimator, InterferenceRidgeFastEstimator, latest_model_path,
+)
 from caosched.estimators.oracle import ReplayOracleEstimator
 from caosched.estimators.profile import StaticProfileEstimator, latest_profile_path
 from caosched.estimators.recalibrated import RecalibratedEstimator
@@ -23,7 +25,13 @@ ONLINE_ESTIMATORS = ("E0", "E1", "E2", "E3", "E4")  # E5 is offline/replay only
 def build_estimator(name: str, profile_path: Path, cfg: dict | None = None,
                     model_path: Path | None = None) -> ExecutionTimeEstimator:
     """``name`` is a rung ("E0".."E4"), optionally with "+rc" (online
-    recalibration wrapper, settings from cfg["rc"]); E3 cannot be wrapped."""
+    recalibration wrapper, settings from cfg["rc"]); E3 cannot be wrapped.
+
+    ``profile_path`` is the session profile used by E0-E3. E4 / E4f do NOT
+    use it: a learned model is bound to the profile recorded in its model
+    file (``InterferenceRidgeEstimator.load``), so the model is never re-based
+    onto the session profile (audit finding D2). The profile E4 actually uses
+    is reported by ``describe()["base"]["source"]``."""
     cfg = cfg or {}
     if name.endswith("+rc"):
         base_name = name[:-3]
@@ -43,15 +51,14 @@ def build_estimator(name: str, profile_path: Path, cfg: dict | None = None,
     if name == "E3":
         return MovingHistoryEstimator(StaticProfileEstimator.from_file(profile_path), cfg.get("E3", {}).get("window", 8))
     if name == "E4":
-        return InterferenceRidgeEstimator.load(model_path or latest_model_path(),
-                                               StaticProfileEstimator.from_file(profile_path))
+        return InterferenceRidgeEstimator.load(model_path or latest_model_path())  # its own recorded profile
     if name == "E4f":  # same model as E4, cheaper inference (implementation ablation)
         return InterferenceRidgeFastEstimator.from_model(build_estimator("E4", profile_path, cfg, model_path))
     raise ValueError(f"Unknown or offline-only estimator {name!r} (E5 needs logged runs: ReplayOracleEstimator)")
 
 
 __all__ = [
-    "AnalyticSizeEstimator", "ConstantProfileEstimator", "EndToEndTerms", "EstimateContext", "ExecutionTimeEstimator",
+    "AnalyticSizeEstimator", "BaseProfileMismatchError", "ConstantProfileEstimator", "EndToEndTerms", "EstimateContext", "ExecutionTimeEstimator",
     "InterferenceRidgeFastEstimator",
     "InterferenceRidgeEstimator", "MovingHistoryEstimator", "ONLINE_ESTIMATORS", "RecalibratedEstimator",
     "ReplayOracleEstimator",

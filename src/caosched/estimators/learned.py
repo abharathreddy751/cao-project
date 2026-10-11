@@ -31,12 +31,34 @@ memory, thermal/frequency state.
 Training data: the randomized interference campaign (scripts/collect_campaign.py);
 features are reconstructed from event logs with the same EstimateContext
 definition used online (caosched.dataset.events).
+
+Base profile binding (fix of audit finding D2, 2026-10-10): the weights are
+log-corrections *relative to the E1 profile they were fitted against*, so a
+model is only valid with that profile. ``save`` records it as
+``base_profile``; ``load`` enforces it:
+
+* no ``base`` argument -> the recorded profile is loaded;
+* an explicit ``base`` is accepted only if its table equals the recorded
+  profile's table (same measurements, any path); otherwise
+  ``BaseProfileMismatchError``. If the recorded file is no longer at its
+  recorded path (project moved), an explicit ``base`` is accepted only when
+  its file name equals the recorded file name (profile files are
+  timestamp-named and never overwritten); without ``base`` this raises
+  ``FileNotFoundError``;
+* a model file without a usable ``base_profile`` (missing, empty, not a
+  string) cannot be tied to any profile and is refused (``ValueError``).
+
+There is no override: coefficients are never re-based onto another profile.
+Before this fix, ``build_estimator`` passed the session profile as ``base``
+and ``load`` accepted it unchecked, so Phase 5 / 6B ran the model fitted
+against ``20261003T115606_profile.json`` on top of
+``20261003T152700_profile.json`` (see PROJECT_STATUS.md, limitation D2).
 """
 from __future__ import annotations
 
 import json
 import math
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 
 import numpy as np
 
@@ -50,6 +72,15 @@ FEATURE_SETS = {
 }
 MODEL_DIR = Path(__file__).resolve().parents[3] / "data" / "models"
 MAX_LOG_CORRECTION = math.log(10.0)  # clamp: never scale E1 by more than 10x either way
+
+
+class BaseProfileMismatchError(ValueError):
+    """An E4 model was paired with a profile other than the one it was fitted on."""
+
+
+def _file_name(path: str) -> str:
+    """File name of a recorded path, whichever OS wrote it (models store Windows paths)."""
+    return PureWindowsPath(path).name if "\\" in path else Path(path).name
 
 
 def feature_vector(ctx: EstimateContext | None, features=FEATURES, impute: dict | None = None) -> np.ndarray:
@@ -121,6 +152,9 @@ class InterferenceRidgeEstimator(ExecutionTimeEstimator):
     # --- persistence ---------------------------------------------------
 
     def save(self, path: Path) -> None:
+        if not self.base.source:
+            raise ValueError("cannot save an E4 model whose base profile has no source file: "
+                             "load() could never verify which profile the weights belong to")
         Path(path).parent.mkdir(parents=True, exist_ok=True)
         Path(path).write_text(json.dumps({
             "schema_version": 1, "estimator": self.name, "features": list(self.features),
@@ -131,12 +165,32 @@ class InterferenceRidgeEstimator(ExecutionTimeEstimator):
 
     @classmethod
     def load(cls, path: Path, base: StaticProfileEstimator | None = None) -> "InterferenceRidgeEstimator":
+        """Load a saved model bound to its recorded base profile (rules in the module docstring)."""
         d = json.loads(Path(path).read_text(encoding="utf-8"))
         if not d.get("features") or not set(d["features"]) <= set(FEATURES):
             raise ValueError(f"{path}: feature list does not match this code version")
-        base = base or StaticProfileEstimator.from_file(d["base_profile"])
+        recorded = d.get("base_profile")
+        if not isinstance(recorded, str) or not recorded.strip():
+            raise ValueError(f"{path}: no usable base_profile recorded ({recorded!r}); the weights cannot be "
+                             f"tied to a profile, so the model is refused (retrain with scripts/train_e4.py)")
+        recorded_est = StaticProfileEstimator.from_file(recorded) if Path(recorded).is_file() else None
+        if base is None:
+            if recorded_est is None:
+                raise FileNotFoundError(f"{path}: recorded base_profile {recorded!r} not found; if the project "
+                                        f"was moved, pass that same profile file explicitly as base")
+            base = recorded_est
+        elif recorded_est is not None:
+            if base.table != recorded_est.table:
+                raise BaseProfileMismatchError(
+                    f"{path}: E4 was fitted against {recorded!r} but base {base.source!r} has different "
+                    f"measurements; its weights are only valid on the recorded profile")
+        elif not base.source or _file_name(base.source) != _file_name(recorded):
+            raise BaseProfileMismatchError(
+                f"{path}: recorded base_profile {recorded!r} is unavailable and base {base.source!r} is not "
+                f"the same profile file (name {_file_name(recorded)!r} expected)")
         weights = {tuple(k.split("|")): np.array(v) for k, v in d["weights"].items()}
-        return cls(base, weights, {**d["meta"], "model_path": str(path)}, d["features"])
+        meta = {**d["meta"], "model_path": str(path), "base_profile_recorded": recorded}
+        return cls(base, weights, meta, d["features"])
 
     def describe(self) -> dict:
         return {"name": self.name, "base": self.base.describe(), "features": list(self.features),
