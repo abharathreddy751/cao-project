@@ -124,7 +124,7 @@ def execute(out: Path, policy: str, k: int, size: int = 1024, grid: int = 4) -> 
                                   artifact_dir=out / "artifacts" / run_name,
                                   run_metadata={"experiment_id": out.name, "app": "image_pipeline",
                                                 "mode": "dashboard_live", **kw}).run(run_timeout=600)
-    write_status(out, state="verifying", status=summary.status, makespan_ms=summary.makespan_seconds * 1e3)
+    write_status(out, state="verifying", status=summary.status, makespan_ms=None if summary.makespan_seconds is None else summary.makespan_seconds * 1e3)
     final = artifact_path(out / "artifacts" / run_name, "package").read_bytes()
     v = verify_output(final, run_reference(build_image_pipeline(**kw))["package"])
     return write_status(out, state="done", verification=v, tasks_per_pool=summary.tasks_per_pool,

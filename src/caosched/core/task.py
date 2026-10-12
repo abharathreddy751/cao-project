@@ -55,6 +55,15 @@ class Task:
     params: dict | None = None
     # Pools this task may run on (None = any). Enforced by the coordinator.
     eligible_pools: tuple[str, ...] | None = None
+    # Coordinator-side limit: a task still running this long after submission
+    # (+ the coordinator's grace) is killed with its worker. extcmd tasks also
+    # pass it to the worker, which kills the process tree itself.
+    timeout_s: float | None = None
+    memory_bytes: int | None = None  # request; checked against PoolSpec.memory_limit_bytes
+    # File sizes (extcmd tasks): sum of declared inputs, refreshed by the
+    # coordinator when the task becomes ready; output size set on completion.
+    input_bytes: int | None = None
+    output_bytes: int | None = None
 
     # Lifecycle timestamps in caosched.util.clock.now() seconds (QPC; shared
     # across coordinator and worker processes). None until that transition.
@@ -89,6 +98,24 @@ class Task:
         if new_state not in _ALLOWED_TRANSITIONS[self.state]:
             raise InvalidTransition(f"Task {self.task_id!r}: illegal transition {self.state.name} -> {new_state.name}")
         self.state = new_state
+
+    # Estimator identity. An extcmd task is told apart by its transformation (profile key size 1); its model
+    # size feature is the declared input bytes known at ready time (>= 1 so log() is defined). Every
+    # estimator, scheduler and dataset row uses these, never workload/size, so online == offline features.
+    @property
+    def est_workload(self) -> str:
+        if self.workload != "extcmd":
+            return self.workload
+        assert self.params is not None  # an extcmd task always carries its params
+        return self.params["transformation"]
+
+    @property
+    def est_size(self) -> int:
+        return 1 if self.workload == "extcmd" else self.size
+
+    @property
+    def est_bytes(self) -> int:
+        return max(1, self.input_bytes or 1) if self.workload == "extcmd" else self.size
 
     @property
     def queue_wait_seconds(self) -> float | None:
@@ -141,5 +168,10 @@ class TaskResult:
     transfer_s: float | None = None
     transfer_up_s: float | None = None
     payload_bytes: int | None = None
-    output_bytes: int | None = None   # application stages: size of the output artifact
+    output_bytes: int | None = None   # application stages: size of the output artifact; extcmd: sum of declared outputs
     io_s: float | None = None         # application stages: artifact read/decode + encode/write time
+    # extcmd tasks only: process exit status, whether the timeout killed it, and
+    # {declared output path: {"bytes": n, "sha256": hex}}.
+    exit_status: int | None = None
+    timed_out: bool = False
+    outputs: dict | None = None

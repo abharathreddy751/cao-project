@@ -8,10 +8,10 @@ import pytest
 from caosched.dataset.build import TASK_FIELDS, build_dataset, classify, validate_dataset
 
 
-def _write_run(path, run_id, exp, completed=True, policy="B4", decision=False):
+def _write_run(path, run_id, exp, completed=True, policy="B4", decision=False, order_index=1):
     ev = [{"seq": 0, "t": 100.0, "event": "run_started", "run_id": run_id, "scheduler": policy,
            "scheduler_config": {"binds_only_idle": not decision}, "epoch_anchor": 1.79e9, "perf_anchor": 100.0,
-           "metadata": {"experiment_id": exp, "trace": "tr", "repeat": 0, "order_index": 1},
+           "metadata": {"experiment_id": exp, "trace": "tr", "repeat": 0, "order_index": order_index},
            "tasks": {"a": {"workload": "matmul", "size": 256, "seed": 1},
                      "b": {"workload": "compression", "size": 1048576, "seed": 2}}},
           {"seq": 1, "t": 100.0, "event": "worker_ready", "worker_id": "P0", "pool": "P", "actual_affinity": [0]},
@@ -58,7 +58,7 @@ def test_classify_exclusions(tree):
 
 
 def test_build_schema_provenance_and_validation(tree):
-    out = build_dataset(tree / "data" / "events", tree / "data" / "profiles", tree / "data" / "datasets")
+    out = build_dataset(tree / "data" / "events", tree / "data" / "profiles", tree / "data" / "datasets", context_source="start")  # fixture logs have no logged decision ctx
     rows = list(csv.DictReader((out / "tasks.csv").open(encoding="utf-8")))
     assert list(rows[0].keys()) == TASK_FIELDS
     assert len(rows) == 6  # 3 completed runs x 2 tasks (failed run, smoke, phase1 excluded)
@@ -83,8 +83,32 @@ def test_build_schema_provenance_and_validation(tree):
 
 
 def test_validation_detects_modified_raw_log(tree):
-    out = build_dataset(tree / "data" / "events", tree / "data" / "profiles", tree / "data" / "datasets")
+    out = build_dataset(tree / "data" / "events", tree / "data" / "profiles", tree / "data" / "datasets", context_source="start")  # fixture logs have no logged decision ctx
     p = tree / "data" / "events" / "phase2_20261003T115816" / "r1.jsonl"
     p.write_text(p.read_text() + "\n")
     with pytest.raises(ValueError, match="raw log changed"):
         validate_dataset(out)
+
+
+def test_default_context_source_is_decision_and_time_splits_follow_collection_order(tree):
+    root = tree / "data" / "events"
+    # the fixture logs carry no decision context: the default drops every row instead of reconstructing from the start
+    out = build_dataset(root, tree / "data" / "profiles", tree / "data" / "datasets0")
+    assert json.loads((out / "manifest.json").read_text())["n_task_rows"] == 0
+    # two completed campaign runs whose names sort OPPOSITE to collection order (order_index)
+    camp = root / "campaign_20261003T150000"
+    _write_run(camp / "a_late.jsonl", "a_late", camp.name, order_index=9)
+    _write_run(camp / "b_early.jsonl", "b_early", camp.name, order_index=2)
+    out = build_dataset(root, tree / "data" / "profiles", tree / "data" / "datasets", context_source="start", train_fraction=0.5)
+    sp = json.loads((out / "splits.json").read_text())
+    t = sp["time_ordered_within_session"]["sessions"][camp.name]
+    assert t["train_runs"] == [f"events/{camp.name}/b_early.jsonl"] and t["test_runs"] == [f"events/{camp.name}/a_late.jsonl"]
+    c = sp["by_run_within_latest_campaign"]
+    assert c["train_runs"] == t["train_runs"] and c["train_fraction"] == 0.5
+
+
+def test_stamp_of_names_the_offending_file():
+    from caosched.dataset.build import _stamp_of
+    assert _stamp_of("x_20261003T115741_profile.json") == "20261003T115741"
+    with pytest.raises(ValueError, match="no YYYYMMDDTHHMMSS stamp"):
+        _stamp_of("campaign_nostamp")

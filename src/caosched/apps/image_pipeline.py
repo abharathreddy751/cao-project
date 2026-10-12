@@ -35,7 +35,9 @@ def build_image_pipeline(width: int = 1024, height: int = 1024, grid: int = 4, s
     """``remote_stages``: stage type -> extra pools it may use (e.g.
     {"img_denoise": ["R"], "img_edges": ["R"]}). ``device_params``: stage type
     -> params merged into every task of that type (e.g. {"img_edges":
-    {"device": "cuda"}} for a GPU pool). ``denoise_iterations``: how many times
+    {"device": "cuda"}}); only REMOTE nodes honour a baked-in device. For local
+    pools the coordinator picks the variant from the worker's pool kind, so cpu
+    workers ignore it and a "cuda" pool needs no flag (AD-6). ``denoise_iterations``: how many times
     the denoise stage applies its blur (workload-intensity knob; 1 = original)."""
     if width % grid or height % grid:
         raise ValueError("width and height must be divisible by grid")
@@ -92,7 +94,7 @@ def verify_output(final_blob: bytes, reference_blob: bytes) -> dict:
     mb, db = unpack_package(reference_blob)
     same_shape = ma.shape == mb.shape and da.shape == db.shape
     diff = int(np.abs(ma.astype(int) - mb.astype(int)).max()) if same_shape else None
-    close = same_shape and diff <= 1 and bool(np.allclose(da, db, rtol=1e-5, atol=1e-6))
+    close = diff is not None and diff <= 1 and bool(np.allclose(da, db, rtol=1e-5, atol=1e-6))
     return {"match": "numeric" if close else "MISMATCH", "sha256": a, "reference_sha256": b,
             "max_mosaic_diff": diff}
 

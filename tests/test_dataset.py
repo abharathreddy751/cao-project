@@ -4,8 +4,9 @@ import pytest
 
 from caosched.dataset.campaign import RandomOccupancyPolicy
 from caosched.dataset.events import rows_from_events
-from caosched.core.dag import build_independent_dag
+from caosched.core.dag import DAG, build_independent_dag
 from caosched.core.runtime_state import RuntimeState
+from caosched.core.task import Task
 
 
 def _log(tasks, completions, status="completed", history=None, t0=None):
@@ -30,7 +31,7 @@ def test_context_reconstructed_at_task_start():
         ("b", "E0", "E", 1.0, 5.0),
         ("c", "E1", "E", 2.0, 3.0),   # starts while a and b run
         ("d", "E1", "E", 5.0, 6.0),   # b ended exactly at 5.0 -> not co-running (half-open interval)
-    ]))}
+    ]), "start")}  # start-time reconstruction is opt-in (default is the logged decision context)
     assert rows["a"]["ctx"].busy_total == 0
     c = rows["c"]["ctx"]
     assert (c.busy_P, c.busy_E) == (1, 1) and c.corun == {"compression": 1, "matmul": 1}
@@ -40,7 +41,9 @@ def test_context_reconstructed_at_task_start():
 
 
 def test_failed_runs_are_excluded():
-    assert rows_from_events(_log({"a": "matmul"}, [("a", "P0", "P", 0, 1)], status="failed")) == []
+    assert rows_from_events(_log({"a": "matmul"}, [("a", "P0", "P", 0, 1)], status="failed"), "start") == []
+    # the default is the leakage-safe 'decision' mode: a log without a logged decision context yields no rows
+    assert rows_from_events(_log({"a": "matmul"}, [("a", "P0", "P", 0, 1)])) == []
 
 
 def test_campaign_policy_only_uses_allowed_idle_workers():
@@ -55,18 +58,30 @@ def test_campaign_policy_only_uses_allowed_idle_workers():
     assert p.select_worker(dag.tasks["t2"], s) is None  # P0 idle but not allowed
 
 
+def test_campaign_policy_respects_task_eligibility():
+    dag = DAG({"t": Task("t", "w", 1, eligible_pools=("E",)), "u": Task("u", "w", 1)})
+    s = RuntimeState(dag, {"P0": "P", "E0": "E", "E1": "E"})
+    p = RandomOccupancyPolicy(seed=1, allowed_workers=["P0", "E0"])
+    p.on_run_start(dag, s)
+    assert {p.select_worker(dag.tasks["t"], s) for _ in range(50)} == {"E0"}   # P0 idle + allowed but not eligible
+    assert {p.select_worker(dag.tasks["u"], s) for _ in range(50)} == {"P0", "E0"}
+    # a task no allowed worker can run is refused up front, not deadlocked mid-run
+    with pytest.raises(ValueError, match="cannot be placed"):
+        RandomOccupancyPolicy(seed=1, allowed_workers=["P0"]).on_run_start(dag, s)
+
+
 def test_target_busy_frac_uses_logged_history_else_unknown():
     tasks = {"a": "matmul", "b": "matmul"}
     comps = [("a", "P0", "P", 10.0, 10.25), ("b", "P0", "P", 10.30, 10.4)]
     # with pre-run history: P0 busy [9.80, 9.90]; b's window [9.80, 10.30] holds 0.10 + 0.25 busy
-    rows = {r["task_id"]: r for r in rows_from_events(_log(tasks, comps, history={"P0": [[9.80, 9.90]]}, t0=9.95))}
+    rows = {r["task_id"]: r for r in rows_from_events(_log(tasks, comps, history={"P0": [[9.80, 9.90]]}, t0=9.95), "start")}
     assert rows["b"]["ctx"].target_busy_frac == pytest.approx(0.70)
     assert rows["a"]["ctx"].target_busy_frac == pytest.approx(0.20)
     # older log without worker_history: window reaches before run start -> unknown, never guessed
-    rows = {r["task_id"]: r for r in rows_from_events(_log(tasks, comps, t0=9.95))}
+    rows = {r["task_id"]: r for r in rows_from_events(_log(tasks, comps, t0=9.95), "start")}
     assert rows["a"]["ctx"].target_busy_frac is None and rows["b"]["ctx"].target_busy_frac is None
     # ...but known when the whole window lies inside the run
-    rows = {r["task_id"]: r for r in rows_from_events(_log(tasks, comps, t0=9.0))}
+    rows = {r["task_id"]: r for r in rows_from_events(_log(tasks, comps, t0=9.0), "start")}
     assert rows["b"]["ctx"].target_busy_frac == pytest.approx(0.5)
 
 

@@ -10,6 +10,7 @@ Nothing here writes to those locations; no result value is hard-coded.
 from __future__ import annotations
 
 import csv
+import hashlib
 import io
 import json
 import re
@@ -23,6 +24,8 @@ ROOT = Path(__file__).resolve().parents[3]
 DATA = ROOT / "data"
 EVENTS = DATA / "events"
 RESULTS = DATA / "results"
+EXPERIMENTS = DATA / "experiments"
+EXTRA_ROOTS: list[Path] = []  # extra experiment output dirs (python -m caosched.dashboard --events-dir ...)
 DASH_RUNS = DATA / "dashboard_runs"
 PHASE_B_SUMMARY = RESULTS / "phaseB_appdemo_sweep_20261004" / "supplementary_summary.json"
 REMOTE_DOC = ROOT / "docs" / "REMOTE_DEVICES.md"
@@ -115,7 +118,9 @@ def run_view(log: Path) -> dict:
     def rel(t):  # ms since run start
         return None if t is None else (t - t0) * 1e3
 
-    tasks = {tid: {"id": tid, "stage": spec["workload"], "deps": [], "eligible": spec.get("eligible_pools"),
+    # extcmd tasks (real Montage): the stage is the transformation name, e.g. "mProject"
+    tasks = {tid: {"id": tid, "stage": (spec.get("params") or {}).get("transformation", spec["workload"])
+                   if spec["workload"] == "extcmd" else spec["workload"], "deps": [], "eligible": spec.get("eligible_pools"),
                    "state": "pending"} for tid, spec in start["tasks"].items()}
     for a, b in start.get("edges") or []:
         tasks[b]["deps"].append(a)
@@ -130,6 +135,7 @@ def run_view(log: Path) -> dict:
         elif kind == "task_dispatched":
             t = tasks[tid]
             t.update(state="dispatched", t_dispatched=rel(e["t"]), worker=e["worker_id"], pool=e["pool"],
+                     queue_wait_ms=None if e.get("queue_wait_seconds") is None else e["queue_wait_seconds"] * 1e3,
                      decision_us=None if e.get("decision_time_s") is None else e["decision_time_s"] * 1e6)
             dec = e.get("decision")
             if dec and dec.get("candidates"):
@@ -143,9 +149,10 @@ def run_view(log: Path) -> dict:
                               t_done_event=rel(e["t"]), kernel_ms=e["wall_time_seconds"] * 1e3,
                               io_ms=None if e.get("io_s") is None else e["io_s"] * 1e3,
                               transfer_ms=None if e.get("transfer_s") is None else e["transfer_s"] * 1e3,
-                              payload_bytes=e.get("payload_bytes"), output_bytes=e.get("output_bytes"))
+                              payload_bytes=e.get("payload_bytes"), output_bytes=e.get("output_bytes"),
+                              outputs=e.get("outputs"), exit_status=e.get("exit_status"))
         elif kind == "task_failed":
-            tasks[tid].update(state="failed")
+            tasks[tid].update(state="failed", error=e.get("error"))
         elif kind == "run_finished":
             finished = e
     critical = []
@@ -168,7 +175,9 @@ def run_view(log: Path) -> dict:
         "link": ((sc.get("transfer") or {}).get("links") or {}).get("R"),
         "memory_available_gib": None if mem is None else mem / 2**30,
         "software": start.get("software"), "n_tasks": start["n_tasks"],
-        "workers": workers, "tasks": sorted(tasks.values(), key=lambda t: (STAGE_ORDER.index(t["stage"]), _idx(t["id"]))),
+        "workers": workers, "tasks": sorted(tasks.values(), key=lambda t: (STAGE_ORDER.index(t["stage"]) if t["stage"] in STAGE_ORDER
+                                                       else len(STAGE_ORDER), _idx(t["id"]), t["id"])),
+        "extcmd": any(sp["workload"] == "extcmd" for sp in start["tasks"].values()),
         "critical_path": critical,
         "finished": None if finished is None else {
             "status": finished["status"], "makespan_ms": (finished.get("makespan_seconds") or 0) * 1e3,
@@ -302,3 +311,110 @@ def live_runs() -> list[dict]:
             info["session"] = d.name
             out.append(info)
     return out
+
+
+# ------------------------------------------------- Montage / GPU workload ---
+
+def _manifest_paths() -> list[tuple[Path, Path]]:
+    """(scan root, run_manifest.json) for the experiment runner's output (``<session>/runs/<run>/``) and any
+    ``results/*manifest.json`` of the same shape; other manifests are skipped by ``_run_entry``."""
+    found = [(EXPERIMENTS, p) for p in sorted(EXPERIMENTS.glob("*/runs/*/run_manifest.json"))]
+    found += [(RESULTS, p) for p in sorted(RESULTS.glob("*/runs/*/run_manifest.json")) + sorted(RESULTS.glob("*manifest.json"))]
+    for root in EXTRA_ROOTS:
+        found += [(root, p) for pat in ("*/runs/*/run_manifest.json", "runs/*/run_manifest.json") for p in sorted(root.glob(pat))]
+    return found
+
+
+def _run_entry(m: dict) -> dict | None:
+    if not isinstance(m, dict) or "condition" not in m or "run_id" not in m:
+        return None
+    c, ex, ver = m["condition"], m.get("extra") or {}, m.get("verification") or {}
+    mk = ex.get("makespan_seconds")
+    return {"id": m["run_id"], "session": m.get("session_id"), "instance": m.get("instance"), "condition": c.get("name"),
+            "policy": m.get("policy"), "estimator": c.get("estimator"), "block": m.get("block"), "seed": m.get("seed"),
+            "kind": (c.get("workload") or {}).get("kind") or "montage",  # shortcut: no kind recorded -> assume Montage
+            "warmup": m.get("warmup"), "status": m.get("status"), "evidence_label": m.get("evidence_label"),
+            "makespan_ms": None if mk is None else mk * 1e3, "n_tasks": ex.get("n_tasks"),
+            "output_ok": ver.get("passed"), "has_log": bool(m.get("event_log"))}
+
+
+def _load_runs() -> dict[str, tuple[dict, Path, Path]]:
+    out: dict[str, tuple[dict, Path, Path]] = {}
+    for root, p in _manifest_paths():
+        try:
+            m = json.loads(p.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        if _run_entry(m):
+            out.setdefault(m["run_id"], (m, p, root))
+    return out
+
+
+def montage_runs() -> list[dict]:
+    """Experiment runs found on disk (Montage and GPU), from their run manifests."""
+    return [e for m, _, _ in _load_runs().values() if (e := _run_entry(m))]
+
+
+def _stage_summary(v: dict) -> dict:
+    """Per-transformation totals and the transformation-level DAG (level = longest path from a root)."""
+    by = {t["id"]: t for t in v["tasks"]}
+    lvl: dict[str, int] = {}
+
+    def level(i):  # shortcut: recursion depth = DAG depth; fine for workflows of ~10 levels
+        if i not in lvl:
+            lvl[i] = 1 + max((level(d) for d in by[i]["deps"]), default=-1)
+        return lvl[i]
+    agg: dict[str, dict] = {}
+    edges: dict[tuple[str, str], int] = {}
+    for t in v["tasks"]:
+        a = agg.setdefault(t["stage"], {"stage": t["stage"], "level": level(t["id"]), "n": 0, "kernel_ms": 0.0,
+                                        "queue_wait_ms": 0.0, "pools": {}})
+        a["level"] = min(a["level"], level(t["id"]))
+        a["n"] += 1
+        a["kernel_ms"] += t.get("kernel_ms") or 0.0
+        a["queue_wait_ms"] += t.get("queue_wait_ms") or 0.0
+        if t.get("pool"):
+            a["pools"][t["pool"]] = a["pools"].get(t["pool"], 0) + 1
+        for d in t["deps"]:
+            k = (by[d]["stage"], t["stage"])
+            edges[k] = edges.get(k, 0) + 1
+    return {"stages": sorted(agg.values(), key=lambda a: (a["level"], a["stage"])),
+            "edges": [{"from": a, "to": b, "n": n} for (a, b), n in sorted(edges.items())]}
+
+
+def montage_run(run_id: str) -> dict:
+    """One experiment run: manifest summary + run view from its event log + output-hash verdicts."""
+    found = _load_runs().get(run_id)
+    if not found:
+        raise NotFound(f"no run {run_id!r}")
+    m, mp, root = found
+    el = m.get("event_log")
+    if not el:
+        raise NotFound(f"run {run_id!r} has no event log (status {m.get('status')}: {m.get('error')})")
+    log = _inside(mp.parent / el["path"], root)
+    if not log.is_file():
+        raise NotFound(f"event log of {run_id!r} is missing")
+    v = run_view(log)
+    ver, ex = m.get("verification") or {}, m.get("extra") or {}
+    return {"run": _run_entry(m), "view": v, "error": m.get("error"),
+            "verification": {"passed": ver.get("passed"), "output_hashes": ver.get("output_hashes"),
+                             "verdict": ex.get("output_verdict"),
+                             "log_sha256_ok": hashlib.sha256(log.read_bytes()).hexdigest() == el.get("sha256")},
+            **(_stage_summary(v) if v["started"] else {"stages": [], "edges": []})}
+
+
+def gpu_spike() -> dict:
+    """Per-stage CPU-vs-CUDA timing and equivalence verdicts of the newest gpu_spike.json under data/results."""
+    cands = sorted({*RESULTS.glob("*/gpu/gpu_spike.json"), *RESULTS.glob("*/gpu/*/gpu_spike.json")},
+                   key=lambda p: p.stat().st_mtime)
+    if not cands:
+        raise NotFound("no gpu_spike.json under data/results")
+    d = json.loads(cands[-1].read_text(encoding="utf-8"))
+
+    def ms(r, k):
+        return None if r.get(k) is None else r[k] * 1e3
+    return {"source": str(cands[-1].relative_to(ROOT)), "env": d.get("env"),
+            "rows": [{"stage": r["stage"], "params": r.get("params"), "side": r.get("side"), "reps": r.get("reps"),
+                      "cpu_ms": ms(r, "cpu_median_s"), "gpu_ms": ms(r, "gpu_median_s"), "speedup": r.get("speedup"),
+                      "equivalent": r.get("equivalent"), "max_abs": r.get("max_abs"), "verdict": r.get("verdict")}
+                     for r in d["rows"]]}

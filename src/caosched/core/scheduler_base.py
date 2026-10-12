@@ -20,6 +20,7 @@ Hooks, in call order:
 Binding contract, enforced by the coordinator (violations raise
 ``SchedulerContractError``, never silently "fixed up"):
   * the returned id must be an existing worker;
+  * it must be a worker the task is eligible for (``eligible_workers``);
   * if ``binds_only_idle`` is True (late binding) it must be an idle worker.
     Early-binding policies set it False and may bind to busy workers; the
     task then waits in that worker's local queue (see runtime_state.py).
@@ -37,6 +38,10 @@ from caosched.core.task import Task
 
 class SchedulerContractError(RuntimeError):
     pass
+
+
+class NoEligibleWorkerError(SchedulerContractError, ValueError):
+    """A task could never be placed by this policy (raised in ``on_run_start``, before any task runs)."""
 
 
 class SchedulerPolicy(abc.ABC):
@@ -72,12 +77,21 @@ class SchedulerPolicy(abc.ABC):
 
 
 class FirstIdleScheduler(SchedulerPolicy):
-    """Pipeline-exercise/test placeholder: first idle worker, P pool first.
+    """Pipeline-exercise/test placeholder: first idle eligible worker (worker order, P pool first by convention).
     NOT one of the project's baselines B0-B7 (see ``caosched.schedulers``).
     (Named ``RoundRobinScheduler`` in session 1, which it never was.)"""
 
     name = "placeholder_first_idle"
 
     def select_worker(self, task: Task, state) -> str | None:
-        idle = state.idle_workers("P") + state.idle_workers("E")
+        idle = eligible_workers(task, state, idle_only=True)
         return idle[0] if idle else None
+
+
+def eligible_workers(task: Task, state, idle_only: bool = False) -> list[str]:
+    """Worker ids ``task`` may run on (uniform eligibility, audit D3): every
+    policy picks from this list. ``task.eligible_pools`` None = any pool."""
+    ids = state.idle_workers() if idle_only else state.worker_ids()
+    if task.eligible_pools is None:
+        return list(ids)
+    return [w for w in ids if state.pool_of(w) in task.eligible_pools]

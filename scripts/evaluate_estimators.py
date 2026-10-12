@@ -127,11 +127,11 @@ def main() -> None:
         ests["E4_occ_only"] = InterferenceRidgeEstimator.load(Path(args.e4_ablation))
 
     holdout = set(e4.meta["holdout_runs"])
-    test_sets = {"c2_holdout": [r for r in rows_from_dir(Path(e4.meta["campaign_dir"])) if r["run_id"] in holdout]}
+    test_sets = {"c2_holdout": [r for r in rows_from_dir(Path(e4.meta["campaign_dir"]), context_source="auto") if r["run_id"] in holdout]}
     if args.c1:
-        test_sets["c1"] = rows_from_dir(Path(args.c1))
+        test_sets["c1"] = rows_from_dir(Path(args.c1), context_source="auto")
     if args.phase2:
-        test_sets["phase2"] = rows_from_dir(Path(args.phase2))
+        test_sets["phase2"] = rows_from_dir(Path(args.phase2), context_source="auto")
 
     stamp = datetime.datetime.now().strftime("%Y%m%dT%H%M%S")
     RESULTS.mkdir(parents=True, exist_ok=True)

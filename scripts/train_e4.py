@@ -5,7 +5,7 @@ Split by run in collection (time) order -- never by random row: the first
 for evaluation (recorded in the model file).
 
 Usage:
-    python scripts/train_e4.py [--config config/phase3.yaml] [--campaign DIR] [--profile PATH]
+    python scripts/train_e4.py [--config config/phase3.yaml] [--campaign DIR] [--profile PATH] [--context-source decision|start|auto]
 """
 from __future__ import annotations
 
@@ -34,12 +34,18 @@ def main() -> None:
     ap.add_argument("--campaign", default=None)
     ap.add_argument("--profile", default=None)
     ap.add_argument("--feature-set", default=None, choices=sorted(FEATURE_SETS))
+    ap.add_argument("--context-source", default="decision", choices=("decision", "auto", "start"),
+                    help="decision (default): logged decision context only. Historical campaigns without one need "
+                         "'start' explicitly (post-decision reconstruction, leaky for early binding).")
     args = ap.parse_args()
+    if args.context_source != "decision":
+        print(f"WARNING: --context-source {args.context_source}: features are reconstructed from the task START "
+              f"(post-decision data, not what the scheduler knew at placement); use only for historical logs.")
     cfg = yaml.safe_load(Path(args.config).read_text(encoding="utf-8"))["estimators"]["E4"]
     campaign = Path(args.campaign) if args.campaign else latest_dir("campaign")
     profile = Path(args.profile) if args.profile else latest_profile_path()
 
-    rows = rows_from_dir(campaign)
+    rows = rows_from_dir(campaign, args.context_source)
     run_ids = sorted({r["run_id"] for r in rows})
     n_train = int(len(run_ids) * cfg["train_fraction"])
     train_ids, holdout_ids = run_ids[:n_train], run_ids[n_train:]
@@ -48,7 +54,7 @@ def main() -> None:
     base = StaticProfileEstimator.from_file(profile)
     fset = args.feature_set or cfg.get("feature_set", "occupancy+history")
     model = InterferenceRidgeEstimator.fit(train, base, cfg["ridge_lambda"], cfg["min_rows"], meta={
-        "campaign_dir": str(campaign), "profile": str(profile), "split": "by run, collection order",
+        "campaign_dir": str(campaign), "profile": str(profile), "split": "by run, collection order", "context_source": args.context_source,
         "train_runs": train_ids, "holdout_runs": holdout_ids, "n_train_rows": len(train), "feature_set": fset,
     }, features=FEATURE_SETS[fset])
     stamp = datetime.datetime.now().strftime("%Y%m%dT%H%M%S")

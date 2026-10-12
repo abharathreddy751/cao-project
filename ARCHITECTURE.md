@@ -126,9 +126,17 @@ caosched/
       scheduler_base.py     SchedulerPolicy ABC (+ FirstIdleScheduler test placeholder)
       coordinator.py        main loop: dispatch, completion handling, failure detection
       event_log.py          append-only JSONL event logger
+      eligibility.py        Stage 2: build-time eligibility (which pools may run which task)
+      extcmd.py             Stage 2: external-command task (argv, declared files, tree kill, SHA-256)
+    workflow/
+      adapter.py            Stage 2: Pegasus workflow YAML -> extcmd DAG
+    experiment/             Stage 2-4 tooling: design.py, runner.py, manifest.py, stub.py (label plan),
+                            montage_adapter.py, gpu_adapter.py
     schedulers/             Phase 2 baselines
-      simple.py             B0-B5
+      simple.py             B0-B5 (+ B0 P-only / E-only, random)
       eft.py                Earliest-Finish-Time (B6, B7; Phase 4's P)
+      heft.py, peft.py      Stage 2: HEFT and PEFT static plan baselines (secondary-source definitions)
+      rank_eft.py           Stage 2: rank-priority EFT (the proposed instrument), FileTransferModel
       __init__.py           config-driven registry (fresh instance per run)
     estimators/             execution-time estimators (kernel-only)
       base.py               ExecutionTimeEstimator, EstimateContext, TaskSpec
@@ -137,6 +145,7 @@ caosched/
       analytic.py           E2 analytic size model
       history.py            E3 moving history
       learned.py            E4 interference ridge (occupancy [+ recent activity])
+      tabular.py            Stage 3 code: CatBoost and MLP log-correction predictors (not yet trained on real data)
       oracle.py             E5 replay oracle (offline only)
       recalibrated.py       "+rc" online recalibration wrapper (per-pool EWMA factor, per run)
       e2e.py                EndToEndTerms: measured setup + runtime overhead (e2e EFT ablation)
@@ -154,6 +163,7 @@ caosched/
       build.py              unified dataset (tasks/candidates/splits/manifest) from raw logs (Phase 6A)
       events.py             event log -> per-task rows + decision-time context
       campaign.py           RandomOccupancyPolicy (data collection, not a baseline)
+      splits.py             Stage 3 code: leakage-safe splits by instance / session / size / occupancy / time
     util/
       threadpin.py          sets BLAS/OMP env vars before numpy import
       clock.py              high-resolution cross-process clock (QPC) for all runtime stamps
@@ -299,9 +309,9 @@ existing file. Every record has `seq` (0,1,2,... total order), `t`
 | `task_dispatched` | `task_id`, `worker_id`, `pool`, `queue_wait_seconds`, `worker_load_before`, optional `decision` (policy-specific; EFT: `chosen` + per-worker `wait`/`transfer`/`exec`/`finish`) |
 | `task_submitted` | `task_id`, `worker_id`, `local_queue_wait_seconds` |
 | `task_completed` | `task_id`, `worker_id`, `pool`, `wall_time_seconds`, `t_started`, `t_completed`, `response_time_seconds` |
-| `task_failed` | `task_id`, `worker_id`, `pool`, `t_started`, `t_completed`, `error` |
-| `run_error` | `error_type`, `error` |
-| `run_finished` | `status`, `n_tasks`, `n_completed`, `makespan_seconds`, `tasks_per_pool`, `total_wall_time_seconds`, `mean_response_time_seconds` |
+| `task_failed` | `task_id`, `worker_id`, `pool`, `t_started`, `t_completed`, `error`, `failure` (`failed`/`timeout`/`worker_died`), `exit_status` |
+| `run_error` | `error_type`, `error`, `failure_reason` |
+| `run_finished` | `status`, `n_tasks`, `n_completed`, `makespan_seconds`, `tasks_per_pool`, `total_wall_time_seconds`, `mean_response_time_seconds`, `failure_reason`, `task_status` (every task: terminal status, see Stage 2) |
 
 A log is self-describing: `run_started` contains the full DAG and task specs,
 so a run can be replayed or re-analysed from the log alone. This is the raw
@@ -507,9 +517,25 @@ coordinator --TaskMessage--> proxy R0 (pool "R")  --[shim: latency + per-msg + b
 * `stages.py` holds the stage registry. A stage is decode, then compute, then encode. Only `compute` is recorded as `wall_time_seconds`, the kernel; artifact I/O and codec time are logged separately as `io_s`.
 * `artifacts.py` is the artifact store at `data/artifacts/<run>/<task>.bin`. Writes are atomic.
 * `image_pipeline.py` contains the tiled image-analysis DAG (4k+4 tasks), a single-process reference, and `verify_output`, which reports an exact match or numeric closeness.
-* `Task.params` marks a task as an application stage. `Task.eligible_pools` lists the pools the task may use. The coordinator enforces eligibility as a scheduler contract, and B0–B4 and EFT honour it.
+* `Task.params` marks a task as an application stage. `Task.eligible_pools` lists the pools the task may use. The coordinator enforces eligibility as a scheduler contract, and every baseline (B0–B5, random), the placeholder and EFT choose from `scheduler_base.eligible_workers` (Stage 2).
 * Local workers read and write artifacts directly. The remote proxy ships the real input bytes (op `stage`) and writes back the returned output.
 * Benchmark kernels use the unchanged Phase 1–6 path.
 * Remote pools have configurable labels (`RemoteSlot.pool`, e.g. `R_PI`, `R_T4`). Nodes report their capabilities in the handshake.
 * `same_clock=False` reconstructs timestamps on the proxy side for devices with a foreign clock.
 * See `docs/REMOTE_DEVICES.md` for what is verified and what is not.
+
+## Stage 2: runtime and heterogeneous execution (2026-10)
+
+New modules and what they decide (decision records: `docs/research_redesign/ARCHITECTURE_DECISIONS.md`, AD-1 to AD-6, AD-12).
+
+* **Capability model (AD-4).** `core/runtime_config.py`: `RuntimeConfig.pools` maps any pool name to a `PoolSpec` (`slots`, `kind` cpu|cuda|remote, optional `task_types`, `memory_limit_bytes`). `p_core_slots`/`e_core_slots` remain shorthand for pools "P" and "E"; `from_topology()` still derives those two from the detected topology (the names only label the detected efficiency classes). `WorkerPool(pools=...)` spawns one worker per slot, ids `<pool><index>`; cpu workers are pinned, cuda workers (slot = CUDA device index) are not, and a cuda pool fails at construction with `WorkerPoolError` if CUDA is unavailable.
+* **Eligibility (AD-5, AD-6).** `core/eligibility.py::resolve_eligibility` runs at run start, before anything is logged: it works out which pool kinds can execute each workload (extcmd: cpu; application stage: cpu, remote, plus cuda if `apps.stages.cuda_stages()` has a variant; CUDA-only workload: cuda only), applies pool caps, narrows `eligible_pools=None` to the capable pools, rejects an explicit list naming an incapable pool, and raises `EligibilityError` for a task left with no pool. Policies pick only from `eligible_workers(task, state)`; a policy that can never place a task raises `NoEligibleWorkerError` in `on_run_start`. The device variant is chosen at dispatch from the worker's pool kind (cpu workers drop a baked-in `device` param; cuda workers run `apps.cuda_stages.CUDA_STAGES[stage](inputs, params)`, copies included in the timed kernel).
+* **External-command tasks (AD-1, AD-2).** `core/extcmd.py`: workload `extcmd`, params `argv`, `cwd`, `inputs`, `outputs`, `env`, `stdout`, `transformation`; `Task.timeout_s` bounds the run. The worker runs argv without a shell, kills the whole process tree on timeout (psutil; a grandchild re-parented before the kill is missed, see the `shortcut:` note), then checks the exit status and that every declared output exists, and records each output's size and SHA-256 in `TaskResult.outputs` and the `task_completed` event. `Task.input_bytes` (sum of declared input sizes, refreshed when the task becomes ready) and `Task.output_bytes` are the file sizes available to schedulers and the transfer model.
+* **Failure semantics (AD-3).** Fail fast, no automatic retry. Run status stays `completed`/`failed`; `failure_reason` is one of `task_failed`, `task_timeout`, `worker_died`, `run_timeout`, `deadlock`, `scheduler_contract`, `worker_error`. `run_finished.task_status` gives every task a terminal status: `done`, `failed`, `timeout`, `worker_died`, `aborted` (started, unfinished when the run ended), `not_run` (never started: dependents of a failure, unplaced tasks). Dead workers, `Task.timeout_s` (+ `Coordinator(timeout_grace=10.0)`; the worker is killed) and `run_timeout` are checked on every loop iteration. A pool with in-flight work after a failure is not reusable; `WorkerPool.shutdown` kills busy workers and their subprocess trees. `extcmd.prepare_workdir` gives reruns an empty work directory (it only deletes directories it created itself).
+* **Workflow adapter (AD-1).** `workflow/adapter.py::load_workflow` turns a Pegasus `Workflow.write()` YAML into an extcmd DAG (task id = job id; argv = executable + `arguments`; `uses` = declared inputs/outputs by lfn; edges = union of `jobDependencies` and file producer->consumer relations, with any disagreement in `report`; raw inputs from the replica catalog). Jobs are not clustered. `stage_raw_inputs` copies raw inputs into the flat work directory (no downloads). `scripts/run_workflow.py` runs adapter -> clean work dir -> policy -> output SHA-256 verification against a reference-hash file and writes a manifest.
+* **Plan and rank policies (AD-9).** `schedulers/heft.py` (HEFT: upward rank, insertion-based EFT) and `schedulers/peft.py` (PEFT: optimistic cost table) are static plan methods over the E1 profile cost matrix, restricted to `eligible_workers`; both are written from secondary-source definitions (the original papers were not read). `schedulers/rank_eft.py` is the EFT scheduler with the ready queue ordered by an upward rank, plus `FileTransferModel` (declared file sizes + link config; local pools cost 0). `schedulers/__init__.py` also registers `B0_P_only`/`B0_E_only` (`PoolOnlyScheduler`), `random`, `HEFT_E1`, `PEFT_E1`.
+* **Experiment package and scripts.** `experiment/`: `design.py` (frozen design file, seeded interleaved block plan, `Adapter` protocol), `runner.py` (memory preflight, per-session `environment.json`, exclusive-create run directories, run manifests), `manifest.py` (SHA-256 manifest and verify), `stub.py` (synthetic adapter, label `plan`), `montage_adapter.py` (one real Montage instance per run, hashes the final outputs against the reference, optional `cleanup_work`), `gpu_adapter.py` (tiled image pipeline with an optional CUDA pool).
+  Scripts: `run_experiment.py` (run a design), `make_stage2_design.py`, `stage2_gate.py` (gate check from raw logs), `profile_montage.py` and `profile_gpu_workload.py` (solo profiles), `montage_prepare.py`, `montage_sequential.py`, `stage1_report.py`, `gpu_spike.py` (Stage 1), `run_workflow.py` (one policy on one workflow), `analyze_experiment.py` (paired analysis, refuses to pool across machines or environments), `evaluate_models.py` (Stage 3 offline evaluation), `make_manifest.py`, `reproduce_subset.py`, `reproduce_clean_checkout.py`, `memory_preflight.py`.
+  Evidence layout: `data/results/stage1_20261011/` (reference runs, GPU spike, test logs), `data/results/stage2_20261012/` (profile, design, session `20261012T101305`, `stage2_gate.json`).
+* **Status of what ran (2026-10-12).** Stage 2 matrix: 14 policies x 3 interleaved blocks = 42 real runs of one Montage instance, all complete, outputs byte-identical to the Stage 1 reference, 0 dependency violations, 0 worker overlaps, 0 ineligible placements (`data/results/stage2_20261012/stage2_gate.json`). Makespans of the policies that never use E-cores or know the pool speeds are within about 1-2% of each other (270-276 s); the policies that place tasks on E-cores are near 410-420 s; descriptive only, no intervals. No predictor has been trained on real Montage data, no GPU scheduling experiment at realistic tile sizes has been run, and no Stage 4 result exists. Decision status per AD: `docs/research_redesign/ARCHITECTURE_DECISIONS.md`.
+* Not done in this code: remote-node frame caps and the dashboard token (AD-12), the remote pool on Montage, re-profiling of the kernel workloads and the 68-task pipeline on this machine (only the Montage task types were re-profiled: `scripts/profile_montage.py`), Stage 3 data collection and model selection, the Stage 4 main experiment.

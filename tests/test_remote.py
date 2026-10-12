@@ -120,3 +120,178 @@ def test_coordinator_logs_transfer_for_remote_tasks_only(remote_pool, tmp_path):
     for e in done:
         assert ("transfer_s" in e) == (e["pool"] == "R")
     assert all(t.transfer_s is not None for t in dag.tasks.values() if t.assigned_pool == "R")
+
+
+# --- AD-12 hardening: frame caps and shared-secret handshake -------------------------------------------------
+
+def test_recv_frame_rejects_oversized_before_allocating():
+    from caosched.remote.protocol import FrameTooLarge
+    a, b = socket.socketpair()
+    try:
+        a.sendall((2**31).to_bytes(4, "big"))  # header length over the cap
+        with pytest.raises(FrameTooLarge):
+            recv_frame(b)
+    finally:
+        a.close(); b.close()
+    a, b = socket.socketpair()
+    try:
+        h = json.dumps({"op": "x", "payload_len": 2**40}).encode()
+        a.sendall(len(h).to_bytes(4, "big") + h)  # claims 1 TiB, sends none: must fail fast, not allocate or block
+        with pytest.raises(FrameTooLarge):
+            recv_frame(b)
+    finally:
+        a.close(); b.close()
+    for cap, ok in ((4, False), (5, True)):  # configurable cap, boundary inclusive
+        a, b = socket.socketpair()
+        try:
+            send_frame(a, {"op": "y"}, b"12345")
+            if ok:
+                assert recv_frame(b, max_payload=cap)[1] == b"12345"
+            else:
+                with pytest.raises(FrameTooLarge):
+                    recv_frame(b, max_payload=cap)
+        finally:
+            a.close(); b.close()
+
+
+def _start_node(token=None, max_payload=None):
+    import queue
+    import threading
+
+    from caosched.remote.node import serve
+    q, errs = queue.Queue(), []
+
+    def run():
+        try:
+            serve("127.0.0.1", 0, None, q, token=token, max_payload=max_payload)
+        except Exception as exc:  # noqa: BLE001 - asserted by the tests
+            errs.append(exc)
+    th = threading.Thread(target=run, daemon=True)
+    th.start()
+    return q.get(timeout=60), th, errs
+
+
+def _connect(port, token=None, digest=None):
+    """Open a connection and answer the challenge; returns (sock, challenge, reply-to-hello)."""
+    from caosched.remote.protocol import auth_digest
+    s = socket.create_connection(("127.0.0.1", port), timeout=10)
+    ch, _ = recv_frame(s)
+    d = digest if digest is not None else (auth_digest(token, ch["nonce"]) if token else None)
+    send_frame(s, {"op": "hello", "auth": d})
+    return s, ch
+
+
+def test_node_handshake_valid_wrong_missing_and_oversized(monkeypatch):
+    monkeypatch.delenv("CAO_REMOTE_TOKEN", raising=False)
+    port, th, errs = _start_node(token="s3cret", max_payload=1000)
+    for kw in (dict(token="wrong"), dict(), dict(digest="0" * 64),
+               dict(digest="é" * 64), dict(digest="\udcff" * 64)):  # wrong, missing, forged, non-ASCII digests
+        s, ch = _connect(port, **kw)
+        assert ch["auth"] is True
+        reply, _ = recv_frame(s)
+        assert "error" in reply and "pid" not in reply
+        s.close()
+    s = socket.create_connection(("127.0.0.1", port), timeout=10)  # oversized pre-auth header length
+    recv_frame(s)
+    s.sendall((2**31).to_bytes(4, "big"))
+    with pytest.raises((ConnectionError, OSError)):
+        recv_frame(s)
+    s.close()
+    assert th.is_alive() and not errs                       # bad peers never stop the node
+    s, _ = _connect(port, token="s3cret")                   # valid path
+    reply, _ = recv_frame(s)
+    assert "pid" in reply and "capabilities" in reply
+    h = json.dumps({"op": "task", "payload_len": 5000}).encode()
+    s.sendall(len(h).to_bytes(4, "big") + h)                # post-auth oversized payload: rejected before any read
+    err, _ = recv_frame(s)
+    assert "bad frame" in err["error"] and "FrameTooLarge" in err["error"]
+    with pytest.raises((ConnectionError, OSError)):         # that peer is dropped (stream is unrecoverable) ...
+        recv_frame(s)
+    s.close()
+    assert th.is_alive() and not errs                       # ... but the node survives and keeps serving
+    s, _ = _connect(port, token="s3cret")
+    assert "pid" in recv_frame(s)[0]
+    send_frame(s, {"op": "bye"})
+    th.join(timeout=10)
+    s.close()
+    assert not th.is_alive() and not errs
+
+
+def test_node_survives_bad_messages_and_caps_reply_len(monkeypatch):
+    monkeypatch.delenv("CAO_REMOTE_TOKEN", raising=False)
+    port, th, errs = _start_node(max_payload=1000)
+    s, _ = _connect(port)
+    assert "pid" in recv_frame(s)[0]
+    send_frame(s, {"op": "task", "workload": "matmul", "size": 16, "seed": 0})  # no task_id
+    r, _ = recv_frame(s)
+    assert r["task_id"] is None and "task_id" in r["error"] and r["kernel_s"] is None
+    send_frame(s, {"op": "task", "task_id": "a", "workload": "matmul", "size": 16, "seed": 0, "reply_len": 10**9})
+    r, _ = recv_frame(s)
+    assert r["task_id"] == "a" and "reply_len" in r["error"]
+    send_frame(s, {"op": "task", "task_id": "b", "workload": "matmul", "size": 16, "seed": 0, "reply_len": "x"})
+    assert recv_frame(s)[0]["error"]
+    send_frame(s, {"op": "task", "task_id": "c", "workload": "matmul", "size": 16, "seed": 0, "reply_len": 10})
+    r, payload = recv_frame(s)                              # same connection still works
+    assert r["task_id"] == "c" and r["error"] is None and len(payload) == 10
+    send_frame(s, {"op": "bye"})
+    th.join(timeout=10)
+    s.close()
+    assert not th.is_alive() and not errs
+
+
+def test_proxy_authenticates_the_node_and_token_length_for_public_bind(monkeypatch):
+    import queue
+    import threading
+
+    from caosched.remote.node import serve
+    from caosched.remote.protocol import MIN_TOKEN_BYTES
+    from caosched.remote.proxy import proxy_loop
+    monkeypatch.delenv("CAO_REMOTE_TOKEN", raising=False)
+    with pytest.raises(ValueError, match="shorter"):
+        serve("0.0.0.0", 0, None, token="x" * (MIN_TOKEN_BYTES - 1))
+    # a node that knows the token: handshake completes in both directions
+    port, th, errs = _start_node(token="s3cret")
+    inq, outq = queue.Queue(), queue.Queue()
+    inq.put(None)
+    proxy_loop("R0", "127.0.0.1", port, LinkConfig("z"), [], inq, outq, token="s3cret")
+    th.join(timeout=10)
+    assert outq.get_nowait()[0] == "ready" and not errs
+    # an impostor that accepts any digest but cannot answer the proxy's nonce is rejected by the proxy
+    srv = socket.socket()
+    srv.bind(("127.0.0.1", 0))
+    srv.listen(1)
+
+    def impostor():
+        c, _ = srv.accept()
+        send_frame(c, {"op": "challenge", "nonce": "n", "auth": True})
+        recv_frame(c)
+        send_frame(c, {"pid": 1, "requested_affinity": [], "actual_affinity": [], "affinity_error": None,
+                       "warmup_seconds": 0.0, "capabilities": {}})
+        c.close()
+    t2 = threading.Thread(target=impostor, daemon=True)
+    t2.start()
+    with pytest.raises(PermissionError, match="node_auth"):
+        proxy_loop("R0", "127.0.0.1", srv.getsockname()[1], LinkConfig("z"), [], queue.Queue(), queue.Queue(), token="s3cret")
+    t2.join(timeout=10)
+    srv.close()
+
+
+def test_node_valid_token_roundtrip_and_no_token_dev_default(monkeypatch):
+    monkeypatch.delenv("CAO_REMOTE_TOKEN", raising=False)
+    for token in ("tok", None):  # None: loopback dev default, no auth required, same wire protocol
+        port, th, errs = _start_node(token=token)
+        s, ch = _connect(port, token=token)
+        assert ch["auth"] is bool(token)
+        reply, _ = recv_frame(s)
+        assert reply["pid"] > 0
+        send_frame(s, {"op": "bye"})
+        th.join(timeout=10)
+        s.close()
+        assert not th.is_alive() and not errs
+
+
+def test_node_refuses_public_bind_without_token(monkeypatch):
+    from caosched.remote.node import serve
+    monkeypatch.delenv("CAO_REMOTE_TOKEN", raising=False)
+    with pytest.raises(ValueError):
+        serve("0.0.0.0", 0, None)

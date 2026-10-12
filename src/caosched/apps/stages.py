@@ -19,8 +19,9 @@ Image-analysis stages (numpy + Pillow only, portable to an ARM device):
   img_package    zlib-compressed bundle of mosaic + descriptor (final output)
 
 Optional device variant: ``img_edges`` with ``params["device"] == "cuda"``
-uses PyTorch on a CUDA device (intended for the T4 worker); see
-docs/REMOTE_DEVICES.md for its verification status.
+uses PyTorch on a CUDA device (remote nodes, e.g. the T4 worker; see
+docs/REMOTE_DEVICES.md for its verification status). Local workers never see
+that flag: cpu workers run the code here, "cuda" pools run ``cuda_stages()``.
 """
 from __future__ import annotations
 
@@ -174,14 +175,27 @@ def stage_payload_bytes(stage: str, pixels: int) -> tuple[int, int]:
     return sizes[stage]
 
 
-def run_stage(name: str, input_blobs: list[bytes], params: dict) -> tuple[bytes, float, float]:
+def cuda_stages() -> dict[str, Callable]:
+    """CUDA variants: ``{stage name: fn(decoded inputs, params) -> output object}``,
+    same signature as ``Stage.compute`` but the function does its own host/device
+    copies and synchronisation, so its timing includes them. Written in
+    ``caosched.apps.cuda_stages``; empty if that module or torch is missing."""
+    try:
+        from caosched.apps.cuda_stages import CUDA_STAGES
+    except ImportError:
+        return {}
+    return CUDA_STAGES
+
+
+def run_stage(name: str, input_blobs: list[bytes], params: dict, compute: Callable | None = None) -> tuple[bytes, float, float]:
     """Execute one stage on raw input bytes. Returns (output bytes, compute
-    seconds, codec seconds). Compute is the kernel; codec = decode + encode."""
+    seconds, codec seconds). Compute is the kernel; codec = decode + encode.
+    ``compute`` replaces the stage's CPU kernel (a CUDA variant on a cuda worker)."""
     st = STAGES[name]
     t0 = time.perf_counter()
     objs = st.decode(input_blobs)
     t1 = time.perf_counter()
-    out = st.compute(objs, params)
+    out = (compute or st.compute)(objs, params)
     t2 = time.perf_counter()
     blob = st.encode(out)
     t3 = time.perf_counter()

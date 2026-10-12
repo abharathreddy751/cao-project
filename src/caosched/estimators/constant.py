@@ -34,7 +34,7 @@ class ConstantProfileEstimator(ExecutionTimeEstimator):
         return cls.fit(load_profile_rows(profile_path), source=str(profile_path))
 
     def estimate(self, task, pool: str, ctx: EstimateContext | None = None) -> float:
-        key = (task.workload, pool)
+        key = (task.est_workload, pool)
         if key not in self.table:
             raise KeyError(f"E0 has no entry for {key}")
         return self.table[key]

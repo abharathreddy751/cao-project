@@ -20,7 +20,7 @@ from caosched.estimators.base import EstimateContext, ExecutionTimeEstimator
 
 
 def _key(task, pool: str) -> tuple:
-    return (task.task_id, int(task.seed), task.workload, int(task.size), pool)
+    return (task.task_id, int(task.seed), task.est_workload, int(task.est_size), pool)
 
 
 class ReplayOracleEstimator(ExecutionTimeEstimator):

@@ -58,6 +58,7 @@ function showTab(name) {
   document.querySelectorAll("section.screen").forEach((s) => s.classList.toggle("active", s.id === `screen-${name}`));
   if (location.hash !== `#${name}`) history.replaceState(null, "", `#${name}`);
   if (name === "workflow") drawWorkflow();
+  if (name === "montage") mgInit();
 }
 document.querySelectorAll("nav.tabs button").forEach((b) => b.addEventListener("click", () => showTab(b.dataset.tab)));
 addEventListener("hashchange", () => showTab(location.hash.slice(1)));
@@ -463,7 +464,8 @@ $("#src-live").addEventListener("click", () => setSource(true));
 $("#lv-start").addEventListener("click", async () => {
   const btn = $("#lv-start"); btn.disabled = true; $("#lv-msg").textContent = "";
   try {
-    const r = await api("/api/live/start", { method: "POST", headers: { "Content-Type": "application/json" },
+    const r = await api("/api/live/start", { method: "POST",
+      headers: { "Content-Type": "application/json", "X-CAO-Token": document.querySelector('meta[name="cao-token"]').content },
       body: JSON.stringify({ policy: $("#lv-pol").value, k: +$("#lv-k").value }) });
     S.mode = "live"; setModeBadge();
     S.key = { session: r.session, run: r.run, live: true, k: +$("#lv-k").value };
@@ -716,6 +718,144 @@ function drawWhy() {
       <li><strong>NVIDIA T4</strong> (CUDA stage): the only planned device that could compute faster than an E-core. It tests whether offloading pays for its transfer at the heavier workload levels.</li>
       <li>Neither result exists yet. No hardware numbers are shown or implied.</li>
     </ul>`;
+}
+
+/* ================= 5. MONTAGE & GPU WORKLOADS (read-only) ================= */
+/* Only function declarations here (no top-level const): showTab() may call mgInit() before this point is reached. */
+function mgCol(p) { return ["P", "E", "R"].includes(p) ? `var(--pool-${p})` : "var(--accent)"; }
+async function mgInit() {
+  if (S.mg) return;
+  S.mg = { runs: [], data: {} };
+  try {
+    S.mg.runs = await api("/api/montage/runs");
+    $("#mg-kind").addEventListener("change", mgFill);
+    $("#mg-a").addEventListener("change", mgDraw);
+    $("#mg-b").addEventListener("change", mgDraw);
+    mgFill();
+  } catch (e) { $("#mg-msg").textContent = e.message; }
+}
+function mgFill() {
+  const gpu = $("#mg-kind").value === "gpu";
+  const rs = S.mg.runs.filter((r) => (r.kind === "montage") !== gpu && r.has_log)
+    .sort((a, b) => String(a.instance).localeCompare(String(b.instance)) || String(a.id).localeCompare(String(b.id)));
+  const opt = (r) => `<option value="${esc(r.id)}">${esc(r.instance || "")} · ${esc(r.condition)} · ${fmt(r.makespan_ms, 0)} ms · ${r.output_ok ? "output ok" : "output NOT verified"}${r.warmup ? " · warm-up" : ""}</option>`;
+  $("#mg-a").innerHTML = rs.map(opt).join("");
+  $("#mg-b").innerHTML = `<option value="">none</option>` + rs.map(opt).join("");
+  $("#mg-msg").textContent = rs.length ? "" : "No runs with an event log found for this workload.";
+  $("#mg-gpu").hidden = !gpu;
+  if (gpu) mgGpu();
+  mgDraw();
+}
+async function mgGet(id) {
+  if (!S.mg.data[id]) S.mg.data[id] = await api(`/api/montage/run?id=${encodeURIComponent(id)}`);
+  return S.mg.data[id];
+}
+async function mgDraw() {
+  const ids = [$("#mg-a").value, $("#mg-b").value].filter(Boolean);
+  const host = $("#mg-runs");
+  if (!ids.length) { host.innerHTML = ""; return; }
+  try {
+    const ds = await Promise.all(ids.map(mgGet));
+    const tEnd = Math.max(1, ...ds.map((d) => d.view.finished ? d.view.finished.makespan_ms : d.view.now_ms || 0));
+    host.innerHTML = ds.map((d, i) => `<div class="card" id="mg-card-${i}"></div>`).join("");
+    if (ds.length > 1 && ds[0].run.instance !== ds[1].run.instance)
+      $("#mg-msg").textContent = "Warning: the two runs are of different instances; makespans are not comparable.";
+    else $("#mg-msg").textContent = "";
+    ds.forEach((d, i) => mgRun($(`#mg-card-${i}`), d, tEnd, i));
+  } catch (e) { $("#mg-msg").textContent = e.message; }
+}
+function mgRun(host, d, tEnd, i) {
+  const v = d.view, r = d.run, f = v.finished || {}, ver = d.verification || {};
+  if (!v.started) { host.innerHTML = `<p class="empty">Event log has no run_started event.</p>`; return; }
+  const chips = Object.entries(f.tasks_per_pool || {}).map(([p, n]) => `<span class="chip"><i style="background:${mgCol(p)}"></i>${esc(p)} ${n}</span>`).join(" ");
+  const verd = ver.verdict ? Object.entries(ver.verdict).map(([k, x]) => `${esc(k)}: ${esc(x)}`).join("<br>") : "";
+  const ok = ver.passed === true;
+  host.innerHTML = `<h2>${esc(r.condition)} <span class="sub">${esc(r.instance || "")}</span></h2>
+    <dl class="kv">
+      <dt>Policy</dt><dd>${esc(v.scheduler)}${v.estimator ? ` · <span class="mono">${esc(v.estimator)}</span>` : ""}</dd>
+      <dt>Evidence label</dt><dd>${esc(r.evidence_label)}${r.warmup ? " (warm-up block)" : ""}</dd>
+      <dt>Status</dt><dd>${esc(f.status || "in progress")}${d.error ? ` — ${esc(d.error)}` : ""}</dd>
+      <dt>Makespan</dt><dd class="num">${f.makespan_ms != null ? `${fmt(f.makespan_ms, 1)} ms` : "–"}</dd>
+      <dt>Placement</dt><dd>${chips || "–"} of ${esc(v.n_tasks)} tasks</dd>
+      <dt>Sum of task times</dt><dd class="num">${fmt(f.total_kernel_ms, 1)} ms · scheduling ${fmt(f.scheduling_ms, 2)} ms</dd>
+      <dt>Output check</dt><dd><span class="status ${ok ? "good" : "crit"}"><span class="ic">${ok ? "✓" : "!"}</span>${ver.passed == null ? "not verified" : ok ? "hashes match reference" : "hash check FAILED"}</span>
+        ${verd ? `<div class="sub mono">${verd}</div>` : ""}<div class="sub">event log SHA-256 ${ver.log_sha256_ok ? "matches the manifest" : "does NOT match the manifest"}</div></dd></dl>
+    <h3>DAG by ${v.extcmd ? "transformation" : "stage"}</h3><div class="svg-wrap" id="mg-dag-${i}"></div>
+    <h3>Timeline per worker</h3><div class="svg-wrap" id="mg-tl-${i}"></div>
+    <h3>Per ${v.extcmd ? "transformation" : "stage"}</h3><div class="table-wrap">${mgStageTable(d)}</div>
+    <h3>Tasks</h3><div class="table-wrap">${mgTaskTable(v)}</div>`;
+  mgDag($(`#mg-dag-${i}`, host), d);
+  mgTimeline($(`#mg-tl-${i}`, host), v, tEnd);
+}
+function mgStageTable(d) {
+  return `<table class="data"><thead><tr><th>${d.view.extcmd ? "transformation" : "stage"}</th><th class="n">tasks</th><th>pools</th><th class="n">Σ task ms</th><th class="n">mean queue wait ms</th></tr></thead><tbody>`
+    + d.stages.map((s) => `<tr><td>${esc(s.stage)}</td><td class="n">${s.n}</td><td>${Object.entries(s.pools).map(([p, n]) => `${esc(p)} ${n}`).join(", ")}</td><td class="n">${fmt(s.kernel_ms, 1)}</td><td class="n">${fmt(s.queue_wait_ms / s.n, 1)}</td></tr>`).join("") + `</tbody></table>`;
+}
+function mgTaskTable(v) {
+  const wk = Object.fromEntries(v.workers.map((w) => [w.id, w]));
+  const cap = 300;
+  return `<table class="data"><thead><tr><th>task</th><th>${v.extcmd ? "transformation" : "stage"}</th><th>eligible</th><th>pool / worker</th><th>device</th><th class="n">ready</th><th class="n">queue wait</th><th class="n">start</th><th class="n">end</th><th class="n">run ms</th></tr></thead><tbody>`
+    + v.tasks.slice(0, cap).map((t) => { const c = (wk[t.worker] || {}).capabilities || {};
+      return `<tr><td>${esc(t.id)}</td><td>${esc(t.stage)}</td><td>${esc((t.eligible || ["any"]).join(","))}</td><td>${esc(t.pool || "–")} / ${esc(t.worker || "–")}</td><td>${esc(c.cuda ? (c.cuda_device || "cuda") : t.pool ? "cpu" : "–")}</td><td class="n">${fmt(t.t_ready, 1)}</td><td class="n">${fmt(t.queue_wait_ms, 1)}</td><td class="n">${fmt(t.t_started, 1)}</td><td class="n">${fmt(t.t_completed, 1)}</td><td class="n">${fmt(t.kernel_ms, 1)}</td></tr>`; }).join("")
+    + `</tbody></table>` + (v.tasks.length > cap ? `<p class="sub">First ${cap} of ${v.tasks.length} tasks shown.</p>` : "");
+}
+function mgDag(host, d) {
+  const cw = 150, bw = 128, bh = 36, gap = 10, top = 6;
+  const levels = [...new Set(d.stages.map((s) => s.level))].sort((a, b) => a - b);
+  const rows = Math.max(...levels.map((l) => d.stages.filter((s) => s.level === l).length));
+  const root = svg("svg", { viewBox: `0 0 ${levels.length * cw + 8} ${top * 2 + rows * (bh + gap)}`, role: "img",
+    "aria-label": "DAG aggregated by transformation: one box per transformation, edge labels count task dependencies" });
+  const pos = {};
+  levels.forEach((l, c) => d.stages.filter((s) => s.level === l).forEach((s, i) => { pos[s.stage] = { x: 4 + c * cw, y: top + i * (bh + gap) }; }));
+  for (const e of d.edges) {
+    const a = pos[e.from], b = pos[e.to]; if (!a || !b || e.from === e.to) continue;
+    const x1 = a.x + bw, y1 = a.y + bh / 2, x2 = b.x, y2 = b.y + bh / 2, mx = (x1 + x2) / 2;
+    svg("path", { d: `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`, class: "dag-edge" }, root);
+    txt(root, mx, (y1 + y2) / 2 - 2, `×${e.n}`, { "text-anchor": "middle", class: "axis-label" });
+  }
+  for (const s of d.stages) {
+    const p = pos[s.stage], main = Object.entries(s.pools).sort((a, b) => b[1] - a[1])[0];
+    const g = svg("g", { class: "dag-node" }, root);
+    svg("rect", { x: p.x, y: p.y, width: bw, height: bh, rx: 4, style: `fill:var(--surface);stroke:${mgCol(main && main[0])};stroke-width:2px` }, g);
+    txt(g, p.x + 6, p.y + 15, s.stage, { style: "fill:var(--ink);font-weight:650" });
+    txt(g, p.x + 6, p.y + 29, `${s.n} task${s.n > 1 ? "s" : ""} · Σ ${fmt(s.kernel_ms, 0)} ms`, { class: "axis-label" });
+  }
+  host.innerHTML = ""; host.appendChild(root);
+}
+function mgTimeline(host, v, tEnd) {
+  const L = 92, R = 12, T = 8, rowH = 22, W = 960, H = T + v.workers.length * rowH + 26;
+  const x = (ms) => L + (ms / tEnd) * (W - L - R);
+  const root = svg("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Per-worker timeline of task executions" });
+  const step = niceStep(tEnd, 8);
+  for (let s = 0; s <= tEnd + 1e-9; s += step) {
+    svg("line", { x1: x(s), x2: x(s), y1: T, y2: T + v.workers.length * rowH, class: "grid-line" }, root);
+    txt(root, x(s), H - 12, `${Math.round(s)}`, { "text-anchor": "middle", class: "axis-label" });
+  }
+  txt(root, W - R, H - 1, "ms since run start (same axis for compared runs)", { "text-anchor": "end", class: "axis-label" });
+  v.workers.forEach((w, i) => {
+    const y = T + i * rowH;
+    txt(root, 8, y + rowH / 2 + 4, `${w.id} [${w.pool}]`, { style: "fill:var(--ink-2);font-weight:600" });
+    for (const t of v.tasks.filter((tt) => tt.worker === w.id && tt.t_started != null)) {
+      const bw = Math.max(1.5, x(t.t_completed) - x(t.t_started));
+      const r = svg("rect", { x: x(t.t_started), y: y + 3, width: bw, height: rowH - 6, rx: 2, style: `fill:${mgCol(w.pool)}` }, root);
+      if (bw > 40) txt(root, x(t.t_started) + 3, y + rowH / 2 + 3.5, t.stage, { style: "fill:#fff;font-size:9.5px;font-weight:650;pointer-events:none" });
+      r.addEventListener("mousemove", (ev) => showTip(ev, `<b>${esc(t.id)}</b> · ${esc(t.stage)}` + row("worker", esc(w.id)) + row("queue wait", `${fmt(t.queue_wait_ms, 1)} ms`)
+        + row("start → end", `${fmt(t.t_started, 1)} → ${fmt(t.t_completed, 1)} ms`)));
+      r.addEventListener("mouseleave", hideTip);
+    }
+  });
+  host.innerHTML = ""; host.appendChild(root);
+}
+async function mgGpu() {
+  const h = $("#mg-gpu");
+  try {
+    const g = await api("/api/gpu"), e = g.env || {};
+    h.innerHTML = `<h2>CPU vs CUDA, per stage <span class="sub">(median of ${esc((g.rows[0] || {}).reps)} reps)</span></h2>
+      <p class="sub">Source <code>${esc(g.source)}</code> · ${esc(e.gpu)} · torch ${esc(e.torch)} / CUDA ${esc(e.torch_cuda)} · driver ${esc(e.driver)} · ${esc(e.date)}. Verdict is the spike's own (speed-up and numerical equivalence within the stage tolerance).</p>
+      <div class="table-wrap"><table class="data"><thead><tr><th>stage</th><th>params</th><th class="n">side</th><th class="n">CPU ms</th><th class="n">CUDA ms</th><th class="n">speed-up</th><th>equivalent</th><th class="n">max abs diff</th><th>verdict</th></tr></thead><tbody>`
+      + g.rows.map((r) => `<tr><td>${esc(r.stage)}</td><td class="mono">${esc(r.params)}</td><td class="n">${esc(r.side)}</td><td class="n">${fmt(r.cpu_ms, 3)}</td><td class="n">${fmt(r.gpu_ms, 3)}</td><td class="n">${fmt(r.speedup, 2)}×</td><td><span class="status ${r.equivalent ? "good" : "crit"}"><span class="ic">${r.equivalent ? "✓" : "✕"}</span>${r.equivalent ? "yes" : "NO"}</span></td><td class="n">${esc(r.max_abs)}</td><td>${esc(r.verdict)}</td></tr>`).join("")
+      + `</tbody></table></div>`;
+  } catch (err) { h.innerHTML = `<p class="empty">${esc(err.message)}</p>`; }
 }
 
 /* ================= boot ================= */

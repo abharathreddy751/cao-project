@@ -20,9 +20,10 @@ the candidate worker itself. Estimators that do not use occupancy (E0-E3)
 ignore it; E4 requires it; E5 uses task identity. Swapping estimators never
 touches a scheduler (ARCHITECTURE.md modularity principle).
 
-The same ``EstimateContext`` definition is reconstructed offline from event
-logs (``caosched.dataset.events``) so that E4 is trained on exactly the
-features it is later queried with.
+Train/serve parity (AD-7): schedulers log the ``EstimateContext`` they used
+at each placement decision, and ``caosched.dataset.events`` rebuilds training
+features from those records only (the older start-time reconstruction from
+completions is kept for historical logs and is flagged per row).
 """
 from __future__ import annotations
 
@@ -41,6 +42,19 @@ class TaskSpec:
     size: int
     seed: int = 0
 
+    # same estimator identity as core.task.Task (a spec is never an extcmd task)
+    @property
+    def est_workload(self) -> str:
+        return self.workload
+
+    @property
+    def est_size(self) -> int:
+        return self.size
+
+    @property
+    def est_bytes(self) -> int:
+        return self.size
+
 
 @dataclasses.dataclass(frozen=True)
 class EstimateContext:
@@ -53,11 +67,15 @@ class EstimateContext:
         work, since the task would then start on a warm core). Captures the
         measured P-core "idle -> slow, then ramps up" effect. None = unknown
         (e.g. reconstructed from older logs without worker history).
+    busy_other: (pool, count) for busy workers of pools other than P/E (e.g.
+        the remote pool R, audit D7; any pool name); () when there are none.
+        Not read by E4 (its weights predate the field); the Stage 3 models use it.
     """
     busy_P: int = 0
     busy_E: int = 0
     corunning: tuple[tuple[str, int], ...] = ()  # sorted (workload, count) pairs; hashable
     target_busy_frac: float | None = None
+    busy_other: tuple[tuple[str, int], ...] = ()
 
     @property
     def corun(self) -> dict[str, int]:
@@ -65,34 +83,49 @@ class EstimateContext:
 
     @property
     def busy_total(self) -> int:
-        return self.busy_P + self.busy_E
+        return self.busy_P + self.busy_E + sum(n for _, n in self.busy_other)
+
+    @property
+    def busy_by_pool(self) -> dict[str, int]:
+        return {"P": self.busy_P, "E": self.busy_E, **dict(self.busy_other)}
 
     @classmethod
     def build(cls, busy_P: int, busy_E: int, workloads: list[str],
-              target_busy_frac: float | None = None) -> "EstimateContext":
+              target_busy_frac: float | None = None, busy_other=()) -> "EstimateContext":
         counts: dict[str, int] = {}
         for w in workloads:
             counts[w] = counts.get(w, 0) + 1
-        return cls(busy_P, busy_E, tuple(sorted(counts.items())), target_busy_frac)
+        return cls(busy_P, busy_E, tuple(sorted(counts.items())), target_busy_frac,
+                   tuple(sorted((p, int(n)) for p, n in dict(busy_other).items() if n)))
 
     @classmethod
     def from_state(cls, state, exclude_worker: str | None) -> "EstimateContext":
-        busy = {"P": 0, "E": 0}
+        busy: dict[str, int] = {}
         types = []
         for wid, w in state.workers.items():
             if wid == exclude_worker or not w.busy:
                 continue
             busy[w.pool] = busy.get(w.pool, 0) + 1
-            types.append(state.dag.tasks[w.current_task].workload)
+            types.append(state.dag.tasks[w.current_task].est_workload)
         frac = None
         if exclude_worker is not None:
             cand = state.workers[exclude_worker]
             frac = 1.0 if not cand.idle else state.busy_fraction(exclude_worker, state.now(), BUSY_WINDOW_S)
-        return cls.build(busy["P"], busy["E"], types, frac)
+        other = {p: n for p, n in busy.items() if p not in ("P", "E")}
+        return cls.build(busy.get("P", 0), busy.get("E", 0), types, frac, other)
 
     def to_dict(self) -> dict:
-        return {"busy_P": self.busy_P, "busy_E": self.busy_E, "corunning": self.corun,
-                "target_busy_frac": self.target_busy_frac}
+        d = {"busy_P": self.busy_P, "busy_E": self.busy_E, "corunning": self.corun,
+             "target_busy_frac": self.target_busy_frac}
+        if self.busy_other:  # key absent for P/E-only contexts: logs keep their old shape
+            d["busy_other"] = dict(self.busy_other)
+        return d
+
+    @classmethod
+    def from_dict(cls, d: dict) -> "EstimateContext":
+        """Inverse of ``to_dict`` (decision-context records in event logs)."""
+        return cls(int(d["busy_P"]), int(d["busy_E"]), tuple(sorted((k, int(v)) for k, v in d["corunning"].items())),
+                   d.get("target_busy_frac"), tuple(sorted((k, int(v)) for k, v in d.get("busy_other", {}).items())))
 
 
 def estimate_key(workload: str, size: int, pool: str) -> tuple[str, int, str]:

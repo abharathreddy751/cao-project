@@ -80,6 +80,23 @@ Quality gates for code (2026-10-12): full suite 364 passed, 1 skipped, then 366 
 
 Not claimed by Stage 1: any scheduling result, any model result, any speed-up of Montage on GPU (none exists).
 
+## Stage 2 report (2026-10-12) - PASS (software and measurement gates); fallback not needed
+
+| Gate | Result | Evidence |
+|---|---|---|
+| Montage DAG runs under every policy, output equal to the Stage 1 reference | PASS: 14 policies (B0 P-only, B0 E-only, B1 round-robin, B2 static-P, B3 shortest queue, B4 greedy eligible, B5 criticality, random, EFT E1, EFT E3, EFT E1+rc, HEFT E1, PEFT E1, rank-priority EFT E1) x 3 interleaved seeded blocks = 42 runs, all completed, all outputs byte-identical to `valid/seq1` | `data/results/stage2_20261012/sessions/20261012T101305/`, `stage2_gate.json`, design hash `6f753ecc...7887` |
+| Zero ineligible placements, dependencies respected, no worker ran two tasks at once | PASS: 0 / 0 / 0 over 42 logs (checked from raw logs by `scripts/stage2_gate.py`) | `stage2_gate.json` |
+| Failure-injection suite | PASS (non-zero exit, hang with process-tree kill, missing output, dead worker, unmapped task, early-binding queue) | `tests/test_extcmd.py`, `tests/test_runtime_hardening.py`, `tests/test_eligibility.py` (full suite 366 passed, 1 skipped, `stage1_20261011/tests/full_suite_after_mypy.txt`) |
+| GPU output equals CPU, speed-up reported with copies | PASS (bit-exact for img_edges, img_features, img_denoise; speed-ups in the Stage 1 table); CUDA pool run at tile 64 verified in `tests/test_gpu_adapter.py` | `gpu/spike_20261012T092018/gpu_spike.json` |
+| Old tests / 68-task pipeline unchanged | PASS (all 191 pre-existing tests still pass inside the 366) | same suite log |
+| Per-pool profile with environment manifest | DONE: mProject median 111.8 s (P-core, n=4) vs 401.1 s (E-core, n=4); other task types seconds | `stage2_20261012/profile_montage/` |
+
+Descriptive makespan means over the 3 blocks (seconds; not a Stage 4 result, no intervals): B0 P-only 270.9, B2 static-P 269.6, EFT E3 273.3, EFT E1 275.5, EFT E1+rc 275.4, EFT E1 rank 274.7, HEFT 274.5, PEFT 275.0, B4 greedy 410.5, B3 410.7, B5 413.4, B1 420.4, random 416.5, B0 E-only 811.8.
+
+Reading, stated plainly: on this instance the predictive and plan-based policies match the trivial "use only the P-cores" baseline, and all of them beat the greedy patent-mapped baseline B4 by about one third, because greedy dispatch puts three of the nine 112-second `mProject` tasks on 401-second E-cores. The strongest non-predictive baseline is therefore B0 P-only, not B4. The hypothesis in PROJECT_SPEC (prediction helps only when speed ratios and contention are large relative to prediction cost) is not tested by this table.
+
+Deviations: (1) the machine was not idle (WSL VM, browser, editor); (2) `cleanup_work` deletes the 2 GB work directory of a run only after its outputs were verified against the reference (hashes and event logs are kept); (3) a smoke session `sessions_smoke` is exploratory and showed the cleanup-before-reverify bug, fixed before the matrix; (4) runs were executed in blocks of 14 policies with 3 blocks.
+
 ## Documents in this redesign
 
 [PROJECT_SPEC.md](PROJECT_SPEC.md) · [ARCHITECTURE_DECISIONS.md](ARCHITECTURE_DECISIONS.md) · [FOUR_STAGE_IMPLEMENTATION_PLAN.md](FOUR_STAGE_IMPLEMENTATION_PLAN.md) · [WORKLOAD_AND_DATA_PROVENANCE.md](WORKLOAD_AND_DATA_PROVENANCE.md) · [EVALUATION_PROTOCOL.md](EVALUATION_PROTOCOL.md)

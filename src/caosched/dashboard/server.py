@@ -8,11 +8,22 @@ GET  /api/artifact?session=&run=&which=source|mosaic   PNG of a real run artifac
 GET  /api/comparison           B4 vs EFT_E1_rc from the verified Phase B summary
 GET  /api/hardware             status table of docs/REMOTE_DEVICES.md
 GET  /api/live                 live dashboard runs on disk + the active one
+GET  /api/montage/runs         experiment runs (Montage / GPU) found via their run_manifest.json
+GET  /api/montage/run?id=      one such run: event-log view, per-transformation DAG, output-hash verdicts
+GET  /api/gpu                  per-stage CPU-vs-CUDA timing + equivalence verdicts (newest gpu_spike.json)
 POST /api/live/start           {"policy": "B4"|"EFT", "k": 1|4|16|64} -> starts one live run
+
+Hardening (AD-12): every request must carry a loopback ``Host`` header (blocks DNS
+rebinding); POST also needs a same-origin ``Origin`` and the ``X-CAO-Token`` header.
+The token is random per server start and is injected into the served page only.
+Limit: the token only blocks browser-driven CSRF / cross-origin requests. Any local process can
+``GET /`` with a loopback Host header and read it, so this is not protection against other local users.
 """
 from __future__ import annotations
 
+import hmac
 import json
+import secrets
 import subprocess
 import sys
 import threading
@@ -30,10 +41,13 @@ STATIC_FILES = {"/": ("index.html", "text/html; charset=utf-8"),
                 "/app.js": ("app.js", "text/javascript; charset=utf-8")}
 
 
+TOKEN = secrets.token_urlsafe(24)  # per server start; served to the page, required on POST
+
+
 class LiveManager:
     """At most one live run at a time, each in its own subprocess."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._lock = threading.Lock()
         self.proc: subprocess.Popen | None = None
         self.session: str | None = None
@@ -86,13 +100,22 @@ class Handler(BaseHTTPRequestHandler):
     def _json(self, obj, code: int = 200) -> None:
         self._send(json.dumps(obj, default=str).encode("utf-8"), "application/json", code)
 
+    def _origins(self) -> set[str]:
+        port = self.server.server_address[1]  # type: ignore[index]  # TCPServer address is a (host, port) tuple
+        return {f"127.0.0.1:{port}", f"localhost:{port}"}
+
+    def _host_ok(self) -> bool:
+        return self.headers.get("Host") in self._origins()
+
     def do_GET(self):  # noqa: N802
+        if not self._host_ok():
+            return self._json({"error": "forbidden host"}, HTTPStatus.FORBIDDEN)
         u = urlparse(self.path)
         q = {k: v[0] for k, v in parse_qs(u.query).items()}
         try:
             if u.path in STATIC_FILES:
                 name, ctype = STATIC_FILES[u.path]
-                return self._send((STATIC / name).read_bytes(), ctype)
+                return self._send((STATIC / name).read_bytes().replace(b"__CAO_TOKEN__", TOKEN.encode()), ctype)
             if u.path == "/api/system":
                 return self._json({**data.system_snapshot(), "live": LIVE.state()})
             if u.path == "/api/sessions":
@@ -108,6 +131,12 @@ class Handler(BaseHTTPRequestHandler):
                 return self._json(data.hardware_status())
             if u.path == "/api/live":
                 return self._json({"active": LIVE.state(), "runs": data.live_runs()})
+            if u.path == "/api/montage/runs":
+                return self._json(data.montage_runs())
+            if u.path == "/api/montage/run":
+                return self._json(data.montage_run(q.get("id", "")))
+            if u.path == "/api/gpu":
+                return self._json(data.gpu_spike())
             return self._json({"error": "not found"}, HTTPStatus.NOT_FOUND)
         except data.NotFound as exc:
             return self._json({"error": str(exc)}, HTTPStatus.NOT_FOUND)
@@ -115,6 +144,10 @@ class Handler(BaseHTTPRequestHandler):
             return self._json({"error": f"{type(exc).__name__}: {exc}"}, HTTPStatus.INTERNAL_SERVER_ERROR)
 
     def do_POST(self):  # noqa: N802
+        origin = (self.headers.get("Origin") or "").removeprefix("http://")
+        if not (self._host_ok() and origin in self._origins()
+                and hmac.compare_digest(self.headers.get("X-CAO-Token", "").encode("utf-8", "replace"), TOKEN.encode())):
+            return self._json({"error": "forbidden: bad Host/Origin or missing token"}, HTTPStatus.FORBIDDEN)
         u = urlparse(self.path)
         if u.path != "/api/live/start":
             return self._json({"error": "not found"}, HTTPStatus.NOT_FOUND)

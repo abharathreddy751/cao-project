@@ -67,7 +67,7 @@ def _test_affinity_support(topology: topo.TopologyResult) -> dict:
     return result
 
 
-def planned_worker_pool_config(topology: topo.TopologyResult) -> dict:
+def planned_worker_pool_config(topology: topo.TopologyResult, max_p_slots: int | None = 2) -> dict:
     """Map the project's initial worker configuration (2 P-core slots, 7
     E-core slots, 1 E-core reserved for coordinator/OS) onto the *actually
     discovered* logical processors -- never assumed indices.
@@ -92,7 +92,7 @@ def planned_worker_pool_config(topology: topo.TopologyResult) -> dict:
 
     return {
         "available": True,
-        "p_core_worker_slots": p_core_physical[:2],
+        "p_core_worker_slots": p_core_physical[:max_p_slots],
         "e_core_worker_slots": remaining_e_cores,
         "coordinator_reserved_core": coordinator_core,
         "note": (

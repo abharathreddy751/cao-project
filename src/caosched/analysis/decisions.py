@@ -54,7 +54,7 @@ the prediction margin (second-best minus best predicted finish) is taken.
 """
 from __future__ import annotations
 
-from caosched.estimators.base import TaskSpec
+from caosched.dataset.events import logged_task
 
 
 def decision_rows(events: list[dict], oracle, oracle_e2e=None) -> list[dict]:
@@ -86,7 +86,7 @@ def decision_rows(events: list[dict], oracle, oracle_e2e=None) -> list[dict]:
         r = ready.get(x)
         t_r, seq_r = (r["t"], r["seq"]) if r is not None else (t_b, d["seq"])
         spec = specs[x]
-        task = TaskSpec(x, spec["workload"], int(spec["size"]), int(spec["seed"]))
+        task = logged_task(x, spec, completed.get(x))
         free_r, free_b = free_at(t_r, seq_r), free_at(t_b, d["seq"])
         exec_h: dict[str, float] = {}
         for p in set(pools.values()):
@@ -98,19 +98,19 @@ def decision_rows(events: list[dict], oracle, oracle_e2e=None) -> list[dict]:
         F = {w: (max(t_b, free_b[w]) - t_b) + exec_h[pools[w]] for w in pools if pools[w] in exec_h}
         row = {
             "run_id": start["run_id"], "policy": start["scheduler"], "task_id": x,
-            "workload": task.workload, "size": task.size, "chosen_worker": chosen, "chosen_pool": d["pool"],
+            "workload": task.est_workload, "size": task.est_size, "chosen_worker": chosen, "chosen_pool": d["pool"],
             "actual_kernel_s": completed[x]["wall_time_seconds"] if x in completed else None,
             "bind_delay_s": t_b - t_r, "n_candidates": len(F), "n_workers": len(pools),
         }
         dec = d.get("decision")
         if dec:
             cand = dec["candidates"]
-            fin = sorted(v["finish"] for v in cand.values())
-            ch = cand[chosen]
-            row.update(pred_exec=ch["exec"], pred_wait=ch["wait"], pred_finish=ch["finish"],
+            fin = sorted(v["finish"] for v in cand.values() if "finish" in v)  # plan/campaign decisions carry no costs
+            ch = cand.get(chosen, {})
+            row.update(pred_exec=ch.get("exec"), pred_wait=ch.get("wait"), pred_finish=ch.get("finish"),
                        pred_margin=(fin[1] - fin[0]) if len(fin) > 1 else None)
         if F and chosen in F:
-            best = min(F, key=F.get)
+            best = min(F, key=F.__getitem__)
             row.update(hind_best_worker=best, hind_best_pool=pools[best], hind_best_finish=F[best],
                        hind_chosen_finish=F[chosen], regret_s=F[chosen] - F[best],
                        regret_rel=(F[chosen] - F[best]) / F[best], optimal=F[chosen] <= F[best] + 1e-12)
@@ -125,7 +125,7 @@ def decision_rows(events: list[dict], oracle, oracle_e2e=None) -> list[dict]:
                     pass
             Fe = {w: (max(t_b, free_b[w]) - t_b) + span_h[pools[w]] for w in pools if pools[w] in span_h}
             if Fe and chosen in Fe:
-                be = min(Fe, key=Fe.get)
+                be = min(Fe, key=Fe.__getitem__)
                 row.update(regret_e2e_s=Fe[chosen] - Fe[be], optimal_e2e=Fe[chosen] <= Fe[be] + 1e-12)
         rows.append(row)
     return rows

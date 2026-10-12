@@ -40,7 +40,7 @@ def summarize_k1(df: pd.DataFrame) -> list[dict]:
         rel_diff = abs(p_mean - e_mean) / max(p_mean, e_mean)
         out.append({
             "workload": workload,
-            "size": int(size),
+            "size": int(size),  # type: ignore[call-overload]  # pandas groupby keys are typed Hashable
             "p_mean_seconds": p_mean,
             "p_stdev_seconds": float(p.std()) if len(p) > 1 else 0.0,
             "p_n": int(len(p)),
@@ -67,9 +67,9 @@ def summarize_k2(df: pd.DataFrame) -> list[dict]:
         rel_diff = abs(max_loaded - baseline) / max(baseline, max_loaded)
         out.append({
             "workload": workload,
-            "size": int(size),
+            "size": int(size),  # type: ignore[call-overload]  # pandas groupby keys are typed Hashable
             "by_num_load_procs": {
-                str(int(idx)): {
+                str(int(idx)): {  # type: ignore[call-overload]  # pandas groupby keys are typed Hashable
                     "mean_seconds": float(row["mean"]),
                     "stdev_seconds": float(row["std"]) if pd.notna(row["std"]) else 0.0,
                     "n": int(row["count"]),
@@ -95,7 +95,7 @@ def summarize_k5(df: pd.DataFrame) -> list[dict]:
         rel_diff = abs(busy_mean - alone_mean) / max(alone_mean, busy_mean)
         out.append({
             "workload": workload,
-            "size": int(size),
+            "size": int(size),  # type: ignore[call-overload]  # pandas groupby keys are typed Hashable
             "alone_mean_seconds": alone_mean,
             "sibling_busy_mean_seconds": busy_mean,
             "relative_difference": rel_diff,

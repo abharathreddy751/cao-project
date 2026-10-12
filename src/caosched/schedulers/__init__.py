@@ -12,6 +12,9 @@ from pathlib import Path
 from caosched.core.scheduler_base import SchedulerPolicy
 from caosched.estimators import MovingHistoryEstimator, ReplayOracleEstimator, StaticProfileEstimator, build_estimator
 from caosched.schedulers.eft import EarliestFinishTimeScheduler
+from caosched.schedulers.heft import HeftScheduler
+from caosched.schedulers.peft import PeftScheduler
+from caosched.schedulers.rank_eft import RankEftScheduler
 from caosched.schedulers.simple import (
     CriticalityScheduler,
     GreedyEligibleScheduler,
@@ -36,12 +39,12 @@ def eft_policy_name(estimator_spec: str) -> str:
 def eft_factories(specs: list[str], profile_path: Path, est_cfg: dict | None = None,
                   model_path: Path | None = None, e2e_terms=None,
                   transfer=None, allowed_pools: list[str] | None = None,
-                  name_suffix: str = "") -> dict[str, Callable[[], SchedulerPolicy]]:
+                  name_suffix: str = "", scheduler_cls: Callable[..., SchedulerPolicy] = EarliestFinishTimeScheduler) -> dict[str, Callable[[], SchedulerPolicy]]:
     """EFT with any online estimator spec ('E0'..'E4', 'E4f', optional '+rc',
     optional '@e2e' = end-to-end ablation, which requires ``e2e_terms``);
     a fresh estimator per call (no state crosses runs). ``transfer`` (Phase 5)
     is shared by all returned policies."""
-    out = {}
+    out: dict[str, Callable[[], SchedulerPolicy]] = {}
     for spec in specs:
         est_spec, _, model = spec.partition("@")
         if model not in ("", "e2e"):
@@ -50,10 +53,26 @@ def eft_factories(specs: list[str], profile_path: Path, est_cfg: dict | None = N
             raise ValueError(f"{spec!r} needs measured e2e terms")
         build_estimator(est_spec, profile_path, est_cfg, model_path)  # fail fast on a bad spec
         name = eft_policy_name(spec) + name_suffix
-        out[name] = (lambda s=est_spec, n=name, m=model: EarliestFinishTimeScheduler(
-            build_estimator(s, profile_path, est_cfg, model_path), n,
-            e2e=e2e_terms if m == "e2e" else None, transfer=transfer, allowed_pools=allowed_pools))
+
+        def make(s=est_spec, n=name, m=model) -> SchedulerPolicy:  # defaults bind this iteration's values
+            return scheduler_cls(build_estimator(s, profile_path, est_cfg, model_path), n,
+                                 e2e=e2e_terms if m == "e2e" else None, transfer=transfer,
+                                 allowed_pools=allowed_pools)
+        out[name] = make
     return out
+
+
+def rank_eft_factories(specs: list[str], profile_path: Path, **kw) -> dict[str, Callable[[], SchedulerPolicy]]:
+    """The proposed instrument: EFT with upward-rank ready order ('EFT_E1_rc_rank');
+    arguments as ``eft_factories`` (transfer model, recalibration via '+rc', ...)."""
+    return eft_factories(specs, profile_path, name_suffix="_rank", scheduler_cls=RankEftScheduler, **kw)
+
+
+def plan_factories(profile_path: Path, est_cfg: dict | None = None, comm=None) -> dict[str, Callable[[], SchedulerPolicy]]:
+    """HEFT / PEFT static plan baselines on the E1 profile cost matrix. ``comm(parent, child)``: edge transfer seconds."""
+    build_estimator("E1", profile_path, est_cfg)  # fail fast on a bad profile
+    return {"HEFT_E1": lambda: HeftScheduler(build_estimator("E1", profile_path, est_cfg), "HEFT_E1", comm),
+            "PEFT_E1": lambda: PeftScheduler(build_estimator("E1", profile_path, est_cfg), "PEFT_E1", comm)}
 
 
 def oracle_factory(rows: list[dict]) -> Callable[[], SchedulerPolicy]:

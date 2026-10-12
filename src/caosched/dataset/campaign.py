@@ -15,7 +15,8 @@ from __future__ import annotations
 
 import random
 
-from caosched.core.scheduler_base import SchedulerPolicy
+from caosched.core.scheduler_base import SchedulerPolicy, eligible_workers
+from caosched.estimators.base import EstimateContext
 
 
 class RandomOccupancyPolicy(SchedulerPolicy):
@@ -37,10 +38,21 @@ class RandomOccupancyPolicy(SchedulerPolicy):
         unknown = set(self.allowed) - set(state.worker_ids())
         if unknown:
             raise ValueError(f"unknown workers {sorted(unknown)}")
+        for t in dag.tasks.values():  # fail now, not as a mid-run deadlock
+            if not set(eligible_workers(t, state)) & set(self.allowed):
+                raise ValueError(f"task {t.task_id!r} (eligible_pools={t.eligible_pools}) cannot be placed on any "
+                                 f"allowed worker {self.allowed}")
 
     def select_worker(self, task, state) -> str | None:
-        idle = [w for w in self.allowed if state.is_idle(w) and self._remaining_idle(state, w) == 0.0]
-        return self.rng.choice(idle) if idle else None
+        ok = set(eligible_workers(task, state, idle_only=True))  # per-task eligibility (AD-5)
+        idle = [w for w in self.allowed if w in ok and self._remaining_idle(state, w) == 0.0]
+        if not idle:
+            return None
+        pick = self.rng.choice(idle)
+        # decision-time context (AD-7): the features the dataset builder uses, never start-time reconstruction
+        self.last_decision = {"policy": self.name, "chosen": pick, "ctx_version": 2,
+                              "candidates": {pick: {"ctx": EstimateContext.from_state(state, pick).to_dict()}}}
+        return pick
 
     def retry_after(self, state) -> float | None:
         waits = [self._remaining_idle(state, w) for w in self.allowed if state.is_idle(w)]

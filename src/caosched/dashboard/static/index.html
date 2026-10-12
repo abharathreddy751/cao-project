@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CAO Scheduler Demo</title>
+<meta name="cao-token" content="__CAO_TOKEN__">
 <link rel="stylesheet" href="/app.css">
 </head>
 <body>
@@ -22,6 +23,7 @@
     <button role="tab" aria-selected="false" data-tab="workflow">2 &middot; Application workflow</button>
     <button role="tab" aria-selected="false" data-tab="compare">3 &middot; Scheduling comparison</button>
     <button role="tab" aria-selected="false" data-tab="hardware">4 &middot; Hardware expansion</button>
+    <button role="tab" aria-selected="false" data-tab="montage">5 &middot; Montage &amp; GPU</button>
   </nav>
 </header>
 
@@ -142,6 +144,21 @@
       <div class="card"><h2>Why physical hardware is needed</h2><div id="hw-why"></div></div>
       <div class="card"><h2>Implementation status</h2><p class="sub" id="hw-src"></p><div class="table-wrap" id="hw-table"></div></div>
     </div>
+  </section>
+
+  <!-- 5. MONTAGE & GPU WORKLOADS (read-only: event logs + run manifests + gpu_spike.json) -->
+  <section class="screen" id="screen-montage" role="tabpanel">
+    <div class="card">
+      <div class="controls">
+        <label>Workload <select id="mg-kind"><option value="montage">Montage (external commands)</option><option value="gpu">GPU workload</option></select></label>
+        <label>Run <select id="mg-a"></select></label>
+        <label>Compare with <select id="mg-b"><option value="">none</option></select></label>
+        <span id="mg-msg" class="sub" style="margin:0"></span>
+      </div>
+      <p class="sub">Read-only: runs are found through their <code>run_manifest.json</code> (<code>data/experiments</code>, <code>data/results</code>, <code>--events-dir</code>) and drawn from their event logs. Nothing is executed here. Compare two runs of the same instance to see policies side by side.</p>
+    </div>
+    <div class="grid g2" id="mg-runs" style="margin-top:16px"></div>
+    <div class="card" id="mg-gpu" style="margin-top:16px" hidden></div>
   </section>
 </main>
 <footer class="foot" id="foot"></footer>

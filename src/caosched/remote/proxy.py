@@ -19,16 +19,18 @@ machine (documented limitation for a physical device).
 """
 from __future__ import annotations
 
+import secrets
 import socket
 
 from caosched.core.task import TaskResult
 from caosched.remote.link import LinkConfig, payload_bytes, precise_wait
-from caosched.remote.protocol import recv_frame, send_frame
+from caosched.remote.protocol import auth_digest, digest_ok, recv_frame, resolve_token, send_frame
 from caosched.util import clock
 
 
 def proxy_loop(worker_id: str, host: str, port: int, link: LinkConfig, affinity: list[int],
-               input_queue, output_queue, connect_timeout: float = 60.0, same_clock: bool = True) -> None:
+               input_queue, output_queue, connect_timeout: float = 60.0, same_clock: bool = True,
+               token: str | None = None) -> None:
     """``same_clock`` False (a physical device): the node's timestamps are not
     in our timebase, so t_started / t_completed are reconstructed on the proxy
     side: t_completed = reply received, t_started = t_completed - node span
@@ -46,8 +48,18 @@ def proxy_loop(worker_id: str, host: str, port: int, link: LinkConfig, affinity:
     sock = socket.create_connection((host, port), timeout=connect_timeout)
     sock.settimeout(None)
     sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-    send_frame(sock, {"op": "hello"})
+    challenge, _ = recv_frame(sock)  # token: arg or $CAO_REMOTE_TOKEN (spawned proxies inherit the env)
+    token = resolve_token(token)
+    if challenge["auth"] and not token:
+        raise PermissionError("remote node requires a token (set CAO_REMOTE_TOKEN)")
+    my_nonce = secrets.token_hex(16)  # mutual auth: the node must answer HMAC(token, my_nonce) too
+    send_frame(sock, {"op": "hello", "auth": auth_digest(token, challenge["nonce"]) if token else None,
+                      "nonce": my_nonce})
     hello, _ = recv_frame(sock)
+    if "error" in hello:
+        raise PermissionError(f"remote node refused the connection: {hello['error']}")
+    if token and not digest_ok(token, my_nonce, hello.get("node_auth")):
+        raise PermissionError("remote node failed to prove it knows the token (no/invalid node_auth)")
     output_queue.put(("ready", WorkerReady(
         worker_id, hello["pid"], tuple(hello["requested_affinity"]), tuple(hello["actual_affinity"]),
         hello["affinity_error"], hello["warmup_seconds"], None, hello.get("capabilities"))))

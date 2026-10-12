@@ -18,8 +18,9 @@ from caosched.estimators.learned import (
 from caosched.estimators.oracle import ReplayOracleEstimator
 from caosched.estimators.profile import StaticProfileEstimator, latest_profile_path
 from caosched.estimators.recalibrated import RecalibratedEstimator
+from caosched.estimators.tabular import CatBoostEstimator, MlpEstimator, load_tabular
 
-ONLINE_ESTIMATORS = ("E0", "E1", "E2", "E3", "E4")  # E5 is offline/replay only
+ONLINE_ESTIMATORS = ("E0", "E1", "E2", "E3", "E4", "CatBoost", "MLP")  # E5 is offline/replay only
 
 
 def build_estimator(name: str, profile_path: Path, cfg: dict | None = None,
@@ -53,12 +54,17 @@ def build_estimator(name: str, profile_path: Path, cfg: dict | None = None,
     if name == "E4":
         return InterferenceRidgeEstimator.load(model_path or latest_model_path())  # its own recorded profile
     if name == "E4f":  # same model as E4, cheaper inference (implementation ablation)
-        return InterferenceRidgeFastEstimator.from_model(build_estimator("E4", profile_path, cfg, model_path))
+        return InterferenceRidgeFastEstimator.from_model(
+            InterferenceRidgeEstimator.load(model_path or latest_model_path()))
+    if name in ("CatBoost", "MLP"):  # Stage 3 correction models: bound to their own recorded profile, like E4
+        if model_path is None:
+            raise ValueError(f"{name} needs model_path (a file written by scripts/evaluate_models.py or .save())")
+        return load_tabular(model_path)
     raise ValueError(f"Unknown or offline-only estimator {name!r} (E5 needs logged runs: ReplayOracleEstimator)")
 
 
 __all__ = [
-    "AnalyticSizeEstimator", "BaseProfileMismatchError", "ConstantProfileEstimator", "EndToEndTerms", "EstimateContext", "ExecutionTimeEstimator",
+    "AnalyticSizeEstimator", "BaseProfileMismatchError", "CatBoostEstimator", "MlpEstimator", "load_tabular", "ConstantProfileEstimator", "EndToEndTerms", "EstimateContext", "ExecutionTimeEstimator",
     "InterferenceRidgeFastEstimator",
     "InterferenceRidgeEstimator", "MovingHistoryEstimator", "ONLINE_ESTIMATORS", "RecalibratedEstimator",
     "ReplayOracleEstimator",

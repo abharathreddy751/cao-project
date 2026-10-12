@@ -160,7 +160,7 @@ def main() -> None:
                     runs.append(row)
             print(f"  stage A repeat {rep + 1}/{repeats} done")
         if cfg["policies"]["oracle"]:
-            make_o = oracle_factory(rows_from_dir(events_dir))
+            make_o = oracle_factory(rows_from_dir(events_dir, context_source="auto"))
             for rep in range(repeats):
                 for trace in traces:
                     row = run_one(pool, trace, make_o(), rep, 0, "B", exp_id, events_dir, exp["run_timeout_s"])
@@ -184,7 +184,7 @@ def analyze(exp_id: str) -> None:
             runs.append(r)
     tag = datetime.datetime.now().strftime("%Y%m%dT%H%M%S")
     logs = {p: read_events(p) for p in sorted(events_dir.glob("*.jsonl"))}
-    all_rows = [r for ev in logs.values() for r in rows_from_events(ev)]
+    all_rows = [r for ev in logs.values() for r in rows_from_events(ev, context_source="auto")]
     oracle = ReplayOracleEstimator.from_rows(all_rows)
     decisions = []
     dec_path = RESULTS / f"{exp_id}_decisions_{tag}.csv"

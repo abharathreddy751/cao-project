@@ -25,7 +25,7 @@ class MovingHistoryEstimator(ExecutionTimeEstimator):
         self._hist: dict[tuple, collections.deque] = {}
 
     def estimate(self, task, pool: str, ctx: EstimateContext | None = None) -> float:
-        h = self._hist.get(estimate_key(task.workload, task.size, pool))
+        h = self._hist.get(estimate_key(task.est_workload, task.est_size, pool))
         if h:
             return sum(h) / len(h)
         return self.prior.estimate(task, pool, ctx)
@@ -33,11 +33,11 @@ class MovingHistoryEstimator(ExecutionTimeEstimator):
     def observe(self, task, pool: str, kernel_seconds: float, ctx: EstimateContext | None = None) -> None:
         if kernel_seconds is None or kernel_seconds <= 0:
             return
-        key = estimate_key(task.workload, task.size, pool)
+        key = estimate_key(task.est_workload, task.est_size, pool)
         self._hist.setdefault(key, collections.deque(maxlen=self.window)).append(kernel_seconds)
 
     def n_observations(self, task, pool: str) -> int:
-        return len(self._hist.get(estimate_key(task.workload, task.size, pool), ()))
+        return len(self._hist.get(estimate_key(task.est_workload, task.est_size, pool), ()))
 
     def reset(self) -> None:
         self._hist.clear()

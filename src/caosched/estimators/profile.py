@@ -17,10 +17,15 @@ from caosched.estimators.base import EstimateContext, ExecutionTimeEstimator, es
 PROFILE_DIR = Path(__file__).resolve().parents[3] / "data" / "profiles"
 
 
-def latest_profile_path(directory: Path = PROFILE_DIR) -> Path:
+def latest_profile_path(directory: Path = PROFILE_DIR, before: str | None = None) -> Path:
+    """Newest profile; with ``before`` (a ``YYYYmmddTHHMMSS`` session stamp) only
+    profiles measured at or before it -- calibration must predate the session (AD-7)."""
     candidates = sorted(Path(directory).glob("*_profile.json"))
+    if before is not None:
+        candidates = [c for c in candidates if c.name.split("_")[0] <= before]
     if not candidates:
-        raise FileNotFoundError(f"No *_profile.json in {directory}; run scripts/profile_static.py first")
+        raise FileNotFoundError(f"No *_profile.json in {directory}" +
+                                (f" at or before {before}" if before else "; run scripts/profile_static.py first"))
     return candidates[-1]
 
 
@@ -44,7 +49,7 @@ class StaticProfileEstimator(ExecutionTimeEstimator):
         return cls(table, source=str(path))
 
     def estimate(self, task, pool: str, ctx: EstimateContext | None = None) -> float:
-        return self.lookup(task.workload, task.size, pool)
+        return self.lookup(task.est_workload, task.est_size, pool)
 
     def lookup(self, workload: str, size: int, pool: str) -> float:
         key = estimate_key(workload, size, pool)

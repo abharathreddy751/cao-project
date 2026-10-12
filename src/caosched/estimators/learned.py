@@ -83,6 +83,30 @@ def _file_name(path: str) -> str:
     return PureWindowsPath(path).name if "\\" in path else Path(path).name
 
 
+def resolve_base_profile(path, recorded, base: StaticProfileEstimator | None) -> StaticProfileEstimator:
+    """Base-profile binding rules of the module docstring, shared by every learned
+    correction model (E4, CatBoost, MLP): returns the profile the model may be used with."""
+    if not isinstance(recorded, str) or not recorded.strip():
+        raise ValueError(f"{path}: no usable base_profile recorded ({recorded!r}); the weights cannot be "
+                         f"tied to a profile, so the model is refused (retrain it)")
+    recorded_est = StaticProfileEstimator.from_file(Path(recorded)) if Path(recorded).is_file() else None
+    if base is None:
+        if recorded_est is None:
+            raise FileNotFoundError(f"{path}: recorded base_profile {recorded!r} not found; if the project "
+                                    f"was moved, pass that same profile file explicitly as base")
+        return recorded_est
+    if recorded_est is not None:
+        if base.table != recorded_est.table:
+            raise BaseProfileMismatchError(
+                f"{path}: model was fitted against {recorded!r} but base {base.source!r} has different "
+                f"measurements; its weights are only valid on the recorded profile")
+    elif not base.source or _file_name(base.source) != _file_name(recorded):
+        raise BaseProfileMismatchError(
+            f"{path}: recorded base_profile {recorded!r} is unavailable and base {base.source!r} is not "
+            f"the same profile file (name {_file_name(recorded)!r} expected)")
+    return base
+
+
 def feature_vector(ctx: EstimateContext | None, features=FEATURES, impute: dict | None = None) -> np.ndarray:
     ctx = ctx or EstimateContext()
     c = ctx.corun
@@ -119,7 +143,8 @@ class InterferenceRidgeEstimator(ExecutionTimeEstimator):
         groups: dict[tuple[str, str], list[dict]] = {}
         for r in rows:
             groups.setdefault((r["workload"], r["pool"]), []).append(r)
-        weights, group_info = {}, {}
+        weights: dict = {}
+        group_info: dict[str, dict] = {}
         penalty = np.eye(len(features)) * ridge_lambda
         penalty[0, 0] = 0.0
         for key, rs in sorted(groups.items()):
@@ -141,8 +166,8 @@ class InterferenceRidgeEstimator(ExecutionTimeEstimator):
     # --- inference -----------------------------------------------------
 
     def estimate(self, task, pool: str, ctx: EstimateContext | None = None) -> float:
-        base = self.base.lookup(task.workload, task.size, pool)
-        w = self.weights.get((task.workload, pool))
+        base = self.base.lookup(task.est_workload, task.est_size, pool)
+        w = self.weights.get((task.est_workload, pool))
         if w is None:
             return base
         corr = float(np.clip(w @ feature_vector(ctx, self.features, self.impute),
@@ -170,24 +195,7 @@ class InterferenceRidgeEstimator(ExecutionTimeEstimator):
         if not d.get("features") or not set(d["features"]) <= set(FEATURES):
             raise ValueError(f"{path}: feature list does not match this code version")
         recorded = d.get("base_profile")
-        if not isinstance(recorded, str) or not recorded.strip():
-            raise ValueError(f"{path}: no usable base_profile recorded ({recorded!r}); the weights cannot be "
-                             f"tied to a profile, so the model is refused (retrain with scripts/train_e4.py)")
-        recorded_est = StaticProfileEstimator.from_file(recorded) if Path(recorded).is_file() else None
-        if base is None:
-            if recorded_est is None:
-                raise FileNotFoundError(f"{path}: recorded base_profile {recorded!r} not found; if the project "
-                                        f"was moved, pass that same profile file explicitly as base")
-            base = recorded_est
-        elif recorded_est is not None:
-            if base.table != recorded_est.table:
-                raise BaseProfileMismatchError(
-                    f"{path}: E4 was fitted against {recorded!r} but base {base.source!r} has different "
-                    f"measurements; its weights are only valid on the recorded profile")
-        elif not base.source or _file_name(base.source) != _file_name(recorded):
-            raise BaseProfileMismatchError(
-                f"{path}: recorded base_profile {recorded!r} is unavailable and base {base.source!r} is not "
-                f"the same profile file (name {_file_name(recorded)!r} expected)")
+        base = resolve_base_profile(path, recorded, base)
         weights = {tuple(k.split("|")): np.array(v) for k, v in d["weights"].items()}
         meta = {**d["meta"], "model_path": str(path), "base_profile_recorded": recorded}
         return cls(base, weights, meta, d["features"])
@@ -230,8 +238,8 @@ class InterferenceRidgeFastEstimator(InterferenceRidgeEstimator):
         return cls(model.base, model.weights, {**model.meta}, model.features)
 
     def estimate(self, task, pool: str, ctx: EstimateContext | None = None) -> float:
-        base = self.base.lookup(task.workload, task.size, pool)
-        w = self._fast.get((task.workload, pool))
+        base = self.base.lookup(task.est_workload, task.est_size, pool)
+        w = self._fast.get((task.est_workload, pool))
         if w is None:
             return base
         idx = self._idx

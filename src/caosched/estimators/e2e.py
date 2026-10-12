@@ -45,7 +45,7 @@ class EndToEndTerms:
         return self.overhead_s[pool]
 
     def extra(self, task, pool: str) -> float:
-        return self.setup(task.workload, task.size, pool) + self.overhead(pool)
+        return self.setup(task.est_workload, task.est_size, pool) + self.overhead(pool)
 
     def to_dict(self) -> dict:
         return {"schema_version": 1,

@@ -1,0 +1,657 @@
+order,task_id,transformation,pool,logical_processor,rep,input_bytes,output_bytes,wall_s,exit,ok,free_ram_gb,tail
+0,ID0000058,mAdd,P,0,0,957530186,250911360,0.9333812999975635,0,True,6.409393310546875,
+1,ID0000058,mAdd,P,0,1,957530186,250911360,0.900786899997911,0,True,6.4145965576171875,
+2,ID0000058,mAdd,E,13,0,957530186,250911360,2.785858900002495,0,True,6.376228332519531,
+3,ID0000058,mAdd,E,13,1,957530186,250911360,2.464056899996649,0,True,6.376705169677734,
+4,ID0000048,mBackground,P,0,0,106349231,106346880,0.315184599996428,0,True,6.386844635009766,
+5,ID0000048,mBackground,P,0,1,106349231,106346880,0.30180359999940265,0,True,6.377044677734375,
+6,ID0000048,mBackground,E,13,0,106349231,106346880,0.8739120000027469,0,True,6.376029968261719,
+7,ID0000048,mBackground,E,13,1,106349231,106346880,0.8192798000018229,0,True,6.3802490234375,
+8,ID0000051,mBackground,P,0,0,106349231,106346880,0.32967869999993127,0,True,6.387180328369141,
+9,ID0000051,mBackground,P,0,1,106349231,106346880,0.31131810000078985,0,True,6.379840850830078,
+10,ID0000051,mBackground,E,13,0,106349231,106346880,0.8178494999956456,0,True,6.376243591308594,
+11,ID0000051,mBackground,E,13,1,106349231,106346880,0.8271106000029249,0,True,6.372516632080078,
+12,ID0000054,mBackground,P,0,0,106349231,106346880,0.35866920000262326,0,True,6.336902618408203,
+13,ID0000054,mBackground,P,0,1,106349231,106346880,0.3540713999973377,0,True,6.337100982666016,
+14,ID0000054,mBackground,E,13,0,106349231,106346880,0.8842820999998366,0,True,6.341556549072266,
+15,ID0000054,mBackground,E,13,1,106349231,106346880,0.826647599998978,0,True,6.360179901123047,
+16,ID0000049,mBackground,P,0,0,106389551,106387200,0.2985179999959655,0,True,6.362892150878906,
+17,ID0000049,mBackground,P,0,1,106389551,106387200,0.2936606000002939,0,True,6.372692108154297,
+18,ID0000049,mBackground,E,13,0,106389551,106387200,0.8486559999946621,0,True,6.377452850341797,
+19,ID0000049,mBackground,E,13,1,106389551,106387200,0.8386821999956737,0,True,6.3890533447265625,
+20,ID0000055,mBackground,P,0,0,106389551,106387200,0.2981876999983797,0,True,6.395912170410156,
+21,ID0000055,mBackground,P,0,1,106389551,106387200,0.2944590999977663,0,True,6.402976989746094,
+22,ID0000055,mBackground,E,13,0,106389551,106387200,0.8533525000020745,0,True,6.400638580322266,
+23,ID0000055,mBackground,E,13,1,106389551,106387200,0.8481041000050027,0,True,6.403709411621094,
+24,ID0000050,mBackground,P,0,0,106429871,106427520,0.3530998999995063,0,True,6.399238586425781,
+25,ID0000050,mBackground,P,0,1,106429871,106427520,0.30770789999951376,0,True,6.350624084472656,
+26,ID0000050,mBackground,E,13,0,106429871,106427520,0.848910499997146,0,True,6.352630615234375,
+27,ID0000050,mBackground,E,13,1,106429871,106427520,0.8598982000039541,0,True,6.348239898681641,
+28,ID0000052,mBackground,P,0,0,106429871,106427520,0.35090739999577636,0,True,6.3227691650390625,
+29,ID0000052,mBackground,P,0,1,106429871,106427520,0.3171968000024208,0,True,6.316417694091797,
+30,ID0000052,mBackground,E,13,0,106429871,106427520,0.8332388999988325,0,True,6.353725433349609,
+31,ID0000052,mBackground,E,13,1,106429871,106427520,0.8550694000005024,0,True,6.6672210693359375,
+32,ID0000053,mBackground,P,0,0,106429871,106427520,0.40726919999724487,0,True,6.688098907470703,
+33,ID0000053,mBackground,P,0,1,106429871,106427520,0.36383809999824734,0,True,6.687358856201172,
+34,ID0000053,mBackground,E,13,0,106429871,106427520,1.1783383000001777,0,True,6.683830261230469,
+35,ID0000053,mBackground,E,13,1,106429871,106427520,0.8398815000036848,0,True,6.652896881103516,
+36,ID0000056,mBackground,P,0,0,106429871,106427520,0.3454723999966518,0,True,6.559440612792969,
+37,ID0000056,mBackground,P,0,1,106429871,106427520,0.29300830000283895,0,True,6.538883209228516,
+38,ID0000056,mBackground,E,13,0,106429871,106427520,0.8243919000015012,0,True,6.559368133544922,
+39,ID0000056,mBackground,E,13,1,106429871,106427520,0.8186980999962543,0,True,6.565853118896484,
+40,ID0000047,mBgModel,P,0,0,8503,617,0.35263109999505104,0,True,6.563774108886719,
+41,ID0000047,mBgModel,P,0,1,8503,617,0.360044499997457,0,True,6.567314147949219,
+42,ID0000047,mBgModel,E,13,0,8503,617,1.2976127000001725,0,True,6.568714141845703,
+43,ID0000047,mBgModel,E,13,1,8503,617,1.2626450000025216,0,True,6.562145233154297,
+44,ID0000046,mConcatFit,P,0,0,11456,4390,0.19276299999910407,0,True,6.563243865966797,
+45,ID0000046,mConcatFit,P,0,1,11456,4390,0.1844494000033592,0,True,6.5434722900390625,
+46,ID0000046,mConcatFit,E,13,0,11456,4390,0.5597376999940025,0,True,6.546932220458984,
+47,ID0000046,mConcatFit,E,13,1,11456,4390,0.49222630000440404,0,True,6.520225524902344,
+48,ID0000012,mDiffFit,P,0,0,212694053,289,0.6337289999937639,0,True,6.531154632568359,
+49,ID0000012,mDiffFit,P,0,1,212694053,289,0.6296252000029199,0,True,6.536006927490234,
+50,ID0000012,mDiffFit,E,13,0,212694053,289,1.9067485999985365,0,True,6.5379486083984375,
+51,ID0000012,mDiffFit,E,13,1,212694053,289,1.9067101999971783,0,True,6.548042297363281,
+52,ID0000015,mDiffFit,P,0,0,212694053,51,0.04197849999764003,0,False,6.552249908447266,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001eb7fb800a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001eb7fa39d10]<br>"
+53,ID0000015,mDiffFit,P,0,1,212694053,51,0.042557300002954435,0,False,6.549037933349609,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001e96e8c00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001e96e6a9d10]<br>"
+54,ID0000015,mDiffFit,E,13,0,212694053,51,0.11197790000005625,0,False,6.549938201904297,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@0000024d14a600a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000024d14919d10]<br>"
+55,ID0000015,mDiffFit,E,13,1,212694053,51,0.09560349999810569,0,False,6.544525146484375,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001dcf6cb00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001dcf67e9d10]<br>"
+56,ID0000033,mDiffFit,P,0,0,212694053,297,0.5999776999960886,0,True,6.547374725341797,
+57,ID0000033,mDiffFit,P,0,1,212694053,297,0.6082542999938596,0,True,6.552848815917969,
+58,ID0000033,mDiffFit,E,13,0,212694053,297,1.882344000005105,0,True,6.554294586181641,
+59,ID0000033,mDiffFit,E,13,1,212694053,297,1.846834600000875,0,True,6.576774597167969,
+60,ID0000010,mDiffFit,P,0,0,212734373,293,0.5340512000038871,0,True,6.592216491699219,
+61,ID0000010,mDiffFit,P,0,1,212734373,293,0.5415571999983513,0,True,6.5933837890625,
+62,ID0000010,mDiffFit,E,13,0,212734373,293,1.5869526000024052,0,True,6.592826843261719,
+63,ID0000010,mDiffFit,E,13,1,212734373,293,1.5918988999983412,0,True,6.594005584716797,
+64,ID0000016,mDiffFit,P,0,0,212734373,51,0.04057920000195736,0,False,6.593994140625,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001c35fc800a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001c35fa69d10]<br>"
+65,ID0000016,mDiffFit,P,0,1,212734373,51,0.04495119999774033,0,False,6.593158721923828,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@00000223bd6d00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@00000223bd589d10]<br>"
+66,ID0000016,mDiffFit,E,13,0,212734373,51,0.0947193999963929,0,False,6.5918426513671875,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@0000019df61600a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000019df6019d10]<br>"
+67,ID0000016,mDiffFit,E,13,1,212734373,51,0.11804500000289408,0,False,6.5921173095703125,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000002024c0c00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000002024bf79d10]<br>"
+68,ID0000019,mDiffFit,P,0,0,212734373,285,0.22822230000019772,0,True,6.58056640625,
+69,ID0000019,mDiffFit,P,0,1,212734373,285,0.25303639999765437,0,True,6.5848846435546875,
+70,ID0000019,mDiffFit,E,13,0,212734373,285,0.6819888999962131,0,True,6.584285736083984,
+71,ID0000019,mDiffFit,E,13,1,212734373,285,0.6782332000002498,0,True,6.589630126953125,
+72,ID0000022,mDiffFit,P,0,0,212734373,51,0.047686400001111906,0,False,6.593269348144531,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@0000015d672d00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000015d67189d10]<br>"
+73,ID0000022,mDiffFit,P,0,1,212734373,51,0.06559150000248337,0,False,6.592010498046875,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@00000243ac6700a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@00000243ac459d10]<br>"
+74,ID0000022,mDiffFit,E,13,0,212734373,51,0.1065015999993193,0,False,6.5834808349609375,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@00000179930e00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000017992f99d10]<br>"
+75,ID0000022,mDiffFit,E,13,1,212734373,51,0.08074279999709688,0,False,6.588474273681641,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@0000012bb96500a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000012bb9609d10]<br>"
+76,ID0000034,mDiffFit,P,0,0,212734373,288,0.22538080000231275,0,True,6.586490631103516,
+77,ID0000034,mDiffFit,P,0,1,212734373,288,0.259702000003017,0,True,6.5881805419921875,
+78,ID0000034,mDiffFit,E,13,0,212734373,288,0.683800999999221,0,True,6.589046478271484,
+79,ID0000034,mDiffFit,E,13,1,212734373,288,0.6548002999988967,0,True,6.593357086181641,
+80,ID0000043,mDiffFit,P,0,0,212734373,291,0.36906399999861605,0,True,6.595829010009766,
+81,ID0000043,mDiffFit,P,0,1,212734373,291,0.3697182999967481,0,True,6.595176696777344,
+82,ID0000043,mDiffFit,E,13,0,212734373,291,1.1029874000014388,0,True,6.594367980957031,
+83,ID0000043,mDiffFit,E,13,1,212734373,291,1.108855600003153,0,True,6.594715118408203,
+84,ID0000011,mDiffFit,P,0,0,212774693,51,0.04063339999993332,0,False,6.5943756103515625,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000002d3393600a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000002d339149d10]<br>"
+85,ID0000011,mDiffFit,P,0,1,212774693,51,0.03868070000316948,0,False,6.596927642822266,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001e1008000a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001e1007b9d10]<br>"
+86,ID0000011,mDiffFit,E,13,0,212774693,51,0.08822939999663504,0,False,6.598194122314453,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000002e6bf5c00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000002e6bf479d10]<br>"
+87,ID0000011,mDiffFit,E,13,1,212774693,51,0.0821457999991253,0,False,6.597774505615234,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001fa8de100a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001fa8dcc9d10]<br>"
+88,ID0000013,mDiffFit,P,0,0,212774693,281,0.21930170000268845,0,True,6.598522186279297,
+89,ID0000013,mDiffFit,P,0,1,212774693,281,0.2213088999997126,0,True,6.598094940185547,
+90,ID0000013,mDiffFit,E,13,0,212774693,281,0.6347146999978577,0,True,6.599452972412109,
+91,ID0000013,mDiffFit,E,13,1,212774693,281,0.6531154999975115,0,True,6.611301422119141,
+92,ID0000014,mDiffFit,P,0,0,212774693,51,0.03861419999884674,0,False,6.610141754150391,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000002c2bdbe00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000002c2bda99d10]<br>"
+93,ID0000014,mDiffFit,P,0,1,212774693,51,0.04703950000111945,0,False,6.608913421630859,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000002662bdb00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000002662bc69d10]<br>"
+94,ID0000014,mDiffFit,E,13,0,212774693,51,0.09401870000147028,0,False,6.607959747314453,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001a074ec00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001a074d79d10]<br>"
+95,ID0000014,mDiffFit,E,13,1,212774693,51,0.08556459999817889,0,False,6.610382080078125,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@0000024e470400a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000024e46e29d10]<br>"
+96,ID0000017,mDiffFit,P,0,0,212774693,51,0.10715569999592844,0,False,6.611656188964844,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@0000015f872b00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000015f87269d10]<br>"
+97,ID0000017,mDiffFit,P,0,1,212774693,51,0.041693599996506236,0,False,6.617702484130859,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001c51e2400a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001c51e0f9d10]<br>"
+98,ID0000017,mDiffFit,E,13,0,212774693,51,0.09264200000325218,0,False,6.618946075439453,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001f544cd00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001f544c89d10]<br>"
+99,ID0000017,mDiffFit,E,13,1,212774693,51,0.08182200000010198,0,False,6.620548248291016,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001d2a81b00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001d2a8169d10]<br>"
+100,ID0000023,mDiffFit,P,0,0,212774693,51,0.03964319999795407,0,False,6.619167327880859,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001dcee8400a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001dcee629d10]<br>"
+101,ID0000023,mDiffFit,P,0,1,212774693,51,0.03813799999625189,0,False,6.620597839355469,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001eb428d00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001eb42789d10]<br>"
+102,ID0000023,mDiffFit,E,13,0,212774693,51,0.09368150000227615,0,False,6.620700836181641,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@0000020476d100a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000020476cc9d10]<br>"
+103,ID0000023,mDiffFit,E,13,1,212774693,51,0.08365090000006603,0,False,6.618995666503906,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000002b517d400a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000002b517b29d10]<br>"
+104,ID0000025,mDiffFit,P,0,0,212774693,51,0.047224599999026395,0,False,6.620220184326172,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@0000028fe9df00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000028fe9da9d10]<br>"
+105,ID0000025,mDiffFit,P,0,1,212774693,51,0.04332350000186125,0,False,6.619781494140625,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000002a057ad00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000002a057989d10]<br>"
+106,ID0000025,mDiffFit,E,13,0,212774693,51,0.08887559999857331,0,False,6.617668151855469,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@00000206b32e00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@00000206b3199d10]<br>"
+107,ID0000025,mDiffFit,E,13,1,212774693,51,0.08741549999831477,0,False,6.605461120605469,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@0000021b1dd000a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000021b1dae9d10]<br>"
+108,ID0000028,mDiffFit,P,0,0,212774693,51,0.06201320000400301,0,False,6.6063690185546875,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@0000014cb1ea00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000014cb1d59d10]<br>"
+109,ID0000028,mDiffFit,P,0,1,212774693,51,0.06581139999616425,0,False,6.604343414306641,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@0000025f979b00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000025f97799d10]<br>"
+110,ID0000028,mDiffFit,E,13,0,212774693,51,0.07714280000072904,0,False,6.611545562744141,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@00000231713d00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@00000231711b9d10]<br>"
+111,ID0000028,mDiffFit,E,13,1,212774693,51,0.09379160000389675,0,False,6.613307952880859,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@00000256467500a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000025646609d10]<br>"
+112,ID0000031,mDiffFit,P,0,0,212774693,290,0.5360049000009894,0,True,6.600837707519531,
+113,ID0000031,mDiffFit,P,0,1,212774693,290,0.5225807999959216,0,True,6.614315032958984,
+114,ID0000031,mDiffFit,E,13,0,212774693,290,1.723620500000834,0,True,6.612377166748047,
+115,ID0000031,mDiffFit,E,13,1,212774693,290,1.582493500005512,0,True,6.631839752197266,
+116,ID0000032,mDiffFit,P,0,0,212774693,51,0.053595199999108445,0,False,6.639553070068359,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@00000284f5a400a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@00000284f5829d10]<br>"
+117,ID0000032,mDiffFit,P,0,1,212774693,51,0.05687020000186749,0,False,6.635921478271484,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000002604a6e00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000002604a4c9d10]<br>"
+118,ID0000032,mDiffFit,E,13,0,212774693,51,0.09520470000279602,0,False,6.639244079589844,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@00000285031b00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000028503169d10]<br>"
+119,ID0000032,mDiffFit,E,13,1,212774693,51,0.08915490000072168,0,False,6.639507293701172,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@0000017dcd1f00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000017dcd0a9d10]<br>"
+120,ID0000035,mDiffFit,P,0,0,212774693,51,0.04903850000118837,0,False,6.639141082763672,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000002612b0a00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000002612af59d10]<br>"
+121,ID0000035,mDiffFit,P,0,1,212774693,51,0.037031400002888404,0,False,6.636894226074219,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001c3404c00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001c340479d10]<br>"
+122,ID0000035,mDiffFit,E,13,0,212774693,51,0.08963419999781763,0,False,6.638767242431641,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@00000263808500a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000026380709d10]<br>"
+123,ID0000035,mDiffFit,E,13,1,212774693,51,0.08493190000444883,0,False,6.64007568359375,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001bbfbb700a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001bbfba29d10]<br>"
+124,ID0000037,mDiffFit,P,0,0,212774693,285,0.21107330000086222,0,True,6.640079498291016,
+125,ID0000037,mDiffFit,P,0,1,212774693,285,0.21498389999760548,0,True,6.636573791503906,
+126,ID0000037,mDiffFit,E,13,0,212774693,285,0.6452438999986043,0,True,6.6378631591796875,
+127,ID0000037,mDiffFit,E,13,1,212774693,285,0.6542655999946874,0,True,6.640663146972656,
+128,ID0000040,mDiffFit,P,0,0,212774693,51,0.04210430000239285,0,False,6.6395416259765625,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@0000029131b700a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000029131a29d10]<br>"
+129,ID0000040,mDiffFit,P,0,1,212774693,51,0.043837500001245644,0,False,6.639305114746094,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@0000022f194f00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000022f192d9d10]<br>"
+130,ID0000040,mDiffFit,E,13,0,212774693,51,0.0953397000048426,0,False,6.640850067138672,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@00000228e46f00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@00000228e42a9d10]<br>"
+131,ID0000040,mDiffFit,E,13,1,212774693,51,0.0889348000055179,0,False,6.636711120605469,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@0000013e570000a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000013e56de9d10]<br>"
+132,ID0000044,mDiffFit,P,0,0,212774693,51,0.0441318000011961,0,False,6.639839172363281,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001cf8b2400a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001cf8b0f9d10]<br>"
+133,ID0000044,mDiffFit,P,0,1,212774693,51,0.0394598999992013,0,False,6.6385650634765625,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001fc792b00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001fc79169d10]<br>"
+134,ID0000044,mDiffFit,E,13,0,212774693,51,0.09890290000475943,0,False,6.64031982421875,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@0000017dc72800a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000017dc7069d10]<br>"
+135,ID0000044,mDiffFit,E,13,1,212774693,51,0.09847789999912493,0,False,6.640830993652344,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000002899fca00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000002899fc59d10]<br>"
+136,ID0000018,mDiffFit,P,0,0,212815013,297,0.515761200003908,0,True,6.640125274658203,
+137,ID0000018,mDiffFit,P,0,1,212815013,297,0.497210499997891,0,True,6.640663146972656,
+138,ID0000018,mDiffFit,E,13,0,212815013,297,1.538656799995806,0,True,6.641632080078125,
+139,ID0000018,mDiffFit,E,13,1,212815013,297,1.5906985999972676,0,True,6.655879974365234,
+140,ID0000020,mDiffFit,P,0,0,212815013,291,0.6168558000063058,0,True,6.656829833984375,
+141,ID0000020,mDiffFit,P,0,1,212815013,291,0.6167239999995218,0,True,6.6551971435546875,
+142,ID0000020,mDiffFit,E,13,0,212815013,291,1.910002299999178,0,True,6.6542205810546875,
+143,ID0000020,mDiffFit,E,13,1,212815013,291,1.9137258999980986,0,True,6.656276702880859,
+144,ID0000021,mDiffFit,P,0,0,212815013,286,0.24618319999717642,0,True,6.653835296630859,
+145,ID0000021,mDiffFit,P,0,1,212815013,286,0.2719035000045551,0,True,6.652488708496094,
+146,ID0000021,mDiffFit,E,13,0,212815013,286,0.660305999997945,0,True,6.654018402099609,
+147,ID0000021,mDiffFit,E,13,1,212815013,286,0.6553309000009904,0,True,6.653541564941406,
+148,ID0000024,mDiffFit,P,0,0,212815013,51,0.04163919999700738,0,False,6.656227111816406,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001f868ef00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001f868cd9d10]<br>"
+149,ID0000024,mDiffFit,P,0,1,212815013,51,0.0447481000010157,0,False,6.656490325927734,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@00000283361c00a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000028335d89d10]<br>"
+150,ID0000024,mDiffFit,E,13,0,212815013,51,0.10566989999642828,0,False,6.656543731689453,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@0000024893a200a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@00000248938d9d10]<br>"
+151,ID0000024,mDiffFit,E,13,1,212815013,51,0.08456499999738298,0,False,6.655120849609375,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@0000024347c300a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000024347a19d10]<br>"
+152,ID0000029,mDiffFit,P,0,0,212815013,51,0.04125919999933103,0,False,6.655712127685547,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@00000209eec500a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@00000209eeb09d10]<br>"
+153,ID0000029,mDiffFit,P,0,1,212815013,51,0.03809210000326857,0,False,6.653629302978516,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001d1abc600a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001d1abb19d10]<br>"
+154,ID0000029,mDiffFit,E,13,0,212815013,51,0.10014239999873098,0,False,6.6540985107421875,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@0000022659c700a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000022659b29d10]<br>"
+155,ID0000029,mDiffFit,E,13,1,212815013,51,0.08597739999822807,0,False,6.6568603515625,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@0000015ceb1300a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000015ceaf19d10]<br>"
+156,ID0000038,mDiffFit,P,0,0,212815013,295,0.5871584000051371,0,True,6.655891418457031,
+157,ID0000038,mDiffFit,P,0,1,212815013,295,0.5757282999984454,0,True,6.657024383544922,
+158,ID0000038,mDiffFit,E,13,0,212815013,295,1.7788086000000476,0,True,6.658107757568359,
+159,ID0000038,mDiffFit,E,13,1,212815013,295,1.7955079000021215,0,True,6.658267974853516,
+160,ID0000041,mDiffFit,P,0,0,212815013,287,0.2088129999974626,0,True,6.6634063720703125,
+161,ID0000041,mDiffFit,P,0,1,212815013,287,0.20958280000195373,0,True,6.6626739501953125,
+162,ID0000041,mDiffFit,E,13,0,212815013,287,0.6218331999989459,0,True,6.663139343261719,
+163,ID0000041,mDiffFit,E,13,1,212815013,287,0.6282656000039424,0,True,6.661613464355469,
+164,ID0000045,mDiffFit,P,0,0,212815013,295,0.34863169999880483,0,True,6.658153533935547,
+165,ID0000045,mDiffFit,P,0,1,212815013,295,0.36169750000408385,0,True,6.661197662353516,
+166,ID0000045,mDiffFit,E,13,0,212815013,295,1.095756299997447,0,True,6.660068511962891,
+167,ID0000045,mDiffFit,E,13,1,212815013,295,1.0641125999973156,0,True,6.6634674072265625,
+168,ID0000026,mDiffFit,P,0,0,212855333,286,0.22867519999999786,0,True,6.663021087646484,
+169,ID0000026,mDiffFit,P,0,1,212855333,286,0.21690639999724226,0,True,6.654369354248047,
+170,ID0000026,mDiffFit,E,13,0,212855333,286,0.6419571000005817,0,True,6.656028747558594,
+171,ID0000026,mDiffFit,E,13,1,212855333,286,0.6406860999995843,0,True,6.656330108642578,
+172,ID0000027,mDiffFit,P,0,0,212855333,291,0.43128960000467487,0,True,6.6518402099609375,
+173,ID0000027,mDiffFit,P,0,1,212855333,291,0.4145827000029385,0,True,6.651943206787109,
+174,ID0000027,mDiffFit,E,13,0,212855333,291,1.2676357999953325,0,True,6.653526306152344,
+175,ID0000027,mDiffFit,E,13,1,212855333,291,1.28109769999719,0,True,6.65625,
+176,ID0000030,mDiffFit,P,0,0,212855333,51,0.042063900000357535,0,False,6.656970977783203,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001e418f500a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001e418d39d10]<br>"
+177,ID0000030,mDiffFit,P,0,1,212855333,51,0.04817199999524746,0,False,6.655879974365234,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001191db300a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001191d919d10]<br>"
+178,ID0000030,mDiffFit,E,13,0,212855333,51,0.0910717000006116,0,False,6.656097412109375,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001ee1ae500a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001ee1ad09d10]<br>"
+179,ID0000030,mDiffFit,E,13,1,212855333,51,0.08378829999855952,0,False,6.648448944091797,"Receiving [[struct stat=""ERROR"", msg=""Images don't overlap""]
+]<br>
+SVC_DEBUG>  Entering svc_close()<br>
+SVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001f9dd3700a0]<br>
+SVC_DEBUG>  Entering svc_value()<br>
+SVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001f9dd159d10]<br>"
+180,ID0000036,mDiffFit,P,0,0,212855333,291,0.4742361000025994,0,True,6.656288146972656,
+181,ID0000036,mDiffFit,P,0,1,212855333,291,0.4779575000065961,0,True,6.660404205322266,
+182,ID0000036,mDiffFit,E,13,0,212855333,291,1.4544998000055784,0,True,6.660755157470703,
+183,ID0000036,mDiffFit,E,13,1,212855333,291,1.4660141999993357,0,True,6.663089752197266,
+184,ID0000039,mDiffFit,P,0,0,212855333,287,0.21128200000384822,0,True,6.663364410400391,
+185,ID0000039,mDiffFit,P,0,1,212855333,287,0.2331966999990982,0,True,6.6616058349609375,
+186,ID0000039,mDiffFit,E,13,0,212855333,287,0.6469457000057446,0,True,6.660942077636719,
+187,ID0000039,mDiffFit,E,13,1,212855333,287,0.6422053999995114,0,True,6.66290283203125,
+188,ID0000042,mDiffFit,P,0,0,212855333,295,0.41615299999830313,0,True,6.661182403564453,
+189,ID0000042,mDiffFit,P,0,1,212855333,295,0.409161799994763,0,True,6.661449432373047,
+190,ID0000042,mDiffFit,E,13,0,212855333,295,1.2767919999969308,0,True,6.661476135253906,
+191,ID0000042,mDiffFit,E,13,1,212855333,295,1.270881800002826,0,True,6.672084808349609,
+192,ID0000057,mImgtbl,P,0,0,478764294,4773,0.0889748999979929,0,True,6.671943664550781,
+193,ID0000057,mImgtbl,P,0,1,478764294,4773,0.08195359999808716,0,True,6.6708984375,
+194,ID0000057,mImgtbl,E,13,0,478764294,4773,0.2049568000002182,0,True,6.665840148925781,
+195,ID0000057,mImgtbl,E,13,1,478764294,4773,0.19571200000063982,0,True,6.6623687744140625,
+196,ID0000001,mProject,P,0,0,12896933,106346880,111.40548010000202,0,True,6.666156768798828,
+197,ID0000001,mProject,P,0,1,12896933,106346880,111.29663949999667,0,True,6.737907409667969,
+198,ID0000001,mProject,E,13,0,12896933,106346880,399.6016012999971,0,True,6.909900665283203,
+199,ID0000001,mProject,E,13,1,12896933,106346880,400.964072099996,0,True,7.014408111572266,
+200,ID0000009,mProject,P,0,0,12896933,106427520,112.1395740999942,0,True,6.927410125732422,
+201,ID0000009,mProject,P,0,1,12896933,106427520,112.6730991000004,0,True,6.655971527099609,
+202,ID0000009,mProject,E,13,0,12896933,106427520,401.1965479999999,0,True,6.871246337890625,
+203,ID0000009,mProject,E,13,1,12896933,106427520,403.5453653000004,0,True,6.953269958496094,
+204,ID0000059,mViewer,P,0,0,125455680,5774278,3.844788199996401,0,True,7.021068572998047,
+205,ID0000059,mViewer,P,0,1,125455680,5774278,3.840812399997958,0,True,7.021007537841797,
+206,ID0000059,mViewer,E,13,0,125455680,5774278,10.639249200001359,0,True,7.021522521972656,
+207,ID0000059,mViewer,E,13,1,125455680,5774278,10.512109399998735,0,True,7.017799377441406,

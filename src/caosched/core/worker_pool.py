@@ -21,6 +21,11 @@ BLAS thread-count env vars are set before any task imports numpy.
 
 Output-queue messages are tagged tuples: ``("ready", WorkerReady)`` or
 ``("result", TaskResult)``.
+
+Pools come from ``PoolSpec`` s (names are arbitrary). A "cuda" pool runs one
+worker per device index, not pinned to a CPU core, executing the CUDA variants
+of application stages; construction fails cleanly if CUDA is unavailable. An
+"extcmd" task runs a subprocess under the worker (see ``core/extcmd.py``).
 """
 from __future__ import annotations
 
@@ -30,7 +35,12 @@ import os
 import queue
 import time
 import traceback
+from collections.abc import Callable, Sequence
+from multiprocessing.process import BaseProcess
+from multiprocessing.queues import Queue as MpQueue
 
+from caosched.core.extcmd import EXTCMD, kill_tree, run_extcmd
+from caosched.core.runtime_config import PoolSpec
 from caosched.core.task import TaskMessage, TaskResult
 from caosched.util import clock
 from caosched.util.threadpin import pin_single_thread
@@ -59,7 +69,22 @@ class WorkerReady:
         return self.actual_affinity is not None and set(self.actual_affinity) == set(self.requested_affinity)
 
 
-def _worker_loop(worker_id: str, affinity: list[int], warmup: bool, input_queue, output_queue) -> None:
+def _init_cuda(device: int) -> dict:
+    """Open the CUDA context before any timed task; report, never assume, availability."""
+    try:
+        import torch
+
+        if not torch.cuda.is_available():
+            return {"cuda": False, "device": None, "error": "torch.cuda.is_available() is False"}
+        torch.cuda.set_device(device)
+        torch.zeros(1, device="cuda")
+        return {"cuda": True, "device": torch.cuda.get_device_name(device), "error": None}
+    except Exception as exc:  # noqa: BLE001 - torch missing, bad device index, driver error
+        return {"cuda": False, "device": None, "error": f"{type(exc).__name__}: {exc}"}
+
+
+def _worker_loop(worker_id: str, affinity: list[int], warmup: bool, input_queue, output_queue,
+                 kind: str = "cpu", device: int = 0) -> None:
     import psutil
 
     from caosched.phase0.benchmarks.workloads import WORKLOADS
@@ -77,8 +102,9 @@ def _worker_loop(worker_id: str, affinity: list[int], warmup: bool, input_queue,
         actual = None
         affinity_error = affinity_error or f"readback failed: {type(exc).__name__}: {exc}"
 
+    capabilities = _init_cuda(device) if kind == "cuda" else None
     warmup_seconds = warmup_error = None
-    if warmup:
+    if warmup and kind == "cpu":
         start = time.perf_counter()
         try:
             for name, workload in WORKLOADS.items():
@@ -88,7 +114,7 @@ def _worker_loop(worker_id: str, affinity: list[int], warmup: bool, input_queue,
             warmup_error = traceback.format_exc()
 
     output_queue.put(("ready", WorkerReady(
-        worker_id, os.getpid(), tuple(affinity), actual, affinity_error, warmup_seconds, warmup_error,
+        worker_id, os.getpid(), tuple(affinity), actual, affinity_error, warmup_seconds, warmup_error, capabilities,
     )))
 
     while True:
@@ -98,20 +124,35 @@ def _worker_loop(worker_id: str, affinity: list[int], warmup: bool, input_queue,
         t_started = clock.now()
         error = None
         wall_time = None
-        out_bytes = io_s = None
+        out_bytes = io_s = exit_status = outputs = None
+        timed_out = False
         try:
-            if message.params is not None:  # application stage: real data in / out
+            if message.workload == EXTCMD:  # external command: subprocess, no shell
+                o = run_extcmd(message.params)
+                wall_time, error, io_s = o.wall_time, o.error, o.io_s
+                exit_status, timed_out, outputs = o.exit_status, o.timed_out, o.outputs
+                out_bytes = sum(v["bytes"] for v in outputs.values()) if outputs else None
+            elif message.params is not None:  # application stage: real data in / out
                 from caosched.apps.artifacts import read_artifacts, write_artifact
-                from caosched.apps.stages import run_stage
+                from caosched.apps.stages import STAGES, cuda_stages, run_stage
 
+                params = message.params
+                compute: Callable | None = None
+                if kind == "cuda":  # device = this worker's pool, never a task property (AD-6)
+                    compute = cuda_stages().get(message.workload)
+                    if compute is None or message.workload not in STAGES:
+                        raise RuntimeError(f"no CUDA variant of stage {message.workload!r} (with a CPU stage for I/O)")
+                    params = {**params, "device": "cuda"}
                 t_io = time.perf_counter()
                 blobs = read_artifacts(message.input_refs)
                 t_read = time.perf_counter() - t_io
-                blob, wall_time, codec = run_stage(message.workload, blobs, message.params)
+                blob, wall_time, codec = run_stage(message.workload, blobs, params, compute)
                 t_w = time.perf_counter()
                 write_artifact(message.output_ref, blob)
                 io_s = t_read + codec + (time.perf_counter() - t_w)
                 out_bytes = len(blob)
+            elif kind != "cpu":
+                raise RuntimeError(f"a {kind} worker runs application stages only, not {message.workload!r}")
             else:  # benchmark kernel (unchanged path)
                 workload = WORKLOADS[message.workload]
                 inputs = workload.prepare(message.size, message.seed)
@@ -122,7 +163,8 @@ def _worker_loop(worker_id: str, affinity: list[int], warmup: bool, input_queue,
             error = traceback.format_exc()
         t_completed = clock.now()
         output_queue.put(("result", TaskResult(message.task_id, worker_id, wall_time, error, t_started, t_completed,
-                                               output_bytes=out_bytes, io_s=io_s)))
+                                               output_bytes=out_bytes, io_s=io_s, exit_status=exit_status,
+                                               timed_out=timed_out, outputs=outputs)))
 
 
 class WorkerPoolError(RuntimeError):
@@ -147,12 +189,13 @@ class RemoteSlot:
 @dataclasses.dataclass
 class WorkerHandle:
     worker_id: str
-    pool: str  # "P" or "E"
+    pool: str  # pool name (arbitrary label)
     affinity: list[int]
-    process: object
-    input_queue: object
+    process: BaseProcess
+    input_queue: MpQueue
     ready_info: WorkerReady | None = None
     current_task: str | None = None
+    kind: str = "cpu"  # PoolSpec kind of the pool
 
     @property
     def busy(self) -> bool:
@@ -160,16 +203,19 @@ class WorkerHandle:
 
 
 class WorkerPool:
-    """Manages persistent worker processes across the P-core and E-core
-    pools. Worker-to-core assignment comes from the caller (normally
-    ``RuntimeConfig.from_topology()``), never hardcoded here.
+    """Manages persistent worker processes across the configured pools.
+    Worker-to-core assignment comes from the caller (normally
+    ``RuntimeConfig.from_topology()``), never hardcoded here. ``p_core_slots`` /
+    ``e_core_slots`` are shorthand for pools "P" and "E"; ``pools`` adds or
+    replaces nothing -- any other name works (worker ids are ``<pool><index>``).
     """
 
     def __init__(
         self,
-        p_core_slots: list[int],
-        e_core_slots: list[int],
+        p_core_slots: Sequence[int] = (),
+        e_core_slots: Sequence[int] = (),
         *,
+        pools: dict[str, PoolSpec] | None = None,
         warmup: bool = True,
         strict_affinity: bool = False,
         startup_timeout: float = 120.0,
@@ -183,12 +229,28 @@ class WorkerPool:
         # worker_id -> recent (t_started, t_completed) busy intervals, kept
         # across runs (see RuntimeState activity history).
         self.activity: dict = {}
+        self.pool_specs: dict[str, PoolSpec] = {}
+        for name, slots in (("P", p_core_slots), ("E", e_core_slots)):
+            if slots:
+                self.pool_specs[name] = PoolSpec(tuple(slots))
+        for name, spec in (pools or {}).items():
+            if name in self.pool_specs and self.pool_specs[name] != spec:
+                raise ValueError(f"Pool {name!r} declared twice with different slots")
+            if spec.kind == "remote":
+                raise ValueError(f"Pool {name!r}: remote pools are created from remote_slots")
+            if spec.slots:
+                self.pool_specs[name] = spec
+        for slot in remote_slots or []:
+            spec = self.pool_specs.setdefault(slot.pool, PoolSpec((), "remote"))
+            if spec.kind != "remote":
+                raise ValueError(f"Remote slot pool {slot.pool!r} collides with a {spec.kind} pool of the same name")
 
         try:
-            for i, core in enumerate(p_core_slots):
-                self._spawn_worker(f"P{i}", "P", [core], warmup)
-            for i, core in enumerate(e_core_slots):
-                self._spawn_worker(f"E{i}", "E", [core], warmup)
+            for name, spec in self.pool_specs.items():
+                for i, core in enumerate(spec.slots):
+                    if f"{name}{i}" in self.workers:
+                        raise ValueError(f"Duplicate worker id {name}{i}; rename a pool")
+                    self._spawn_worker(f"{name}{i}", name, spec.kind, core, warmup)
             counters: dict[str, int] = {}
             for slot in remote_slots or []:
                 k = counters.get(slot.pool, 0)
@@ -196,7 +258,8 @@ class WorkerPool:
                 self._spawn_remote(f"{slot.pool}{k}", slot, startup_timeout)
             self._await_ready(startup_timeout)
             if strict_affinity:
-                bad = {wid: w.ready_info for wid, w in self.workers.items() if not w.ready_info.affinity_ok}
+                bad = {wid: w.ready_info for wid, w in self.workers.items()
+                       if w.ready_info is not None and not w.ready_info.affinity_ok}
                 if bad:
                     raise WorkerPoolError(f"Affinity readback mismatch: {bad}")
         except BaseException:
@@ -229,20 +292,21 @@ class WorkerPool:
             name=f"caosched-proxy-{worker_id}", daemon=True)
         proxy.start()
         affinity = [slot.node_core] if slot.node_core is not None else []
-        self.workers[worker_id] = WorkerHandle(worker_id, slot.pool, affinity, proxy, input_queue)
+        self.workers[worker_id] = WorkerHandle(worker_id, slot.pool, affinity, proxy, input_queue, kind="remote")
 
     @classmethod
     def from_config(cls, config, **kwargs) -> "WorkerPool":
-        return cls(list(config.p_core_slots), list(config.e_core_slots), **kwargs)
+        return cls(pools=config.pools, **kwargs)
 
-    def _spawn_worker(self, worker_id: str, pool: str, affinity: list[int], warmup: bool) -> None:
+    def _spawn_worker(self, worker_id: str, pool: str, kind: str, slot: int, warmup: bool) -> None:
+        affinity = [slot] if kind == "cpu" else []  # cuda: slot is a device index, no CPU pinning
         input_queue = self.ctx.Queue()
         process = self.ctx.Process(
-            target=_worker_loop, args=(worker_id, affinity, warmup, input_queue, self.output_queue),
+            target=_worker_loop, args=(worker_id, affinity, warmup, input_queue, self.output_queue, kind, slot),
             name=f"caosched-worker-{worker_id}", daemon=True,
         )
         process.start()
-        self.workers[worker_id] = WorkerHandle(worker_id, pool, affinity, process, input_queue)
+        self.workers[worker_id] = WorkerHandle(worker_id, pool, affinity, process, input_queue, kind=kind)
 
     def _await_ready(self, timeout: float) -> None:
         deadline = time.monotonic() + timeout
@@ -261,6 +325,12 @@ class WorkerPool:
             if kind != "ready":
                 raise WorkerPoolError(f"Unexpected {kind!r} message during startup")
             self.workers[payload.worker_id].ready_info = payload
+        for wid, w in self.workers.items():
+            assert w.ready_info is not None  # _await_ready loop above
+            caps = w.ready_info.capabilities
+            if w.kind == "cuda" and not (caps and caps.get("cuda")):
+                raise WorkerPoolError(f"Pool {w.pool!r} (worker {wid}) needs CUDA, which is unavailable: "
+                                      f"{(caps or {}).get('error')}")
 
     # --- introspection -------------------------------------------------
 
@@ -290,7 +360,7 @@ class WorkerPool:
         interleaved run by run on one pool). Only between tasks: the proxy
         applies it before the next task message, in queue order."""
         w = self.workers.get(worker_id)
-        if w is None or not w.pool.startswith("R"):
+        if w is None or w.kind != "remote":
             raise WorkerPoolError(f"{worker_id!r} is not a remote worker")
         if w.busy:
             raise WorkerPoolError(f"Cannot change the link of busy worker {worker_id!r}")
@@ -324,12 +394,26 @@ class WorkerPool:
         w.current_task = None
         return payload
 
+    def kill_worker(self, worker_id: str) -> None:
+        """Kill a worker and everything it started (a hung task); the worker is not replaced. Its task is
+        abandoned (``current_task`` cleared), and the worker is reported by ``dead_workers``, so a later run
+        says 'worker dead' instead of 'tasks in flight'."""
+        w = self.workers[worker_id]
+        assert w.process.pid is not None  # started process
+        kill_tree(w.process.pid)
+        w.process.join(timeout=10)  # reap, so is_alive() is False when the caller looks
+        w.current_task = None
+
     # --- lifecycle ------------------------------------------------------
 
     def shutdown(self, timeout: float = 10.0) -> None:
         if self._closed:
             return
         self._closed = True
+        for w in self.workers.values():
+            if w.busy and w.process.is_alive():  # don't wait for a running task; also reaps its subprocess tree
+                assert w.process.pid is not None  # alive => started
+                kill_tree(w.process.pid)
         for w in self.workers.values():
             if w.process.is_alive():
                 try:

@@ -7,13 +7,27 @@ stated in the class docstring and is the thing that must be cited.
 Late binding (``binds_only_idle = True``): B0, B2, B4, B5 only ever bind to
 idle workers; tasks wait in the global ready queue.
 Early binding: B1, B3 bind immediately and tasks wait in worker-local queues.
+
+Every policy picks only among ``eligible_workers(task, state)`` (AD-5), and a
+policy that could never place some task raises a ``ValueError`` in
+``on_run_start`` -- before any task runs -- instead of deadlocking.
 """
 from __future__ import annotations
 
-import itertools
+import random
 
-from caosched.core.scheduler_base import SchedulerPolicy
+from caosched.core.scheduler_base import NoEligibleWorkerError, SchedulerPolicy, eligible_workers
 from caosched.core.task import Task
+
+
+def _require_placeable(name: str, dag, state, allowed_pools) -> None:
+    """Raise if some task has no eligible worker in the pools the policy allows for it."""
+    for t in dag.tasks.values():
+        allowed = allowed_pools(t)
+        if not [w for w in eligible_workers(t, state) if state.pool_of(w) in allowed]:
+            raise NoEligibleWorkerError(
+                f"{name}: task {t.task_id!r} ({t.workload}) has no eligible worker: it is only eligible for "
+                f"{t.eligible_pools or 'any pool'} and the policy only uses pools {sorted(allowed)}")
 
 
 class PoolOnlyScheduler(SchedulerPolicy):
@@ -27,9 +41,10 @@ class PoolOnlyScheduler(SchedulerPolicy):
     def on_run_start(self, dag, state) -> None:
         if not state.worker_ids(self.pool):
             raise ValueError(f"{self.name}: no workers in pool {self.pool!r}")
+        _require_placeable(self.name, dag, state, lambda t: {self.pool})
 
     def select_worker(self, task: Task, state) -> str | None:
-        idle = state.idle_workers(self.pool)
+        idle = [w for w in eligible_workers(task, state, idle_only=True) if state.pool_of(w) == self.pool]
         return idle[0] if idle else None
 
     def describe(self) -> dict:
@@ -40,16 +55,24 @@ class RoundRobinScheduler(SchedulerPolicy):
     """B1: classic round robin. Ready tasks (FIFO) are bound to workers in a
     fixed cyclic order (P workers then E workers), regardless of whether the
     worker is busy -- early binding into the worker's local queue. The
-    cursor restarts at the first worker each run."""
+    cursor restarts at the first worker each run. Workers the task is not
+    eligible for are skipped."""
 
     name = "B1_round_robin"
     binds_only_idle = False
 
     def on_run_start(self, dag, state) -> None:
-        self._cycle = itertools.cycle(state.worker_ids())
+        self._order, self._next = state.worker_ids(), 0
+        _require_placeable(self.name, dag, state, lambda t: set(state.pools()))
 
     def select_worker(self, task: Task, state) -> str | None:
-        return next(self._cycle)
+        ok, n = set(eligible_workers(task, state)), len(self._order)
+        for k in range(n):
+            w = self._order[(self._next + k) % n]
+            if w in ok:
+                self._next = (self._next + k + 1) % n
+                return w
+        return None
 
 
 class StaticMappingScheduler(SchedulerPolicy):
@@ -70,9 +93,11 @@ class StaticMappingScheduler(SchedulerPolicy):
         unknown = sorted(set(self.mapping.values()) - set(state.pools()))
         if unknown:
             raise ValueError(f"{self.name}: mapping targets pools with no workers: {unknown}")
+        _require_placeable(self.name, dag, state, lambda t: {self.mapping[t.workload]})
 
     def select_worker(self, task: Task, state) -> str | None:
-        idle = state.idle_workers(self.mapping[task.workload])
+        pool = self.mapping[task.workload]
+        idle = [w for w in eligible_workers(task, state, idle_only=True) if state.pool_of(w) == pool]
         return idle[0] if idle else None
 
     def describe(self) -> dict:
@@ -87,8 +112,11 @@ class ShortestQueueScheduler(SchedulerPolicy):
     name = "B3_shortest_queue"
     binds_only_idle = False
 
+    def on_run_start(self, dag, state) -> None:
+        _require_placeable(self.name, dag, state, lambda t: set(state.pools()))
+
     def select_worker(self, task: Task, state) -> str | None:
-        ids = state.worker_ids()
+        ids = eligible_workers(task, state)
         return min(ids, key=lambda w: (state.workers[w].load, ids.index(w)))
 
 
@@ -131,31 +159,31 @@ class GreedyEligibleScheduler(SchedulerPolicy):
     def __init__(self, eligibility: dict[str, list[str]] | None = None, priority: list[str] | None = None,
                  name: str | None = None):
         self.eligibility = {k: list(v) for k, v in (eligibility or {}).items()}
-        self.priority = list(priority or ["P", "E"])
+        self.priority = list(priority) if priority else None  # None: decided per run from the pools
+        self._priority = self.priority or ["P", "E"]
         if name is not None:  # e.g. a Phase 5 variant whose priority also includes the remote pool
             self.name = name
 
     def _eligible_pools(self, workload: str) -> list[str]:
-        allowed = self.eligibility.get(workload, self.priority)
-        return [p for p in self.priority if p in allowed]
+        allowed = self.eligibility.get(workload, self._priority)
+        return [p for p in self._priority if p in allowed]
 
     def on_run_start(self, dag, state) -> None:
-        for wl in {t.workload for t in dag.tasks.values()}:
-            if not any(state.worker_ids(p) for p in self._eligible_pools(wl)):
-                raise ValueError(f"{self.name}: workload {wl!r} has no eligible worker")
+        # Default priority: P, E when present (so a remote pool is only used if the caller lists it), else
+        # the pools in worker order -- any pool names work.
+        self._priority = self.priority or [p for p in ("P", "E") if p in state.pools()] or state.pools()
+        _require_placeable(self.name, dag, state, lambda t: set(self._eligible_pools(t.workload)))
 
     def select_worker(self, task: Task, state) -> str | None:
-        pools = self._eligible_pools(task.workload)
-        if task.eligible_pools is not None:  # per-task eligibility (application DAGs) also applies
-            pools = [p for p in pools if p in task.eligible_pools]
-        for pool in pools:
-            idle = state.idle_workers(pool)
+        ok = set(eligible_workers(task, state, idle_only=True))  # per-task eligibility (application DAGs) also applies
+        for pool in self._eligible_pools(task.workload):
+            idle = [w for w in state.idle_workers(pool) if w in ok]
             if idle:
                 return idle[0]
         return None
 
     def describe(self) -> dict:
-        return {**super().describe(), "eligibility": self.eligibility, "priority": self.priority,
+        return {**super().describe(), "eligibility": self.eligibility, "priority": self._priority,
                 "patent_mapping": self.patent_reference}
 
 
@@ -167,9 +195,11 @@ class CriticalityScheduler(SchedulerPolicy):
       among ties.
     * A task is *critical* if it lies on a longest path of the DAG
       (top_level + bottom_level - 1 == critical path length, in task count).
-    * Placement: critical -> idle P worker, else any idle worker.
-      Non-critical -> idle E worker; an idle P worker is used only when no
-      critical task is waiting in the ready queue. Late binding.
+    * Placement ("fast" = pool "P", "slow" = pool "E" when both exist, else
+      the first and second pool in worker order): critical -> idle fast worker,
+      else idle slow worker. Non-critical -> idle slow worker; an idle fast
+      worker is used only when no critical task is waiting in the ready
+      queue. Late binding; only eligible workers are considered.
     """
 
     name = "B5_criticality"
@@ -186,6 +216,12 @@ class CriticalityScheduler(SchedulerPolicy):
         self.bottom_level = bottom
         self.critical = frozenset(tid for tid in order if top[tid] + bottom[tid] - 1 == cp)
         self._critical_waiting: set[str] = set()
+        pools = state.pools()
+        if "P" in pools and "E" in pools:
+            self.fast, self.slow = "P", "E"
+        else:
+            self.fast, self.slow = pools[0], pools[1] if len(pools) > 1 else pools[0]
+        _require_placeable(self.name, dag, state, lambda t: {self.fast, self.slow})
 
     def order_ready(self, ready_ids: list[str], state) -> list[str]:
         ordered = sorted(ready_ids, key=lambda t: -self.bottom_level[t])  # stable -> FIFO among ties
@@ -193,14 +229,36 @@ class CriticalityScheduler(SchedulerPolicy):
         return ordered
 
     def select_worker(self, task: Task, state) -> str | None:
-        idle_p, idle_e = state.idle_workers("P"), state.idle_workers("E")
+        idle = eligible_workers(task, state, idle_only=True)
+        idle_fast = [w for w in idle if state.pool_of(w) == self.fast]
+        idle_slow = [w for w in idle if state.pool_of(w) == self.slow]
         if task.task_id in self.critical:
-            pick = (idle_p or idle_e or [None])[0]
+            pick = next(iter(idle_fast or idle_slow), None)
             if pick is not None:
                 self._critical_waiting.discard(task.task_id)
             return pick
-        if idle_e:
-            return idle_e[0]
-        if idle_p and not self._critical_waiting:
-            return idle_p[0]
+        if idle_slow:
+            return idle_slow[0]
+        if idle_fast and not self._critical_waiting:
+            return idle_fast[0]
         return None
+
+
+class RandomScheduler(SchedulerPolicy):
+    """Uniformly random idle eligible worker (seeded; the generator restarts
+    each run). Late binding. A reference baseline for the Stage 3 comparison."""
+
+    def __init__(self, seed: int = 0):
+        self.seed = seed
+        self.name = f"random_s{seed}"
+
+    def on_run_start(self, dag, state) -> None:
+        self._rng = random.Random(self.seed)
+        _require_placeable(self.name, dag, state, lambda t: set(state.pools()))
+
+    def select_worker(self, task: Task, state) -> str | None:
+        idle = eligible_workers(task, state, idle_only=True)
+        return self._rng.choice(idle) if idle else None
+
+    def describe(self) -> dict:
+        return {**super().describe(), "seed": self.seed}

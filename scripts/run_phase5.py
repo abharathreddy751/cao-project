@@ -184,7 +184,7 @@ def main() -> None:
         for ev in logs:
             trans += transfer_rows(conf["name"], ev)
         if conf["name"] == "local_2P7E":
-            rows = [r for ev in logs for r in rows_from_events(ev)]
+            rows = [r for ev in logs for r in rows_from_events(ev, context_source="auto")]
             ok = ReplayOracleEstimator.from_rows(rows)
             oe = ReplayOracleEstimator.from_rows([{**r, "kernel_s": r["t_completed"] - r["t_started"]} for r in rows])
             for ev in logs:

@@ -57,10 +57,10 @@ class AnalyticSizeEstimator(ExecutionTimeEstimator):
         return cls.fit(load_profile_rows(profile_path), exponents, fit_exponent, source=str(profile_path))
 
     def estimate(self, task, pool: str, ctx: EstimateContext | None = None) -> float:
-        key = (task.workload, pool)
+        key = (task.est_workload, pool)
         if key not in self.coef:
             raise KeyError(f"E2 has no coefficient for {key}")
-        return self.coef[key] * float(task.size) ** self.exponents[task.workload]
+        return self.coef[key] * float(task.est_bytes) ** self.exponents[task.est_workload]
 
     def describe(self) -> dict:
         return {"name": self.name, "source": self.source, "exponents": self.exponents,

@@ -1,0 +1,2 @@
+{"t": "2026-10-12T04:32:59.572574+00:00", "where": "session_start", "free_gb": 6.800048828125, "threshold_gb": 2.5, "ok": true}
+{"t": "2026-10-12T04:32:59.572574+00:00", "where": "block_0", "free_gb": 6.800048828125, "threshold_gb": 2.5, "ok": true}
