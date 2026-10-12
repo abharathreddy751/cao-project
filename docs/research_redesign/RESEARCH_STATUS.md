@@ -1,6 +1,6 @@
 # Research status
 
-Date: 2026-10-12. State: **Stage 1 complete (gates passed, see below); Stages 2-4 code written, reviewed and tested; Stage 2-4 experiments not yet run.** Older sections below are history (2026-10-11) unless marked.
+Date: 2026-10-12. State: **Stages 1-4 executed on this machine (reports below); the clean-checkout reproduction is the last open item.** Older sections below are history (2026-10-11) unless marked.
 
 ## Verified current state
 
@@ -96,6 +96,40 @@ Descriptive makespan means over the 3 blocks (seconds; not a Stage 4 result, no 
 Reading, stated plainly: on this instance the predictive and plan-based policies match the trivial "use only the P-cores" baseline, and all of them beat the greedy patent-mapped baseline B4 by about one third, because greedy dispatch puts three of the nine 112-second `mProject` tasks on 401-second E-cores. The strongest non-predictive baseline is therefore B0 P-only, not B4. The hypothesis in PROJECT_SPEC (prediction helps only when speed ratios and contention are large relative to prediction cost) is not tested by this table.
 
 Deviations: (1) the machine was not idle (WSL VM, browser, editor); (2) `cleanup_work` deletes the 2 GB work directory of a run only after its outputs were verified against the reference (hashes and event logs are kept); (3) a smoke session `sessions_smoke` is exploratory and showed the cleanup-before-reverify bug, fixed before the matrix; (4) runs were executed in blocks of 14 policies with 3 blocks.
+
+## Stage 3 report (2026-10-12) - PASS (software, scientific and measurement gates); the result is a null result for sophisticated predictors
+
+| Gate | Result | Evidence |
+|---|---|---|
+| Parity and leakage tests pass | PASS (full suite 377 passed, 1 skipped; `tests/test_parity_leakage.py`) | `stage3_20261012/full_suite_before_commit.txt` |
+| Every candidate has accuracy, latency and memory reported | PASS: E1, E3, E1+rc, Ridge, CatBoost, MLP; median inference latency 1 us (profile lookups), 6 us (Ridge), 22 us (MLP), 478-491 us (CatBoost) | `eval/tuning_loo/metrics.json`, `eval/final_test/metrics.json` |
+| At least one instance withheld from fitting and tuning | PASS: d1.5 (157 tasks, size withheld) evaluated once | `eval/final_test/`, freeze `STAGE3_FREEZE.md` |
+| Final predictor chosen by the rule fixed before the pilot | PASS: **EFT_E1 selected** (cheapest model whose scheduling outcome is not worse than any more complex model, CI upper bound under the 2% margin, 3 blocks) | `selection/selection_record.json`, `pilot_sessions/` (18 runs, all verified, 0 failing checks) |
+| Dataset manifest with hashes and exclusions | PASS | `dataset/20261012T195206/manifest.json`, `SHA256_MANIFEST.tsv` |
+
+Data: 60 runs with logged decision contexts (collection sessions, held-out session, Stage 2 EFT runs), 3648 task rows (2706 fitting, 942 held-out), 1416 completed tasks without a logged context dropped by the builder and counted. 42 collection runs all completed and verified byte-identical to the instance references.
+
+Offline accuracy, mean absolute error in seconds (held-out rows only; label real; no scheduling meaning): leave-one-instance-out over d1.0, d1.1 primary, d1.1 c10.7: E1 3.54, E3 3.53, E1+rc 3.56, Ridge 1.32, CatBoost 2.35, MLP 1.86 (n=2706). Final test d1.5 (n=942): E1 3.26, E3 2.71, E1+rc 2.69, Ridge 1.36, CatBoost 2.32, MLP 2.98 (RMSE 22.2 s, extrapolates badly). Median APE 0.27 to 0.69, dominated by tiny task times (stated limitation).
+
+Scheduling pilot (EFT with each predictor, primary instance, 3 blocks): mean makespans 271.4 (CatBoost), 271.5 (MLP), 271.6 (Ridge), 271.8 (E1), 272.4 (E1+rc), 272.7 s (E3): all within 0.5%. Better prediction accuracy did not change the schedule: every EFT variant placed all nine mProject tasks on the P-cores (the 3.6x speed gap dominates any prediction error; some small tasks went to E-cores). TabM: out by the entry rule (needs >= 20,000 rows; 2,706 available).
+
+Deviations: collection was reduced to 42 runs (v2 designs) after the Stage 2 timing; the d1.5 held-out session was run with the same 3 conditions; machine not idle; first dataset build attempt excluded everything (wrong directory layout), kept as `dataset/20261012T195144`.
+
+## Stage 4 report (2026-10-13) - PASS for software, measurement and correctness gates; scientific outcome is negative/null (stated, not hidden)
+
+| Gate | Result | Evidence |
+|---|---|---|
+| All planned blocks complete; excluded runs listed | PASS: main 4/4 blocks (44 runs), scarce-P regime 3/3 (15 runs), GPU workload 12/12 (84 runs); 0 excluded | `stage4_20261012/sessions_main`, `sessions_regimeR`, `gpu/sessions`; `*/exclusions.csv` |
+| Correctness on all included runs | PASS: Montage outputs byte-identical to each instance's sequential reference in all 59 runs, 0 dependency violations, 0 worker overlaps, 0 ineligible placements; GPU runs verified within the spike tolerances in all 84 runs | `gate_sessions_main.json`, `gate_sessions_regimeR.json`, run manifests |
+| Every number traces to an evidence file; labels | PASS (tables/figures from `scripts/analyze_experiment.py`, all labelled real) | `analysis_main/`, `analysis_regimeR/`, `gpu/analysis*/` |
+| CI method equals the protocol | PASS with one stated flaw: 4 blocks cannot reach p < 0.05 under the pre-registered Holm-adjusted sign-flip test (minimum p 0.125); results are interpreted through bootstrap CIs | `EVALUATION_PROTOCOL.md` section 12, `analysis_main/effects.csv` |
+| One result reproduced from raw logs, hashes re-run | PASS: summary and effects tables re-derived from raw logs and event-log hashes matched for the main, scarce-P and GPU analyses | `stage4_repro/*.json` |
+| Clean-checkout reproduction | PENDING(stage4_repro/repro_log.json) |  |
+| Dashboard demonstration path | DONE: tab "5 - Montage & GPU" lists the Stage 4 runs and draws policy, placement, DAG by transformation, per-worker timeline, task table, output check and log-hash check (checked in the built-in browser on 2026-10-13) | `dashboard_demo.log` |
+
+Outcomes (descriptive, label real): in all three conditions tested no predictive policy beat the strongest simple baseline. All pools: B0 P-only is 1.3-1.9% faster than every EFT/HEFT/PEFT variant (early versus late binding of the second `mProject` wave, confirmed in the worker timelines of the primary instance) and 54% faster than greedy B4. Scarce fast cores (2 P + 7 E): EFT with E1 equals B4 (-0.01%), P-only is 41% slower, **EFT with CatBoost is 15% slower** (it under-predicts `mProject` on P by 18-25% and queues 7 tasks on 2 workers instead of sending 3 to E-cores). GPU workload: predictive EFT with GPU is 2.0% faster than predictive EFT CPU-only and 3.9% faster than greedy GPU use, not distinguishable from P-only (-0.41%, CI includes 0); absolute gain about 0.15 s because CPU stages dominate.
+
+Limits: see `FINAL_REPORT.md` section on limitations.
 
 ## Documents in this redesign
 

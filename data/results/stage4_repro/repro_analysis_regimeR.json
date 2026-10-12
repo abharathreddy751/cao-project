@@ -1,0 +1,31 @@
+{
+  "when_utc": "2026-10-12T22:15:59.671550+00:00",
+  "analysis_dir": "data\\results\\stage4_20261012\\analysis_regimeR",
+  "checks": [
+    {
+      "check": "evidence manifest data\\results\\stage4_20261012\\sessions_regimeR\\20261013T005542",
+      "ok": true,
+      "detail": {
+        "missing": [],
+        "changed": [],
+        "extra": []
+      }
+    },
+    {
+      "check": "event-log hashes vs run manifests",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "table summary reproduced from raw logs",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "table effects reproduced from raw logs",
+      "ok": true,
+      "detail": []
+    }
+  ],
+  "ok": true
+}

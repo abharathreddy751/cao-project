@@ -1,0 +1,102 @@
+{
+  "run_id": "20261013T005542__b0000_03_B0_P_only",
+  "session_id": "20261013T005542",
+  "block": 0,
+  "position": 3,
+  "instance": "d1.1_dss2b_c56.7_24.0",
+  "warmup": false,
+  "seed": 774442209,
+  "policy": "B0_P_only",
+  "condition": {
+    "name": "B0_P_only",
+    "policy": "B0_P_only",
+    "estimator": null,
+    "workload": {
+      "kind": "montage"
+    },
+    "kwargs": {
+      "profile": "D:\\cao project\\data\\results\\stage2_20261012\\profile_montage\\20261012T092355_profile.json",
+      "fits_atol": null,
+      "final_outputs": [
+        "1-mosaic.fits",
+        "1-mosaic_area.fits",
+        "1-mosaic.png"
+      ],
+      "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+      "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work",
+      "reference_by_instance": {
+        "d1.1_dss2b_c56.7_24.0": {
+          "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+          "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work"
+        }
+      }
+    },
+    "instance": "d1.1_dss2b_c56.7_24.0"
+  },
+  "evidence_label": "real",
+  "machine_id": "681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978",
+  "environment_hash": "bac0fdd048d7d4cd07d46a4ed4fc15a0d5b21cd94b71541be631229f3f1ed53b",
+  "code": {
+    "git_commit": "4b66dcc3dcc0c7f3f176cda20dc4880b6749b5d1",
+    "git_dirty": true,
+    "git_available": true,
+    "src_sha256": "5650bc0ab77574f86087632f4274a92146b6c8e6b0db0e0a0585a5bd4af9be54"
+  },
+  "design": {
+    "name": "stage4_regimeR_P2E7",
+    "sha256": "9f619cc8dfa393302430e29cb6f988807551a4897d413602d7517abd93bc7f0f",
+    "reference": "B4_greedy_eligible",
+    "warmup_blocks": 0,
+    "run_timeout_s": 2400
+  },
+  "input_hashes": {
+    "1-corrected.tbl": "a6f347d048e0a71b85c8e24d4bee2700cadb7822b9c1b0cb5c5f58ed6f6d6395",
+    "1-images.tbl": "a81bb201ae17de0d348f85fb93be28ace1dd94efd436af501b70f8d771e64cb1",
+    "1-projected.tbl": "0ccb5bd49517fe1bcd36ede2dbbaebe5f03254c48f4f562645ea70f529da2ee6",
+    "1-stat.tbl": "929d85eaa98d7203871963c07632f2469a4c769298457b91a1a48ae0360f329b",
+    "poss2ukstu_blue_001_001.fits": "e27d898cbe6b2355d95221ea6b76188d3dd8d6f14b7d0c5d26efb8003b4566f2",
+    "poss2ukstu_blue_001_002.fits": "060d288f80aa6c92804989c998e3523e7ab64fa8fa930715a4d48621f3f6824a",
+    "poss2ukstu_blue_001_003.fits": "43070b5b38cf47613aef94bdc0e84597fcc73e6f365b9c2cdc45d2e5d1753725",
+    "poss2ukstu_blue_002_001.fits": "296327c0a39f0194783c7212ae7c70f16ae367229fb0ecdafb365203bc6c7611",
+    "poss2ukstu_blue_002_002.fits": "184192cb64a0f8cbaae3b2a0ba2d11ace7f170cc8330327f3f4bb6e52150ace6",
+    "poss2ukstu_blue_002_003.fits": "3ee06cfbed0f68eb84643e03b88213c5e80a2ea252442d5480c3d790feb2c03c",
+    "poss2ukstu_blue_003_001.fits": "b27532a2cd1923af8ea4cb86adb7f15f9d3a7af94afbe1ffc6c49e6aaeef5075",
+    "poss2ukstu_blue_003_002.fits": "a4ce116bdc700adab13dac2a562e0185e3907fdc141fa6f03dadd1e34a18587d",
+    "poss2ukstu_blue_003_003.fits": "5c458f6b5f60788e647fd3b818c849b291826cc0aeb10883216775b05addcef5",
+    "region-oversized.hdr": "69fc19d854a230e35c45d217308c62b256eb37f3b71318da77083a99b9f08a2a",
+    "region.hdr": "922abe6e4c74c63269005d58ae0d4aa0008532b1132bb57f53c3fc0d06187e7d"
+  },
+  "status": "ok",
+  "error": null,
+  "verification": {
+    "passed": true,
+    "output_hashes": {
+      "1-mosaic.fits": "54c1c4b0c827970e7dc6cb2ba949b4123ea069d51eae608ef0c031cb4ecdd84b",
+      "1-mosaic_area.fits": "49f3b92a57451509f58994e6e784a71896239b709f9cf48fe7c875c3d6b4ea64",
+      "1-mosaic.png": "2c33f7ce8590b9bd83e35e8fb7696b32c9d3b35c699637fa66a274fb2c11d935"
+    }
+  },
+  "event_log": {
+    "path": "b0000_03_B0_P_only.jsonl",
+    "sha256": "1f8f4761a834c9628cd420ddef714796473358fc7d3b5acbb4bd90f3a0b5397c",
+    "bytes": 223629
+  },
+  "extra": {
+    "n_tasks": 59,
+    "policy": "B0_P_only",
+    "decision_time_total_s": 0.03965309981140308,
+    "makespan_seconds": 577.73637340001,
+    "n_completed": 59,
+    "tasks_per_pool": {
+      "P": 59
+    },
+    "output_verdict": {
+      "1-mosaic.fits": "identical",
+      "1-mosaic_area.fits": "identical",
+      "1-mosaic.png": "identical"
+    },
+    "work_dir_removed_after_verification": true
+  },
+  "started_utc": "2026-10-12T19:47:17.235999+00:00",
+  "wall_s": 579.7985566999996
+}

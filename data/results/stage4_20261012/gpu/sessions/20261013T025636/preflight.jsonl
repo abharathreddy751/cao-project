@@ -1,0 +1,13 @@
+{"t": "2026-10-12T21:26:40.337196+00:00", "where": "session_start", "free_gb": 6.575321197509766, "threshold_gb": 2.5, "ok": true}
+{"t": "2026-10-12T21:26:40.337196+00:00", "where": "block_0", "free_gb": 6.575191497802734, "threshold_gb": 2.5, "ok": true}
+{"t": "2026-10-12T21:29:19.443736+00:00", "where": "block_1", "free_gb": 6.531421661376953, "threshold_gb": 2.5, "ok": true}
+{"t": "2026-10-12T21:31:49.222342+00:00", "where": "block_2", "free_gb": 6.607093811035156, "threshold_gb": 2.5, "ok": true}
+{"t": "2026-10-12T21:34:26.718805+00:00", "where": "block_3", "free_gb": 6.623035430908203, "threshold_gb": 2.5, "ok": true}
+{"t": "2026-10-12T21:37:04.283017+00:00", "where": "block_4", "free_gb": 6.624485015869141, "threshold_gb": 2.5, "ok": true}
+{"t": "2026-10-12T21:39:40.855811+00:00", "where": "block_5", "free_gb": 6.706336975097656, "threshold_gb": 2.5, "ok": true}
+{"t": "2026-10-12T21:42:06.435917+00:00", "where": "block_6", "free_gb": 6.706489562988281, "threshold_gb": 2.5, "ok": true}
+{"t": "2026-10-12T21:44:35.617633+00:00", "where": "block_7", "free_gb": 6.654155731201172, "threshold_gb": 2.5, "ok": true}
+{"t": "2026-10-12T21:47:11.549207+00:00", "where": "block_8", "free_gb": 6.670032501220703, "threshold_gb": 2.5, "ok": true}
+{"t": "2026-10-12T21:49:49.662812+00:00", "where": "block_9", "free_gb": 6.640815734863281, "threshold_gb": 2.5, "ok": true}
+{"t": "2026-10-12T21:52:25.960038+00:00", "where": "block_10", "free_gb": 6.6373748779296875, "threshold_gb": 2.5, "ok": true}
+{"t": "2026-10-12T21:54:54.774501+00:00", "where": "block_11", "free_gb": 6.6869354248046875, "threshold_gb": 2.5, "ok": true}

@@ -1,0 +1,27 @@
+{
+  "when_utc": "2026-10-12T21:58:53.817376+00:00",
+  "analysis_dir": "data\\results\\stage4_20261012\\gpu\\analysis",
+  "checks": [
+    {
+      "check": "evidence manifest data\\results\\stage4_20261012\\gpu\\sessions\\20261013T025636",
+      "ok": false,
+      "detail": "SHA256_MANIFEST.tsv missing"
+    },
+    {
+      "check": "event-log hashes vs run manifests",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "table summary reproduced from raw logs",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "table effects reproduced from raw logs",
+      "ok": true,
+      "detail": []
+    }
+  ],
+  "ok": false
+}

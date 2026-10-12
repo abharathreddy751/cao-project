@@ -1,137 +1,140 @@
-# Presentation outline (skeleton)
+# Presentation outline
 
-Status: **[plan] 2026-10-12.** 14 slides, three bullets each. Numbers appear only where an evidence file already holds them (file and field named); everything else is `PENDING(<file>)` and is filled from [FINAL_REPORT.md](FINAL_REPORT.md) at the end of Stage 4. Figure and table file names are the outputs of `scripts/analyze_experiment.py --out analysis/montage_main`: tables `runs.csv`, `exclusions.csv`, `summary.csv`, `effects.csv`, `crosscheck.csv`, `analysis.json`; figures `fig_makespan_by_policy.png`, `fig_overhead_breakdown.png`, `fig_effect_vs_baseline.png`. Each figure carries its evidence label (`evidence: real`). Figures with a path other than `analysis/montage_main/` are provisional names for files not yet written. Labels: **[real]**, **[emulation]**, **[plan]**, **[unverified]**.
+Status: **filled 2026-10-13 from [FINAL_REPORT.md](FINAL_REPORT.md) after the Stage 4 sessions.** 14 slides, three bullets each. Every number names its evidence file (paths relative to `data/results/`; `S4` = `stage4_20261012`). Figure files that exist are named exactly; figures that were never produced are marked **NOT PRODUCED** with the fallback (a table or text). Each analysis figure carries its evidence label (`evidence: real`). Labels: **[real]**, **[emulation]**, **[plan]**, **[unverified]**. Open items that need the owner are listed at the end.
 
 | # | Slide | Figure or table |
 |---|---|---|
 | 1 | Title | none |
 | 2 | Research question | none (text) |
-| 3 | Why Montage and a GPU workload | DAG sketch from `data/montage/instances/d1.1_dss2b_c56.7_24.0/instance.json`; PENDING(figure file) |
-| 4 | System architecture | architecture diagram PENDING(docs/research_redesign/figures/architecture.svg) |
-| 5 | Workload facts | table from `data/results/stage1_20261011/valid/stage1_gate.json` |
-| 6 | Method: the predictor and scheduler ladder | ladder table PENDING(docs/research_redesign/figures/ladder.svg) |
+| 3 | Why Montage and a GPU workload | NOT PRODUCED (DAG sketch from `data/montage/instances/d1.1_dss2b_c56.7_24.0/instance.json`); fallback: task-type table |
+| 4 | System architecture | NOT PRODUCED (`docs/research_redesign/figures/architecture.svg` does not exist); fallback: bullet list from ARCHITECTURE_DECISIONS.md |
+| 5 | Workload facts | table from `stage1_20261011/valid/stage1_gate.json` and `stage3_20261012/refs/<instance>/run.json` |
+| 6 | Method: the predictor and scheduler ladder | NOT PRODUCED (`figures/ladder.svg` does not exist); fallback: ladder table below |
 | 7 | Stage 1 result | table from `stage1_gate.json` |
-| 8 | Stage 2 result | `data/results/stage2_20261012/stage2_gate.json` table; PENDING(analysis/stage2/fig_makespan_by_policy.png) |
-| 9 | Stage 3: prediction | PENDING(data/results/stage3_20261012/eval/metrics.csv) |
-| 10 | Stage 4: scheduling | `analysis/montage_main/fig_makespan_by_policy.png`, `analysis/montage_main/fig_effect_vs_baseline.png` |
-| 11 | Overhead | `analysis/montage_main/fig_overhead_breakdown.png` |
-| 12 | GPU workload | PENDING(data/results/stage1_20261011/gpu/gpu_spike.json) |
+| 8 | Stage 2 result | `stage2_20261012/analysis_stage2/fig_makespan_by_policy.png`; table from `stage2_gate.json` |
+| 9 | Stage 3: prediction | table from `stage3_20261012/eval/{tuning_loo,final_test}/metrics.json` (no figure exists) |
+| 10 | Stage 4: scheduling | `S4/analysis_main/fig_makespan_by_policy.png`, `S4/analysis_main/fig_effect_vs_baseline.png`, `S4/analysis_regimeR/fig_makespan_by_policy.png` |
+| 11 | Overhead | `S4/analysis_main/fig_overhead_breakdown.png` (decision-time bar is invisible at that scale; use the overhead table in FINAL_REPORT section 10) |
+| 12 | GPU workload | `S4/gpu/analysis/fig_effect_vs_baseline.png`, `S4/gpu/analysis/fig_makespan_by_policy.png` |
 | 13 | Limitations | none (text) |
-| 14 | Conclusions and next steps | `analysis/montage_main/effects.csv` |
+| 14 | Conclusions and next steps | table of the three conditions from `S4/analysis_main/effects.csv`, `S4/analysis_regimeR/effects.csv`, `S4/gpu/analysis/effects.csv` |
 
 ## Slide 1. Title
 
-- Title: execution-time prediction for dynamic DAG scheduling on heterogeneous resources, a real-hardware study (working title from PROJECT_SPEC section 1; confirm wording).
-- Author, date, institution: PENDING(owner fills).
-- Evidence scope line: one laptop, Montage plus a separate GPU workload, **[real]**; Raspberry Pi 5 is **[plan]**.
+- Title: Prediction-aware dynamic scheduling of scientific-workflow DAGs on heterogeneous CPU/GPU resources: how much prediction is enough? (PROJECT_SPEC section 1; confirm wording; a one-line version: "a real-hardware study with a null result").
+- Author, date, institution: owner fills (no source file holds them).
+- Evidence scope line: one laptop (i5-13500HX, RTX 3050 6 GB), Montage plus a separate GPU workload, **[real]**; Raspberry Pi 5 is **[plan]**, no edge claim.
 
 Figure: none.
 
 ## Slide 2. Research question
 
 - Question: under what workload and resource conditions does prediction improve dynamic DAG scheduling after counting prediction, scheduling, queueing and transfer overhead? (PROJECT_SPEC section 4)
-- Hypothesis: prediction-aware placement beats the best non-predictive baseline only when runtime ratios and contention are large relative to its own cost and to timing noise; a null result is accepted.
-- Contribution: a controlled, overhead-accounted study of predictor sophistication, not a new algorithm; the base patent's task-graph-plus-queues idea is not claimed.
+- Hypothesis (pre-registered, falsifiable): prediction-aware placement beats the best non-predictive baseline only when runtime ratios and contention are large relative to its own cost and to timing noise; a null result is accepted.
+- Contribution: a controlled, overhead-accounted, verified real-hardware study with a null result and two mechanisms, plus the infrastructure; not a new algorithm, and the base patent's task-graph-plus-queues idea is not claimed.
 
 Figure: none.
 
 ## Slide 3. Why Montage and a GPU workload
 
-- Montage is a recognised scientific workflow: a DAG of eight task types with file dependencies, built natively on this machine (Windows patch).
-- It gives a real, reproducible, dozens-of-tasks DAG with heterogeneous task cost; earlier results came from an image pipeline of the project's own.
-- The GPU workload is a separate **[real]** CPU/GPU kernel workload on the laptop's RTX 3050 6 GB, used for transfer-aware placement; no claim about Montage on GPU.
+- Montage is a recognised scientific workflow: a DAG of eight task types with file dependencies, built natively on this machine (Windows patch, twelve workarounds, MONTAGE_WINDOWS_BUILD.md). Primary instance: 59 tasks = 9 `mProject`, 36 `mDiffFit`, 9 `mBackground`, 1 each of `mConcatFit`, `mBgModel`, `mImgtbl`, `mAdd`, `mViewer` (`stage1_gate.json`: `dag.n_jobs` 59; counts computed in FINAL_REPORT section 3).
+- `mProject` is 98.7% of sequential time (STAGE3_FREEZE section 4) and runs 111.8 s on a P core against 401.1 s on an E core (`stage2_20261012/profile_montage/20261012T092355_profile.json`): a 3.59 times speed gap.
+- The GPU workload is a separate **[real]** 68-task image pipeline (tile 1024 px, 16 branches) with CUDA stages on the RTX 3050; Montage has no GPU path, so no claim about Montage on GPU.
 
-Figure: DAG sketch of the primary instance (PENDING(figure file); structure from `instance.json`).
+Figure: NOT PRODUCED (DAG sketch). Do not show the Montage mosaic image: it derives from DSS data whose licence is unverified.
 
 ## Slide 4. System architecture
 
-- DAG runtime and coordinator, ready queue, event log, P and E worker pools.
-- Pluggable scheduler (baselines, HEFT, PEFT, EFT ladder, instrument) and pluggable estimator (E0 to E5, Ridge, CatBoost, MLP).
-- Decision-context logging feeds the dataset builder and the paired-block analysis; the dashboard shows runs live.
+- DAG runtime and coordinator, ready queue, JSONL event log, affinity-pinned P and E worker pools plus one CUDA worker, external-command tasks with declared files and fail-fast semantics.
+- Pluggable scheduler (B0 to B5, random, HEFT, PEFT, the EFT ladder, rank-priority instrument) and pluggable estimator (E1, E3, E1+rc, Ridge, CatBoost, MLP); one eligibility check for every policy; 0 ineligible placements in all logs.
+- Decision-context logging feeds the dataset builder (train/serve parity and leakage tests) and the paired-block analysis; the dashboard shows runs live (its header still names the old machine, FINAL_REPORT section 12 item 15).
 
-Figure: PENDING(docs/research_redesign/figures/architecture.svg), drawn from ARCHITECTURE_DECISIONS.md.
+Figure: NOT PRODUCED (`docs/research_redesign/figures/architecture.svg`); draw from ARCHITECTURE_DECISIONS.md or show these bullets.
 
 ## Slide 5. Workload facts
 
-- Primary instance: 59 tasks, 147 dependency edges (`stage1_gate.json`: `dag.n_jobs`, `dag.edges_jobDependencies`); 27 `mProject` tasks.
-- Four instances with sizes 19, 59, 59 and 157 tasks; roles training, training, tuning, final test (STAGE3_FREEZE section 1).
-- `mProject` dominates sequential time (98.7% per STAGE3_FREEZE section 4); pool profile 111.8 s on P against 401.1 s on E for `mProject` (STAGE3_FREEZE basis).
+- Primary instance: 59 tasks, 147 dependency edges (`stage1_gate.json`: `dag.n_jobs`, `dag.edges_jobDependencies`), 9 `mProject` tasks per run (the gate file's 27 is the total over three runs).
+- Four instances of 19, 59, 59 and 157 tasks with sequential times 489.7 s, 1459.4 s, 1083.7 s and 1896.4 s; roles training, training, tuning, final test (STAGE3_FREEZE section 1; times from `stage1_gate.json` and `stage3_20261012/refs/<instance>/run.json`).
+- Pool profile: `mProject` 111.8 s on P and 401.1 s on E; every other task type takes seconds or less.
 
-Figure: workload table built from `stage1_gate.json` and `data/results/stage3_20261012/refs/<instance>/run.json`.
+Figure: workload table built from `stage1_gate.json` and the `refs/<instance>/run.json` files.
 
 ## Slide 6. Method: the ladder from no prediction to learned models
 
-- Baselines: B0 P-only and E-only, B1 round-robin, B2 static P, B3 shortest queue, B4 greedy eligible, B5 criticality, random; HEFT and PEFT (secondary-source formulas, **[unverified]**).
-- Predictors: E1 static, E3 history, E1+rc recalibration, Ridge, CatBoost, MLP; TabM out by the pre-registered entry rule (too few rows).
-- Protocol: decision-time-safe features, leave-instance-out, final-test instance evaluated once, paired blocks, selection margin 2.0% fixed before data (STAGE3_FREEZE).
+- Baselines: B0 P-only and E-only, B1 round-robin, B2 static P, B3 shortest queue, B4 greedy eligible, B5 criticality, random; HEFT and PEFT from secondary-source formulas (**[unverified]**, originals unreachable).
+- Predictors: E1 static profile, E3 history, E1+rc recalibration, Ridge, CatBoost, MLP; TabM out by the pre-registered entry rule (2,706 rows, 20,000 needed). EFT placement uses each predictor; the instrument is rank-priority EFT with E1.
+- Protocol: decision-time-safe features, leave-instance-out, `d1.5` final-test instance evaluated once, interleaved seeded blocks, selection margin 2.0% and the Stage 4 design fixed before data (STAGE3_FREEZE; EVALUATION_PROTOCOL section 12).
 
-Figure: ladder diagram PENDING(docs/research_redesign/figures/ladder.svg).
+Figure: NOT PRODUCED (`figures/ladder.svg`); show the ladder as a table: E1 < E3 < E1+rc < Ridge < CatBoost < MLP (frozen order; measured inference median 1.2, 1.1, 1.3, 6.1, 478 and 22.5 µs, `eval/final_test/metrics.json`).
 
 ## Slide 7. Stage 1 result: reproducible workload
 
-- Three complete sequential runs of the primary instance, identical output hashes (`stage1_gate.json`: `output_hashes_identical` true, `completed_3_of_3` true).
-- Wall times 1459.4 s, 1467.1 s, 1469.3 s (`reps.seq1/seq2/seq3.total_wall_s`); WCS header checks all ok (`wcs.all_header_ok`).
+- Three complete sequential runs of the primary instance with identical output hashes (`stage1_gate.json`: `output_hashes_identical` true, `completed_3_of_3` true); FITS max abs difference 0.0.
+- Wall times 1459.4 s, 1467.1 s, 1469.3 s (`reps.seq1/seq2/seq3.total_wall_s`); WCS header checks all ok (`wcs.all_header_ok`); finite fraction 0.9666.
 - Sequential references also exist for the other three instances (`refs/<instance>/run.json`, all status ok).
 
 Figure: Stage 1 table from `stage1_gate.json`.
 
 ## Slide 8. Stage 2 result: 14 policies on the heterogeneous runtime
 
-- 42 runs, 0 failing checks (`stage2_gate.json`: `n_runs`, `n_failing_checks`); all outputs verified.
-- Descriptive reading: B0 P-only mean 270.9 s is not slower than the predictive policies (273.3 s to 275.5 s); greedy B4 mean 410.5 s takes about 1.5 times as long (`makespan_by_condition.*.mean_s`).
-- Three blocks per policy, no interval: this shows the P pool dominates on this profile, not that prediction is useless in general.
+- 42 runs, 0 failing checks, all outputs verified (`stage2_20261012/stage2_gate.json`: `n_runs`, `n_failing_checks`).
+- B0 P-only mean 270.9 s is not slower than any predictive policy (273.3 s to 275.5 s, +0.9% to +1.7%); greedy B4 mean 410.5 s takes 1.52 times as long (`makespan_by_condition.*.mean_s`; effects with intervals in `analysis_stage2/effects.csv`).
+- Three blocks per policy: descriptive. It shows the P pool dominates on this profile, not that prediction is useless in general.
 
-Figure: PENDING(analysis/stage2/fig_makespan_by_policy.png) from the 42 Stage 2 logs; table from `stage2_gate.json`.
+Figure: `stage2_20261012/analysis_stage2/fig_makespan_by_policy.png`; table from `stage2_gate.json`.
 
 ## Slide 9. Stage 3: prediction
 
-- Collection: 42 runs on four instances (`designs_v2/`), about 2,600 task rows at most; fitting rows PENDING(data/results/stage3_20261012/dataset/manifest.json).
-- Accuracy of E1, E3, E1+rc, Ridge, CatBoost, MLP on held-out instances: median APE PENDING(data/results/stage3_20261012/eval/metrics.csv); final test on the withheld 157-task instance PENDING(data/results/stage3_20261012/eval_test/metrics.csv).
-- Cost of each model (latency, memory, size) PENDING(data/results/stage3_20261012/eval/costs.csv); selected model PENDING(data/results/stage3_20261012/eval/model_selection.json).
+- Collection: 42 verified runs on four instances plus 18 Stage 2 runs = 60 runs, 3,648 task rows (2,706 fitting, 942 held out on `d1.5`); 1,416 tasks without a logged decision context dropped and counted (`stage3_20261012/dataset/20261012T195206/manifest.json`).
+- Held-out mean absolute error in seconds, leave-one-instance-out (`eval/tuning_loo/metrics.json`): E1 3.54, E3 3.53, E1+rc 3.55, Ridge 1.32, CatBoost 2.35, MLP 1.86. Final test `d1.5`, evaluated once (`eval/final_test/metrics.json`): E1 3.26, E3 2.71, E1+rc 2.69, Ridge 1.36, CatBoost 2.32, MLP 2.98 (RMSE 22.2 s). On the 19-task fold the learned models are worse than the static profile (Ridge 4.00 s against 1.81 s).
+- Cost: median inference 6.5 µs (Ridge), 18 µs (MLP), 491 µs (CatBoost); training 0.01 s, 4.7 s, 0.44 s (leave-one-out means); selection by the frozen rule over 18 pilot runs (all within 0.5%, 271.4 s to 272.7 s): **EFT_E1 selected** (`selection/selection_record.json`).
 
-Figure: held-out error by model and instance, PENDING(data/results/stage3_20261012/eval/fig_error_by_model.png).
+Figure: none exists; present the MAE table above.
 
 ## Slide 10. Stage 4: does prediction improve scheduling?
 
-- Makespan by policy with 95% bootstrap intervals: PENDING(analysis/montage_main/summary.csv).
-- Paired effect against the strongest non-predictive baseline, Holm-adjusted: PENDING(analysis/montage_main/effects.csv); verdict on the hypothesis follows the support and reject criteria fixed beforehand.
-- Conditions with high versus low runtime ratio and contention are reported separately; a null result is stated as a null.
+- All pools (6 P + 7 E, 44 runs, 4 blocks, reference B0 P-only 268.5 s): every EFT, HEFT and PEFT policy was 1.3% to 1.9% slower (EFT_E1 +1.31%, interval +0.85 to +1.77; HEFT +1.80%; PEFT +1.86%); greedy B4 +54.4% (`S4/analysis_main/effects.csv`).
+- Scarce P cores (2 P + 7 E, 15 runs, 3 blocks, reference B4 greedy 407.6 s): EFT_E1 -0.01% (interval -0.12 to +0.11), HEFT +0.06%, P-only +41.4%, **EFT_CatBoost +15.0%** (468.6 s) (`S4/analysis_regimeR/effects.csv`).
+- Two mechanisms: early binding loses about 3.4 s on the last `mProject` (consistent with and confirmed by the worker and timeline records; not a controlled experiment); in the scarce-P case CatBoost under-predicts P (94.4 s against about 114 s) and over-predicts E (450 s against 401 s) at a knife-edge decision. Holm-adjusted tests cannot be significant with 3 or 4 blocks (minimum p 0.25 and 0.125): results are descriptive intervals.
 
-Figure: `analysis/montage_main/fig_makespan_by_policy.png` and `analysis/montage_main/fig_effect_vs_baseline.png`.
+Figure: `S4/analysis_main/fig_makespan_by_policy.png` and `S4/analysis_main/fig_effect_vs_baseline.png`; `S4/analysis_regimeR/fig_makespan_by_policy.png`. Caveat: y-axes do not start at zero and the axis label says "log scale".
 
 ## Slide 11. Overhead
 
-- Scheduling and inference time per run, queue wait and transfer, as measured components only: PENDING(analysis/montage_main/summary.csv).
-- Latency and memory per predictor: PENDING(data/results/stage3_20261012/eval/costs.csv).
-- Does the gain survive once decision cost is counted: PENDING(analysis/montage_main/effects.csv).
+- Decision time per run (`S4/analysis_main/summary.csv`): E1 0.021 s, HEFT 0.003 s, Ridge 0.056 s, MLP 0.115 s, CatBoost 1.50 s (0.55% of makespan); per decision 0.35 ms (E1) to 25 ms (CatBoost). It includes estimator inference, which the log cannot separate.
+- Predictor memory and latency by model: slide 9 and FINAL_REPORT section 7.2 (training RSS increase 1 MB Ridge, 64 MB CatBoost, 551 MB MLP). Transfer is not measured (shared directory); utilisation 0.35 to 0.40.
+- Does the gain survive once decision cost is counted? There is no gain: makespan is end-to-end and the predictive policies are slower than P-only; E1's decision time (0.02 s) is not the cause of its 3.5 s deficit.
 
-Figure: `analysis/montage_main/fig_overhead_breakdown.png`.
+Figure: `S4/analysis_main/fig_overhead_breakdown.png` (queue wait dominates the bar; decision-time bar invisible). Better: show the table of decision time per run.
 
 ## Slide 12. GPU workload
 
-- Separate **[real]** workload on the RTX 3050 6 GB Laptop GPU; Stage 1 spike PENDING(data/results/stage1_20261011/gpu/gpu_spike.json).
-- Transfer-aware placement result, paired blocks: PENDING(data/results/stage4_main/gpu/gpu_effects.csv).
-- Output verification and scope: this GPU and this workload only; PENDING(data/results/stage4_main/gpu/gpu_runs.csv).
+- Separate **[real]** workload on the RTX 3050 6 GB: at 1024 px `img_edges` 13.96x, `img_features` 4.87x, `img_denoise` 1.03x with copies counted, all within tolerance (`stage1_20261011/gpu/spike_20261012T092018/gpu_spike.json`). Makespan about 7 s: CPU-only `img_source` (5.6 s on a P core) and `img_package` (0.67 s) dominate; the GPU stages take milliseconds.
+- 12 blocks x 7 conditions = 84 verified runs (`S4/gpu/analysis/effects.csv`): EFT_E1 with GPU against its CPU-only version -2.0% (interval -2.77 to -1.27); against greedy B4 with GPU -3.94% (interval -4.58 to -3.24); **against B0 P-only -0.41% (interval -0.92 to +0.02, includes zero)**; B4 with GPU against B4 CPU-only -0.46% (interval -1.12 to +0.23); random +85%.
+- Scope: the absolute gain is about 0.14 s (7.197 s to 7.054 s); this GPU and this workload only; the contrasts against B4 and EFT_E1_cpu are post-hoc and the GPU session was not in the written pre-registration.
 
-Figure: PENDING(data/results/stage4_main/gpu/fig_gpu_effect.png).
+Figure: `S4/gpu/analysis/fig_effect_vs_baseline.png` and `S4/gpu/analysis/fig_makespan_by_policy.png`.
 
 ## Slide 13. Limitations
 
-- One machine, patched Windows Montage build, machine not idle; HEFT and PEFT from secondary sources; literature not fully verified; DSS image licence unverified.
-- Few rows and one dominant task type; instances share a sky centre; Stage 2 is descriptive with three blocks per policy.
-- Raspberry Pi 5 not done and the emulated remote pool not used: no edge-offloading claim.
+- One machine, patched Windows Montage build and patched generator, machine not idle (WSL VM, browser, editor); HEFT and PEFT from secondary sources; patent claim text and literature not fully verified; DSS image licence unverified.
+- One dominant task type, speed ratio 3.59, two instances and 3 to 4 blocks in the Stage 4 Montage sessions; pre-registration flaw (Holm sign-flip test cannot be significant with 3 to 4 blocks); the early-binding mechanism is not tested as a controlled experiment; the GPU workload is dominated by CPU stages; dashboard header text still shows the old machine.
+- Raspberry Pi 5 not done and the emulated remote pool not used in Montage runs: no edge-offloading claim; first-run and failed attempts are kept in the raw data.
 
 Figure: none.
 
 ## Slide 14. Conclusions and next steps
 
-- Answer to the research question and verdict on the hypothesis, limited to the evidence labels: PENDING(analysis/montage_main/effects.csv).
-- What the data support so far: the workload is reproducible and the heterogeneous runtime is correct on this machine ([real], Stages 1 and 2).
-- Next: Raspberry Pi 5 extension (ARM Montage build, real network, foreign-clock check, node authentication, ARM numeric-tolerance output checks), **[plan]**.
+- Answer: under the conditions tested, prediction-aware placement did **not** beat the best simple baseline: not supported in all pools (P-only wins by 1.3% to 1.9%), scarce P (ties greedy), and GPU (not distinguishable from P-only); a simple method matches prediction there; predictor sophistication did not improve scheduling (pilot within 0.5%; CatBoost 15.0% worse in scarce-P); significance not resolved by this design.
+- What the data support: the workload is reproducible, the heterogeneous runtime is correct (44 + 15 + 84 verified Stage 4 runs, 0 violations), the study is a controlled real-hardware null result with two mechanisms (early versus late binding; knife-edge decisions amplify prediction bias). The expected null by construction (one dominant task type, trivial P-only optimum) is stated in the pre-registration.
+- Next: a design with more blocks or a workload where prediction can matter (owner decision), then the Raspberry Pi 5 extension (ARM Montage build, real network, foreign-clock check, node authentication, ARM numeric-tolerance output checks), **[plan]**.
 
-Figure: `analysis/montage_main/effects.csv` summary table.
+Figure: three-condition summary table from `S4/analysis_main/effects.csv`, `S4/analysis_regimeR/effects.csv`, `S4/gpu/analysis/effects.csv`.
 
 ## Open items for the speaker
 
-- Every PENDING marker above must be replaced or the slide cut; a slide with an unfilled number is not shown.
-- Wording on slide 8 stays "descriptive"; do not present the Stage 2 ordering as a test result.
+- Slide 1 needs title wording, author, date and institution from the owner. Slides 3, 4 and 6 name figures that were never produced; produce them or use the fallbacks stated above. Slide 9 has no figure file.
+- Wording on slide 8 stays "descriptive"; do not present the Stage 2 ordering as a test result. Do not call any Stage 4 contrast "significant": the pre-registered test cannot reach significance with 3 or 4 blocks (FINAL_REPORT section 4.4).
+- Do not show images derived from the DSS data (for example the mosaic) until the DSS terms of use are checked.
+- The clean-checkout reproduction is still `PENDING(stage4_repro/repro_log.json)`: do not claim a clean-checkout reproduction on any slide until that file exists.
+- Figure caveats: the makespan figures label the axis "log scale" with linear-looking ticks and a non-zero start; the "evidence: real" caption overlaps the first tick label; the overhead figure's decision-time bar is invisible.

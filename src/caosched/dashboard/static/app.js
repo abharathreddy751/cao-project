@@ -676,7 +676,7 @@ function drawHardware() {
     }
   };
   svg("rect", { x: 10, y: 10, width: 560, height: 380, rx: 14, class: "box real", style: "fill:transparent" }, root);
-  txt(root, 28, 36, "Laptop · Intel Core i5-1235U (this machine)", { class: "title" });
+  txt(root, 28, 36, "Laptop · Intel Core i5-1235U (earlier machine, historical data)", { class: "title" });
   txt(root, 28, 54, "runtime, schedulers and application: implemented, executed and verified here", { class: "t2" });
   box(30, 72, 250, 84, "", "Coordinator + remote proxy", [`LP ${topo ? topo.coordinator_core : "?"} (reserved core)`, "B4 greedy · EFT_E1_rc scheduler", "event log, artifact store"], ["good", "✓"]);
   box(300, 72, 250, 84, "", "P-core pool", [`${topo ? topo.p_core_slots.length : "?"} workers · LP ${topo ? topo.p_core_slots.join(", ") : "?"}`, "local stage execution"], ["good", "✓"]);

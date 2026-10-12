@@ -1,0 +1,674 @@
+{
+ "label": "real",
+ "session": "data/results/stage4_20261012/sessions_main/20261012T212448",
+ "n_runs": 44,
+ "n_failing_checks": 0,
+ "failing": {},
+ "makespan_by_condition": {
+  "B0_P_only": {
+   "n": 4,
+   "mean_s": 268.4560992250008,
+   "min_s": 267.9054774999968,
+   "max_s": 269.62040539999725
+  },
+  "B4_greedy_eligible": {
+   "n": 4,
+   "mean_s": 414.46163230000093,
+   "min_s": 410.2649764000089,
+   "max_s": 418.5495348999975
+  },
+  "EFT_CatBoost": {
+   "n": 4,
+   "mean_s": 272.26603305000026,
+   "min_s": 271.29252709999855,
+   "max_s": 273.1220753999951
+  },
+  "EFT_E1": {
+   "n": 4,
+   "mean_s": 271.97586797500117,
+   "min_s": 270.48651170000085,
+   "max_s": 273.26481449999847
+  },
+  "EFT_E1_rank": {
+   "n": 4,
+   "mean_s": 272.6071034000015,
+   "min_s": 271.84881440000026,
+   "max_s": 274.0597215000016
+  },
+  "EFT_E1_rc": {
+   "n": 4,
+   "mean_s": 271.958480375004,
+   "min_s": 271.1241338000109,
+   "max_s": 273.0804497000063
+  },
+  "EFT_E3": {
+   "n": 4,
+   "mean_s": 272.4810010750007,
+   "min_s": 271.8366742000071,
+   "max_s": 273.30892189999577
+  },
+  "EFT_MLP": {
+   "n": 4,
+   "mean_s": 272.8030151499988,
+   "min_s": 271.20284360001097,
+   "max_s": 275.3822172999935
+  },
+  "EFT_Ridge": {
+   "n": 4,
+   "mean_s": 272.8471448499986,
+   "min_s": 272.02745460000006,
+   "max_s": 273.5178537000029
+  },
+  "HEFT_E1": {
+   "n": 4,
+   "mean_s": 273.2880833749987,
+   "min_s": 272.20375099999364,
+   "max_s": 276.37414369999897
+  },
+  "PEFT_E1": {
+   "n": 4,
+   "mean_s": 273.47644437500276,
+   "min_s": 270.6362786999962,
+   "max_s": 278.9337404000107
+  }
+ },
+ "runs": {
+  "b0000_00_EFT_MLP": {
+   "condition": "EFT_MLP",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 275.3822172999935,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 53,
+    "E": 6
+   }
+  },
+  "b0000_01_EFT_E1_rc": {
+   "condition": "EFT_E1_rc",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 271.1241338000109,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 59
+   }
+  },
+  "b0000_02_PEFT_E1": {
+   "condition": "PEFT_E1",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 270.6362786999962,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 50,
+    "E": 9
+   }
+  },
+  "b0000_03_EFT_E1_rank": {
+   "condition": "EFT_E1_rank",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 271.92881879999186,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 59
+   }
+  },
+  "b0000_04_EFT_E1": {
+   "condition": "EFT_E1",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 270.48651170000085,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 59
+   }
+  },
+  "b0000_05_B4_greedy_eligible": {
+   "condition": "B4_greedy_eligible",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 417.98067019999144,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 49,
+    "E": 10
+   }
+  },
+  "b0000_06_EFT_CatBoost": {
+   "condition": "EFT_CatBoost",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 271.29252709999855,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 57,
+    "E": 2
+   }
+  },
+  "b0000_07_HEFT_E1": {
+   "condition": "HEFT_E1",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 276.37414369999897,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 50,
+    "E": 9
+   }
+  },
+  "b0000_08_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 269.62040539999725,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 59
+   }
+  },
+  "b0000_09_EFT_E3": {
+   "condition": "EFT_E3",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 272.63605300000927,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 50,
+    "E": 9
+   }
+  },
+  "b0000_10_EFT_Ridge": {
+   "condition": "EFT_Ridge",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 273.5178537000029,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 58,
+    "E": 1
+   }
+  },
+  "b0001_00_EFT_E1_rc": {
+   "condition": "EFT_E1_rc",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 271.22421549999854,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 59
+   }
+  },
+  "b0001_01_EFT_E1_rank": {
+   "condition": "EFT_E1_rank",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 274.0597215000016,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 59
+   }
+  },
+  "b0001_02_EFT_E1": {
+   "condition": "EFT_E1",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 272.50626380000904,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 59
+   }
+  },
+  "b0001_03_HEFT_E1": {
+   "condition": "HEFT_E1",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 272.33651100000134,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 50,
+    "E": 9
+   }
+  },
+  "b0001_04_EFT_Ridge": {
+   "condition": "EFT_Ridge",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 272.02745460000006,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 54,
+    "E": 5
+   }
+  },
+  "b0001_05_B4_greedy_eligible": {
+   "condition": "B4_greedy_eligible",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 411.05134770000586,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 50,
+    "E": 9
+   }
+  },
+  "b0001_06_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 268.3537759000028,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 59
+   }
+  },
+  "b0001_07_PEFT_E1": {
+   "condition": "PEFT_E1",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 278.9337404000107,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 50,
+    "E": 9
+   }
+  },
+  "b0001_08_EFT_E3": {
+   "condition": "EFT_E3",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 273.30892189999577,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 59
+   }
+  },
+  "b0001_09_EFT_CatBoost": {
+   "condition": "EFT_CatBoost",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 272.6411698000011,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 57,
+    "E": 2
+   }
+  },
+  "b0001_10_EFT_MLP": {
+   "condition": "EFT_MLP",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 271.68532059999416,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 55,
+    "E": 4
+   }
+  },
+  "b0002_00_PEFT_E1": {
+   "condition": "PEFT_E1",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 271.9783078000037,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 50,
+    "E": 9
+   }
+  },
+  "b0002_01_EFT_CatBoost": {
+   "condition": "EFT_CatBoost",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 272.0083599000063,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 59
+   }
+  },
+  "b0002_02_EFT_E1_rank": {
+   "condition": "EFT_E1_rank",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 271.84881440000026,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 59
+   }
+  },
+  "b0002_03_EFT_E3": {
+   "condition": "EFT_E3",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 271.8366742000071,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 59
+   }
+  },
+  "b0002_04_HEFT_E1": {
+   "condition": "HEFT_E1",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 272.20375099999364,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 50,
+    "E": 9
+   }
+  },
+  "b0002_05_EFT_MLP": {
+   "condition": "EFT_MLP",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 271.20284360001097,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 57,
+    "E": 2
+   }
+  },
+  "b0002_06_EFT_E1": {
+   "condition": "EFT_E1",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 271.6458818999963,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 59
+   }
+  },
+  "b0002_07_B4_greedy_eligible": {
+   "condition": "B4_greedy_eligible",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 410.2649764000089,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 49,
+    "E": 10
+   }
+  },
+  "b0002_08_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 267.94473810000636,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 59
+   }
+  },
+  "b0002_09_EFT_E1_rc": {
+   "condition": "EFT_E1_rc",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 272.4051225000003,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 57,
+    "E": 2
+   }
+  },
+  "b0002_10_EFT_Ridge": {
+   "condition": "EFT_Ridge",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 273.1377996999945,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 55,
+    "E": 4
+   }
+  },
+  "b0003_00_EFT_E1": {
+   "condition": "EFT_E1",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 273.26481449999847,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 59
+   }
+  },
+  "b0003_01_B4_greedy_eligible": {
+   "condition": "B4_greedy_eligible",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 418.5495348999975,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 50,
+    "E": 9
+   }
+  },
+  "b0003_02_EFT_Ridge": {
+   "condition": "EFT_Ridge",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 272.7054713999969,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 58,
+    "E": 1
+   }
+  },
+  "b0003_03_EFT_CatBoost": {
+   "condition": "EFT_CatBoost",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 273.1220753999951,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 57,
+    "E": 2
+   }
+  },
+  "b0003_04_EFT_E1_rank": {
+   "condition": "EFT_E1_rank",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 272.5910589000123,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 59
+   }
+  },
+  "b0003_05_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 267.9054774999968,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 59
+   }
+  },
+  "b0003_06_EFT_MLP": {
+   "condition": "EFT_MLP",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 272.9416790999967,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 57,
+    "E": 2
+   }
+  },
+  "b0003_07_HEFT_E1": {
+   "condition": "HEFT_E1",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 272.23792780000076,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 50,
+    "E": 9
+   }
+  },
+  "b0003_08_EFT_E1_rc": {
+   "condition": "EFT_E1_rc",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 273.0804497000063,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 59
+   }
+  },
+  "b0003_09_EFT_E3": {
+   "condition": "EFT_E3",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 272.14235519999056,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 59
+   }
+  },
+  "b0003_10_PEFT_E1": {
+   "condition": "PEFT_E1",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 272.35745060000045,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 50,
+    "E": 9
+   }
+  }
+ }
+}
