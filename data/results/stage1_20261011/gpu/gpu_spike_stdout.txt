@@ -1,0 +1,21 @@
+img_denoise   {'radius': 2.0, 'iterations': 1}     128px cpu     0.371 ms  gpu    1.450 ms  x  0.26  eq=True maxabs=0.0  DROPPED
+img_denoise   {'radius': 2.0, 'iterations': 8}     128px cpu     2.820 ms  gpu    9.992 ms  x  0.28  eq=True maxabs=0.0  DROPPED
+img_edges     {}                                   128px cpu     0.287 ms  gpu    0.589 ms  x  0.49  eq=True maxabs=0.0  DROPPED
+img_features  {}                                   128px cpu     0.104 ms  gpu    0.542 ms  x  0.19  eq=True maxabs=0.0  DROPPED
+img_denoise   {'radius': 2.0, 'iterations': 1}     256px cpu     1.419 ms  gpu    1.916 ms  x  0.74  eq=True maxabs=0.0  DROPPED
+img_denoise   {'radius': 2.0, 'iterations': 8}     256px cpu    10.753 ms  gpu   12.239 ms  x  0.88  eq=True maxabs=0.0  DROPPED
+img_edges     {}                                   256px cpu     1.083 ms  gpu    0.648 ms  x  1.67  eq=True maxabs=0.0  PASS
+img_features  {}                                   256px cpu     0.368 ms  gpu    0.772 ms  x  0.48  eq=True maxabs=0.0  DROPPED
+img_denoise   {'radius': 2.0, 'iterations': 1}     512px cpu     6.449 ms  gpu    6.703 ms  x  0.96  eq=True maxabs=0.0  DROPPED
+img_denoise   {'radius': 2.0, 'iterations': 8}     512px cpu    48.783 ms  gpu   41.923 ms  x  1.16  eq=True maxabs=0.0  PASS
+img_edges     {}                                   512px cpu     5.837 ms  gpu    0.760 ms  x  7.68  eq=True maxabs=0.0  PASS
+img_features  {}                                   512px cpu     2.268 ms  gpu    0.789 ms  x  2.88  eq=True maxabs=0.0  PASS
+img_denoise   {'radius': 2.0, 'iterations': 1}    1024px cpu    29.781 ms  gpu   24.675 ms  x  1.21  eq=True maxabs=0.0  PASS
+img_denoise   {'radius': 2.0, 'iterations': 8}    1024px cpu   211.990 ms  gpu  155.718 ms  x  1.36  eq=True maxabs=0.0  PASS
+img_edges     {}                                  1024px cpu    39.093 ms  gpu    2.596 ms  x 15.06  eq=True maxabs=0.0  PASS
+img_features  {}                                  1024px cpu    10.703 ms  gpu    2.054 ms  x  5.21  eq=True maxabs=0.0  PASS
+img_denoise   {'radius': 2.0, 'iterations': 1}    2048px cpu   127.116 ms  gpu   95.213 ms  x  1.34  eq=True maxabs=0.0  PASS
+img_denoise   {'radius': 2.0, 'iterations': 8}    2048px cpu   866.450 ms  gpu  609.409 ms  x  1.42  eq=True maxabs=0.0  PASS
+img_edges     {}                                  2048px cpu   160.754 ms  gpu    9.156 ms  x 17.56  eq=True maxabs=0.0  PASS
+img_features  {}                                  2048px cpu    49.597 ms  gpu    6.436 ms  x  7.71  eq=True maxabs=0.0  PASS
+wrote D:\cao project\data\results\stage1_20261011\gpu

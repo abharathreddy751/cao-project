@@ -13,3 +13,8 @@ data/benchmarks/*.csv
 data/environment/*.json
 data/reports/*.json
 !data/**/.gitkeep
+
+# Stage 1+ large/generated data (recorded by SHA-256 manifests instead)
+data/montage/
+data/results/stage*/**/work/
+data/experiments/

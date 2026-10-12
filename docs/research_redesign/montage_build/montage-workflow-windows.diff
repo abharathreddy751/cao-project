@@ -1,0 +1,22 @@
+41,42c41,43
+<         if os.path.exists(os.path.join(path, file)):
+<             return os.path.join(path, file)
+---
+>         for ext in ('', '.exe'):
+>             if os.path.exists(os.path.join(path, file + ext)):
+>                 return os.path.join(path, file + ext)
+76c77
+<         if fname[0] == '.':
+---
+>         if fname[0] == '.' or not fname.endswith('.exe'):
+77a79,80
+>         pfn = os.path.join(base_dir, fname)
+>         fname = fname[:-4]
+81c84
+<                                         pfn=os.path.join(base_dir, fname),
+---
+>                                         pfn=pfn,
+176c179
+<     cmd = 'mArchiveList %s %s \'%s\' %s %s data/%s-images.tbl' \
+---
+>     cmd = "mArchiveList %s %s \"%s\" %s %s data/%s-images.tbl" \

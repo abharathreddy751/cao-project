@@ -1,0 +1,37 @@
+tests/test_analysis_paired.py rc=0 9s :: ...........                                                              [100%] 11 passed in 8.49s 
+tests/test_apps.py rc=0 39s :: .........                                                                [100%] 9 passed in 38.14s 
+tests/test_clock.py rc=0 1s :: ...                                                                      [100%] 3 passed in 0.39s 
+tests/test_coordinator.py rc=0 3s :: .......................                                                  [100%] 23 passed in 2.64s 
+tests/test_cuda_stages.py rc=0 4s :: .....                                                                    [100%] 5 passed in 2.56s 
+tests/test_dag.py rc=0 0s :: ...............                                                          [100%] 15 passed in 0.04s 
+tests/test_dashboard.py rc=0 18s :: .................                                                        [100%] 17 passed in 16.47s 
+tests/test_dataset.py rc=0 1s :: ......                                                                   [100%] 6 passed in 0.55s 
+tests/test_dataset_build.py rc=0 0s :: ....                                                                     [100%] 4 passed in 0.24s 
+tests/test_e2e.py rc=0 1s :: .......                                                                  [100%] 7 passed in 0.20s 
+tests/test_eligibility.py rc=0 11s :: ................................                                         [100%] 32 passed in 9.22s 
+tests/test_est_identity.py rc=0 11s :: .....                                                                    [100%] 5 passed in 8.77s 
+tests/test_estimators.py rc=0 1s :: .........................                                                [100%] 25 passed in 0.38s 
+tests/test_experiment_design.py rc=0 0s :: ...                                                                      [100%] 3 passed in 0.08s 
+tests/test_experiment_runner.py rc=0 4s :: ..........                                                               [100%] 10 passed in 3.10s 
+tests/test_extcmd.py rc=0 14s :: ..............                                                           [100%] 14 passed in 12.71s 
+tests/test_gpu_adapter.py rc=0 8s :: ....                                                                     [100%] 4 passed in 6.22s 
+tests/test_heft_peft.py rc=0 1s :: .........                                                                [100%] 9 passed in 1.14s 
+tests/test_models.py rc=0 9s :: ...................                                                      [100%] 19 passed in 6.55s 
+tests/test_montage_adapter.py rc=0 3s :: .....                                                                    [100%] 5 passed in 2.71s 
+tests/test_parity_leakage.py rc=0 2s :: ..........                                                               [100%] 10 passed in 1.41s 
+tests/test_phase4.py rc=0 1s :: ..........                                                               [100%] 10 passed in 0.69s 
+tests/test_profile_montage.py rc=0 6s :: ..                                                                       [100%] 2 passed in 6.16s 
+tests/test_ready_queue.py rc=0 1s :: .....                                                                    [100%] 5 passed in 0.05s 
+tests/test_remote.py rc=0 8s :: ..............                                                           [100%] 14 passed in 6.24s 
+tests/test_reproduce_clean_checkout.py rc=0 2s :: ..........                                                               [100%] 10 passed in 1.17s 
+tests/test_runtime_hardening.py rc=0 6s :: ..........                                                               [100%] 10 passed in 5.10s 
+tests/test_runtime_state.py rc=0 0s :: ..                                                                       [100%] 2 passed in 0.04s 
+tests/test_schedulers.py rc=0 1s :: ..............                                                           [100%] 14 passed in 0.21s 
+tests/test_stats.py rc=0 5s :: .........                                                                [100%] 9 passed in 3.81s 
+tests/test_task.py rc=0 1s :: ...........                                                              [100%] 11 passed in 0.04s 
+tests/test_topology.py rc=0 0s :: ....                                                                     [100%] 4 passed in 0.07s 
+tests/test_trace.py rc=0 1s :: ........                                                                 [100%] 8 passed in 0.06s 
+tests/test_worker_pool.py rc=0 2s :: ............                                                             [100%] 12 passed in 1.21s 
+tests/test_workflow_adapter.py rc=0 4s :: ...........s                                                             [100%] 11 passed, 1 skipped in 3.38s 
+tests/test_workloads.py rc=0 1s :: ......                                                                   [100%] 6 passed in 0.12s 
+DONE

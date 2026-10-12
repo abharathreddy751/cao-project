@@ -1,0 +1,302 @@
+{
+ "label": "real",
+ "instance": "d1.1_dss2b_c56.7_24.0",
+ "status": "failed:ID0000010",
+ "total_wall_s": 1022.7315893000341,
+ "n_tasks": 10,
+ "final_outputs": {},
+ "tasks": [
+  {
+   "id": "ID0000001",
+   "name": "mProject",
+   "argv": [
+    "mProject.exe",
+    "-X",
+    "poss2ukstu_blue_001_001.fits",
+    "pposs2ukstu_blue_001_001.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "poss2ukstu_blue_001_001.fits",
+    "region-oversized.hdr"
+   ],
+   "outputs": [
+    {
+     "lfn": "pposs2ukstu_blue_001_001.fits",
+     "bytes": 53173440
+    },
+    {
+     "lfn": "pposs2ukstu_blue_001_001_area.fits",
+     "bytes": 53173440
+    }
+   ],
+   "wall_s": 113.96055680001155,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mProject\", time=114.0]"
+  },
+  {
+   "id": "ID0000002",
+   "name": "mProject",
+   "argv": [
+    "mProject.exe",
+    "-X",
+    "poss2ukstu_blue_001_002.fits",
+    "pposs2ukstu_blue_001_002.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "poss2ukstu_blue_001_002.fits",
+    "region-oversized.hdr"
+   ],
+   "outputs": [
+    {
+     "lfn": "pposs2ukstu_blue_001_002.fits",
+     "bytes": 53193600
+    },
+    {
+     "lfn": "pposs2ukstu_blue_001_002_area.fits",
+     "bytes": 53193600
+    }
+   ],
+   "wall_s": 113.75074369995855,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mProject\", time=113.0]"
+  },
+  {
+   "id": "ID0000003",
+   "name": "mProject",
+   "argv": [
+    "mProject.exe",
+    "-X",
+    "poss2ukstu_blue_001_003.fits",
+    "pposs2ukstu_blue_001_003.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "poss2ukstu_blue_001_003.fits",
+    "region-oversized.hdr"
+   ],
+   "outputs": [
+    {
+     "lfn": "pposs2ukstu_blue_001_003_area.fits",
+     "bytes": 53213760
+    },
+    {
+     "lfn": "pposs2ukstu_blue_001_003.fits",
+     "bytes": 53213760
+    }
+   ],
+   "wall_s": 112.89754460001132,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mProject\", time=112.0]"
+  },
+  {
+   "id": "ID0000004",
+   "name": "mProject",
+   "argv": [
+    "mProject.exe",
+    "-X",
+    "poss2ukstu_blue_002_001.fits",
+    "pposs2ukstu_blue_002_001.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "poss2ukstu_blue_002_001.fits",
+    "region-oversized.hdr"
+   ],
+   "outputs": [
+    {
+     "lfn": "pposs2ukstu_blue_002_001_area.fits",
+     "bytes": 53173440
+    },
+    {
+     "lfn": "pposs2ukstu_blue_002_001.fits",
+     "bytes": 53173440
+    }
+   ],
+   "wall_s": 113.9806007000152,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mProject\", time=114.0]"
+  },
+  {
+   "id": "ID0000005",
+   "name": "mProject",
+   "argv": [
+    "mProject.exe",
+    "-X",
+    "poss2ukstu_blue_002_002.fits",
+    "pposs2ukstu_blue_002_002.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "poss2ukstu_blue_002_002.fits",
+    "region-oversized.hdr"
+   ],
+   "outputs": [
+    {
+     "lfn": "pposs2ukstu_blue_002_002_area.fits",
+     "bytes": 53213760
+    },
+    {
+     "lfn": "pposs2ukstu_blue_002_002.fits",
+     "bytes": 53213760
+    }
+   ],
+   "wall_s": 114.07409589999588,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mProject\", time=114.0]"
+  },
+  {
+   "id": "ID0000006",
+   "name": "mProject",
+   "argv": [
+    "mProject.exe",
+    "-X",
+    "poss2ukstu_blue_002_003.fits",
+    "pposs2ukstu_blue_002_003.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "poss2ukstu_blue_002_003.fits",
+    "region-oversized.hdr"
+   ],
+   "outputs": [
+    {
+     "lfn": "pposs2ukstu_blue_002_003.fits",
+     "bytes": 53213760
+    },
+    {
+     "lfn": "pposs2ukstu_blue_002_003_area.fits",
+     "bytes": 53213760
+    }
+   ],
+   "wall_s": 113.25842630001716,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mProject\", time=114.0]"
+  },
+  {
+   "id": "ID0000007",
+   "name": "mProject",
+   "argv": [
+    "mProject.exe",
+    "-X",
+    "poss2ukstu_blue_003_001.fits",
+    "pposs2ukstu_blue_003_001.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "poss2ukstu_blue_003_001.fits",
+    "region-oversized.hdr"
+   ],
+   "outputs": [
+    {
+     "lfn": "pposs2ukstu_blue_003_001_area.fits",
+     "bytes": 53173440
+    },
+    {
+     "lfn": "pposs2ukstu_blue_003_001.fits",
+     "bytes": 53173440
+    }
+   ],
+   "wall_s": 113.42254299996421,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mProject\", time=113.0]"
+  },
+  {
+   "id": "ID0000008",
+   "name": "mProject",
+   "argv": [
+    "mProject.exe",
+    "-X",
+    "poss2ukstu_blue_003_002.fits",
+    "pposs2ukstu_blue_003_002.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "poss2ukstu_blue_003_002.fits",
+    "region-oversized.hdr"
+   ],
+   "outputs": [
+    {
+     "lfn": "pposs2ukstu_blue_003_002.fits",
+     "bytes": 53193600
+    },
+    {
+     "lfn": "pposs2ukstu_blue_003_002_area.fits",
+     "bytes": 53193600
+    }
+   ],
+   "wall_s": 113.91025499999523,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mProject\", time=114.0]"
+  },
+  {
+   "id": "ID0000009",
+   "name": "mProject",
+   "argv": [
+    "mProject.exe",
+    "-X",
+    "poss2ukstu_blue_003_003.fits",
+    "pposs2ukstu_blue_003_003.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "poss2ukstu_blue_003_003.fits",
+    "region-oversized.hdr"
+   ],
+   "outputs": [
+    {
+     "lfn": "pposs2ukstu_blue_003_003.fits",
+     "bytes": 53213760
+    },
+    {
+     "lfn": "pposs2ukstu_blue_003_003_area.fits",
+     "bytes": 53213760
+    }
+   ],
+   "wall_s": 113.44287039997289,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mProject\", time=113.0]"
+  },
+  {
+   "id": "ID0000010",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000001.000002.txt",
+    "pposs2ukstu_blue_001_001.fits",
+    "pposs2ukstu_blue_001_002.fits",
+    "1-diff.000001.000002.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_001_002_area.fits",
+    "pposs2ukstu_blue_001_001_area.fits",
+    "pposs2ukstu_blue_001_002.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_001_001.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000001.000002.txt",
+     "bytes": 0
+    }
+   ],
+   "wall_s": 0.029050700017251074,
+   "exit": 3221225477,
+   "ok": false,
+   "tail": "ng svc_getargs()<br>\nSVC_DEBUG>  svc_init(): index = 0<br>\nSVC_DEBUG>  svc_init(): pid   = -1<br>\nSVC_DEBUG>  svc_init(): path  = mDiff<br>\nSVC_DEBUG>  svc_init(): fdin  = 5<br>\nSVC_DEBUG>  svc_init(): fdout = 6<br>\nSVC_DEBUG>  svc_init(): fork() failed<br>\nSVC_DEBUG>  svc_init(): [Bad file descriptor]<br>\nSVC_DEBUG>  svc_run(): index (from svc_init()) = -1<br>\nSVC_DEBUG>  Entering svc_value()<br>"
+  }
+ ]
+}

@@ -1,0 +1,14 @@
+{
+ "label": "real",
+ "instance": "d1.1_dss2b_c56.7_24.0",
+ "status": "failed:ID0000011",
+ "total_wall_s": 3656.5775153000004,
+ "n_tasks": 11,
+ "final_outputs": {}
+}
+oject\scripts\montage_sequential.py", line 44, in main
+    work.mkdir(parents=True)  # never reuse
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Venkatesh\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1116, in mkdir
+    os.mkdir(self, mode)
+FileExistsError: [WinError 183] Cannot create a file when that file already exists: 'data\\results\\stage1_20261011\\rep2\\work'

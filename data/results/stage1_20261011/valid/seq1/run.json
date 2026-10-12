@@ -1,0 +1,1875 @@
+{
+ "label": "real",
+ "seeded_from": null,
+ "pinned_lp": 2,
+ "instance": "d1.1_dss2b_c56.7_24.0",
+ "status": "ok",
+ "total_wall_s": 1459.3705968000013,
+ "n_tasks": 59,
+ "final_outputs": {
+  "1-mosaic.fits": "54c1c4b0c827970e7dc6cb2ba949b4123ea069d51eae608ef0c031cb4ecdd84b",
+  "1-mosaic_area.fits": "49f3b92a57451509f58994e6e784a71896239b709f9cf48fe7c875c3d6b4ea64",
+  "1-mosaic.png": "2c33f7ce8590b9bd83e35e8fb7696b32c9d3b35c699637fa66a274fb2c11d935"
+ },
+ "tasks": [
+  {
+   "id": "ID0000001",
+   "name": "mProject",
+   "argv": [
+    "mProject.exe",
+    "-X",
+    "poss2ukstu_blue_001_001.fits",
+    "pposs2ukstu_blue_001_001.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "poss2ukstu_blue_001_001.fits",
+    "region-oversized.hdr"
+   ],
+   "outputs": [
+    {
+     "lfn": "pposs2ukstu_blue_001_001.fits",
+     "bytes": 53173440
+    },
+    {
+     "lfn": "pposs2ukstu_blue_001_001_area.fits",
+     "bytes": 53173440
+    }
+   ],
+   "wall_s": 165.5066012999996,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mProject\", time=165.0]"
+  },
+  {
+   "id": "ID0000002",
+   "name": "mProject",
+   "argv": [
+    "mProject.exe",
+    "-X",
+    "poss2ukstu_blue_001_002.fits",
+    "pposs2ukstu_blue_001_002.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "poss2ukstu_blue_001_002.fits",
+    "region-oversized.hdr"
+   ],
+   "outputs": [
+    {
+     "lfn": "pposs2ukstu_blue_001_002.fits",
+     "bytes": 53193600
+    },
+    {
+     "lfn": "pposs2ukstu_blue_001_002_area.fits",
+     "bytes": 53193600
+    }
+   ],
+   "wall_s": 164.86369150000064,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mProject\", time=165.0]"
+  },
+  {
+   "id": "ID0000003",
+   "name": "mProject",
+   "argv": [
+    "mProject.exe",
+    "-X",
+    "poss2ukstu_blue_001_003.fits",
+    "pposs2ukstu_blue_001_003.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "poss2ukstu_blue_001_003.fits",
+    "region-oversized.hdr"
+   ],
+   "outputs": [
+    {
+     "lfn": "pposs2ukstu_blue_001_003_area.fits",
+     "bytes": 53213760
+    },
+    {
+     "lfn": "pposs2ukstu_blue_001_003.fits",
+     "bytes": 53213760
+    }
+   ],
+   "wall_s": 159.20316759999878,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mProject\", time=159.0]"
+  },
+  {
+   "id": "ID0000004",
+   "name": "mProject",
+   "argv": [
+    "mProject.exe",
+    "-X",
+    "poss2ukstu_blue_002_001.fits",
+    "pposs2ukstu_blue_002_001.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "poss2ukstu_blue_002_001.fits",
+    "region-oversized.hdr"
+   ],
+   "outputs": [
+    {
+     "lfn": "pposs2ukstu_blue_002_001_area.fits",
+     "bytes": 53173440
+    },
+    {
+     "lfn": "pposs2ukstu_blue_002_001.fits",
+     "bytes": 53173440
+    }
+   ],
+   "wall_s": 159.04558999999972,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mProject\", time=159.0]"
+  },
+  {
+   "id": "ID0000005",
+   "name": "mProject",
+   "argv": [
+    "mProject.exe",
+    "-X",
+    "poss2ukstu_blue_002_002.fits",
+    "pposs2ukstu_blue_002_002.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "poss2ukstu_blue_002_002.fits",
+    "region-oversized.hdr"
+   ],
+   "outputs": [
+    {
+     "lfn": "pposs2ukstu_blue_002_002_area.fits",
+     "bytes": 53213760
+    },
+    {
+     "lfn": "pposs2ukstu_blue_002_002.fits",
+     "bytes": 53213760
+    }
+   ],
+   "wall_s": 157.5282043999996,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mProject\", time=158.0]"
+  },
+  {
+   "id": "ID0000006",
+   "name": "mProject",
+   "argv": [
+    "mProject.exe",
+    "-X",
+    "poss2ukstu_blue_002_003.fits",
+    "pposs2ukstu_blue_002_003.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "poss2ukstu_blue_002_003.fits",
+    "region-oversized.hdr"
+   ],
+   "outputs": [
+    {
+     "lfn": "pposs2ukstu_blue_002_003.fits",
+     "bytes": 53213760
+    },
+    {
+     "lfn": "pposs2ukstu_blue_002_003_area.fits",
+     "bytes": 53213760
+    }
+   ],
+   "wall_s": 164.4427128999996,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mProject\", time=164.0]"
+  },
+  {
+   "id": "ID0000007",
+   "name": "mProject",
+   "argv": [
+    "mProject.exe",
+    "-X",
+    "poss2ukstu_blue_003_001.fits",
+    "pposs2ukstu_blue_003_001.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "poss2ukstu_blue_003_001.fits",
+    "region-oversized.hdr"
+   ],
+   "outputs": [
+    {
+     "lfn": "pposs2ukstu_blue_003_001_area.fits",
+     "bytes": 53173440
+    },
+    {
+     "lfn": "pposs2ukstu_blue_003_001.fits",
+     "bytes": 53173440
+    }
+   ],
+   "wall_s": 155.3545224999998,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mProject\", time=156.0]"
+  },
+  {
+   "id": "ID0000008",
+   "name": "mProject",
+   "argv": [
+    "mProject.exe",
+    "-X",
+    "poss2ukstu_blue_003_002.fits",
+    "pposs2ukstu_blue_003_002.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "poss2ukstu_blue_003_002.fits",
+    "region-oversized.hdr"
+   ],
+   "outputs": [
+    {
+     "lfn": "pposs2ukstu_blue_003_002.fits",
+     "bytes": 53193600
+    },
+    {
+     "lfn": "pposs2ukstu_blue_003_002_area.fits",
+     "bytes": 53193600
+    }
+   ],
+   "wall_s": 157.68998049999936,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mProject\", time=157.0]"
+  },
+  {
+   "id": "ID0000009",
+   "name": "mProject",
+   "argv": [
+    "mProject.exe",
+    "-X",
+    "poss2ukstu_blue_003_003.fits",
+    "pposs2ukstu_blue_003_003.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "poss2ukstu_blue_003_003.fits",
+    "region-oversized.hdr"
+   ],
+   "outputs": [
+    {
+     "lfn": "pposs2ukstu_blue_003_003.fits",
+     "bytes": 53213760
+    },
+    {
+     "lfn": "pposs2ukstu_blue_003_003_area.fits",
+     "bytes": 53213760
+    }
+   ],
+   "wall_s": 156.9600429000002,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mProject\", time=157.0]"
+  },
+  {
+   "id": "ID0000010",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000001.000002.txt",
+    "pposs2ukstu_blue_001_001.fits",
+    "pposs2ukstu_blue_001_002.fits",
+    "1-diff.000001.000002.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_001_002_area.fits",
+    "pposs2ukstu_blue_001_001_area.fits",
+    "pposs2ukstu_blue_001_002.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_001_001.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000001.000002.txt",
+     "bytes": 293
+    }
+   ],
+   "wall_s": 0.6371675999998843,
+   "exit": 0,
+   "ok": true,
+   "tail": "r>\nSVC_DEBUG>  svc_value(): [boxy] -> [264.732] [@0000017daa9f8980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxwidth] -> [2536.58] [@0000017daa9f8980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxheight] -> [754.561] [@0000017daa9f8980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxang] -> [-179.46] [@0000017daa9f8980]<br>"
+  },
+  {
+   "id": "ID0000011",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000001.000003.txt",
+    "pposs2ukstu_blue_001_001.fits",
+    "pposs2ukstu_blue_001_003.fits",
+    "1-diff.000001.000003.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_001_001_area.fits",
+    "pposs2ukstu_blue_001_003_area.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_001_001.fits",
+    "pposs2ukstu_blue_001_003.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000001.000003.txt",
+     "bytes": 51
+    }
+   ],
+   "wall_s": 0.05607310000050347,
+   "exit": 0,
+   "ok": true,
+   "tail": "Receiving [[struct stat=\"ERROR\", msg=\"Images don't overlap\"]\n]<br>\nSVC_DEBUG>  Entering svc_close()<br>\nSVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001d8da5100a0]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001d8da4c9c70]<br>"
+  },
+  {
+   "id": "ID0000012",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000001.000004.txt",
+    "pposs2ukstu_blue_001_001.fits",
+    "pposs2ukstu_blue_002_001.fits",
+    "1-diff.000001.000004.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_001_001_area.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_001_001.fits",
+    "pposs2ukstu_blue_002_001_area.fits",
+    "pposs2ukstu_blue_002_001.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000001.000004.txt",
+     "bytes": 289
+    }
+   ],
+   "wall_s": 0.7308974000006856,
+   "exit": 0,
+   "ok": true,
+   "tail": ">\nSVC_DEBUG>  svc_value(): [boxy] -> [-635.192] [@0000019050078980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxwidth] -> [754.07] [@0000019050078980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxheight] -> [2536.92] [@0000019050078980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxang] -> [-179.464] [@0000019050078980]<br>"
+  },
+  {
+   "id": "ID0000013",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000001.000005.txt",
+    "pposs2ukstu_blue_001_001.fits",
+    "pposs2ukstu_blue_002_002.fits",
+    "1-diff.000001.000005.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_002_002.fits",
+    "pposs2ukstu_blue_001_001_area.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_001_001.fits",
+    "pposs2ukstu_blue_002_002_area.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000001.000005.txt",
+     "bytes": 281
+    }
+   ],
+   "wall_s": 0.22555000000102154,
+   "exit": 0,
+   "ok": true,
+   "tail": "r>\nSVC_DEBUG>  svc_value(): [boxy] -> [265.038] [@0000015e6d9f8980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxwidth] -> [770.462] [@0000015e6d9f8980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxheight] -> [736.657] [@0000015e6d9f8980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxang] -> [90.5365] [@0000015e6d9f8980]<br>"
+  },
+  {
+   "id": "ID0000014",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000001.000006.txt",
+    "pposs2ukstu_blue_001_001.fits",
+    "pposs2ukstu_blue_002_003.fits",
+    "1-diff.000001.000006.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_002_003_area.fits",
+    "pposs2ukstu_blue_002_003.fits",
+    "pposs2ukstu_blue_001_001_area.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_001_001.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000001.000006.txt",
+     "bytes": 51
+    }
+   ],
+   "wall_s": 0.04870979999941483,
+   "exit": 0,
+   "ok": true,
+   "tail": "Receiving [[struct stat=\"ERROR\", msg=\"Images don't overlap\"]\n]<br>\nSVC_DEBUG>  Entering svc_close()<br>\nSVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@00000248705800a0]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000024870369c70]<br>"
+  },
+  {
+   "id": "ID0000015",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000001.000007.txt",
+    "pposs2ukstu_blue_001_001.fits",
+    "pposs2ukstu_blue_003_001.fits",
+    "1-diff.000001.000007.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_003_001.fits",
+    "pposs2ukstu_blue_001_001_area.fits",
+    "pposs2ukstu_blue_003_001_area.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_001_001.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000001.000007.txt",
+     "bytes": 51
+    }
+   ],
+   "wall_s": 0.05593659999976808,
+   "exit": 0,
+   "ok": true,
+   "tail": "Receiving [[struct stat=\"ERROR\", msg=\"Images don't overlap\"]\n]<br>\nSVC_DEBUG>  Entering svc_close()<br>\nSVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001a26d9b00a0]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001a26d869c70]<br>"
+  },
+  {
+   "id": "ID0000016",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000001.000008.txt",
+    "pposs2ukstu_blue_001_001.fits",
+    "pposs2ukstu_blue_003_002.fits",
+    "1-diff.000001.000008.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_001_001_area.fits",
+    "pposs2ukstu_blue_003_002.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_001_001.fits",
+    "pposs2ukstu_blue_003_002_area.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000001.000008.txt",
+     "bytes": 51
+    }
+   ],
+   "wall_s": 0.060539199999766424,
+   "exit": 0,
+   "ok": true,
+   "tail": "Receiving [[struct stat=\"ERROR\", msg=\"Images don't overlap\"]\n]<br>\nSVC_DEBUG>  Entering svc_close()<br>\nSVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@0000019668fe00a0]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000019668e99c70]<br>"
+  },
+  {
+   "id": "ID0000017",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000001.000009.txt",
+    "pposs2ukstu_blue_001_001.fits",
+    "pposs2ukstu_blue_003_003.fits",
+    "1-diff.000001.000009.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_001_001_area.fits",
+    "pposs2ukstu_blue_003_003_area.fits",
+    "pposs2ukstu_blue_003_003.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_001_001.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000001.000009.txt",
+     "bytes": 51
+    }
+   ],
+   "wall_s": 0.07008710000081919,
+   "exit": 0,
+   "ok": true,
+   "tail": "Receiving [[struct stat=\"ERROR\", msg=\"Images don't overlap\"]\n]<br>\nSVC_DEBUG>  Entering svc_close()<br>\nSVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@0000017cf86e00a0]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000017cf8599c70]<br>"
+  },
+  {
+   "id": "ID0000018",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000002.000003.txt",
+    "pposs2ukstu_blue_001_002.fits",
+    "pposs2ukstu_blue_001_003.fits",
+    "1-diff.000002.000003.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_001_002_area.fits",
+    "pposs2ukstu_blue_001_002.fits",
+    "pposs2ukstu_blue_001_003_area.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_001_003.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000002.000003.txt",
+     "bytes": 297
+    }
+   ],
+   "wall_s": 0.6057995000010123,
+   "exit": 0,
+   "ok": true,
+   "tail": ">\nSVC_DEBUG>  svc_value(): [boxy] -> [2064.79] [@000002b41f6a8980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxwidth] -> [2536.96] [@000002b41f6a8980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxheight] -> [753.652] [@000002b41f6a8980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxang] -> [-179.455] [@000002b41f6a8980]<br>"
+  },
+  {
+   "id": "ID0000019",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000002.000004.txt",
+    "pposs2ukstu_blue_001_002.fits",
+    "pposs2ukstu_blue_002_001.fits",
+    "1-diff.000002.000004.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_001_002_area.fits",
+    "pposs2ukstu_blue_001_002.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_002_001_area.fits",
+    "pposs2ukstu_blue_002_001.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000002.000004.txt",
+     "bytes": 285
+    }
+   ],
+   "wall_s": 0.24475800000072923,
+   "exit": 0,
+   "ok": true,
+   "tail": ">\nSVC_DEBUG>  svc_value(): [boxy] -> [264.633] [@0000023bf4748980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxwidth] -> [771.154] [@0000023bf4748980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxheight] -> [737.384] [@0000023bf4748980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxang] -> [-179.461] [@0000023bf4748980]<br>"
+  },
+  {
+   "id": "ID0000020",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000002.000005.txt",
+    "pposs2ukstu_blue_001_002.fits",
+    "pposs2ukstu_blue_002_002.fits",
+    "1-diff.000002.000005.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_002_002.fits",
+    "pposs2ukstu_blue_001_002_area.fits",
+    "pposs2ukstu_blue_001_002.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_002_002_area.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000002.000005.txt",
+     "bytes": 291
+    }
+   ],
+   "wall_s": 0.7241306999985682,
+   "exit": 0,
+   "ok": true,
+   "tail": ">\nSVC_DEBUG>  svc_value(): [boxy] -> [1164.93] [@0000022cfde38980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxwidth] -> [754.016] [@0000022cfde38980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxheight] -> [2537.89] [@0000022cfde38980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxang] -> [0.539492] [@0000022cfde38980]<br>"
+  },
+  {
+   "id": "ID0000021",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000002.000006.txt",
+    "pposs2ukstu_blue_001_002.fits",
+    "pposs2ukstu_blue_002_003.fits",
+    "1-diff.000002.000006.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_002_003_area.fits",
+    "pposs2ukstu_blue_001_002_area.fits",
+    "pposs2ukstu_blue_002_003.fits",
+    "pposs2ukstu_blue_001_002.fits",
+    "region-oversized.hdr"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000002.000006.txt",
+     "bytes": 286
+    }
+   ],
+   "wall_s": 0.26476519999960146,
+   "exit": 0,
+   "ok": true,
+   "tail": "r>\nSVC_DEBUG>  svc_value(): [boxy] -> [2064.63] [@000001a604f28980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxwidth] -> [770.645] [@000001a604f28980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxheight] -> [736.807] [@000001a604f28980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxang] -> [90.5405] [@000001a604f28980]<br>"
+  },
+  {
+   "id": "ID0000022",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000002.000007.txt",
+    "pposs2ukstu_blue_001_002.fits",
+    "pposs2ukstu_blue_003_001.fits",
+    "1-diff.000002.000007.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_001_002_area.fits",
+    "pposs2ukstu_blue_003_001.fits",
+    "pposs2ukstu_blue_001_002.fits",
+    "pposs2ukstu_blue_003_001_area.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000002.000007.txt",
+     "bytes": 51
+    }
+   ],
+   "wall_s": 0.07363909999912721,
+   "exit": 0,
+   "ok": true,
+   "tail": "Receiving [[struct stat=\"ERROR\", msg=\"Images don't overlap\"]\n]<br>\nSVC_DEBUG>  Entering svc_close()<br>\nSVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001ee9b2000a0]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001ee9b0b9c70]<br>"
+  },
+  {
+   "id": "ID0000023",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000002.000008.txt",
+    "pposs2ukstu_blue_001_002.fits",
+    "pposs2ukstu_blue_003_002.fits",
+    "1-diff.000002.000008.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_001_002_area.fits",
+    "pposs2ukstu_blue_003_002.fits",
+    "pposs2ukstu_blue_001_002.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_003_002_area.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000002.000008.txt",
+     "bytes": 51
+    }
+   ],
+   "wall_s": 0.04608379999990575,
+   "exit": 0,
+   "ok": true,
+   "tail": "Receiving [[struct stat=\"ERROR\", msg=\"Images don't overlap\"]\n]<br>\nSVC_DEBUG>  Entering svc_close()<br>\nSVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@00000228ea0d00a0]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@00000228e9f89c70]<br>"
+  },
+  {
+   "id": "ID0000024",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000002.000009.txt",
+    "pposs2ukstu_blue_001_002.fits",
+    "pposs2ukstu_blue_003_003.fits",
+    "1-diff.000002.000009.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_001_002_area.fits",
+    "pposs2ukstu_blue_003_003_area.fits",
+    "pposs2ukstu_blue_003_003.fits",
+    "pposs2ukstu_blue_001_002.fits",
+    "region-oversized.hdr"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000002.000009.txt",
+     "bytes": 51
+    }
+   ],
+   "wall_s": 0.04144160000032571,
+   "exit": 0,
+   "ok": true,
+   "tail": "Receiving [[struct stat=\"ERROR\", msg=\"Images don't overlap\"]\n]<br>\nSVC_DEBUG>  Entering svc_close()<br>\nSVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001da948000a0]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001da945e9c70]<br>"
+  },
+  {
+   "id": "ID0000025",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000003.000004.txt",
+    "pposs2ukstu_blue_001_003.fits",
+    "pposs2ukstu_blue_002_001.fits",
+    "1-diff.000003.000004.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_001_003_area.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_001_003.fits",
+    "pposs2ukstu_blue_002_001_area.fits",
+    "pposs2ukstu_blue_002_001.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000003.000004.txt",
+     "bytes": 51
+    }
+   ],
+   "wall_s": 0.05739429999994172,
+   "exit": 0,
+   "ok": true,
+   "tail": "Receiving [[struct stat=\"ERROR\", msg=\"Images don't overlap\"]\n]<br>\nSVC_DEBUG>  Entering svc_close()<br>\nSVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@0000017dfcaf00a0]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000017dfc8d9c70]<br>"
+  },
+  {
+   "id": "ID0000026",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000003.000005.txt",
+    "pposs2ukstu_blue_001_003.fits",
+    "pposs2ukstu_blue_002_002.fits",
+    "1-diff.000003.000005.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_002_002.fits",
+    "pposs2ukstu_blue_001_003_area.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_002_002_area.fits",
+    "pposs2ukstu_blue_001_003.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000003.000005.txt",
+     "bytes": 286
+    }
+   ],
+   "wall_s": 0.24766030000137107,
+   "exit": 0,
+   "ok": true,
+   "tail": "r>\nSVC_DEBUG>  svc_value(): [boxy] -> [2065.21] [@0000026542b48980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxwidth] -> [771.088] [@0000026542b48980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxheight] -> [737.411] [@0000026542b48980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxang] -> [0.54051] [@0000026542b48980]<br>"
+  },
+  {
+   "id": "ID0000027",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000003.000006.txt",
+    "pposs2ukstu_blue_001_003.fits",
+    "pposs2ukstu_blue_002_003.fits",
+    "1-diff.000003.000006.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_002_003_area.fits",
+    "pposs2ukstu_blue_002_003.fits",
+    "pposs2ukstu_blue_001_003_area.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_001_003.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000003.000006.txt",
+     "bytes": 291
+    }
+   ],
+   "wall_s": 0.5352137999998376,
+   "exit": 0,
+   "ok": true,
+   "tail": "r>\nSVC_DEBUG>  svc_value(): [boxy] -> [2588.83] [@000001f8847e8980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxwidth] -> [1784.52] [@000001f8847e8980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxheight] -> [754.019] [@000001f8847e8980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxang] -> [90.5411] [@000001f8847e8980]<br>"
+  },
+  {
+   "id": "ID0000028",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000003.000007.txt",
+    "pposs2ukstu_blue_001_003.fits",
+    "pposs2ukstu_blue_003_001.fits",
+    "1-diff.000003.000007.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_003_001.fits",
+    "pposs2ukstu_blue_003_001_area.fits",
+    "pposs2ukstu_blue_001_003_area.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_001_003.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000003.000007.txt",
+     "bytes": 51
+    }
+   ],
+   "wall_s": 0.050923800001328345,
+   "exit": 0,
+   "ok": true,
+   "tail": "Receiving [[struct stat=\"ERROR\", msg=\"Images don't overlap\"]\n]<br>\nSVC_DEBUG>  Entering svc_close()<br>\nSVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000002316f8d00a0]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000002316f789c70]<br>"
+  },
+  {
+   "id": "ID0000029",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000003.000008.txt",
+    "pposs2ukstu_blue_001_003.fits",
+    "pposs2ukstu_blue_003_002.fits",
+    "1-diff.000003.000008.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_003_002.fits",
+    "pposs2ukstu_blue_001_003_area.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_001_003.fits",
+    "pposs2ukstu_blue_003_002_area.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000003.000008.txt",
+     "bytes": 51
+    }
+   ],
+   "wall_s": 0.07970050000039919,
+   "exit": 0,
+   "ok": true,
+   "tail": "Receiving [[struct stat=\"ERROR\", msg=\"Images don't overlap\"]\n]<br>\nSVC_DEBUG>  Entering svc_close()<br>\nSVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@00000256d80a00a0]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@00000256d7f59c70]<br>"
+  },
+  {
+   "id": "ID0000030",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000003.000009.txt",
+    "pposs2ukstu_blue_001_003.fits",
+    "pposs2ukstu_blue_003_003.fits",
+    "1-diff.000003.000009.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_003_003_area.fits",
+    "pposs2ukstu_blue_003_003.fits",
+    "pposs2ukstu_blue_001_003_area.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_001_003.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000003.000009.txt",
+     "bytes": 51
+    }
+   ],
+   "wall_s": 0.07417720000012196,
+   "exit": 0,
+   "ok": true,
+   "tail": "Receiving [[struct stat=\"ERROR\", msg=\"Images don't overlap\"]\n]<br>\nSVC_DEBUG>  Entering svc_close()<br>\nSVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000002713e4500a0]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000002713e409c70]<br>"
+  },
+  {
+   "id": "ID0000031",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000004.000005.txt",
+    "pposs2ukstu_blue_002_001.fits",
+    "pposs2ukstu_blue_002_002.fits",
+    "1-diff.000004.000005.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_002_002.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_002_002_area.fits",
+    "pposs2ukstu_blue_002_001_area.fits",
+    "pposs2ukstu_blue_002_001.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000004.000005.txt",
+     "bytes": 290
+    }
+   ],
+   "wall_s": 0.6455381000014313,
+   "exit": 0,
+   "ok": true,
+   "tail": "r>\nSVC_DEBUG>  svc_value(): [boxy] -> [264.969] [@00000204cf0a8980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxwidth] -> [2536.73] [@00000204cf0a8980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxheight] -> [753.49] [@00000204cf0a8980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxang] -> [0.535459] [@00000204cf0a8980]<br>"
+  },
+  {
+   "id": "ID0000032",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000004.000006.txt",
+    "pposs2ukstu_blue_002_001.fits",
+    "pposs2ukstu_blue_002_003.fits",
+    "1-diff.000004.000006.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_002_003_area.fits",
+    "pposs2ukstu_blue_002_003.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_002_001_area.fits",
+    "pposs2ukstu_blue_002_001.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000004.000006.txt",
+     "bytes": 51
+    }
+   ],
+   "wall_s": 0.05870890000005602,
+   "exit": 0,
+   "ok": true,
+   "tail": "Receiving [[struct stat=\"ERROR\", msg=\"Images don't overlap\"]\n]<br>\nSVC_DEBUG>  Entering svc_close()<br>\nSVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000002bd010b00a0]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000002bd00f69c70]<br>"
+  },
+  {
+   "id": "ID0000033",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000004.000007.txt",
+    "pposs2ukstu_blue_002_001.fits",
+    "pposs2ukstu_blue_003_001.fits",
+    "1-diff.000004.000007.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_003_001.fits",
+    "pposs2ukstu_blue_003_001_area.fits",
+    "pposs2ukstu_blue_002_001_area.fits",
+    "pposs2ukstu_blue_002_001.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000004.000007.txt",
+     "bytes": 297
+    }
+   ],
+   "wall_s": 0.6638601000013296,
+   "exit": 0,
+   "ok": true,
+   "tail": "\nSVC_DEBUG>  svc_value(): [boxy] -> [-635.107] [@000001c6e7488980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxwidth] -> [754.181] [@000001c6e7488980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxheight] -> [2537.95] [@000001c6e7488980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxang] -> [-179.469] [@000001c6e7488980]<br>"
+  },
+  {
+   "id": "ID0000034",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000004.000008.txt",
+    "pposs2ukstu_blue_002_001.fits",
+    "pposs2ukstu_blue_003_002.fits",
+    "1-diff.000004.000008.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_003_002.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_003_002_area.fits",
+    "pposs2ukstu_blue_002_001_area.fits",
+    "pposs2ukstu_blue_002_001.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000004.000008.txt",
+     "bytes": 288
+    }
+   ],
+   "wall_s": 0.31773640000028536,
+   "exit": 0,
+   "ok": true,
+   "tail": ">\nSVC_DEBUG>  svc_value(): [boxy] -> [264.728] [@0000014e74fe8980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxwidth] -> [737.894] [@0000014e74fe8980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxheight] -> [770.661] [@0000014e74fe8980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxang] -> [0.530501] [@0000014e74fe8980]<br>"
+  },
+  {
+   "id": "ID0000035",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000004.000009.txt",
+    "pposs2ukstu_blue_002_001.fits",
+    "pposs2ukstu_blue_003_003.fits",
+    "1-diff.000004.000009.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_003_003_area.fits",
+    "pposs2ukstu_blue_003_003.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_002_001_area.fits",
+    "pposs2ukstu_blue_002_001.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000004.000009.txt",
+     "bytes": 51
+    }
+   ],
+   "wall_s": 0.13110880000022007,
+   "exit": 0,
+   "ok": true,
+   "tail": "Receiving [[struct stat=\"ERROR\", msg=\"Images don't overlap\"]\n]<br>\nSVC_DEBUG>  Entering svc_close()<br>\nSVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001e986af00a0]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001e9868d9c70]<br>"
+  },
+  {
+   "id": "ID0000036",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000005.000006.txt",
+    "pposs2ukstu_blue_002_002.fits",
+    "pposs2ukstu_blue_002_003.fits",
+    "1-diff.000005.000006.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_002_003_area.fits",
+    "pposs2ukstu_blue_002_002.fits",
+    "pposs2ukstu_blue_002_003.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_002_002_area.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000005.000006.txt",
+     "bytes": 291
+    }
+   ],
+   "wall_s": 0.5791840000001685,
+   "exit": 0,
+   "ok": true,
+   "tail": "br>\nSVC_DEBUG>  svc_value(): [boxy] -> [2065.1] [@000001d7963f8980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxwidth] -> [2537.07] [@000001d7963f8980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxheight] -> [754.608] [@000001d7963f8980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxang] -> [0.54051] [@000001d7963f8980]<br>"
+  },
+  {
+   "id": "ID0000037",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000005.000007.txt",
+    "pposs2ukstu_blue_002_002.fits",
+    "pposs2ukstu_blue_003_001.fits",
+    "1-diff.000005.000007.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_002_002.fits",
+    "pposs2ukstu_blue_003_001.fits",
+    "pposs2ukstu_blue_003_001_area.fits",
+    "pposs2ukstu_blue_002_002_area.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000005.000007.txt",
+     "bytes": 285
+    }
+   ],
+   "wall_s": 0.29725539999890316,
+   "exit": 0,
+   "ok": true,
+   "tail": ">\nSVC_DEBUG>  svc_value(): [boxy] -> [265.258] [@000001e316a28980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxwidth] -> [771.139] [@000001e316a28980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxheight] -> [737.275] [@000001e316a28980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxang] -> [0.532969] [@000001e316a28980]<br>"
+  },
+  {
+   "id": "ID0000038",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000005.000008.txt",
+    "pposs2ukstu_blue_002_002.fits",
+    "pposs2ukstu_blue_003_002.fits",
+    "1-diff.000005.000008.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_002_002.fits",
+    "pposs2ukstu_blue_003_002.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_002_002_area.fits",
+    "pposs2ukstu_blue_003_002_area.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000005.000008.txt",
+     "bytes": 295
+    }
+   ],
+   "wall_s": 0.6647491999992781,
+   "exit": 0,
+   "ok": true,
+   "tail": ">\nSVC_DEBUG>  svc_value(): [boxy] -> [1165.16] [@0000024f97538980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxwidth] -> [2537.01] [@0000024f97538980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxheight] -> [755.135] [@0000024f97538980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxang] -> [-89.4679] [@0000024f97538980]<br>"
+  },
+  {
+   "id": "ID0000039",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000005.000009.txt",
+    "pposs2ukstu_blue_002_002.fits",
+    "pposs2ukstu_blue_003_003.fits",
+    "1-diff.000005.000009.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_002_002.fits",
+    "pposs2ukstu_blue_003_003_area.fits",
+    "pposs2ukstu_blue_003_003.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_002_002_area.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000005.000009.txt",
+     "bytes": 287
+    }
+   ],
+   "wall_s": 0.2815066000002844,
+   "exit": 0,
+   "ok": true,
+   "tail": ")<br>\nSVC_DEBUG>  svc_value(): [boxy] -> [2064.96] [@0000019ce6f58980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxwidth] -> [771.855] [@0000019ce6f58980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxheight] -> [738] [@0000019ce6f58980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxang] -> [-89.4675] [@0000019ce6f58980]<br>"
+  },
+  {
+   "id": "ID0000040",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000006.000007.txt",
+    "pposs2ukstu_blue_002_003.fits",
+    "pposs2ukstu_blue_003_001.fits",
+    "1-diff.000006.000007.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_002_003_area.fits",
+    "pposs2ukstu_blue_003_001.fits",
+    "pposs2ukstu_blue_002_003.fits",
+    "pposs2ukstu_blue_003_001_area.fits",
+    "region-oversized.hdr"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000006.000007.txt",
+     "bytes": 51
+    }
+   ],
+   "wall_s": 0.05923400000028778,
+   "exit": 0,
+   "ok": true,
+   "tail": "Receiving [[struct stat=\"ERROR\", msg=\"Images don't overlap\"]\n]<br>\nSVC_DEBUG>  Entering svc_close()<br>\nSVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@000001dd2f3a00a0]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@000001dd2f259c70]<br>"
+  },
+  {
+   "id": "ID0000041",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000006.000008.txt",
+    "pposs2ukstu_blue_002_003.fits",
+    "pposs2ukstu_blue_003_002.fits",
+    "1-diff.000006.000008.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_002_003_area.fits",
+    "pposs2ukstu_blue_002_003.fits",
+    "pposs2ukstu_blue_003_002.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_003_002_area.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000006.000008.txt",
+     "bytes": 287
+    }
+   ],
+   "wall_s": 0.2385591000002023,
+   "exit": 0,
+   "ok": true,
+   "tail": ">\nSVC_DEBUG>  svc_value(): [boxy] -> [2064.99] [@000002a32a308980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxwidth] -> [737.388] [@000002a32a308980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxheight] -> [772.172] [@000002a32a308980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxang] -> [-89.4645] [@000002a32a308980]<br>"
+  },
+  {
+   "id": "ID0000042",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000006.000009.txt",
+    "pposs2ukstu_blue_002_003.fits",
+    "pposs2ukstu_blue_003_003.fits",
+    "1-diff.000006.000009.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_002_003_area.fits",
+    "pposs2ukstu_blue_002_003.fits",
+    "pposs2ukstu_blue_003_003_area.fits",
+    "pposs2ukstu_blue_003_003.fits",
+    "region-oversized.hdr"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000006.000009.txt",
+     "bytes": 295
+    }
+   ],
+   "wall_s": 0.43626250000124855,
+   "exit": 0,
+   "ok": true,
+   "tail": "br>\nSVC_DEBUG>  svc_value(): [boxy] -> [2588.68] [@00000261cbbd8980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxwidth] -> [1784.7] [@00000261cbbd8980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxheight] -> [755.133] [@00000261cbbd8980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxang] -> [90.5314] [@00000261cbbd8980]<br>"
+  },
+  {
+   "id": "ID0000043",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000007.000008.txt",
+    "pposs2ukstu_blue_003_001.fits",
+    "pposs2ukstu_blue_003_002.fits",
+    "1-diff.000007.000008.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_003_001.fits",
+    "pposs2ukstu_blue_003_002.fits",
+    "pposs2ukstu_blue_003_001_area.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_003_002_area.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000007.000008.txt",
+     "bytes": 291
+    }
+   ],
+   "wall_s": 0.3835380000000441,
+   "exit": 0,
+   "ok": true,
+   "tail": ">\nSVC_DEBUG>  svc_value(): [boxy] -> [261.522] [@000001fc1e188980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxwidth] -> [1785.28] [@000001fc1e188980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxheight] -> [754.551] [@000001fc1e188980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxang] -> [0.530501] [@000001fc1e188980]<br>"
+  },
+  {
+   "id": "ID0000044",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000007.000009.txt",
+    "pposs2ukstu_blue_003_001.fits",
+    "pposs2ukstu_blue_003_003.fits",
+    "1-diff.000007.000009.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_003_001.fits",
+    "pposs2ukstu_blue_003_003_area.fits",
+    "pposs2ukstu_blue_003_001_area.fits",
+    "pposs2ukstu_blue_003_003.fits",
+    "region-oversized.hdr"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000007.000009.txt",
+     "bytes": 51
+    }
+   ],
+   "wall_s": 0.0425057000011293,
+   "exit": 0,
+   "ok": true,
+   "tail": "Receiving [[struct stat=\"ERROR\", msg=\"Images don't overlap\"]\n]<br>\nSVC_DEBUG>  Entering svc_close()<br>\nSVC_DEBUG>  svc_run(): close failure; service probably already exited.<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [stat] -> [ERROR] [@00000296127b00a0]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [msg] -> [Images don't overlap] [@0000029612669c70]<br>"
+  },
+  {
+   "id": "ID0000045",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000008.000009.txt",
+    "pposs2ukstu_blue_003_002.fits",
+    "pposs2ukstu_blue_003_003.fits",
+    "1-diff.000008.000009.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_003_002.fits",
+    "pposs2ukstu_blue_003_003_area.fits",
+    "pposs2ukstu_blue_003_003.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_003_002_area.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000008.000009.txt",
+     "bytes": 295
+    }
+   ],
+   "wall_s": 0.3627185000004829,
+   "exit": 0,
+   "ok": true,
+   "tail": ">\nSVC_DEBUG>  svc_value(): [boxy] -> [2061.29] [@000001e388f98980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxwidth] -> [1784.97] [@000001e388f98980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxheight] -> [754.656] [@000001e388f98980]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxang] -> [-179.461] [@000001e388f98980]<br>"
+  },
+  {
+   "id": "ID0000046",
+   "name": "mConcatFit",
+   "argv": [
+    "mConcatFit.exe",
+    "1-stat.tbl",
+    "1-fits.tbl",
+    "."
+   ],
+   "inputs": [
+    "1-fit.000001.000004.txt",
+    "1-fit.000002.000009.txt",
+    "1-fit.000004.000007.txt",
+    "1-fit.000003.000007.txt",
+    "1-fit.000001.000008.txt",
+    "1-fit.000004.000006.txt",
+    "1-fit.000002.000008.txt",
+    "1-fit.000001.000003.txt",
+    "1-fit.000007.000009.txt",
+    "1-fit.000003.000005.txt",
+    "1-fit.000005.000009.txt",
+    "1-fit.000001.000005.txt",
+    "1-fit.000003.000008.txt",
+    "1-fit.000004.000005.txt",
+    "1-fit.000004.000009.txt",
+    "1-fit.000005.000007.txt",
+    "1-fit.000006.000007.txt",
+    "1-fit.000002.000005.txt",
+    "1-fit.000006.000009.txt",
+    "1-fit.000003.000004.txt",
+    "1-fit.000005.000008.txt",
+    "1-fit.000007.000008.txt",
+    "1-fit.000002.000004.txt",
+    "1-fit.000004.000008.txt",
+    "1-fit.000001.000007.txt",
+    "1-fit.000001.000006.txt",
+    "1-fit.000006.000008.txt",
+    "1-fit.000008.000009.txt",
+    "1-fit.000001.000009.txt",
+    "1-fit.000002.000007.txt",
+    "1-fit.000002.000006.txt",
+    "1-fit.000005.000006.txt",
+    "1-fit.000003.000009.txt",
+    "1-fit.000002.000003.txt",
+    "1-fit.000003.000006.txt",
+    "1-fit.000001.000002.txt",
+    "1-stat.tbl"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fits.tbl",
+     "bytes": 4390
+    }
+   ],
+   "wall_s": 0.20720369999980903,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", count=37, failed=16, missing=1, warning=0]"
+  },
+  {
+   "id": "ID0000047",
+   "name": "mBgModel",
+   "argv": [
+    "mBgModel.exe",
+    "-i",
+    "100000",
+    "1-images.tbl",
+    "1-fits.tbl",
+    "1-corrections.tbl"
+   ],
+   "inputs": [
+    "1-images.tbl",
+    "1-fits.tbl"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-corrections.tbl",
+     "bytes": 617
+    }
+   ],
+   "wall_s": 0.37861209999937273,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mBgModel\", nnan=0, cmin=-0.402365, cmax=0.794391]"
+  },
+  {
+   "id": "ID0000048",
+   "name": "mBackground",
+   "argv": [
+    "mBackground.exe",
+    "-t",
+    "pposs2ukstu_blue_001_001.fits",
+    "cposs2ukstu_blue_001_001.fits",
+    "1-projected.tbl",
+    "1-corrections.tbl"
+   ],
+   "inputs": [
+    "1-projected.tbl",
+    "pposs2ukstu_blue_001_001_area.fits",
+    "pposs2ukstu_blue_001_001.fits",
+    "1-corrections.tbl"
+   ],
+   "outputs": [
+    {
+     "lfn": "cposs2ukstu_blue_001_001.fits",
+     "bytes": 53173440
+    },
+    {
+     "lfn": "cposs2ukstu_blue_001_001_area.fits",
+     "bytes": 53173440
+    }
+   ],
+   "wall_s": 0.31033260000003793,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mBackground\", time=0.0]"
+  },
+  {
+   "id": "ID0000049",
+   "name": "mBackground",
+   "argv": [
+    "mBackground.exe",
+    "-t",
+    "pposs2ukstu_blue_001_002.fits",
+    "cposs2ukstu_blue_001_002.fits",
+    "1-projected.tbl",
+    "1-corrections.tbl"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_001_002_area.fits",
+    "1-projected.tbl",
+    "pposs2ukstu_blue_001_002.fits",
+    "1-corrections.tbl"
+   ],
+   "outputs": [
+    {
+     "lfn": "cposs2ukstu_blue_001_002.fits",
+     "bytes": 53193600
+    },
+    {
+     "lfn": "cposs2ukstu_blue_001_002_area.fits",
+     "bytes": 53193600
+    }
+   ],
+   "wall_s": 0.30588239999997313,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mBackground\", time=1.0]"
+  },
+  {
+   "id": "ID0000050",
+   "name": "mBackground",
+   "argv": [
+    "mBackground.exe",
+    "-t",
+    "pposs2ukstu_blue_001_003.fits",
+    "cposs2ukstu_blue_001_003.fits",
+    "1-projected.tbl",
+    "1-corrections.tbl"
+   ],
+   "inputs": [
+    "1-projected.tbl",
+    "pposs2ukstu_blue_001_003_area.fits",
+    "1-corrections.tbl",
+    "pposs2ukstu_blue_001_003.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "cposs2ukstu_blue_001_003.fits",
+     "bytes": 53213760
+    },
+    {
+     "lfn": "cposs2ukstu_blue_001_003_area.fits",
+     "bytes": 53213760
+    }
+   ],
+   "wall_s": 0.32973190000120667,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mBackground\", time=0.0]"
+  },
+  {
+   "id": "ID0000051",
+   "name": "mBackground",
+   "argv": [
+    "mBackground.exe",
+    "-t",
+    "pposs2ukstu_blue_002_001.fits",
+    "cposs2ukstu_blue_002_001.fits",
+    "1-projected.tbl",
+    "1-corrections.tbl"
+   ],
+   "inputs": [
+    "1-projected.tbl",
+    "1-corrections.tbl",
+    "pposs2ukstu_blue_002_001_area.fits",
+    "pposs2ukstu_blue_002_001.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "cposs2ukstu_blue_002_001_area.fits",
+     "bytes": 53173440
+    },
+    {
+     "lfn": "cposs2ukstu_blue_002_001.fits",
+     "bytes": 53173440
+    }
+   ],
+   "wall_s": 0.3508705000003829,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mBackground\", time=0.0]"
+  },
+  {
+   "id": "ID0000052",
+   "name": "mBackground",
+   "argv": [
+    "mBackground.exe",
+    "-t",
+    "pposs2ukstu_blue_002_002.fits",
+    "cposs2ukstu_blue_002_002.fits",
+    "1-projected.tbl",
+    "1-corrections.tbl"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_002_002.fits",
+    "1-projected.tbl",
+    "pposs2ukstu_blue_002_002_area.fits",
+    "1-corrections.tbl"
+   ],
+   "outputs": [
+    {
+     "lfn": "cposs2ukstu_blue_002_002.fits",
+     "bytes": 53213760
+    },
+    {
+     "lfn": "cposs2ukstu_blue_002_002_area.fits",
+     "bytes": 53213760
+    }
+   ],
+   "wall_s": 0.3222557000008237,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mBackground\", time=1.0]"
+  },
+  {
+   "id": "ID0000053",
+   "name": "mBackground",
+   "argv": [
+    "mBackground.exe",
+    "-t",
+    "pposs2ukstu_blue_002_003.fits",
+    "cposs2ukstu_blue_002_003.fits",
+    "1-projected.tbl",
+    "1-corrections.tbl"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_002_003_area.fits",
+    "1-projected.tbl",
+    "pposs2ukstu_blue_002_003.fits",
+    "1-corrections.tbl"
+   ],
+   "outputs": [
+    {
+     "lfn": "cposs2ukstu_blue_002_003.fits",
+     "bytes": 53213760
+    },
+    {
+     "lfn": "cposs2ukstu_blue_002_003_area.fits",
+     "bytes": 53213760
+    }
+   ],
+   "wall_s": 0.3415899999999965,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mBackground\", time=0.0]"
+  },
+  {
+   "id": "ID0000054",
+   "name": "mBackground",
+   "argv": [
+    "mBackground.exe",
+    "-t",
+    "pposs2ukstu_blue_003_001.fits",
+    "cposs2ukstu_blue_003_001.fits",
+    "1-projected.tbl",
+    "1-corrections.tbl"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_003_001.fits",
+    "1-projected.tbl",
+    "pposs2ukstu_blue_003_001_area.fits",
+    "1-corrections.tbl"
+   ],
+   "outputs": [
+    {
+     "lfn": "cposs2ukstu_blue_003_001_area.fits",
+     "bytes": 53173440
+    },
+    {
+     "lfn": "cposs2ukstu_blue_003_001.fits",
+     "bytes": 53173440
+    }
+   ],
+   "wall_s": 0.3213099999993574,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mBackground\", time=0.0]"
+  },
+  {
+   "id": "ID0000055",
+   "name": "mBackground",
+   "argv": [
+    "mBackground.exe",
+    "-t",
+    "pposs2ukstu_blue_003_002.fits",
+    "cposs2ukstu_blue_003_002.fits",
+    "1-projected.tbl",
+    "1-corrections.tbl"
+   ],
+   "inputs": [
+    "1-projected.tbl",
+    "pposs2ukstu_blue_003_002.fits",
+    "1-corrections.tbl",
+    "pposs2ukstu_blue_003_002_area.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "cposs2ukstu_blue_003_002_area.fits",
+     "bytes": 53193600
+    },
+    {
+     "lfn": "cposs2ukstu_blue_003_002.fits",
+     "bytes": 53193600
+    }
+   ],
+   "wall_s": 0.31715280000025814,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mBackground\", time=1.0]"
+  },
+  {
+   "id": "ID0000056",
+   "name": "mBackground",
+   "argv": [
+    "mBackground.exe",
+    "-t",
+    "pposs2ukstu_blue_003_003.fits",
+    "cposs2ukstu_blue_003_003.fits",
+    "1-projected.tbl",
+    "1-corrections.tbl"
+   ],
+   "inputs": [
+    "1-projected.tbl",
+    "pposs2ukstu_blue_003_003_area.fits",
+    "pposs2ukstu_blue_003_003.fits",
+    "1-corrections.tbl"
+   ],
+   "outputs": [
+    {
+     "lfn": "cposs2ukstu_blue_003_003.fits",
+     "bytes": 53213760
+    },
+    {
+     "lfn": "cposs2ukstu_blue_003_003_area.fits",
+     "bytes": 53213760
+    }
+   ],
+   "wall_s": 0.35807349999959115,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mBackground\", time=0.0]"
+  },
+  {
+   "id": "ID0000057",
+   "name": "mImgtbl",
+   "argv": [
+    "mImgtbl.exe",
+    ".",
+    "-t",
+    "1-corrected.tbl",
+    "1-updated-corrected.tbl"
+   ],
+   "inputs": [
+    "cposs2ukstu_blue_001_002.fits",
+    "cposs2ukstu_blue_001_003.fits",
+    "cposs2ukstu_blue_003_001.fits",
+    "cposs2ukstu_blue_001_001.fits",
+    "cposs2ukstu_blue_002_002.fits",
+    "cposs2ukstu_blue_003_003.fits",
+    "cposs2ukstu_blue_002_003.fits",
+    "cposs2ukstu_blue_002_001.fits",
+    "1-corrected.tbl",
+    "cposs2ukstu_blue_003_002.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-updated-corrected.tbl",
+     "bytes": 4773
+    }
+   ],
+   "wall_s": 0.08764989999872341,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mImgtbl\", count=9, nfile=9, nhdu=9, badfits=0, badwcs=0]"
+  },
+  {
+   "id": "ID0000058",
+   "name": "mAdd",
+   "argv": [
+    "mAdd.exe",
+    "-e",
+    "1-updated-corrected.tbl",
+    "region.hdr",
+    "1-mosaic.fits"
+   ],
+   "inputs": [
+    "cposs2ukstu_blue_001_003.fits",
+    "1-updated-corrected.tbl",
+    "cposs2ukstu_blue_001_001.fits",
+    "cposs2ukstu_blue_002_002.fits",
+    "cposs2ukstu_blue_003_003.fits",
+    "cposs2ukstu_blue_003_001.fits",
+    "cposs2ukstu_blue_003_001_area.fits",
+    "cposs2ukstu_blue_003_003_area.fits",
+    "region.hdr",
+    "cposs2ukstu_blue_003_002_area.fits",
+    "cposs2ukstu_blue_002_003.fits",
+    "cposs2ukstu_blue_001_001_area.fits",
+    "cposs2ukstu_blue_002_001_area.fits",
+    "cposs2ukstu_blue_001_002_area.fits",
+    "cposs2ukstu_blue_001_002.fits",
+    "cposs2ukstu_blue_001_003_area.fits",
+    "cposs2ukstu_blue_002_001.fits",
+    "cposs2ukstu_blue_002_003_area.fits",
+    "cposs2ukstu_blue_002_002_area.fits",
+    "cposs2ukstu_blue_003_002.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-mosaic.fits",
+     "bytes": 125455680
+    },
+    {
+     "lfn": "1-mosaic_area.fits",
+     "bytes": 125455680
+    }
+   ],
+   "wall_s": 0.8701153000001796,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mAdd\", time=1]"
+  },
+  {
+   "id": "ID0000059",
+   "name": "mViewer",
+   "argv": [
+    "mViewer.exe",
+    "-ct",
+    "1",
+    "-gray",
+    "1-mosaic.fits",
+    "-1s",
+    "max",
+    "gaussian",
+    "-png",
+    "1-mosaic.png"
+   ],
+   "inputs": [
+    "1-mosaic.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-mosaic.png",
+     "bytes": 5774278
+    }
+   ],
+   "wall_s": 4.157352599999285,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mViewer\", type=\"grayscale\", width=3960, height=3960, min=6949.44, minpercent=10.78, minsigma=-1.00, max=26572.4, maxpercent=100.00, maxsigma=3.11, datamin=40.7998, datamax=26572.4, xflip=0, yflip=1, bunit=\"\", colortable=1]"
+  }
+ ]
+}
