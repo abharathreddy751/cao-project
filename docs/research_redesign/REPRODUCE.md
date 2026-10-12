@@ -163,7 +163,7 @@ From EVALUATION_PROTOCOL section 8 and the Stage 4 risks in FOUR_STAGE_IMPLEMENT
 
 ## 12. Observed reproduction log
 
-PENDING(repro_log.json)
+Observed 2026-10-12 22:19-22:21 UTC (`data/results/stage4_repro/repro_clean_checkout_log.json`, copy of the log written by `scripts/reproduce_clean_checkout.py`): clone of branch `redesign/montage` at its tip into a new directory, fresh Python 3.11.9 venv from `requirements-lock.txt` (torch lines dropped, no CUDA), `pytest` on 4 test files, stub-adapter experiment, analysis, SHA-256 manifest build and verify and `reproduce_subset.py`, and a read-only hash check of the Montage binaries and the primary instance: all 18 steps exit 0 (about 2 minutes). Limits (as recorded in the log): data/ is not in Git, so Montage and its timings are not re-run; the stub adapter is synthetic (label plan); only a 4-file pytest subset ran; CUDA tests and the GPU spike are not covered.
 
 Fill this section only from the `repro_log.json` written by `scripts/reproduce_clean_checkout.py`: clone commit, Python version, one line per step (name, exit code, duration), overall `ok`, and the `limits` list. Until that file exists nothing here is observed. Attach the log file path and its SHA-256 (`python scripts/make_manifest.py` on its directory, or `Get-FileHash`).
 

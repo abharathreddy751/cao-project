@@ -1,6 +1,6 @@
 # Four-stage implementation plan
 
-Status (2026-10-12): **Stage 1 done (gates met); Stage 2 software and measurement gates met, evidence under `data/results/stage2_20261012/` (commit: see git log); Stage 3 not done (predictor and split code exists with unit tests, but no real-workflow data collection, pilot or model selection has been run); Stage 4 not done (experiment tooling and scripts exist; no main experiment has been run).** Original proposal 2026-10-11. Effort: S/M/L are broad classes (small: days; medium: weeks; large: many weeks), not estimates. All thresholds are **provisional** and are set after the pilot of the stage that measures them; no improvement is promised.
+Status (2026-10-13): **Stages 1-4 executed on this machine. Stage 1 commit `6c94a89`, Stage 2 `2019a34`, Stage 3 (with Stage 4 tooling and pre-registration) `4b66dcc`, Stage 4 `f5bf2e6`; the final documents are in the last commit on `redesign/montage`. Result: all correctness and measurement gates met; the scientific outcome is negative (no predictive policy beats the strongest simple baseline in the three conditions tested), see `FINAL_REPORT.md`.**
 
 Scope: **all stages run on this machine** (CPU cores, RTX 3050 for the separate GPU workload, emulated remote pool). The Raspberry Pi 5 is a later extension (see end).
 
@@ -139,11 +139,11 @@ Plan only: ARM64 Linux, four cores, no CUDA. Needs the remote node on the Pi, a 
 ## Final project-completion checklist
 
 - [x] Stage 1 gates and evidence files complete (2026-10-12; commit `6c94a89`; literature gaps listed, not closed).
-- [x] Stage 2 gates and evidence files complete (2026-10-12; evidence `data/results/stage2_20261012/`; commit: see git log).
-- [ ] Stage 3 gates and evidence files complete (not done: no real-workflow data collection, pilot or model selection).
-- [ ] Stage 4 gates and evidence files complete (not done: no main experiment, no confidence intervals).
+- [x] Stage 2 gates and evidence files complete (2026-10-12; evidence `data/results/stage2_20261012/`; commit `2019a34`).
+- [x] Stage 3 gates and evidence files complete (2026-10-12; evidence `data/results/stage3_20261012/`; commit `4b66dcc`; TabM out by the entry rule; model selection EFT_E1).
+- [x] Stage 4 gates and evidence files complete (2026-10-13; evidence `data/results/stage4_20261012/`; commit `f5bf2e6`; one pre-registration flaw stated: Holm test unreachable with 4 blocks).
 - [x] E4 base-profile fix committed (commit `4df01e0`) and covered by tests (full suite 366 passed, 1 skipped, 2026-10-12).
-- [ ] Every result labelled real, replay, emulation, simulation or plan.
-- [ ] Limitations and unverified items documented; no novelty claim beyond what the literature check supports.
-- [ ] Old 68-task pipeline and historical evidence preserved.
-- [ ] Reproduction from a clean checkout demonstrated.
+- [x] Every result labelled real, replay, emulation, simulation or plan (all Stage 1-4 results are real; the clean-checkout stub run is plan).
+- [x] Limitations and unverified items documented (`FINAL_REPORT.md` sections on limitations and 14.3); no novelty claim beyond what the literature check supports (gap wording: not found in sources inspected).
+- [x] Old 68-task pipeline and historical evidence preserved (12,627 files verified unchanged, `data/results/stage4_repro/historical_data_verify.json`; no tracked data/test file modified or deleted).
+- [x] Reproduction from a clean checkout demonstrated for the code path (`data/results/stage4_repro/repro_clean_checkout_log.json`, 18 of 18 steps; Montage timings are not reproducible from Git alone).

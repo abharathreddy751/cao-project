@@ -136,5 +136,5 @@ Figure: three-condition summary table from `S4/analysis_main/effects.csv`, `S4/a
 - Slide 1 needs title wording, author, date and institution from the owner. Slides 3, 4 and 6 name figures that were never produced; produce them or use the fallbacks stated above. Slide 9 has no figure file.
 - Wording on slide 8 stays "descriptive"; do not present the Stage 2 ordering as a test result. Do not call any Stage 4 contrast "significant": the pre-registered test cannot reach significance with 3 or 4 blocks (FINAL_REPORT section 4.4).
 - Do not show images derived from the DSS data (for example the mosaic) until the DSS terms of use are checked.
-- The clean-checkout reproduction is still `PENDING(stage4_repro/repro_log.json)`: do not claim a clean-checkout reproduction on any slide until that file exists.
+- The clean-checkout reproduction passed (18 of 18 steps, `stage4_repro/repro_clean_checkout_log.json`; it re-runs the code path, not Montage timings): do not claim a clean-checkout reproduction on any slide until that file exists.
 - Figure caveats: the makespan figures label the axis "log scale" with linear-looking ticks and a non-zero start; the "evidence: real" caption overlaps the first tick label; the overhead figure's decision-time bar is invisible.
