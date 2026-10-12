@@ -1,0 +1,595 @@
+{
+ "label": "real",
+ "seeded_from": null,
+ "pinned_lp": 2,
+ "instance": "d1.0_dss2b_c56.7_24.0",
+ "status": "ok",
+ "total_wall_s": 489.69005930000276,
+ "n_tasks": 19,
+ "final_outputs": {
+  "1-mosaic_area.fits": "c031f9a8a637834bad8ef5b90b6b53a89821fa46ddf48249deec58c9ba30ba50",
+  "1-mosaic.fits": "0d9c05ded818d99a09ba23ebdcf1a716840f8abe7cd2e90232f02842d458f7ef",
+  "1-mosaic.png": "6e0084430351943d370aa6e7e528dcba51cfc1030f0b5a3c0f64c640dfc51109"
+ },
+ "tasks": [
+  {
+   "id": "ID0000001",
+   "name": "mProject",
+   "argv": [
+    "mProject.exe",
+    "-X",
+    "poss2ukstu_blue_001_001.fits",
+    "pposs2ukstu_blue_001_001.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "region-oversized.hdr",
+    "poss2ukstu_blue_001_001.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "pposs2ukstu_blue_001_001.fits",
+     "bytes": 53173440
+    },
+    {
+     "lfn": "pposs2ukstu_blue_001_001_area.fits",
+     "bytes": 53173440
+    }
+   ],
+   "wall_s": 122.10462810000172,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mProject\", time=122.0]"
+  },
+  {
+   "id": "ID0000002",
+   "name": "mProject",
+   "argv": [
+    "mProject.exe",
+    "-X",
+    "poss2ukstu_blue_001_002.fits",
+    "pposs2ukstu_blue_001_002.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "region-oversized.hdr",
+    "poss2ukstu_blue_001_002.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "pposs2ukstu_blue_001_002.fits",
+     "bytes": 53193600
+    },
+    {
+     "lfn": "pposs2ukstu_blue_001_002_area.fits",
+     "bytes": 53193600
+    }
+   ],
+   "wall_s": 119.48167110000213,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mProject\", time=120.0]"
+  },
+  {
+   "id": "ID0000003",
+   "name": "mProject",
+   "argv": [
+    "mProject.exe",
+    "-X",
+    "poss2ukstu_blue_002_001.fits",
+    "pposs2ukstu_blue_002_001.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "region-oversized.hdr",
+    "poss2ukstu_blue_002_001.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "pposs2ukstu_blue_002_001_area.fits",
+     "bytes": 53173440
+    },
+    {
+     "lfn": "pposs2ukstu_blue_002_001.fits",
+     "bytes": 53173440
+    }
+   ],
+   "wall_s": 120.973362299992,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mProject\", time=121.0]"
+  },
+  {
+   "id": "ID0000004",
+   "name": "mProject",
+   "argv": [
+    "mProject.exe",
+    "-X",
+    "poss2ukstu_blue_002_002.fits",
+    "pposs2ukstu_blue_002_002.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "region-oversized.hdr",
+    "poss2ukstu_blue_002_002.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "pposs2ukstu_blue_002_002.fits",
+     "bytes": 53193600
+    },
+    {
+     "lfn": "pposs2ukstu_blue_002_002_area.fits",
+     "bytes": 53193600
+    }
+   ],
+   "wall_s": 119.01341040000261,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mProject\", time=119.0]"
+  },
+  {
+   "id": "ID0000005",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000001.000002.txt",
+    "pposs2ukstu_blue_001_001.fits",
+    "pposs2ukstu_blue_001_002.fits",
+    "1-diff.000001.000002.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_001_001.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_001_002_area.fits",
+    "pposs2ukstu_blue_001_002.fits",
+    "pposs2ukstu_blue_001_001_area.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000001.000002.txt",
+     "bytes": 293
+    }
+   ],
+   "wall_s": 0.5779614000057336,
+   "exit": 0,
+   "ok": true,
+   "tail": "r>\nSVC_DEBUG>  svc_value(): [boxy] -> [520.404] [@0000028310748a60]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxwidth] -> [2536.62] [@0000028310748a60]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxheight] -> [753.551] [@0000028310748a60]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxang] -> [-179.46] [@0000028310748a60]<br>"
+  },
+  {
+   "id": "ID0000006",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000001.000003.txt",
+    "pposs2ukstu_blue_001_001.fits",
+    "pposs2ukstu_blue_002_001.fits",
+    "1-diff.000001.000003.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_001_001.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_002_001.fits",
+    "pposs2ukstu_blue_002_001_area.fits",
+    "pposs2ukstu_blue_001_001_area.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000001.000003.txt",
+     "bytes": 294
+    }
+   ],
+   "wall_s": 0.6737506999925245,
+   "exit": 0,
+   "ok": true,
+   "tail": "\nSVC_DEBUG>  svc_value(): [boxy] -> [-379.524] [@000002779f2b8a60]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxwidth] -> [754.079] [@000002779f2b8a60]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxheight] -> [2537.89] [@000002779f2b8a60]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxang] -> [0.535459] [@000002779f2b8a60]<br>"
+  },
+  {
+   "id": "ID0000007",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000001.000004.txt",
+    "pposs2ukstu_blue_001_001.fits",
+    "pposs2ukstu_blue_002_002.fits",
+    "1-diff.000001.000004.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_001_001.fits",
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_002_002.fits",
+    "pposs2ukstu_blue_002_002_area.fits",
+    "pposs2ukstu_blue_001_001_area.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000001.000004.txt",
+     "bytes": 279
+    }
+   ],
+   "wall_s": 0.23767580000276212,
+   "exit": 0,
+   "ok": true,
+   "tail": "br>\nSVC_DEBUG>  svc_value(): [boxy] -> [520.201] [@00000153ae7f8a60]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxwidth] -> [770.49] [@00000153ae7f8a60]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxheight] -> [737.706] [@00000153ae7f8a60]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxang] -> [90.5355] [@00000153ae7f8a60]<br>"
+  },
+  {
+   "id": "ID0000008",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000002.000003.txt",
+    "pposs2ukstu_blue_001_002.fits",
+    "pposs2ukstu_blue_002_001.fits",
+    "1-diff.000002.000003.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_002_001.fits",
+    "pposs2ukstu_blue_001_002_area.fits",
+    "pposs2ukstu_blue_002_001_area.fits",
+    "pposs2ukstu_blue_001_002.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000002.000003.txt",
+     "bytes": 285
+    }
+   ],
+   "wall_s": 0.24542890000157058,
+   "exit": 0,
+   "ok": true,
+   "tail": "r>\nSVC_DEBUG>  svc_value(): [boxy] -> [520.777] [@0000020910ba8a60]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxwidth] -> [771.144] [@0000020910ba8a60]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxheight] -> [737.37] [@0000020910ba8a60]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxang] -> [0.535459] [@0000020910ba8a60]<br>"
+  },
+  {
+   "id": "ID0000009",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000002.000004.txt",
+    "pposs2ukstu_blue_001_002.fits",
+    "pposs2ukstu_blue_002_002.fits",
+    "1-diff.000002.000004.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_002_002.fits",
+    "pposs2ukstu_blue_002_002_area.fits",
+    "pposs2ukstu_blue_001_002_area.fits",
+    "pposs2ukstu_blue_001_002.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000002.000004.txt",
+     "bytes": 291
+    }
+   ],
+   "wall_s": 0.6735435000009602,
+   "exit": 0,
+   "ok": true,
+   "tail": ">\nSVC_DEBUG>  svc_value(): [boxy] -> [1420.61] [@00000257dbf28a60]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxwidth] -> [2536.92] [@00000257dbf28a60]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxheight] -> [755.031] [@00000257dbf28a60]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxang] -> [-89.4605] [@00000257dbf28a60]<br>"
+  },
+  {
+   "id": "ID0000010",
+   "name": "mDiffFit",
+   "argv": [
+    "mDiffFit.exe",
+    "-d",
+    "-s",
+    "1-fit.000003.000004.txt",
+    "pposs2ukstu_blue_002_001.fits",
+    "pposs2ukstu_blue_002_002.fits",
+    "1-diff.000003.000004.fits",
+    "region-oversized.hdr"
+   ],
+   "inputs": [
+    "region-oversized.hdr",
+    "pposs2ukstu_blue_002_002.fits",
+    "pposs2ukstu_blue_002_001.fits",
+    "pposs2ukstu_blue_002_002_area.fits",
+    "pposs2ukstu_blue_002_001_area.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fit.000003.000004.txt",
+     "bytes": 288
+    }
+   ],
+   "wall_s": 0.5314709999947809,
+   "exit": 0,
+   "ok": true,
+   "tail": "<br>\nSVC_DEBUG>  svc_value(): [boxy] -> [520.618] [@0000019dab9d8a60]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxwidth] -> [754.5] [@0000019dab9d8a60]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxheight] -> [2537.82] [@0000019dab9d8a60]<br>\nSVC_DEBUG>  Entering svc_value()<br>\nSVC_DEBUG>  svc_value(): [boxang] -> [90.5355] [@0000019dab9d8a60]<br>"
+  },
+  {
+   "id": "ID0000011",
+   "name": "mConcatFit",
+   "argv": [
+    "mConcatFit.exe",
+    "1-stat.tbl",
+    "1-fits.tbl",
+    "."
+   ],
+   "inputs": [
+    "1-fit.000002.000004.txt",
+    "1-stat.tbl",
+    "1-fit.000003.000004.txt",
+    "1-fit.000001.000002.txt",
+    "1-fit.000002.000003.txt",
+    "1-fit.000001.000003.txt",
+    "1-fit.000001.000004.txt"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-fits.tbl",
+     "bytes": 1464
+    }
+   ],
+   "wall_s": 0.09607559999858495,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", count=7, failed=0, missing=1, warning=0]"
+  },
+  {
+   "id": "ID0000012",
+   "name": "mBgModel",
+   "argv": [
+    "mBgModel.exe",
+    "-i",
+    "100000",
+    "1-images.tbl",
+    "1-fits.tbl",
+    "1-corrections.tbl"
+   ],
+   "inputs": [
+    "1-fits.tbl",
+    "1-images.tbl"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-corrections.tbl",
+     "bytes": 337
+    }
+   ],
+   "wall_s": 0.20161750000261236,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mBgModel\", nnan=0, cmin=-0.173039, cmax=0.249052]"
+  },
+  {
+   "id": "ID0000013",
+   "name": "mBackground",
+   "argv": [
+    "mBackground.exe",
+    "-t",
+    "pposs2ukstu_blue_001_001.fits",
+    "cposs2ukstu_blue_001_001.fits",
+    "1-projected.tbl",
+    "1-corrections.tbl"
+   ],
+   "inputs": [
+    "pposs2ukstu_blue_001_001.fits",
+    "1-projected.tbl",
+    "1-corrections.tbl",
+    "pposs2ukstu_blue_001_001_area.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "cposs2ukstu_blue_001_001.fits",
+     "bytes": 53173440
+    },
+    {
+     "lfn": "cposs2ukstu_blue_001_001_area.fits",
+     "bytes": 53173440
+    }
+   ],
+   "wall_s": 0.29599579999921843,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mBackground\", time=0.0]"
+  },
+  {
+   "id": "ID0000014",
+   "name": "mBackground",
+   "argv": [
+    "mBackground.exe",
+    "-t",
+    "pposs2ukstu_blue_001_002.fits",
+    "cposs2ukstu_blue_001_002.fits",
+    "1-projected.tbl",
+    "1-corrections.tbl"
+   ],
+   "inputs": [
+    "1-projected.tbl",
+    "pposs2ukstu_blue_001_002_area.fits",
+    "1-corrections.tbl",
+    "pposs2ukstu_blue_001_002.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "cposs2ukstu_blue_001_002.fits",
+     "bytes": 53193600
+    },
+    {
+     "lfn": "cposs2ukstu_blue_001_002_area.fits",
+     "bytes": 53193600
+    }
+   ],
+   "wall_s": 0.2938123999920208,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mBackground\", time=0.0]"
+  },
+  {
+   "id": "ID0000015",
+   "name": "mBackground",
+   "argv": [
+    "mBackground.exe",
+    "-t",
+    "pposs2ukstu_blue_002_001.fits",
+    "cposs2ukstu_blue_002_001.fits",
+    "1-projected.tbl",
+    "1-corrections.tbl"
+   ],
+   "inputs": [
+    "1-projected.tbl",
+    "pposs2ukstu_blue_002_001.fits",
+    "1-corrections.tbl",
+    "pposs2ukstu_blue_002_001_area.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "cposs2ukstu_blue_002_001_area.fits",
+     "bytes": 53173440
+    },
+    {
+     "lfn": "cposs2ukstu_blue_002_001.fits",
+     "bytes": 53173440
+    }
+   ],
+   "wall_s": 0.3083877000026405,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mBackground\", time=0.0]"
+  },
+  {
+   "id": "ID0000016",
+   "name": "mBackground",
+   "argv": [
+    "mBackground.exe",
+    "-t",
+    "pposs2ukstu_blue_002_002.fits",
+    "cposs2ukstu_blue_002_002.fits",
+    "1-projected.tbl",
+    "1-corrections.tbl"
+   ],
+   "inputs": [
+    "1-projected.tbl",
+    "pposs2ukstu_blue_002_002.fits",
+    "pposs2ukstu_blue_002_002_area.fits",
+    "1-corrections.tbl"
+   ],
+   "outputs": [
+    {
+     "lfn": "cposs2ukstu_blue_002_002_area.fits",
+     "bytes": 53193600
+    },
+    {
+     "lfn": "cposs2ukstu_blue_002_002.fits",
+     "bytes": 53193600
+    }
+   ],
+   "wall_s": 0.29597930000454653,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mBackground\", time=0.0]"
+  },
+  {
+   "id": "ID0000017",
+   "name": "mImgtbl",
+   "argv": [
+    "mImgtbl.exe",
+    ".",
+    "-t",
+    "1-corrected.tbl",
+    "1-updated-corrected.tbl"
+   ],
+   "inputs": [
+    "cposs2ukstu_blue_001_001.fits",
+    "1-corrected.tbl",
+    "cposs2ukstu_blue_002_001.fits",
+    "cposs2ukstu_blue_001_002.fits",
+    "cposs2ukstu_blue_002_002.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-updated-corrected.tbl",
+     "bytes": 2613
+    }
+   ],
+   "wall_s": 0.07253759999002796,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mImgtbl\", count=4, nfile=4, nhdu=4, badfits=0, badwcs=0]"
+  },
+  {
+   "id": "ID0000018",
+   "name": "mAdd",
+   "argv": [
+    "mAdd.exe",
+    "-e",
+    "1-updated-corrected.tbl",
+    "region.hdr",
+    "1-mosaic.fits"
+   ],
+   "inputs": [
+    "1-updated-corrected.tbl",
+    "cposs2ukstu_blue_002_001_area.fits",
+    "region.hdr",
+    "cposs2ukstu_blue_001_001.fits",
+    "cposs2ukstu_blue_001_001_area.fits",
+    "cposs2ukstu_blue_001_002.fits",
+    "cposs2ukstu_blue_002_001.fits",
+    "cposs2ukstu_blue_002_002_area.fits",
+    "cposs2ukstu_blue_001_002_area.fits",
+    "cposs2ukstu_blue_002_002.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-mosaic_area.fits",
+     "bytes": 103682880
+    },
+    {
+     "lfn": "1-mosaic.fits",
+     "bytes": 103682880
+    }
+   ],
+   "wall_s": 0.6574861999979476,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mAdd\", time=1]"
+  },
+  {
+   "id": "ID0000019",
+   "name": "mViewer",
+   "argv": [
+    "mViewer.exe",
+    "-ct",
+    "1",
+    "-gray",
+    "1-mosaic.fits",
+    "-1s",
+    "max",
+    "gaussian",
+    "-png",
+    "1-mosaic.png"
+   ],
+   "inputs": [
+    "1-mosaic.fits"
+   ],
+   "outputs": [
+    {
+     "lfn": "1-mosaic.png",
+     "bytes": 4636549
+    }
+   ],
+   "wall_s": 2.946125900009065,
+   "exit": 0,
+   "ok": true,
+   "tail": "[struct stat=\"OK\", module=\"mViewer\", type=\"grayscale\", width=3600, height=3600, min=7803.99, minpercent=12.23, minsigma=-1.00, max=26552.7, maxpercent=100.00, maxsigma=2.95, datamin=7.50442, datamax=26552.7, xflip=0, yflip=1, bunit=\"\", colortable=1]"
+  }
+ ]
+}

@@ -1,0 +1,241 @@
+{
+ "schema_version": 1,
+ "estimator": "E4_interference_ridge",
+ "features": [
+  "intercept",
+  "busy_P",
+  "busy_E",
+  "corun_compression",
+  "corun_image_filter",
+  "corun_matmul",
+  "target_busy_frac"
+ ],
+ "base_profile": "data/results/stage2_20261012/profile_montage/20261012T092355_profile.json",
+ "weights": {
+  "mAdd|E": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mAdd|P": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mBackground|E": [
+   0.21631593263631663,
+   -0.029552734543074836,
+   0.05887219072978162,
+   0.0,
+   0.0,
+   0.0,
+   -0.015906808462143568
+  ],
+  "mBackground|P": [
+   0.3979756916560168,
+   0.020378280600509655,
+   0.03186390374472419,
+   0.0,
+   0.0,
+   0.0,
+   -0.18123174009288398
+  ],
+  "mBgModel|E": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mBgModel|P": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mConcatFit|E": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mConcatFit|P": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mDiffFit|E": [
+   -0.3097241522500272,
+   0.06086183809727887,
+   -0.28427830920348846,
+   0.0,
+   0.0,
+   0.0,
+   -0.007564350182540611
+  ],
+  "mDiffFit|P": [
+   -0.3879526912886937,
+   0.008407425645668681,
+   -0.03388122365078154,
+   0.0,
+   0.0,
+   0.0,
+   -0.03344843003797496
+  ],
+  "mImgtbl|E": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mImgtbl|P": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mProject|E": [
+   -0.003919752817975143,
+   0.0019493784111307866,
+   0.0035190300816204446,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mProject|P": [
+   0.15747884685385963,
+   0.014678881571852393,
+   0.01683915585721389,
+   0.0,
+   0.0,
+   0.0,
+   -0.17071174811557913
+  ],
+  "mViewer|E": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mViewer|P": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ "meta": {
+  "ridge_lambda": 1.0,
+  "min_rows": 30,
+  "groups": {
+   "mAdd|E": {
+    "n": 9,
+    "fallback_to_E1": true
+   },
+   "mAdd|P": {
+    "n": 15,
+    "fallback_to_E1": true
+   },
+   "mBackground|E": {
+    "n": 49,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.10228374137439909
+   },
+   "mBackground|P": {
+    "n": 107,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.1893925822740561
+   },
+   "mBgModel|E": {
+    "n": 3,
+    "fallback_to_E1": true
+   },
+   "mBgModel|P": {
+    "n": 21,
+    "fallback_to_E1": true
+   },
+   "mConcatFit|E": {
+    "n": 14,
+    "fallback_to_E1": true
+   },
+   "mConcatFit|P": {
+    "n": 10,
+    "fallback_to_E1": true
+   },
+   "mDiffFit|E": {
+    "n": 122,
+    "fallback_to_E1": false,
+    "train_rmse_log": 1.0695653318904532
+   },
+   "mDiffFit|P": {
+    "n": 382,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.9049806988132779
+   },
+   "mImgtbl|E": {
+    "n": 6,
+    "fallback_to_E1": true
+   },
+   "mImgtbl|P": {
+    "n": 18,
+    "fallback_to_E1": true
+   },
+   "mProject|E": {
+    "n": 48,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.008728749316622996
+   },
+   "mProject|P": {
+    "n": 108,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.07784678757471244
+   },
+   "mViewer|E": {
+    "n": 5,
+    "fallback_to_E1": true
+   },
+   "mViewer|P": {
+    "n": 19,
+    "fallback_to_E1": true
+   }
+  },
+  "impute": {
+   "target_busy_frac": 0.18681522371781853
+  },
+  "n_rows_busy_frac_unknown": 0,
+  "fitted_on_fold": "instance:d1.1_dss2b_c56.7_24.0"
+ }
+}

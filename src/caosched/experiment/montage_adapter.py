@@ -6,9 +6,12 @@ raw inputs from ``instances/<instance>/inputs`` and ``.../data`` -> policy/estim
 on one WorkerPool that is created lazily and reused for the whole session (rebuilt after a failed run) -> SHA-256 of
 the final outputs, compared with the reference.
 
-Condition fields: ``policy`` (B0_P_only, B0_E_only, B1/round_robin, B2..B7 names, ``random``, ``EFT_<estimator
+Condition fields: ``policy`` (B0_P_only, B0_E_only, B1/round_robin, B2..B7 names, ``random``, ``RandomOccupancy``, ``EFT_<estimator
 spec>[_rank]`` e.g. EFT_E1, EFT_E4_rc_rank, ``HEFT_E1``, ``PEFT_E1``), ``estimator`` (E0/E1/E2/E3, ``+rc``,
 ``Ridge`` = E4, CatBoost, MLP; for ``EFT_*`` it is parsed from the policy name when None), ``instance``, ``kwargs``:
+  seed, allowed_pools, min_idle_s, concurrency   only for policy ``RandomOccupancy`` (data collection,
+                   ``dataset.campaign.RandomOccupancyPolicy``): its seed (default: the run seed), the pools it may use
+                   (default all), the minimum idle gap of a worker, and a [lo, hi] range for a random worker subset
   profile          static profile JSON (E0-E3, B6/B7, HEFT/PEFT)
   model_path       learned model file (Ridge/E4, CatBoost, MLP)
   est_cfg          build_estimator cfg (E3 window, rc alpha/clamp ...)
@@ -35,6 +38,7 @@ from caosched.core.event_log import EventLogger
 from caosched.core.extcmd import WORKDIR_MARKER, prepare_workdir
 from caosched.core.runtime_config import RuntimeConfig
 from caosched.core.worker_pool import WorkerPool
+from caosched.dataset.campaign import RandomOccupancyPolicy
 from caosched.experiment.design import Condition, RunRecord
 from caosched.experiment.manifest import sha256_file
 from caosched.schedulers import ALL_POLICIES, eft_factories, plan_factories, policy_factories, rank_eft_factories
@@ -61,6 +65,9 @@ def build_policy(cond: Condition, seed: int):
     profile = Path(kw["profile"]) if kw.get("profile") else None
     if name == "random":
         return RandomScheduler(kw.get("seed", seed))
+    if name == "RandomOccupancy":  # Stage 3 data collection (late binding; logs the chosen worker's decision context)
+        return RandomOccupancyPolicy(kw.get("seed", seed), allowed_pools=kw.get("allowed_pools"),
+                                     min_idle_s=kw.get("min_idle_s", 0.0), concurrency=kw.get("concurrency"))
     if name in ALL_POLICIES:
         return policy_factories(kw.get("policy_cfg") or {}, profile)[name]()
     if name.startswith("EFT_"):
@@ -120,12 +127,14 @@ def compare_outputs(work: Path, names, reference: dict, reference_dir=None, fits
 class MontageAdapter:
     def __init__(self, montage_root=None, bin_dir=None, executables: dict | None = None,
                  runtime_config: RuntimeConfig | None = None, timeout_s: float = 3600.0,
-                 run_timeout_s: float | None = None, cleanup_work: bool = False):
+                 run_timeout_s: float | None = None, cleanup_work: bool = False,
+                 max_p_slots: int | None = None):
         self.montage_root = Path(montage_root) if montage_root else ROOT / "data" / "montage"
         self.bin_dir = Path(bin_dir) if bin_dir else self.montage_root / "bin_win64"
         self.executables = dict(executables or {})
         self.runtime_config = runtime_config
         self.timeout_s, self.run_timeout_s = timeout_s, run_timeout_s
+        self.max_p_slots = max_p_slots  # None = one P worker per physical P core; 2 = the 'P2E7' regime (scarce fast cores)
         self.cleanup_work = cleanup_work  # delete a VERIFIED run's work dir (~2 GB); hashes and the event log are kept
         self._pool: WorkerPool | None = None
 
@@ -136,7 +145,7 @@ class MontageAdapter:
 
     def _config(self) -> RuntimeConfig:
         if self.runtime_config is None:
-            self.runtime_config = RuntimeConfig.from_topology(max_p_slots=None)
+            self.runtime_config = RuntimeConfig.from_topology(max_p_slots=self.max_p_slots)
         return self.runtime_config
 
     def _get_pool(self) -> WorkerPool:
@@ -156,8 +165,14 @@ class MontageAdapter:
     def _final(self, cond: Condition) -> tuple:
         return tuple(cond.kwargs.get("final_outputs") or FINAL_OUTPUTS)
 
+    @staticmethod
+    def _ref_kwargs(cond: Condition) -> dict:
+        """reference_hashes/reference_dir, or the per-instance entry of ``reference_by_instance`` (designs that cycle instances)."""
+        kw = cond.kwargs
+        return {**kw, **(kw.get("reference_by_instance") or {}).get(cond.instance, {})}
+
     def _reference(self, cond: Condition) -> dict:
-        ref = json.loads(Path(cond.kwargs["reference_hashes"]).read_text(encoding="utf-8"))
+        ref = json.loads(Path(self._ref_kwargs(cond)["reference_hashes"]).read_text(encoding="utf-8"))
         return ref.get("final_outputs", ref)
 
     def run_one(self, condition: Condition, workdir: Path, seed: int) -> RunRecord:
@@ -204,7 +219,7 @@ class MontageAdapter:
         return rec
 
     def _verify(self, condition: Condition, workdir: Path, record: RunRecord) -> tuple[bool, dict]:
-        kw = condition.kwargs
+        kw = self._ref_kwargs(condition)
         ok, hashes, verdict = compare_outputs(Path(workdir) / "work", self._final(condition), self._reference(condition),
                                               kw.get("reference_dir"), kw.get("fits_atol"))
         record.extra["output_verdict"] = verdict

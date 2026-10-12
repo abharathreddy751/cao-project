@@ -1,0 +1,161 @@
+{
+ "schema_version": 1,
+ "estimator": "E4_interference_ridge",
+ "features": [
+  "intercept",
+  "busy_P",
+  "busy_E",
+  "corun_compression",
+  "corun_image_filter",
+  "corun_matmul",
+  "target_busy_frac"
+ ],
+ "base_profile": "data/results/stage2_20261012/profile_montage/20261012T092355_profile.json",
+ "weights": {
+  "mAdd|P": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mBackground|E": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mBackground|P": [
+   0.667399498148573,
+   -0.04619932237152134,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   -0.25095693729247187
+  ],
+  "mBgModel|P": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mConcatFit|P": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mDiffFit|E": [
+   0.6172881034710277,
+   -0.3197023875728959,
+   -0.2598801433325212,
+   0.0,
+   0.0,
+   0.0,
+   0.36438679937702034
+  ],
+  "mDiffFit|P": [
+   -1.4432833322605836,
+   0.26530898667529285,
+   0.10479010043603752,
+   0.0,
+   0.0,
+   0.0,
+   -0.22701500635839486
+  ],
+  "mImgtbl|P": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mProject|P": [
+   0.2749402968572738,
+   -0.0080843680035142,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   -0.17751471306624145
+  ],
+  "mViewer|P": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ "meta": {
+  "ridge_lambda": 1.0,
+  "min_rows": 30,
+  "groups": {
+   "mAdd|P": {
+    "n": 12,
+    "fallback_to_E1": true
+   },
+   "mBackground|E": {
+    "n": 3,
+    "fallback_to_E1": true
+   },
+   "mBackground|P": {
+    "n": 105,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.09113402674337258
+   },
+   "mBgModel|P": {
+    "n": 12,
+    "fallback_to_E1": true
+   },
+   "mConcatFit|P": {
+    "n": 12,
+    "fallback_to_E1": true
+   },
+   "mDiffFit|E": {
+    "n": 45,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.9910834299362296
+   },
+   "mDiffFit|P": {
+    "n": 387,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.7938904189295181
+   },
+   "mImgtbl|P": {
+    "n": 12,
+    "fallback_to_E1": true
+   },
+   "mProject|P": {
+    "n": 108,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.009939101437019314
+   },
+   "mViewer|P": {
+    "n": 12,
+    "fallback_to_E1": true
+   }
+  },
+  "impute": {
+   "target_busy_frac": 0.4144301169491605
+  },
+  "n_rows_busy_frac_unknown": 0,
+  "fitted_on_fold": "time"
+ }
+}

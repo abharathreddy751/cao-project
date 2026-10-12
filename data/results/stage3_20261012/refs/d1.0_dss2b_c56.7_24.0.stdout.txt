@@ -1,0 +1,14 @@
+{
+ "label": "real",
+ "seeded_from": null,
+ "pinned_lp": 2,
+ "instance": "d1.0_dss2b_c56.7_24.0",
+ "status": "ok",
+ "total_wall_s": 489.69005930000276,
+ "n_tasks": 19,
+ "final_outputs": {
+  "1-mosaic_area.fits": "c031f9a8a637834bad8ef5b90b6b53a89821fa46ddf48249deec58c9ba30ba50",
+  "1-mosaic.fits": "0d9c05ded818d99a09ba23ebdcf1a716840f8abe7cd2e90232f02842d458f7ef",
+  "1-mosaic.png": "6e0084430351943d370aa6e7e528dcba51cfc1030f0b5a3c0f64c640dfc51109"
+ }
+}

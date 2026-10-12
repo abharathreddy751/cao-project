@@ -112,3 +112,29 @@ def test_stamp_of_names_the_offending_file():
     assert _stamp_of("x_20261003T115741_profile.json") == "20261003T115741"
     with pytest.raises(ValueError, match="no YYYYMMDDTHHMMSS stamp"):
         _stamp_of("campaign_nostamp")
+
+
+def test_experiment_runner_session_layout_is_a_source_kind(tmp_path):
+    """Real Stage 2+ logs live at <events_root>/<stamp>/runs/<run dir>/<run>.jsonl; preflight.jsonl is not a run log."""
+    root = tmp_path / "sessions"
+    assert classify(root / "20261012T101305" / "runs" / "b0000_00_EFT_E1" / "b0000_00_EFT_E1.jsonl", root) == ("session", None)
+    assert classify(root / "20261012T101305" / "preflight.jsonl", root)[0] is None
+    assert classify(root / "20261012T101305" / "runs" / "x.jsonl", root)[0] is None
+
+
+def test_unverified_or_failed_session_runs_are_excluded(tmp_path):
+    root = tmp_path / "sessions"
+    for name, manifest in (("ok", {"status": "ok", "verification": {"passed": True}}),
+                           ("bad_output", {"status": "ok", "verification": {"passed": False}}),
+                           ("failed", {"status": "failed", "verification": {"passed": False}}),
+                           ("no_manifest", None)):
+        d = root / "20261012T101305" / "runs" / name
+        _write_run(d / f"{name}.jsonl", name, "20261012T101305")
+        if manifest is not None:
+            (d / "run_manifest.json").write_text(json.dumps(manifest))
+    (tmp_path / "profiles").mkdir()
+    out = build_dataset(root, tmp_path / "profiles", tmp_path / "ds", context_source="start")
+    m = json.loads((out / "manifest.json").read_text())
+    assert [s["source_log"] for s in m["sources"]] == ["sessions/20261012T101305/runs/ok/ok.jsonl"]
+    assert {e["source_log"].split("/")[-1]: e["reason"][:15] for e in m["excluded"]} == {
+        "bad_output.jsonl": "run not verifie", "failed.jsonl": "run not verifie", "no_manifest.jsonl": "no run_manifest"}

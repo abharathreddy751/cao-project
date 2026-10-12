@@ -79,6 +79,9 @@ def classify(path: Path, events_root: Path) -> tuple[str | None, str | None]:
              "phase6b_20261003T160833": "Phase 6B 3-block smoke run (pipeline check, not a result)"}
     if top in smoke:
         return None, smoke[top]
+    parts = rel.split("/")  # experiment-runner sessions: <session stamp>/runs/<run dir>/<run>.jsonl (preflight.jsonl is not a run log)
+    if len(parts) == 4 and parts[1] == "runs" and _STAMP.fullmatch(parts[0]) and parts[3].endswith(".jsonl"):
+        return "session", None
     for kind in ("campaign", "phase2", "phase4", "phase5", "phase6b"):
         if top.startswith(kind + "_"):
             return kind, None
@@ -112,6 +115,17 @@ class CalibrationProfiles:
             return None, None
         name, table = chosen
         return table.get((workload, int(size), pool)), name
+
+
+def _unverified(manifest: Path) -> str | None:
+    """Why an experiment-runner run is not usable as training data (its ``run_manifest.json`` says the run failed or
+    its output did not verify against the reference), else None. A missing manifest counts as unverified."""
+    if not manifest.is_file():
+        return "no run_manifest.json beside the log (run not verified)"
+    m = json.loads(manifest.read_text(encoding="utf-8"))
+    if m.get("status") != "ok" or not (m.get("verification") or {}).get("passed"):
+        return f"run not verified: status={m.get('status')!r}, verification.passed={(m.get('verification') or {}).get('passed')!r}"
+    return None
 
 
 def _sha256(path: Path) -> str:
@@ -166,7 +180,7 @@ def rows_for_log(path: Path, events_root: Path, kind: str, calib: CalibrationPro
         tasks.append({
             "source_log": rel_path, "source_kind": kind, "experiment_id": exp_id, "session_id": session_id,
             "scenario": scenario, "run_id": start["run_id"], "trace": r["trace"], "repeat": meta.get("repeat"),
-            "order_index": meta.get("order_index"), "order_randomized": kind in ("phase2", "phase4", "phase5", "phase6b"),
+            "order_index": meta.get("order_index"), "order_randomized": kind in ("phase2", "phase4", "phase5", "phase6b", "session"),
             "randomized_campaign": kind == "campaign", "policy": start["scheduler"],
             "policy_binding": "late" if sc.get("binds_only_idle", True) else "early", "estimator": est,
             "eft_model": dec.get("model") if dec else None,
@@ -289,6 +303,9 @@ def build_dataset(events_root: Path, profile_dir: Path, out_root: Path, context_
             kind, why = classify(path, Path(events_root))
             rel = path.relative_to(Path(events_root).parent).as_posix()
             if why:
+                excluded.append({"source_log": rel, "reason": why})
+                continue
+            if kind == "session" and (why := _unverified(path.parent / "run_manifest.json")):
                 excluded.append({"source_log": rel, "reason": why})
                 continue
             st: dict = {}

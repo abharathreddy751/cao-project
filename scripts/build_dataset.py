@@ -5,7 +5,9 @@ Reads data/events/** (never modifies it), writes data/datasets/<stamp>/
 (including re-hashing every source log). Schema: docs/DATASET.md.
 
 Usage:  python scripts/build_dataset.py [--context-source decision|auto|start] [--allow-later-calibration]
-                                        [--train-fraction F] [--events DIR]
+                                        [--train-fraction F] [--events DIR] [--profiles DIR] [--out DIR]
+  --profiles: directory of <stamp>_profile.json calibration profiles (default data/profiles; each must predate the session it calibrates)
+  --out: parent directory of the new <stamp>/ dataset directory (default data/datasets)
   decision (DEFAULT; use for model training/evaluation, AD-7): features only from the context logged at the
   placement decision; rows without one are dropped and counted in manifest.json.
   auto / start (explicit opt-in, historical logs only): start-time reconstruction is post-decision data.
@@ -26,11 +28,13 @@ def main() -> None:
     ap.add_argument("--context-source", default="decision", choices=("decision", "auto", "start"))
     ap.add_argument("--allow-later-calibration", action="store_true", help="historical: use a later profile when none predates the session")
     ap.add_argument("--train-fraction", type=float, default=0.7)
+    ap.add_argument("--profiles", default=str(ROOT / "data" / "profiles"))
+    ap.add_argument("--out", default=str(ROOT / "data" / "datasets"))
     a = ap.parse_args()
-    out = build_dataset(Path(a.events), ROOT / "data" / "profiles", ROOT / "data" / "datasets", a.context_source,
+    out = build_dataset(Path(a.events), Path(a.profiles), Path(a.out), a.context_source,
                         a.allow_later_calibration, a.train_fraction)
     report = validate_dataset(out)
-    print(f"dataset -> {out.relative_to(ROOT)}")
+    print(f"dataset -> {out}")
     print("validation:", report)
 
 

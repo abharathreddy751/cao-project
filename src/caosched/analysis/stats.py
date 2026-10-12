@@ -51,8 +51,16 @@ def paired_log_ratios(blocks: dict, cond: str, ref: str, metric: str):
     return out, strata
 
 
+def paired_sign_flip_p(values, n_perm: int = 10000, seed: int = 0) -> float:
+    """Two-sided sign-flip (randomisation) p-value for mean(values) == 0, +1 corrected so it is never 0."""
+    v = np.asarray(values, dtype=float)
+    signs = np.random.default_rng(seed).choice((-1.0, 1.0), size=(n_perm, v.size))
+    return float((1 + np.sum(np.abs((signs * v).mean(axis=1)) >= abs(v.mean()) * (1 - 1e-12))) / (n_perm + 1))
+
+
 def paired_effect(blocks: dict, cond: str, ref: str, metric: str, seed: int = 0) -> dict | None:
-    """Percentage effect of ``cond`` vs ``ref`` with 95% CI (bootstrap over blocks)."""
+    """Percentage effect of ``cond`` vs ``ref`` with 95% CI (bootstrap over blocks) and an unadjusted
+    sign-flip p-value (``p_perm``; adjust across contrasts yourself)."""
     ratios, strata = paired_log_ratios(blocks, cond, ref, metric)
     if len(ratios) < 3:
         return None
@@ -60,7 +68,17 @@ def paired_effect(blocks: dict, cond: str, ref: str, metric: str, seed: int = 0)
     return {"cond": cond, "ref": ref, "metric": metric, "n_blocks": len(ratios),
             "effect_pct": (math.exp(m) - 1) * 100, "ci_lo_pct": (math.exp(lo) - 1) * 100,
             "ci_hi_pct": (math.exp(hi) - 1) * 100, "sd_log": float(np.std(ratios, ddof=1)),
-            "ci_excludes_zero": (lo > 0) or (hi < 0)}
+            "ci_excludes_zero": (lo > 0) or (hi < 0), "p_perm": paired_sign_flip_p(ratios, seed=seed + 1)}
+
+
+def holm_adjust(pvals) -> list[float]:
+    """Holm step-down adjusted p-values (same order as the input)."""
+    p = list(pvals)
+    m, adj, run = len(p), [0.0] * len(p), 0.0
+    for rank, i in enumerate(sorted(range(m), key=p.__getitem__)):
+        run = max(run, min(1.0, (m - rank) * p[i]))
+        adj[i] = run
+    return adj
 
 
 def mean_ci(values, strata=None, seed: int = 0) -> dict | None:
@@ -70,6 +88,16 @@ def mean_ci(values, strata=None, seed: int = 0) -> dict | None:
     return {"n": len(values), "mean": r[0], "ci_lo": r[1], "ci_hi": r[2]}
 
 
-def min_detectable_effect_pct(sd_log: float, n_blocks: int) -> float:
+Z_ALPHA, Z_POWER = 1.96, 0.84  # two-sided alpha = 0.05, power = 0.80
+
+
+def ci_halfwidth_pct(sd_log: float, n_blocks: int) -> float:
     """95% CI half-width (in %) implied by a paired log-ratio SD and block count."""
-    return (math.exp(1.96 * sd_log / math.sqrt(n_blocks)) - 1) * 100
+    return (math.exp(Z_ALPHA * sd_log / math.sqrt(n_blocks)) - 1) * 100
+
+
+def min_detectable_effect_pct(sd_log: float, n_blocks: int) -> float:
+    """Minimum detectable effect (in %) at two-sided alpha 0.05 and 80% power, normal approximation:
+    (z_{1-alpha/2} + z_power) * sd / sqrt(n) on the log-ratio scale, then exp(.) - 1. Report it as
+    ``mde_pct_80power``; it is NOT the CI half-width (use ``ci_halfwidth_pct``)."""
+    return (math.exp((Z_ALPHA + Z_POWER) * sd_log / math.sqrt(n_blocks)) - 1) * 100

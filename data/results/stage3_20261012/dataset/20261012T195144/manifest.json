@@ -1,0 +1,396 @@
+{
+ "schema_version": 1,
+ "built_at": "20261012T195144",
+ "events_root": "data\\results\\stage3_20261012\\events_view",
+ "n_task_rows": 0,
+ "n_candidate_rows": 0,
+ "rows_per_source_kind": {},
+ "n_runs": 0,
+ "sessions": [],
+ "context_source": "decision",
+ "rows_per_ctx_source": {},
+ "n_rows_dropped_no_decision_ctx": 0,
+ "instances": [],
+ "calibration_profiles": [
+  "20261012T092355_profile.json"
+ ],
+ "calibration_policy": "only profiles measured at or before the session; none -> null",
+ "sources": [],
+ "excluded": [
+  {
+   "source_log": "events_view/collect_sessions/20261012T153253/preflight.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T153253/runs/b0000_00_RandomOccupancy_s3/b0000_00_RandomOccupancy_s3.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T153253/runs/b0000_01_RandomOccupancy_s1/b0000_01_RandomOccupancy_s1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T153253/runs/b0000_02_EFT_E1/b0000_02_EFT_E1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T153253/runs/b0001_00_RandomOccupancy_s3/b0001_00_RandomOccupancy_s3.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T153253/runs/b0001_01_EFT_E1/b0001_01_EFT_E1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T153253/runs/b0001_02_RandomOccupancy_s1/b0001_02_RandomOccupancy_s1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T153253/runs/b0002_00_RandomOccupancy_s3/b0002_00_RandomOccupancy_s3.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T153253/runs/b0002_01_EFT_E1/b0002_01_EFT_E1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T153253/runs/b0002_02_RandomOccupancy_s1/b0002_02_RandomOccupancy_s1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T153253/runs/b0003_00_RandomOccupancy_s1/b0003_00_RandomOccupancy_s1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T153253/runs/b0003_01_RandomOccupancy_s3/b0003_01_RandomOccupancy_s3.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T153253/runs/b0003_02_EFT_E1/b0003_02_EFT_E1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T163703/preflight.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T163703/runs/b0000_00_RandomOccupancy_s1/b0000_00_RandomOccupancy_s1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T163703/runs/b0000_01_RandomOccupancy_s3/b0000_01_RandomOccupancy_s3.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T163703/runs/b0000_02_EFT_E1/b0000_02_EFT_E1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T163703/runs/b0001_00_EFT_E1/b0001_00_EFT_E1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T163703/runs/b0001_01_RandomOccupancy_s3/b0001_01_RandomOccupancy_s3.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T163703/runs/b0001_02_RandomOccupancy_s1/b0001_02_RandomOccupancy_s1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T163703/runs/b0002_00_EFT_E1/b0002_00_EFT_E1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T163703/runs/b0002_01_RandomOccupancy_s1/b0002_01_RandomOccupancy_s1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T163703/runs/b0002_02_RandomOccupancy_s3/b0002_02_RandomOccupancy_s3.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T163703/runs/b0003_00_EFT_E1/b0003_00_EFT_E1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T163703/runs/b0003_01_RandomOccupancy_s1/b0003_01_RandomOccupancy_s1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T163703/runs/b0003_02_RandomOccupancy_s3/b0003_02_RandomOccupancy_s3.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T175127/preflight.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T175127/runs/b0000_00_RandomOccupancy_s1/b0000_00_RandomOccupancy_s1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T175127/runs/b0000_01_RandomOccupancy_s3/b0000_01_RandomOccupancy_s3.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T175127/runs/b0000_02_EFT_E1/b0000_02_EFT_E1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T175127/runs/b0001_00_RandomOccupancy_s1/b0001_00_RandomOccupancy_s1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T175127/runs/b0001_01_RandomOccupancy_s3/b0001_01_RandomOccupancy_s3.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T175127/runs/b0001_02_EFT_E1/b0001_02_EFT_E1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T175127/runs/b0002_00_RandomOccupancy_s1/b0002_00_RandomOccupancy_s1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T175127/runs/b0002_01_RandomOccupancy_s3/b0002_01_RandomOccupancy_s3.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T175127/runs/b0002_02_EFT_E1/b0002_02_EFT_E1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T175127/runs/b0003_00_EFT_E1/b0003_00_EFT_E1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T175127/runs/b0003_01_RandomOccupancy_s1/b0003_01_RandomOccupancy_s1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions/20261012T175127/runs/b0003_02_RandomOccupancy_s3/b0003_02_RandomOccupancy_s3.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions_test/20261012T190631/preflight.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions_test/20261012T190631/runs/b0000_00_RandomOccupancy_s3/b0000_00_RandomOccupancy_s3.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions_test/20261012T190631/runs/b0000_01_EFT_E1/b0000_01_EFT_E1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions_test/20261012T190631/runs/b0000_02_RandomOccupancy_s1/b0000_02_RandomOccupancy_s1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions_test/20261012T190631/runs/b0001_00_RandomOccupancy_s1/b0001_00_RandomOccupancy_s1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions_test/20261012T190631/runs/b0001_01_EFT_E1/b0001_01_EFT_E1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/collect_sessions_test/20261012T190631/runs/b0001_02_RandomOccupancy_s3/b0001_02_RandomOccupancy_s3.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/preflight.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0000_00_B5_criticality/b0000_00_B5_criticality.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0000_01_B0_E_only/b0000_01_B0_E_only.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0000_02_B2_static_P/b0000_02_B2_static_P.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0000_03_EFT_E3/b0000_03_EFT_E3.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0000_04_B3_shortest_queue/b0000_04_B3_shortest_queue.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0000_05_HEFT_E1/b0000_05_HEFT_E1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0000_06_B0_P_only/b0000_06_B0_P_only.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0000_07_B1_round_robin/b0000_07_B1_round_robin.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0000_08_EFT_E1/b0000_08_EFT_E1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0000_09_EFT_E1_rc/b0000_09_EFT_E1_rc.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0000_10_random/b0000_10_random.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0000_11_EFT_E1_rank/b0000_11_EFT_E1_rank.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0000_12_B4_greedy_eligible/b0000_12_B4_greedy_eligible.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0000_13_PEFT_E1/b0000_13_PEFT_E1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0001_00_EFT_E3/b0001_00_EFT_E3.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0001_01_B0_E_only/b0001_01_B0_E_only.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0001_02_EFT_E1_rank/b0001_02_EFT_E1_rank.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0001_03_PEFT_E1/b0001_03_PEFT_E1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0001_04_B5_criticality/b0001_04_B5_criticality.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0001_05_EFT_E1/b0001_05_EFT_E1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0001_06_B2_static_P/b0001_06_B2_static_P.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0001_07_B3_shortest_queue/b0001_07_B3_shortest_queue.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0001_08_B1_round_robin/b0001_08_B1_round_robin.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0001_09_B4_greedy_eligible/b0001_09_B4_greedy_eligible.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0001_10_random/b0001_10_random.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0001_11_EFT_E1_rc/b0001_11_EFT_E1_rc.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0001_12_HEFT_E1/b0001_12_HEFT_E1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0001_13_B0_P_only/b0001_13_B0_P_only.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0002_00_EFT_E1_rank/b0002_00_EFT_E1_rank.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0002_01_B3_shortest_queue/b0002_01_B3_shortest_queue.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0002_02_B2_static_P/b0002_02_B2_static_P.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0002_03_B0_E_only/b0002_03_B0_E_only.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0002_04_PEFT_E1/b0002_04_PEFT_E1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0002_05_B4_greedy_eligible/b0002_05_B4_greedy_eligible.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0002_06_HEFT_E1/b0002_06_HEFT_E1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0002_07_EFT_E1/b0002_07_EFT_E1.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0002_08_B0_P_only/b0002_08_B0_P_only.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0002_09_random/b0002_09_random.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0002_10_B5_criticality/b0002_10_B5_criticality.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0002_11_EFT_E3/b0002_11_EFT_E3.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0002_12_B1_round_robin/b0002_12_B1_round_robin.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view/stage2_sessions/20261012T101305/runs/b0002_13_EFT_E1_rc/b0002_13_EFT_E1_rc.jsonl",
+   "reason": "unrecognised source directory"
+  }
+ ],
+ "outputs": {
+  "tasks.csv": {
+   "sha256": "70634e1019adf400ad3102eefb460aec2f2e2ddfacb61fcc3e43c9cb4787dfd3",
+   "bytes": 811
+  },
+  "candidates.csv": {
+   "sha256": "82a538b41354a931c2b15655d57afc1a15a3441ba033df1b86ea9f9e48b72c56",
+   "bytes": 200
+  },
+  "splits.json": {
+   "sha256": "315dc31d38c5b6cca75740009a80d7c0e1258779e4fc524932161d7b7b4653b3",
+   "bytes": 981
+  }
+ },
+ "notes": [
+  "All rows derive from logged task executions; no synthetic values.",
+  "Raw logs were read only; sha256 recorded per source.",
+  "memory_available_bytes / software_version are null/'unrecorded' for logs predating those fields."
+ ]
+}

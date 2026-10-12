@@ -1,0 +1,5 @@
+{"t": "2026-10-12T11:07:07.785990+00:00", "where": "session_start", "free_gb": 6.817626953125, "threshold_gb": 2.5, "ok": true}
+{"t": "2026-10-12T11:07:07.785990+00:00", "where": "block_0", "free_gb": 6.817626953125, "threshold_gb": 2.5, "ok": true}
+{"t": "2026-10-12T11:25:40.260548+00:00", "where": "block_1", "free_gb": 6.742015838623047, "threshold_gb": 2.5, "ok": true}
+{"t": "2026-10-12T11:44:14.068640+00:00", "where": "block_2", "free_gb": 6.436649322509766, "threshold_gb": 2.5, "ok": true}
+{"t": "2026-10-12T12:02:53.296561+00:00", "where": "block_3", "free_gb": 6.761322021484375, "threshold_gb": 2.5, "ok": true}

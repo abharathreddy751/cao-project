@@ -1,0 +1,436 @@
+{
+ "schema_version": 1,
+ "built_at": "20261012T195258",
+ "events_root": "data\\results\\stage3_20261012\\events_view_fit",
+ "n_task_rows": 2706,
+ "n_candidate_rows": 16328,
+ "rows_per_source_kind": {
+  "session": 2706
+ },
+ "n_runs": 54,
+ "sessions": [
+  "20261012T101305",
+  "20261012T153253",
+  "20261012T163703",
+  "20261012T175127"
+ ],
+ "context_source": "decision",
+ "rows_per_ctx_source": {
+  "decision": 2706
+ },
+ "n_rows_dropped_no_decision_ctx": 1416,
+ "instances": [
+  "d1.0_dss2b_c56.7_24.0",
+  "d1.1_dss2b_c10.7_41.3",
+  "d1.1_dss2b_c56.7_24.0"
+ ],
+ "calibration_profiles": [
+  "20261012T092355_profile.json"
+ ],
+ "calibration_policy": "only profiles measured at or before the session; none -> null",
+ "sources": [
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0000_03_EFT_E3/b0000_03_EFT_E3.jsonl",
+   "sha256": "49a6b5bd2a7ca41e07837fb84621bd6cc42515fa2113709a92efae4903af9ca6",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0000_05_HEFT_E1/b0000_05_HEFT_E1.jsonl",
+   "sha256": "00ec3a838e47c6ca9fc6c30050785f96bc4e0511bd22387e9d02d09f4d59aff7",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0000_08_EFT_E1/b0000_08_EFT_E1.jsonl",
+   "sha256": "bf44b28bdef4ffbe49b1ebcef9156ef596fc39e4783796415c693d1c737aa05a",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0000_09_EFT_E1_rc/b0000_09_EFT_E1_rc.jsonl",
+   "sha256": "cb9e785c584cd7e5de14f20c22b11f0193856f119621b65db6bf081bb48b10a5",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0000_11_EFT_E1_rank/b0000_11_EFT_E1_rank.jsonl",
+   "sha256": "909704082257c501fc44c25ba93e759fe898e557b8acfe11535a9501bc060529",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0000_13_PEFT_E1/b0000_13_PEFT_E1.jsonl",
+   "sha256": "90978aac2fb5495e4e3b2e5b916f4d5e8471a1479b6340b654a7a7e9a5059621",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0001_00_EFT_E3/b0001_00_EFT_E3.jsonl",
+   "sha256": "9e9ed81e2ea90eb88a9518009bd8e53daead9eb10c009d0986fdc2b32432bd16",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0001_02_EFT_E1_rank/b0001_02_EFT_E1_rank.jsonl",
+   "sha256": "11058618ab808bf34e9ab0ef2d47f9b4d7ddaf2de3be3846523353f42c9b567e",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0001_03_PEFT_E1/b0001_03_PEFT_E1.jsonl",
+   "sha256": "46dcb5e574f5da6e1fda7627c6919c5766654bd816f193d717dbf834d3c9fae2",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0001_05_EFT_E1/b0001_05_EFT_E1.jsonl",
+   "sha256": "e6da9838b62cf378ad95d71c6cd83b3f7750dc9e80832767c818b67a584c6197",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0001_11_EFT_E1_rc/b0001_11_EFT_E1_rc.jsonl",
+   "sha256": "c32f178dfd6f2c4edf3bf0345fd38871e0095897b179496c922f79348d96183b",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0001_12_HEFT_E1/b0001_12_HEFT_E1.jsonl",
+   "sha256": "25f4e7e863405fa5409e8a94b258f0ed160b109d4ddd2d786166188bb34f0756",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0002_00_EFT_E1_rank/b0002_00_EFT_E1_rank.jsonl",
+   "sha256": "29aade6f1ecca2a0394238e073c3f1e11f8556b0e0a92f91dc76adccbb7148fc",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0002_04_PEFT_E1/b0002_04_PEFT_E1.jsonl",
+   "sha256": "9171555b984cc3f24d37e908092754f2a58c1662a18f27b22602375de0118e5b",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0002_06_HEFT_E1/b0002_06_HEFT_E1.jsonl",
+   "sha256": "f7e714104b2e7dcf1da586187f9e3fe15c5e2fa92f83676d9011a9df0b1b5f56",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0002_07_EFT_E1/b0002_07_EFT_E1.jsonl",
+   "sha256": "ba227cb865f6d02541642c25b4fcd0114158188ab9c0ed28301d4f4defb82dbc",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0002_11_EFT_E3/b0002_11_EFT_E3.jsonl",
+   "sha256": "e740bf0e493741afa551ea7666520822c7c3cc9728dbd84bbfaf5546c344a52b",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0002_13_EFT_E1_rc/b0002_13_EFT_E1_rc.jsonl",
+   "sha256": "5ea6f1b93007d37ba569fdd58bc3d4fd7c66c1df37d3ef19e8797a41a23fb6d8",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T153253/runs/b0000_00_RandomOccupancy_s3/b0000_00_RandomOccupancy_s3.jsonl",
+   "sha256": "a42be83fd5478a17445e6ba91ff8df6b7ea4ce2a260032c42dfab865f33ec7bb",
+   "rows": 19
+  },
+  {
+   "source_log": "events_view_fit/20261012T153253/runs/b0000_01_RandomOccupancy_s1/b0000_01_RandomOccupancy_s1.jsonl",
+   "sha256": "4208f9c3f7ea129f1519a28be7b8fdd33fa2b1ef159786ed35ad7fb6053decab",
+   "rows": 19
+  },
+  {
+   "source_log": "events_view_fit/20261012T153253/runs/b0000_02_EFT_E1/b0000_02_EFT_E1.jsonl",
+   "sha256": "2be2149de8c008dc8cd3f47cc0a088cdcc6909614c60175ed793420abbe7225e",
+   "rows": 19
+  },
+  {
+   "source_log": "events_view_fit/20261012T153253/runs/b0001_00_RandomOccupancy_s3/b0001_00_RandomOccupancy_s3.jsonl",
+   "sha256": "21666974abcd6b18a49afbc208ea6a1286c97c290d1d040d033ae5c722e4c03d",
+   "rows": 19
+  },
+  {
+   "source_log": "events_view_fit/20261012T153253/runs/b0001_01_EFT_E1/b0001_01_EFT_E1.jsonl",
+   "sha256": "fac12e067aa7392cc9e14be02cc61959a7e0d293f26a92fda1e85b6baa268cb0",
+   "rows": 19
+  },
+  {
+   "source_log": "events_view_fit/20261012T153253/runs/b0001_02_RandomOccupancy_s1/b0001_02_RandomOccupancy_s1.jsonl",
+   "sha256": "2af1d167d8eeb0512c601f2f9b84853223d50cd1b216fdd4f8b20a3f65150970",
+   "rows": 19
+  },
+  {
+   "source_log": "events_view_fit/20261012T153253/runs/b0002_00_RandomOccupancy_s3/b0002_00_RandomOccupancy_s3.jsonl",
+   "sha256": "69eb87f7b10cb165619eb2a2cb980a5a8137d14d03377f13fe40733a8d7d5812",
+   "rows": 19
+  },
+  {
+   "source_log": "events_view_fit/20261012T153253/runs/b0002_01_EFT_E1/b0002_01_EFT_E1.jsonl",
+   "sha256": "2e09de4a27dcfeb50a92e2c4ba2c8239f64fd9517a2f58754172112db31e9000",
+   "rows": 19
+  },
+  {
+   "source_log": "events_view_fit/20261012T153253/runs/b0002_02_RandomOccupancy_s1/b0002_02_RandomOccupancy_s1.jsonl",
+   "sha256": "4b4c26969c0962009c349d4fd735751da0286dd4acdcc04ea8d92bac512f1825",
+   "rows": 19
+  },
+  {
+   "source_log": "events_view_fit/20261012T153253/runs/b0003_00_RandomOccupancy_s1/b0003_00_RandomOccupancy_s1.jsonl",
+   "sha256": "3c20ed0d58f2a72872d1b84b9c1e3330e3b22eb9cc385467521a7e91052d6054",
+   "rows": 19
+  },
+  {
+   "source_log": "events_view_fit/20261012T153253/runs/b0003_01_RandomOccupancy_s3/b0003_01_RandomOccupancy_s3.jsonl",
+   "sha256": "4b370cd4f58561c58337b43a0917a049fc3a0633dcb64d9d708798de5d8b7bdf",
+   "rows": 19
+  },
+  {
+   "source_log": "events_view_fit/20261012T153253/runs/b0003_02_EFT_E1/b0003_02_EFT_E1.jsonl",
+   "sha256": "bc35d0010f97f5c052ee670517554757544dccf0b065608fe163355d35a55698",
+   "rows": 19
+  },
+  {
+   "source_log": "events_view_fit/20261012T163703/runs/b0000_00_RandomOccupancy_s1/b0000_00_RandomOccupancy_s1.jsonl",
+   "sha256": "555c7e775e5caf60bbea035f708656f386e5c098fe426f4d1c97af1e13714099",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T163703/runs/b0000_01_RandomOccupancy_s3/b0000_01_RandomOccupancy_s3.jsonl",
+   "sha256": "6325f3f404f11d03d655834c8d310b84807c3344d729998be1f81daee80810f1",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T163703/runs/b0000_02_EFT_E1/b0000_02_EFT_E1.jsonl",
+   "sha256": "50d4c555cfa608e50c956fc63abb6b0b17a53d025e68f9d523d3c6a8b08759d1",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T163703/runs/b0001_00_EFT_E1/b0001_00_EFT_E1.jsonl",
+   "sha256": "5de4be3e64807fc447c1d20fee98c5869e853ab8389111543dbef34c7dcf0aca",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T163703/runs/b0001_01_RandomOccupancy_s3/b0001_01_RandomOccupancy_s3.jsonl",
+   "sha256": "8b760c52dce10e65d3624cd73fa47a43e09202d01a3067d9e2150e0136e5076d",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T163703/runs/b0001_02_RandomOccupancy_s1/b0001_02_RandomOccupancy_s1.jsonl",
+   "sha256": "c2f5360d302659fbf8148bc13400ce0c6c4030b556d84abe55c98018967ed44d",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T163703/runs/b0002_00_EFT_E1/b0002_00_EFT_E1.jsonl",
+   "sha256": "0ddc97eb7328c7b1a2955bb013a680c9bd01d1042c9f46f6925ad116811457a8",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T163703/runs/b0002_01_RandomOccupancy_s1/b0002_01_RandomOccupancy_s1.jsonl",
+   "sha256": "89faa8565b942506af542aa13a67e734c52a2ca1be4b30e44abedb05146a840c",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T163703/runs/b0002_02_RandomOccupancy_s3/b0002_02_RandomOccupancy_s3.jsonl",
+   "sha256": "3ac6344fbc39b9162321c12b3c354d97a5f0c0253d192d5a0fe59ac548e80d69",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T163703/runs/b0003_00_EFT_E1/b0003_00_EFT_E1.jsonl",
+   "sha256": "afd99f25d2b635b2c1edb28dbf64fce101c263f424d63dffc5496b03e5b1c379",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T163703/runs/b0003_01_RandomOccupancy_s1/b0003_01_RandomOccupancy_s1.jsonl",
+   "sha256": "70931389d06707dfe348b94aacaf87422e28a23f93f4464aaf2adb9b5371a486",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T163703/runs/b0003_02_RandomOccupancy_s3/b0003_02_RandomOccupancy_s3.jsonl",
+   "sha256": "e97f9c03a7106d8687dae329239dbe22b38fee43a57cf54400d00b12ff5c0567",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T175127/runs/b0000_00_RandomOccupancy_s1/b0000_00_RandomOccupancy_s1.jsonl",
+   "sha256": "76fcdf77d521dcc217cccfff22180c06745722c58078cd9787fda7b69ae22c22",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T175127/runs/b0000_01_RandomOccupancy_s3/b0000_01_RandomOccupancy_s3.jsonl",
+   "sha256": "c2611fcb8a1a28e7a8176712f5c6434ce6bf7aca811e8cc1f248c33bc53157a3",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T175127/runs/b0000_02_EFT_E1/b0000_02_EFT_E1.jsonl",
+   "sha256": "203379505ae65355135f91384765987983b1a9e1d15a44327201f716054e286c",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T175127/runs/b0001_00_RandomOccupancy_s1/b0001_00_RandomOccupancy_s1.jsonl",
+   "sha256": "dc0b866c46c3c371c98b2ddfc357b9d7d594169f65ed14930428dcc8e9bc60cf",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T175127/runs/b0001_01_RandomOccupancy_s3/b0001_01_RandomOccupancy_s3.jsonl",
+   "sha256": "451cce45446eee673c2b8a1c0c5726d7edf34d860447f7828ff6c68e220cbca7",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T175127/runs/b0001_02_EFT_E1/b0001_02_EFT_E1.jsonl",
+   "sha256": "29d21532f507897adbfb4adbffc7bf27d0cd0a5ce92ca2723d0079ac48642b9d",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T175127/runs/b0002_00_RandomOccupancy_s1/b0002_00_RandomOccupancy_s1.jsonl",
+   "sha256": "3d01ea09639c68f6a062ac03c1db8fcb109d6ebadaf6845931bb2183bdd0d4f2",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T175127/runs/b0002_01_RandomOccupancy_s3/b0002_01_RandomOccupancy_s3.jsonl",
+   "sha256": "9d86892e3440c6f291b2bd7f45b79ddb89c6d13494d85de9cf5dcab07b6e1aa7",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T175127/runs/b0002_02_EFT_E1/b0002_02_EFT_E1.jsonl",
+   "sha256": "3097aa97e95f3acc2947fda4b77f84c53e01bb1567874f96f65c36abb08fa4e5",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T175127/runs/b0003_00_EFT_E1/b0003_00_EFT_E1.jsonl",
+   "sha256": "a50f44b7b58292a19ab2b51ba9ac2f86b446e995c71e73e60a403ea75b0291fe",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T175127/runs/b0003_01_RandomOccupancy_s1/b0003_01_RandomOccupancy_s1.jsonl",
+   "sha256": "b08c979a4398c236810223135b5890568eb59d0217df016a56f09489ad325d1d",
+   "rows": 59
+  },
+  {
+   "source_log": "events_view_fit/20261012T175127/runs/b0003_02_RandomOccupancy_s3/b0003_02_RandomOccupancy_s3.jsonl",
+   "sha256": "0b62844be8d785d1aba4f3c7d184219fd97807f68772cead5b435422bd8eebe1",
+   "rows": 59
+  }
+ ],
+ "excluded": [
+  {
+   "source_log": "events_view_fit/20261012T101305/preflight.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0000_00_B5_criticality/b0000_00_B5_criticality.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0000_01_B0_E_only/b0000_01_B0_E_only.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0000_02_B2_static_P/b0000_02_B2_static_P.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0000_04_B3_shortest_queue/b0000_04_B3_shortest_queue.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0000_06_B0_P_only/b0000_06_B0_P_only.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0000_07_B1_round_robin/b0000_07_B1_round_robin.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0000_10_random/b0000_10_random.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0000_12_B4_greedy_eligible/b0000_12_B4_greedy_eligible.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0001_01_B0_E_only/b0001_01_B0_E_only.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0001_04_B5_criticality/b0001_04_B5_criticality.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0001_06_B2_static_P/b0001_06_B2_static_P.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0001_07_B3_shortest_queue/b0001_07_B3_shortest_queue.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0001_08_B1_round_robin/b0001_08_B1_round_robin.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0001_09_B4_greedy_eligible/b0001_09_B4_greedy_eligible.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0001_10_random/b0001_10_random.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0001_13_B0_P_only/b0001_13_B0_P_only.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0002_01_B3_shortest_queue/b0002_01_B3_shortest_queue.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0002_02_B2_static_P/b0002_02_B2_static_P.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0002_03_B0_E_only/b0002_03_B0_E_only.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0002_05_B4_greedy_eligible/b0002_05_B4_greedy_eligible.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0002_08_B0_P_only/b0002_08_B0_P_only.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0002_09_random/b0002_09_random.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0002_10_B5_criticality/b0002_10_B5_criticality.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "events_view_fit/20261012T101305/runs/b0002_12_B1_round_robin/b0002_12_B1_round_robin.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "events_view_fit/20261012T153253/preflight.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view_fit/20261012T163703/preflight.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "events_view_fit/20261012T175127/preflight.jsonl",
+   "reason": "unrecognised source directory"
+  }
+ ],
+ "outputs": {
+  "tasks.csv": {
+   "sha256": "78beebbbb661af52f2e8f890cd75757a42657121d6062e0a8f851d9161289bfb",
+   "bytes": 2356066
+  },
+  "candidates.csv": {
+   "sha256": "94f0d18c3528489c4ddfbdf521dfe7d93b2a1a34b3693204f107fca42f11c903",
+   "bytes": 3623184
+  },
+  "splits.json": {
+   "sha256": "6bde263b8fd9ea407f1e5a415e2cf41057dc5fb6739eceafe1cf21c11f792cb7",
+   "bytes": 23048
+  }
+ },
+ "notes": [
+  "All rows derive from logged task executions; no synthetic values.",
+  "Raw logs were read only; sha256 recorded per source.",
+  "memory_available_bytes / software_version are null/'unrecorded' for logs predating those fields."
+ ]
+}

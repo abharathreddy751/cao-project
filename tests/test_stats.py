@@ -5,7 +5,8 @@ import math
 import numpy as np
 import pytest
 
-from caosched.analysis.stats import bootstrap_mean_ci, min_detectable_effect_pct, paired_effect, paired_log_ratios
+from caosched.analysis.stats import (bootstrap_mean_ci, ci_halfwidth_pct, holm_adjust, min_detectable_effect_pct,
+                                     paired_effect, paired_log_ratios, paired_sign_flip_p)
 
 
 def test_bootstrap_ci_covers_mean_and_is_reproducible():
@@ -45,8 +46,21 @@ def test_paired_effect_needs_blocks_and_skips_missing():
 
 
 def test_min_detectable_effect():
-    assert min_detectable_effect_pct(0.29, 120) == pytest.approx((math.exp(1.96 * 0.29 / math.sqrt(120)) - 1) * 100)
-    assert min_detectable_effect_pct(0.29, 120) < 6.0
+    # MDE = (1.96 + 0.84) * sd / sqrt(n): 2.8 * 0.29 / sqrt(120) = 0.07412 -> exp - 1 = 7.69 %
+    assert min_detectable_effect_pct(0.29, 120) == pytest.approx((math.exp(2.8 * 0.29 / math.sqrt(120)) - 1) * 100)
+    assert min_detectable_effect_pct(0.29, 120) == pytest.approx(7.694, abs=0.01)
+    # the 95% CI half-width is a different, smaller quantity: 1.96 * 0.29 / sqrt(120) = 0.05189 -> 5.33 %
+    assert ci_halfwidth_pct(0.29, 120) == pytest.approx(5.326, abs=0.01)
+    assert math.log1p(min_detectable_effect_pct(0.5, 50) / 100) / math.log1p(ci_halfwidth_pct(0.5, 50) / 100) == pytest.approx(2.8 / 1.96)
+
+
+def test_holm_adjustment_and_sign_flip_p():
+    assert holm_adjust([0.01, 0.04, 0.03]) == pytest.approx([0.03, 0.06, 0.06])   # (3,2,1) x sorted p, monotone
+    assert holm_adjust([0.5, 0.9]) == pytest.approx([1.0, 1.0])                  # 2*0.5 = 1, then monotone
+    assert holm_adjust([]) == []
+    assert paired_sign_flip_p([0.1] * 20, n_perm=2000) < 0.01                    # only the all-same-sign flips reach |mean|
+    assert paired_sign_flip_p([1.0, -1.0] * 20, n_perm=2000) == 1.0              # observed mean 0: every flip is as extreme
+    assert paired_sign_flip_p([0.3, -0.1, 0.2, 0.5], seed=2) == paired_sign_flip_p([0.3, -0.1, 0.2, 0.5], seed=2)
 
 
 def test_decision_time_and_scheduling_time_are_logged(tmp_path):

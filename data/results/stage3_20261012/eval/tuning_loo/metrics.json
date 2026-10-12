@@ -1,0 +1,1938 @@
+{
+ "split": {
+  "policy": "instance",
+  "leave_one_out": true
+ },
+ "folds": [
+  "instance:d1.0_dss2b_c56.7_24.0",
+  "instance:d1.1_dss2b_c10.7_41.3",
+  "instance:d1.1_dss2b_c56.7_24.0"
+ ],
+ "seed": 0,
+ "base_profile": "data/results/stage2_20261012/profile_montage/20261012T092355_profile.json",
+ "mape_floor_s": 0.5,
+ "models": {
+  "E1": {
+   "headline_relative_error": "median_ape",
+   "overall": {
+    "n": 2706,
+    "mean_observed_s": 29.799720959756225,
+    "mae_s": 3.539340413284782,
+    "rmse_s": 10.041059029262447,
+    "relative_mae": 0.11877092466954883,
+    "median_ape": 0.37619156194349646,
+    "mape": 1.3246353312203998,
+    "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+    "bias_s": -3.121060825224372,
+    "relative_bias": -0.10473456544909551,
+    "mape_floor_s": 0.5,
+    "n_above_floor": 1396,
+    "mape_above_floor": 0.2963711008642588
+   },
+   "per_fold": {
+    "instance:d1.0_dss2b_c56.7_24.0": {
+     "n": 228,
+     "mean_observed_s": 45.67760891578936,
+     "mae_s": 1.8091481245611136,
+     "rmse_s": 4.126977691163011,
+     "relative_mae": 0.03960689203098252,
+     "median_ape": 0.2569553110295333,
+     "mape": 0.32290751912524857,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -1.2090922289489754,
+     "relative_bias": -0.02647012962473675,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 140,
+     "mape_above_floor": 0.26997315209550743
+    },
+    "instance:d1.1_dss2b_c10.7_41.3": {
+     "n": 708,
+     "mean_observed_s": 33.93336681963291,
+     "mae_s": 3.6058957660304523,
+     "rmse_s": 10.352460860835588,
+     "relative_mae": 0.10626401397765754,
+     "median_ape": 0.37822512301803735,
+     "mape": 1.5939835858354268,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -3.227191298095721,
+     "relative_bias": -0.09510377544466225,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 384,
+     "mape_above_floor": 0.2983279756287443
+    },
+    "instance:d1.1_dss2b_c56.7_24.0": {
+     "n": 1770,
+     "mean_observed_s": 26.100975353672467,
+     "mae_s": 3.7355904992085462,
+     "rmse_s": 10.443947601194383,
+     "relative_mae": 0.1431207243633882,
+     "median_ape": 0.38810518362831936,
+     "mape": 1.345932154322239,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -3.3248961162740187,
+     "relative_bias": -0.1273858954012689,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 872,
+     "mape_above_floor": 0.2997475606326793
+    }
+   },
+   "by_workload": {
+    "mAdd": {
+     "n": 54,
+     "mean_observed_s": 1.0600303629625059,
+     "mae_s": 0.21475721111002916,
+     "rmse_s": 0.37315128514447066,
+     "relative_mae": 0.20259533935409102,
+     "median_ape": 0.0914415077602038,
+     "mape": 0.2047866124109815,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.20495395555412366,
+     "relative_bias": 0.19334724996115327,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 53,
+     "mape_above_floor": 0.19225322056520783
+    },
+    "mBackground": {
+     "n": 426,
+     "mean_observed_s": 0.6151209330988345,
+     "mae_s": 0.19609555164305262,
+     "rmse_s": 0.22055301639810926,
+     "relative_mae": 0.3187918685439128,
+     "median_ape": 0.37586371020866405,
+     "mape": 0.31777926209417584,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -0.19609555164305262,
+     "relative_bias": -0.3187918685439128,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 303,
+     "mape_above_floor": 0.37493187875823236
+    },
+    "mBgModel": {
+     "n": 54,
+     "mean_observed_s": 0.4357575444447758,
+     "mae_s": 0.04317573055306167,
+     "rmse_s": 0.07879792256304782,
+     "relative_mae": 0.09908200352118836,
+     "median_ape": 0.017271234051646406,
+     "mape": 0.2072398284308568,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.04033094721880506,
+     "relative_bias": 0.09255364074119034,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 7,
+     "mape_above_floor": 0.013810232585996174
+    },
+    "mConcatFit": {
+     "n": 54,
+     "mean_observed_s": 0.26066499814920396,
+     "mae_s": 0.05534743148072502,
+     "rmse_s": 0.10218753125979407,
+     "relative_mae": 0.21233165892508626,
+     "median_ape": 0.057278078219811436,
+     "mape": 0.2603021847402493,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.052895201851276434,
+     "relative_bias": 0.2029240681596973,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 3,
+     "mape_above_floor": 0.021900548297729073
+    },
+    "mDiffFit": {
+     "n": 1584,
+     "mean_observed_s": 0.41676619457087444,
+     "mae_s": 0.31214596688661195,
+     "rmse_s": 0.40033587064908677,
+     "relative_mae": 0.7489714159950395,
+     "median_ape": 0.4908271451947517,
+     "mape": 2.1089799870945467,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.119424135823249,
+     "relative_bias": 0.28654947877002046,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 550,
+     "mape_above_floor": 0.4046449430227844
+    },
+    "mImgtbl": {
+     "n": 54,
+     "mean_observed_s": 0.10287610185170909,
+     "mae_s": 0.009462374999741398,
+     "rmse_s": 0.014128704556833533,
+     "relative_mae": 0.09197835871912169,
+     "median_ape": 0.07754747589627939,
+     "mape": 0.09140759951500745,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.0017331731467291117,
+     "relative_bias": 0.01684718914823772,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 0,
+     "mape_above_floor": null
+    },
+    "mProject": {
+     "n": 426,
+     "mean_observed_s": 186.26115432558655,
+     "mae_s": 21.03514247018912,
+     "rmse_s": 25.29288930788497,
+     "relative_mae": 0.11293359877615414,
+     "median_ape": 0.2166116110314918,
+     "mape": 0.14410283924002432,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -20.15852714108142,
+     "relative_bias": -0.10822722115124496,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 426,
+     "mape_above_floor": 0.14410283924002432
+    },
+    "mViewer": {
+     "n": 54,
+     "mean_observed_s": 4.966485894445618,
+     "mae_s": 0.3903785388883315,
+     "rmse_s": 0.5864717830115687,
+     "relative_mae": 0.07860256672125461,
+     "median_ape": 0.013870011378400129,
+     "mape": 0.10806250742644188,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.3725097388855324,
+     "relative_bias": 0.07500469080202908,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 54,
+     "mape_above_floor": 0.10806250742644188
+    }
+   },
+   "by_pool": {
+    "E": {
+     "n": 513,
+     "mean_observed_s": 63.37886137582893,
+     "mae_s": 1.0636598921042413,
+     "rmse_s": 1.9601428070144937,
+     "relative_mae": 0.016782565496039247,
+     "median_ape": 0.2768851097619212,
+     "mape": 2.2589187697311464,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.3235205835277284,
+     "relative_bias": 0.005104550263364479,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 372,
+     "mape_above_floor": 0.23868422169436618
+    },
+    "P": {
+     "n": 2193,
+     "mean_observed_s": 21.944682640811717,
+     "mae_s": 4.118466773232624,
+     "rmse_s": 11.113468750723785,
+     "relative_mae": 0.187674929760583,
+     "median_ape": 0.3861507100759301,
+     "mape": 1.1060820234429203,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -3.9268384187901844,
+     "relative_bias": -0.17894259320420655,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 1024,
+     "mape_above_floor": 0.3173276624376963
+    }
+   },
+   "calibration_deciles": [
+    {
+     "bin": 0,
+     "n": 271,
+     "mean_predicted_s": 0.2580236522134768,
+     "mean_observed_s": 0.37716941697407225
+    },
+    {
+     "bin": 1,
+     "n": 271,
+     "mean_predicted_s": 0.34045222066221476,
+     "mean_observed_s": 0.46954159409648544
+    },
+    {
+     "bin": 2,
+     "n": 271,
+     "mean_predicted_s": 0.38944004999575554,
+     "mean_observed_s": 0.32731843431779
+    },
+    {
+     "bin": 3,
+     "n": 271,
+     "mean_predicted_s": 0.38944004999575554,
+     "mean_observed_s": 0.32646824944618535
+    },
+    {
+     "bin": 4,
+     "n": 271,
+     "mean_predicted_s": 0.38944004999575554,
+     "mean_observed_s": 0.32660591070168343
+    },
+    {
+     "bin": 5,
+     "n": 271,
+     "mean_predicted_s": 0.38944004999575554,
+     "mean_observed_s": 0.3239834896677901
+    },
+    {
+     "bin": 6,
+     "n": 270,
+     "mean_predicted_s": 0.5822803698136273,
+     "mean_observed_s": 0.5975465162959828
+    },
+    {
+     "bin": 7,
+     "n": 270,
+     "mean_predicted_s": 1.167155353332459,
+     "mean_observed_s": 0.7903209703710335
+    },
+    {
+     "bin": 8,
+     "n": 270,
+     "mean_predicted_s": 65.97245092610949,
+     "mean_observed_s": 79.53662950962988
+    },
+    {
+     "bin": 9,
+     "n": 270,
+     "mean_predicted_s": 197.49335167777585,
+     "mean_observed_s": 215.57587453814776
+    }
+   ],
+   "inference_latency": {
+    "n_calls": 200,
+    "mean_us": 1.4055000000000002,
+    "p50_us": 1.2,
+    "p90_us": 1.5,
+    "p99_us": 8.04299999999996,
+    "max_us": 14.6
+   },
+   "inference_measured_on_fold": "instance:d1.1_dss2b_c56.7_24.0",
+   "inference_peak_memory_over_test_set": {
+    "tracemalloc_peak_bytes": 14672,
+    "rss_delta_bytes": 0
+   }
+  },
+  "E3": {
+   "headline_relative_error": "median_ape",
+   "overall": {
+    "n": 2706,
+    "mean_observed_s": 29.799720959756225,
+    "mae_s": 3.529238156096556,
+    "rmse_s": 10.040690759940556,
+    "relative_mae": 0.11843191957611628,
+    "median_ape": 0.38438937037753074,
+    "mape": 1.1239468247525022,
+    "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+    "bias_s": -3.1749113385690957,
+    "relative_bias": -0.10654164657638016,
+    "mape_floor_s": 0.5,
+    "n_above_floor": 1396,
+    "mape_above_floor": 0.3091708235282394
+   },
+   "per_fold": {
+    "instance:d1.0_dss2b_c56.7_24.0": {
+     "n": 228,
+     "mean_observed_s": 45.67760891578936,
+     "mae_s": 1.8043920140346112,
+     "rmse_s": 4.127023325669072,
+     "relative_mae": 0.03950276857444891,
+     "median_ape": 0.21852950589666162,
+     "mape": 0.33449618193318525,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -1.1813361529248352,
+     "relative_bias": -0.02586247793974354,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 140,
+     "mape_above_floor": 0.23292692036822296
+    },
+    "instance:d1.1_dss2b_c10.7_41.3": {
+     "n": 708,
+     "mean_observed_s": 33.93336681963291,
+     "mae_s": 3.586207398548697,
+     "rmse_s": 10.351647119209787,
+     "relative_mae": 0.1056838072570452,
+     "median_ape": 0.4019930245768356,
+     "mape": 1.2111326940861715,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -3.322996227574654,
+     "relative_bias": -0.09792710063924633,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 384,
+     "mape_above_floor": 0.3293534556109449
+    },
+    "instance:d1.1_dss2b_c56.7_24.0": {
+     "n": 1770,
+     "mean_observed_s": 26.100975353672467,
+     "mae_s": 3.7286340299575764,
+     "rmse_s": 10.443726622495188,
+     "relative_mae": 0.14285420293433398,
+     "median_ape": 0.3928858299972863,
+     "mape": 1.1907644242296587,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -3.372476898405795,
+     "relative_bias": -0.12920884575032862,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 872,
+     "mape_above_floor": 0.312524052567968
+    }
+   },
+   "by_workload": {
+    "mAdd": {
+     "n": 54,
+     "mean_observed_s": 1.0600303629625059,
+     "mae_s": 0.21475721111002916,
+     "rmse_s": 0.37315128514447066,
+     "relative_mae": 0.20259533935409102,
+     "median_ape": 0.0914415077602038,
+     "mape": 0.2047866124109815,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.20495395555412366,
+     "relative_bias": 0.19334724996115327,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 53,
+     "mape_above_floor": 0.19225322056520783
+    },
+    "mBackground": {
+     "n": 426,
+     "mean_observed_s": 0.6151209330988345,
+     "mae_s": 0.19609555164305262,
+     "rmse_s": 0.22055301639810926,
+     "relative_mae": 0.3187918685439128,
+     "median_ape": 0.37586371020866405,
+     "mape": 0.31777926209417584,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -0.19609555164305262,
+     "relative_bias": -0.3187918685439128,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 303,
+     "mape_above_floor": 0.37493187875823236
+    },
+    "mBgModel": {
+     "n": 54,
+     "mean_observed_s": 0.4357575444447758,
+     "mae_s": 0.04317573055306167,
+     "rmse_s": 0.07879792256304782,
+     "relative_mae": 0.09908200352118836,
+     "median_ape": 0.017271234051646406,
+     "mape": 0.2072398284308568,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.04033094721880506,
+     "relative_bias": 0.09255364074119034,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 7,
+     "mape_above_floor": 0.013810232585996174
+    },
+    "mConcatFit": {
+     "n": 54,
+     "mean_observed_s": 0.26066499814920396,
+     "mae_s": 0.05534743148072502,
+     "rmse_s": 0.10218753125979407,
+     "relative_mae": 0.21233165892508626,
+     "median_ape": 0.057278078219811436,
+     "mape": 0.2603021847402493,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.052895201851276434,
+     "relative_bias": 0.2029240681596973,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 3,
+     "mape_above_floor": 0.021900548297729073
+    },
+    "mDiffFit": {
+     "n": 1584,
+     "mean_observed_s": 0.41676619457087444,
+     "mae_s": 0.29488794419005826,
+     "rmse_s": 0.38423279816265377,
+     "relative_mae": 0.7075620528524181,
+     "median_ape": 0.6131868611029335,
+     "mape": 1.7661371218785546,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.027429508859344545,
+     "relative_bias": 0.06581510020885328,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 550,
+     "mape_above_floor": 0.4371329663662697
+    },
+    "mImgtbl": {
+     "n": 54,
+     "mean_observed_s": 0.10287610185170909,
+     "mae_s": 0.009462374999741398,
+     "rmse_s": 0.014128704556833533,
+     "relative_mae": 0.09197835871912169,
+     "median_ape": 0.07754747589627939,
+     "mape": 0.09140759951500745,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.0017331731467291117,
+     "relative_bias": 0.01684718914823772,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 0,
+     "mape_above_floor": null
+    },
+    "mProject": {
+     "n": 426,
+     "mean_observed_s": 186.26115432558655,
+     "mae_s": 21.03514247018912,
+     "rmse_s": 25.29288930788497,
+     "relative_mae": 0.11293359877615414,
+     "median_ape": 0.2166116110314918,
+     "mape": 0.14410283924002432,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -20.15852714108142,
+     "relative_bias": -0.10822722115124496,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 426,
+     "mape_above_floor": 0.14410283924002432
+    },
+    "mViewer": {
+     "n": 54,
+     "mean_observed_s": 4.966485894445618,
+     "mae_s": 0.3903785388883315,
+     "rmse_s": 0.5864717830115687,
+     "relative_mae": 0.07860256672125461,
+     "median_ape": 0.013870011378400129,
+     "mape": 0.10806250742644188,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.3725097388855324,
+     "relative_bias": 0.07500469080202908,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 54,
+     "mape_above_floor": 0.10806250742644188
+    }
+   },
+   "by_pool": {
+    "E": {
+     "n": 513,
+     "mean_observed_s": 63.37886137582893,
+     "mae_s": 1.009031613067704,
+     "rmse_s": 1.9464653772270697,
+     "relative_mae": 0.015920633333632632,
+     "median_ape": 0.30814092272913773,
+     "mape": 1.3656211251640964,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.09044664345625426,
+     "relative_bias": 0.0014270790211884162,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 372,
+     "mape_above_floor": 0.2667670610468229
+    },
+    "P": {
+     "n": 2193,
+     "mean_observed_s": 21.944682640811717,
+     "mae_s": 4.11878031595693,
+     "rmse_s": 11.113620535493945,
+     "relative_mae": 0.18768921762837484,
+     "median_ape": 0.3929621383135995,
+     "mape": 1.0674128912772864,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -3.938763889767913,
+     "relative_bias": -0.1794860264892954,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 1024,
+     "mape_above_floor": 0.3245753153671915
+    }
+   },
+   "calibration_deciles": [
+    {
+     "bin": 0,
+     "n": 271,
+     "mean_predicted_s": 0.19550846836062002,
+     "mean_observed_s": 0.2862094918819717
+    },
+    {
+     "bin": 1,
+     "n": 271,
+     "mean_predicted_s": 0.2931029016804415,
+     "mean_observed_s": 0.3186195011069608
+    },
+    {
+     "bin": 2,
+     "n": 271,
+     "mean_predicted_s": 0.3161906999994244,
+     "mean_observed_s": 0.4941360830260412
+    },
+    {
+     "bin": 3,
+     "n": 271,
+     "mean_predicted_s": 0.3339826178386364,
+     "mean_observed_s": 0.3704400712178399
+    },
+    {
+     "bin": 4,
+     "n": 271,
+     "mean_predicted_s": 0.3800414305836483,
+     "mean_observed_s": 0.4135855712178911
+    },
+    {
+     "bin": 5,
+     "n": 271,
+     "mean_predicted_s": 0.43140200401012435,
+     "mean_observed_s": 0.3869544350555767
+    },
+    {
+     "bin": 6,
+     "n": 270,
+     "mean_predicted_s": 0.4944905232979371,
+     "mean_observed_s": 0.35922490222243747
+    },
+    {
+     "bin": 7,
+     "n": 270,
+     "mean_predicted_s": 0.9032599024174366,
+     "mean_observed_s": 0.8701079207410792
+    },
+    {
+     "bin": 8,
+     "n": 270,
+     "mean_predicted_s": 65.99120535481327,
+     "mean_observed_s": 79.57586590000035
+    },
+    {
+     "bin": 9,
+     "n": 270,
+     "mean_predicted_s": 197.49335167777585,
+     "mean_observed_s": 215.57587453814776
+    }
+   ],
+   "inference_latency": {
+    "n_calls": 200,
+    "mean_us": 1.2474999999999998,
+    "p50_us": 1.2,
+    "p90_us": 1.4,
+    "p99_us": 1.700999999999999,
+    "max_us": 2.6
+   },
+   "inference_measured_on_fold": "instance:d1.1_dss2b_c56.7_24.0",
+   "inference_peak_memory_over_test_set": {
+    "tracemalloc_peak_bytes": 55184,
+    "rss_delta_bytes": 0
+   }
+  },
+  "E1+rc": {
+   "headline_relative_error": "median_ape",
+   "overall": {
+    "n": 2706,
+    "mean_observed_s": 29.799720959756225,
+    "mae_s": 3.5546093621479646,
+    "rmse_s": 10.041424003913328,
+    "relative_mae": 0.11928331030174327,
+    "median_ape": 0.43307304632707755,
+    "mape": 1.1404422146801179,
+    "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+    "bias_s": -3.1847080361338787,
+    "relative_bias": -0.10687039789515972,
+    "mape_floor_s": 0.5,
+    "n_above_floor": 1396,
+    "mape_above_floor": 0.3451896561020839
+   },
+   "per_fold": {
+    "instance:d1.0_dss2b_c56.7_24.0": {
+     "n": 228,
+     "mean_observed_s": 45.67760891578936,
+     "mae_s": 1.8200397220885127,
+     "rmse_s": 4.127371454454566,
+     "relative_mae": 0.03984533703250348,
+     "median_ape": 0.29713103062347407,
+     "mape": 0.3688974736623648,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -1.2173462745171553,
+     "relative_bias": -0.02665083184983345,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 140,
+     "mape_above_floor": 0.2674267660069747
+    },
+    "instance:d1.1_dss2b_c10.7_41.3": {
+     "n": 708,
+     "mean_observed_s": 33.93336681963291,
+     "mae_s": 3.6222145348414116,
+     "rmse_s": 10.353260575509568,
+     "relative_mae": 0.10674492024604226,
+     "median_ape": 0.48247155079083753,
+     "mape": 1.3044847895028986,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -3.3227380509003823,
+     "relative_bias": -0.09791949229682502,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 384,
+     "mape_above_floor": 0.3630019953565872
+    },
+    "instance:d1.1_dss2b_c56.7_24.0": {
+     "n": 1770,
+     "mean_observed_s": 26.100975353672467,
+     "mae_s": 3.751003382298583,
+     "rmse_s": 10.444146922506544,
+     "relative_mae": 0.14371123421526882,
+     "median_ape": 0.44959194507385175,
+     "mape": 1.1742106090176994,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -3.382918901215195,
+     "relative_bias": -0.12960890753606302,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 872,
+     "mape_above_floor": 0.34983055786766426
+    }
+   },
+   "by_workload": {
+    "mAdd": {
+     "n": 54,
+     "mean_observed_s": 1.0600303629625059,
+     "mae_s": 0.3776178148024172,
+     "rmse_s": 0.4215463365102469,
+     "relative_mae": 0.35623301746477787,
+     "median_ape": 0.34321063560006226,
+     "mape": 0.3994826916506553,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.3776178148024172,
+     "relative_bias": 0.35623301746477787,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 53,
+     "mape_above_floor": 0.385575998766723
+    },
+    "mBackground": {
+     "n": 426,
+     "mean_observed_s": 0.6151209330988345,
+     "mae_s": 0.2968889705657768,
+     "rmse_s": 0.3314371815924423,
+     "relative_mae": 0.48265138542777275,
+     "median_ape": 0.5214739100485923,
+     "mape": 0.4718254855513748,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -0.2968889705657768,
+     "relative_bias": -0.48265138542777275,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 303,
+     "mape_above_floor": 0.5335757755987423
+    },
+    "mBgModel": {
+     "n": 54,
+     "mean_observed_s": 0.4357575444447758,
+     "mae_s": 0.15682007458685795,
+     "rmse_s": 0.18957521996293017,
+     "relative_mae": 0.35987919563543436,
+     "median_ape": 0.2876001071514118,
+     "mape": 0.4575410957310324,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -0.06234529515519811,
+     "relative_bias": -0.1430733579946066,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 7,
+     "mape_above_floor": 0.30205807607771
+    },
+    "mConcatFit": {
+     "n": 54,
+     "mean_observed_s": 0.26066499814920396,
+     "mae_s": 0.1128934857628181,
+     "rmse_s": 0.14064621077511966,
+     "relative_mae": 0.433097986167664,
+     "median_ape": 0.3293241184403708,
+     "mape": 0.512639784280164,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -0.02179512561489871,
+     "relative_bias": -0.08361354907505932,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 3,
+     "mape_above_floor": 0.4393972373888311
+    },
+    "mDiffFit": {
+     "n": 1584,
+     "mean_observed_s": 0.41676619457087444,
+     "mae_s": 0.2843964536295895,
+     "rmse_s": 0.3689888520189966,
+     "relative_mae": 0.6823884886403031,
+     "median_ape": 0.6060235551510896,
+     "mape": 1.7192543414053476,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.027005098896309636,
+     "relative_bias": 0.06479675954551828,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 550,
+     "mape_above_floor": 0.40685610470122446
+    },
+    "mImgtbl": {
+     "n": 54,
+     "mean_observed_s": 0.10287610185170909,
+     "mae_s": 0.025004634625407897,
+     "rmse_s": 0.026537376265697007,
+     "relative_mae": 0.243055813501282,
+     "median_ape": 0.3039859806406921,
+     "mape": 0.2815916717894949,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.020987616912924372,
+     "relative_bias": 0.20400867193798813,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 0,
+     "mape_above_floor": null
+    },
+    "mProject": {
+     "n": 426,
+     "mean_observed_s": 186.26115432558655,
+     "mae_s": 21.03514247018912,
+     "rmse_s": 25.29288930788497,
+     "relative_mae": 0.11293359877615414,
+     "median_ape": 0.2166116110314918,
+     "mape": 0.14410283924002432,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -20.15852714108142,
+     "relative_bias": -0.10822722115124496,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 426,
+     "mape_above_floor": 0.14410283924002432
+    },
+    "mViewer": {
+     "n": 54,
+     "mean_observed_s": 4.966485894445618,
+     "mae_s": 0.824766909880558,
+     "rmse_s": 0.9261530024880519,
+     "relative_mae": 0.16606649599125103,
+     "median_ape": 0.1715750589252571,
+     "mape": 0.20712049316332679,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.6746320470487359,
+     "relative_bias": 0.13583689984969574,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 54,
+     "mape_above_floor": 0.20712049316332679
+    }
+   },
+   "by_pool": {
+    "E": {
+     "n": 513,
+     "mean_observed_s": 63.37886137582893,
+     "mae_s": 1.0628561373435874,
+     "rmse_s": 1.9539404331353583,
+     "relative_mae": 0.01676988374784741,
+     "median_ape": 0.4137709291823725,
+     "mape": 1.5869592069441236,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.07599495290289336,
+     "relative_bias": 0.001199058349317015,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 372,
+     "mape_above_floor": 0.2872522800491548
+    },
+    "P": {
+     "n": 2193,
+     "mean_observed_s": 21.944682640811717,
+     "mae_s": 4.13749554743052,
+     "rmse_s": 11.11413113057857,
+     "relative_mae": 0.18854205436244473,
+     "median_ape": 0.44740259431144896,
+     "mape": 1.0359902233297145,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -3.947471662844259,
+     "relative_bias": -0.17988283209450165,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 1024,
+     "mape_above_floor": 0.366237218496312
+    }
+   },
+   "calibration_deciles": [
+    {
+     "bin": 0,
+     "n": 271,
+     "mean_predicted_s": 0.18303705218537397,
+     "mean_observed_s": 0.3250535494462987
+    },
+    {
+     "bin": 1,
+     "n": 271,
+     "mean_predicted_s": 0.2440203378791409,
+     "mean_observed_s": 0.42238182435491456
+    },
+    {
+     "bin": 2,
+     "n": 271,
+     "mean_predicted_s": 0.27333932861989946,
+     "mean_observed_s": 0.3495948793357638
+    },
+    {
+     "bin": 3,
+     "n": 271,
+     "mean_predicted_s": 0.31055813968926366,
+     "mean_observed_s": 0.302898260516348
+    },
+    {
+     "bin": 4,
+     "n": 271,
+     "mean_predicted_s": 0.35927004304286875,
+     "mean_observed_s": 0.3138661383767666
+    },
+    {
+     "bin": 5,
+     "n": 271,
+     "mean_predicted_s": 0.44341469627374314,
+     "mean_observed_s": 0.43208831623598254
+    },
+    {
+     "bin": 6,
+     "n": 270,
+     "mean_predicted_s": 0.5325237412951064,
+     "mean_observed_s": 0.533789753704224
+    },
+    {
+     "bin": 7,
+     "n": 270,
+     "mean_predicted_s": 0.8499982867623797,
+     "mean_observed_s": 0.827498537037388
+    },
+    {
+     "bin": 8,
+     "n": 270,
+     "mean_predicted_s": 66.04534348064074,
+     "mean_observed_s": 79.56843210703742
+    },
+    {
+     "bin": 9,
+     "n": 270,
+     "mean_predicted_s": 197.49335167777585,
+     "mean_observed_s": 215.57587453814776
+    }
+   ],
+   "inference_latency": {
+    "n_calls": 200,
+    "mean_us": 1.395,
+    "p50_us": 1.4,
+    "p90_us": 1.6,
+    "p99_us": 1.7,
+    "max_us": 1.7
+   },
+   "inference_measured_on_fold": "instance:d1.1_dss2b_c56.7_24.0",
+   "inference_peak_memory_over_test_set": {
+    "tracemalloc_peak_bytes": 57176,
+    "rss_delta_bytes": 0
+   }
+  },
+  "Ridge": {
+   "headline_relative_error": "median_ape",
+   "overall": {
+    "n": 2706,
+    "mean_observed_s": 29.799720959756225,
+    "mae_s": 1.3231609089027487,
+    "rmse_s": 3.950784416164029,
+    "relative_mae": 0.04440178854995469,
+    "median_ape": 0.29196689862620595,
+    "mape": 0.7505590209197504,
+    "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+    "bias_s": -0.35476784056901894,
+    "relative_bias": -0.011905072569240631,
+    "mape_floor_s": 0.5,
+    "n_above_floor": 1396,
+    "mape_above_floor": 0.27569625695684213
+   },
+   "per_fold": {
+    "instance:d1.0_dss2b_c56.7_24.0": {
+     "n": 228,
+     "mean_observed_s": 45.67760891578936,
+     "mae_s": 3.9976415410254957,
+     "rmse_s": 9.455082372191141,
+     "relative_mae": 0.08751862533775565,
+     "median_ape": 0.4140525624049096,
+     "mape": 0.45769837765854604,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 3.382889398389452,
+     "relative_bias": 0.07406012439543634,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 140,
+     "mape_above_floor": 0.398022236054498
+    },
+    "instance:d1.1_dss2b_c10.7_41.3": {
+     "n": 708,
+     "mean_observed_s": 33.93336681963291,
+     "mae_s": 0.9015482036438198,
+     "rmse_s": 2.241762934153436,
+     "relative_mae": 0.026568191963852197,
+     "median_ape": 0.2905683260243033,
+     "mape": 0.752555918138326,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -0.7339334408523024,
+     "relative_bias": -0.02162866551832012,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 384,
+     "mape_above_floor": 0.2699370951054911
+    },
+    "instance:d1.1_dss2b_c56.7_24.0": {
+     "n": 1770,
+     "mean_observed_s": 26.100975353672467,
+     "mae_s": 1.1472966214447464,
+     "rmse_s": 3.215095384799377,
+     "relative_mae": 0.04395608232637633,
+     "median_ape": 0.272835774016406,
+     "mape": 0.7874846838761363,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -0.684562532931712,
+     "relative_bias": -0.026227469420425028,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 872,
+     "mape_above_floor": 0.2585929095683639
+    }
+   },
+   "by_workload": {
+    "mAdd": {
+     "n": 54,
+     "mean_observed_s": 1.0600303629625059,
+     "mae_s": 0.20823174968829697,
+     "rmse_s": 0.3668502785220834,
+     "relative_mae": 0.19643942000523837,
+     "median_ape": 0.09496319309977382,
+     "mape": 0.1918343891271279,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.17514326811633182,
+     "relative_bias": 0.16522476547450254,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 53,
+     "mape_above_floor": 0.18177984173788755
+    },
+    "mBackground": {
+     "n": 426,
+     "mean_observed_s": 0.6151209330988345,
+     "mae_s": 0.08004484096437947,
+     "rmse_s": 0.10199496640154683,
+     "relative_mae": 0.1301286245635186,
+     "median_ape": 0.10702651560996654,
+     "mape": 0.14548305032153694,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -0.009523780647684946,
+     "relative_bias": -0.01548277767057346,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 303,
+     "mape_above_floor": 0.10865652141966536
+    },
+    "mBgModel": {
+     "n": 54,
+     "mean_observed_s": 0.4357575444447758,
+     "mae_s": 0.053958229724770226,
+     "rmse_s": 0.08448111049437093,
+     "relative_mae": 0.12382626626355159,
+     "median_ape": 0.02882713596133623,
+     "mape": 0.23553591709478947,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.027840345984789544,
+     "relative_bias": 0.06388953292882756,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 7,
+     "mape_above_floor": 0.013810232585996174
+    },
+    "mConcatFit": {
+     "n": 54,
+     "mean_observed_s": 0.26066499814920396,
+     "mae_s": 0.05534743148072502,
+     "rmse_s": 0.10218753125979407,
+     "relative_mae": 0.21233165892508626,
+     "median_ape": 0.057278078219811436,
+     "mape": 0.2603021847402493,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.052895201851276434,
+     "relative_bias": 0.2029240681596973,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 3,
+     "mape_above_floor": 0.021900548297729073
+    },
+    "mDiffFit": {
+     "n": 1584,
+     "mean_observed_s": 0.41676619457087444,
+     "mae_s": 0.27708048164021004,
+     "rmse_s": 0.38002076058786066,
+     "relative_mae": 0.6648343489699481,
+     "median_ape": 0.6583683887922029,
+     "mape": 1.2006473355347207,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -0.09835518117979525,
+     "relative_bias": -0.2359960631669447,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 550,
+     "mape_above_floor": 0.5765701008549328
+    },
+    "mImgtbl": {
+     "n": 54,
+     "mean_observed_s": 0.10287610185170909,
+     "mae_s": 0.009611558782298982,
+     "rmse_s": 0.014201726108951358,
+     "relative_mae": 0.09342848931186737,
+     "median_ape": 0.08224592315459184,
+     "mape": 0.09330460753034035,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.0017105336856338379,
+     "relative_bias": 0.016627123839698835,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 0,
+     "mape_above_floor": null
+    },
+    "mProject": {
+     "n": 426,
+     "mean_observed_s": 186.26115432558655,
+     "mae_s": 7.211455169844702,
+     "rmse_s": 9.927218635960525,
+     "relative_mae": 0.038716903671921835,
+     "median_ape": 0.024798482013145273,
+     "mape": 0.047740673610537396,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -1.9444035202844934,
+     "relative_bias": -0.010439125255745247,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 426,
+     "mape_above_floor": 0.047740673610537396
+    },
+    "mViewer": {
+     "n": 54,
+     "mean_observed_s": 4.966485894445618,
+     "mae_s": 0.32838680751052496,
+     "rmse_s": 0.5011538547522673,
+     "relative_mae": 0.06612055575911004,
+     "median_ape": 0.013870011378400129,
+     "mape": 0.08706039644792334,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.2640006615867519,
+     "relative_bias": 0.053156430360952606,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 54,
+     "mape_above_floor": 0.08706039644792334
+    }
+   },
+   "by_pool": {
+    "E": {
+     "n": 513,
+     "mean_observed_s": 63.37886137582893,
+     "mae_s": 1.2687593364870524,
+     "rmse_s": 2.679638007019384,
+     "relative_mae": 0.020018651470613585,
+     "median_ape": 0.27101808678538497,
+     "mape": 1.025274026791408,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -0.07700251491820503,
+     "relative_bias": -0.0012149557951442122,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 372,
+     "mape_above_floor": 0.25493319786366847
+    },
+    "P": {
+     "n": 2193,
+     "mean_observed_s": 21.944682640811717,
+     "mae_s": 1.335886858127214,
+     "rmse_s": 4.192884747799462,
+     "relative_mae": 0.06087519605513879,
+     "median_ape": 0.2981945388144872,
+     "mape": 0.6862960031303476,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -0.4197444078553242,
+     "relative_bias": -0.01912738565080466,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 1024,
+     "mape_above_floor": 0.28323908701803413
+    }
+   },
+   "calibration_deciles": [
+    {
+     "bin": 0,
+     "n": 271,
+     "mean_predicted_s": 0.16447243425181782,
+     "mean_observed_s": 0.30454396088606533
+    },
+    {
+     "bin": 1,
+     "n": 271,
+     "mean_predicted_s": 0.23910924195688935,
+     "mean_observed_s": 0.3277745350550272
+    },
+    {
+     "bin": 2,
+     "n": 271,
+     "mean_predicted_s": 0.25924232934699676,
+     "mean_observed_s": 0.2841590394839596
+    },
+    {
+     "bin": 3,
+     "n": 271,
+     "mean_predicted_s": 0.26744474092696313,
+     "mean_observed_s": 0.288409830627522
+    },
+    {
+     "bin": 4,
+     "n": 271,
+     "mean_predicted_s": 0.27406566349856804,
+     "mean_observed_s": 0.4133324077485728
+    },
+    {
+     "bin": 5,
+     "n": 271,
+     "mean_predicted_s": 0.360793845856948,
+     "mean_observed_s": 0.4483452778603253
+    },
+    {
+     "bin": 6,
+     "n": 270,
+     "mean_predicted_s": 0.5051360356948275,
+     "mean_observed_s": 0.5568498355559617
+    },
+    {
+     "bin": 7,
+     "n": 270,
+     "mean_predicted_s": 0.8455920573055264,
+     "mean_observed_s": 0.9220298607408713
+    },
+    {
+     "bin": 8,
+     "n": 270,
+     "mean_predicted_s": 74.00229020033856,
+     "mean_observed_s": 77.26142209666669
+    },
+    {
+     "bin": 9,
+     "n": 270,
+     "mean_predicted_s": 218.17992016291453,
+     "mean_observed_s": 217.84490482962937
+    }
+   ],
+   "inference_latency": {
+    "n_calls": 200,
+    "mean_us": 6.5805,
+    "p50_us": 6.5,
+    "p90_us": 6.9,
+    "p99_us": 7.4,
+    "max_us": 20.1
+   },
+   "inference_measured_on_fold": "instance:d1.1_dss2b_c56.7_24.0",
+   "inference_peak_memory_over_test_set": {
+    "tracemalloc_peak_bytes": 58665,
+    "rss_delta_bytes": 0
+   },
+   "train_per_fold": {
+    "instance:d1.0_dss2b_c56.7_24.0": {
+     "train_seconds": 0.016266500009805895,
+     "train_tracemalloc_peak_bytes": 557253,
+     "train_rss_delta_bytes": 933888,
+     "n_train_rows": 2478,
+     "n_train_rows_by_pool": {
+      "E": 445,
+      "P": 2033
+     }
+    },
+    "instance:d1.1_dss2b_c10.7_41.3": {
+     "train_seconds": 0.007370000006631017,
+     "train_tracemalloc_peak_bytes": 434313,
+     "train_rss_delta_bytes": 49152,
+     "n_train_rows": 1998,
+     "n_train_rows_by_pool": {
+      "E": 325,
+      "P": 1673
+     }
+    },
+    "instance:d1.1_dss2b_c56.7_24.0": {
+     "train_seconds": 0.0035964999988209456,
+     "train_tracemalloc_peak_bytes": 181605,
+     "train_rss_delta_bytes": 4096,
+     "n_train_rows": 936,
+     "n_train_rows_by_pool": {
+      "E": 256,
+      "P": 680
+     }
+    }
+   },
+   "train_seconds": 0.009077666671752619,
+   "train_tracemalloc_peak_bytes": 557253,
+   "train_rss_delta_bytes": 933888,
+   "n_train_rows": 1804,
+   "train_aggregate": "seconds and rows: mean over folds; memory: max over folds",
+   "model_size_bytes": 3713,
+   "saved_model": {
+    "path": "data\\results\\stage3_20261012\\eval\\tuning_loo\\model_Ridge.json",
+    "fitted_on_fold": "instance:d1.1_dss2b_c56.7_24.0",
+    "n_train_rows": 936,
+    "note": "fold model: trained on that fold's train side only, not refit on all training rows"
+   }
+  },
+  "CatBoost": {
+   "headline_relative_error": "median_ape",
+   "overall": {
+    "n": 2706,
+    "mean_observed_s": 29.799720959756225,
+    "mae_s": 2.3483216078074185,
+    "rmse_s": 7.361921999735021,
+    "relative_mae": 0.07880347641438548,
+    "median_ape": 0.27113607467678685,
+    "mape": 1.1656973542646991,
+    "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+    "bias_s": -0.17490890046085678,
+    "relative_bias": -0.005869481150413014,
+    "mape_floor_s": 0.5,
+    "n_above_floor": 1396,
+    "mape_above_floor": 0.21990545806295086
+   },
+   "per_fold": {
+    "instance:d1.0_dss2b_c56.7_24.0": {
+     "n": 228,
+     "mean_observed_s": 45.67760891578936,
+     "mae_s": 6.26588898985578,
+     "rmse_s": 15.173050257102497,
+     "relative_mae": 0.13717637894329127,
+     "median_ape": 0.4637767606741888,
+     "mape": 0.44692364778449106,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 5.039483879047864,
+     "relative_bias": 0.11032722593554735,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 140,
+     "mape_above_floor": 0.4175556359863745
+    },
+    "instance:d1.1_dss2b_c10.7_41.3": {
+     "n": 708,
+     "mean_observed_s": 33.93336681963291,
+     "mae_s": 2.2060696219223437,
+     "rmse_s": 7.571900137403113,
+     "relative_mae": 0.06501181075395009,
+     "median_ape": 0.23131682977938334,
+     "mape": 0.9368809931840923,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -0.5157367330227891,
+     "relative_bias": -0.015198513479788222,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 384,
+     "mape_above_floor": 0.20322919652923468
+    },
+    "instance:d1.1_dss2b_c56.7_24.0": {
+     "n": 1770,
+     "mean_observed_s": 26.100975353672467,
+     "mae_s": 1.9005866037958976,
+     "rmse_s": 5.50176007850556,
+     "relative_mae": 0.07281668895673972,
+     "median_ape": 0.2696318503904479,
+     "mape": 1.3498116981757484,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -0.7102622610677156,
+     "relative_bias": -0.02721209653829201,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 872,
+     "mape_above_floor": 0.1955163061359643
+    }
+   },
+   "by_workload": {
+    "mAdd": {
+     "n": 54,
+     "mean_observed_s": 1.0600303629625059,
+     "mae_s": 0.2106439648143717,
+     "rmse_s": 0.36276157636052503,
+     "relative_mae": 0.19871502946922884,
+     "median_ape": 0.0712523673540543,
+     "mape": 0.17942791938128952,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.07823282866296556,
+     "relative_bias": 0.07380244132283664,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 53,
+     "mape_above_floor": 0.1682327354706178
+    },
+    "mBackground": {
+     "n": 426,
+     "mean_observed_s": 0.6151209330988345,
+     "mae_s": 0.08862003867858215,
+     "rmse_s": 0.10855029534535357,
+     "relative_mae": 0.1440692941990045,
+     "median_ape": 0.1322174465802856,
+     "mape": 0.1505387710382202,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -0.04322274659850805,
+     "relative_bias": -0.07026707151837935,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 303,
+     "mape_above_floor": 0.15063174808889362
+    },
+    "mBgModel": {
+     "n": 54,
+     "mean_observed_s": 0.4357575444447758,
+     "mae_s": 0.06157671725298662,
+     "rmse_s": 0.09485217551177355,
+     "relative_mae": 0.14130958382245595,
+     "median_ape": 0.05348988543242303,
+     "mape": 0.2520127295855375,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.020196574923921976,
+     "relative_bias": 0.04634819335062945,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 7,
+     "mape_above_floor": 0.06367488152616053
+    },
+    "mConcatFit": {
+     "n": 54,
+     "mean_observed_s": 0.26066499814920396,
+     "mae_s": 0.04441512452619371,
+     "rmse_s": 0.07930783149381535,
+     "relative_mae": 0.1703915939675591,
+     "median_ape": 0.05376117336496631,
+     "mape": 0.229160309221775,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.03931984401039935,
+     "relative_bias": 0.15084435689325948,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 3,
+     "mape_above_floor": 0.05387603892284946
+    },
+    "mDiffFit": {
+     "n": 1584,
+     "mean_observed_s": 0.41676619457087444,
+     "mae_s": 0.2966215813240617,
+     "rmse_s": 0.3743555376088021,
+     "relative_mae": 0.7117217883506115,
+     "median_ape": 0.6047319397393636,
+     "mape": 1.8976631287064778,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.08625844378420892,
+     "relative_bias": 0.20697082658785557,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 550,
+     "mape_above_floor": 0.3782855933089704
+    },
+    "mImgtbl": {
+     "n": 54,
+     "mean_observed_s": 0.10287610185170909,
+     "mae_s": 0.009689066421997624,
+     "rmse_s": 0.014608820641463906,
+     "relative_mae": 0.09418189693816299,
+     "median_ape": 0.08229335936209271,
+     "mape": 0.09094148828022969,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -0.0050949887676311765,
+     "relative_bias": -0.049525484305143634,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 0,
+     "mape_above_floor": null
+    },
+    "mProject": {
+     "n": 426,
+     "mean_observed_s": 186.26115432558655,
+     "mae_s": 13.573535319802449,
+     "rmse_s": 18.536174114055694,
+     "relative_mae": 0.07287367765409507,
+     "median_ape": 0.06511641279641837,
+     "mape": 0.07551536332537952,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -1.4286997745265484,
+     "relative_bias": -0.007670411899354846,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 426,
+     "mape_above_floor": 0.07551536332537952
+    },
+    "mViewer": {
+     "n": 54,
+     "mean_observed_s": 4.966485894445618,
+     "mae_s": 0.8705548158111666,
+     "rmse_s": 1.0121815232493565,
+     "relative_mae": 0.17528587301229856,
+     "median_ape": 0.15263039492718472,
+     "mape": 0.2147461374260156,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.18405193372606152,
+     "relative_bias": 0.037058785152677104,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 54,
+     "mape_above_floor": 0.2147461374260156
+    }
+   },
+   "by_pool": {
+    "E": {
+     "n": 513,
+     "mean_observed_s": 63.37886137582893,
+     "mae_s": 4.543040984683512,
+     "rmse_s": 12.845808807666382,
+     "relative_mae": 0.071680697413351,
+     "median_ape": 0.2087231747849645,
+     "mape": 1.4505441748058892,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.762535348789789,
+     "relative_bias": 0.012031382897020621,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 372,
+     "mape_above_floor": 0.2266659787407508
+    },
+    "P": {
+     "n": 2193,
+     "mean_observed_s": 21.944682640811717,
+     "mae_s": 1.8349194006312055,
+     "rmse_s": 5.317417151907728,
+     "relative_mae": 0.08361567267410404,
+     "median_ape": 0.2867055767278298,
+     "mape": 1.0990642402940516,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -0.3942016044579298,
+     "relative_bias": -0.01796342243404385,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 1024,
+     "mape_above_floor": 0.21744948766046882
+    }
+   },
+   "calibration_deciles": [
+    {
+     "bin": 0,
+     "n": 271,
+     "mean_predicted_s": 0.17729086638802666,
+     "mean_observed_s": 0.2709556428043943
+    },
+    {
+     "bin": 1,
+     "n": 271,
+     "mean_predicted_s": 0.33531717165629077,
+     "mean_observed_s": 0.3477132837638455
+    },
+    {
+     "bin": 2,
+     "n": 271,
+     "mean_predicted_s": 0.3868749314860647,
+     "mean_observed_s": 0.31062512177152635
+    },
+    {
+     "bin": 3,
+     "n": 271,
+     "mean_predicted_s": 0.4154669195278572,
+     "mean_observed_s": 0.32881925424399383
+    },
+    {
+     "bin": 4,
+     "n": 271,
+     "mean_predicted_s": 0.45675215774457395,
+     "mean_observed_s": 0.5186806734321842
+    },
+    {
+     "bin": 5,
+     "n": 271,
+     "mean_predicted_s": 0.49780757147540894,
+     "mean_observed_s": 0.3342696535052015
+    },
+    {
+     "bin": 6,
+     "n": 270,
+     "mean_predicted_s": 0.6170132703642663,
+     "mean_observed_s": 0.4842931111113069
+    },
+    {
+     "bin": 7,
+     "n": 270,
+     "mean_predicted_s": 1.0017525717460862,
+     "mean_observed_s": 0.9131745577782028
+    },
+    {
+     "bin": 8,
+     "n": 270,
+     "mean_predicted_s": 74.02378500193393,
+     "mean_observed_s": 77.51908139037033
+    },
+    {
+     "bin": 9,
+     "n": 270,
+     "mean_predicted_s": 218.98598369632555,
+     "mean_observed_s": 217.62399417592576
+    }
+   ],
+   "inference_latency": {
+    "n_calls": 200,
+    "mean_us": 503.71600000000007,
+    "p50_us": 490.9,
+    "p90_us": 640.6899999999999,
+    "p99_us": 855.3749999999999,
+    "max_us": 909.6
+   },
+   "inference_measured_on_fold": "instance:d1.1_dss2b_c56.7_24.0",
+   "inference_peak_memory_over_test_set": {
+    "tracemalloc_peak_bytes": 60424,
+    "rss_delta_bytes": 24576
+   },
+   "train_per_fold": {
+    "instance:d1.0_dss2b_c56.7_24.0": {
+     "train_seconds": 1.0761872000002768,
+     "train_tracemalloc_peak_bytes": 1686928,
+     "train_rss_delta_bytes": 63483904,
+     "n_train_rows": 2478,
+     "n_train_rows_by_pool": {
+      "E": 445,
+      "P": 2033
+     }
+    },
+    "instance:d1.1_dss2b_c10.7_41.3": {
+     "train_seconds": 0.14795220000087284,
+     "train_tracemalloc_peak_bytes": 1358480,
+     "train_rss_delta_bytes": 7524352,
+     "n_train_rows": 1998,
+     "n_train_rows_by_pool": {
+      "E": 325,
+      "P": 1673
+     }
+    },
+    "instance:d1.1_dss2b_c56.7_24.0": {
+     "train_seconds": 0.09742929998901673,
+     "train_tracemalloc_peak_bytes": 636864,
+     "train_rss_delta_bytes": 643072,
+     "n_train_rows": 936,
+     "n_train_rows_by_pool": {
+      "E": 256,
+      "P": 680
+     }
+    }
+   },
+   "train_seconds": 0.4405228999967221,
+   "train_tracemalloc_peak_bytes": 1686928,
+   "train_rss_delta_bytes": 63483904,
+   "n_train_rows": 1804,
+   "train_aggregate": "seconds and rows: mean over folds; memory: max over folds",
+   "model_size_bytes": 139767,
+   "saved_model": {
+    "path": "data\\results\\stage3_20261012\\eval\\tuning_loo\\model_CatBoost.json",
+    "fitted_on_fold": "instance:d1.1_dss2b_c56.7_24.0",
+    "n_train_rows": 936,
+    "note": "fold model: trained on that fold's train side only, not refit on all training rows"
+   }
+  },
+  "MLP": {
+   "headline_relative_error": "median_ape",
+   "overall": {
+    "n": 2706,
+    "mean_observed_s": 29.799720959756225,
+    "mae_s": 1.8613929976859707,
+    "rmse_s": 5.960148297765598,
+    "relative_mae": 0.06246343716438604,
+    "median_ape": 0.29482691943919204,
+    "mape": 0.6198453274529667,
+    "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+    "bias_s": 0.4816459867059449,
+    "relative_bias": 0.016162768347945125,
+    "mape_floor_s": 0.5,
+    "n_above_floor": 1396,
+    "mape_above_floor": 0.25770331571730926
+   },
+   "per_fold": {
+    "instance:d1.0_dss2b_c56.7_24.0": {
+     "n": 228,
+     "mean_observed_s": 45.67760891578936,
+     "mae_s": 6.383119181409248,
+     "rmse_s": 14.704535992698046,
+     "relative_mae": 0.13974284847477642,
+     "median_ape": 0.399583384918614,
+     "mape": 0.4613009709397325,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 4.6711500123077805,
+     "relative_bias": 0.10226345299552461,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 140,
+     "mape_above_floor": 0.410142417158115
+    },
+    "instance:d1.1_dss2b_c10.7_41.3": {
+     "n": 708,
+     "mean_observed_s": 33.93336681963291,
+     "mae_s": 1.507635559975834,
+     "rmse_s": 5.209608768357537,
+     "relative_mae": 0.04442929485863919,
+     "median_ape": 0.26418025307114923,
+     "mape": 0.6946204981499241,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -0.4578701354240569,
+     "relative_bias": -0.01349321267936036,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 384,
+     "mape_above_floor": 0.23400930489339675
+    },
+    "instance:d1.1_dss2b_c56.7_24.0": {
+     "n": 1770,
+     "mean_observed_s": 26.100975353672467,
+     "mae_s": 1.4204363287649926,
+     "rmse_s": 3.949695409263991,
+     "relative_mae": 0.05442081414651556,
+     "median_ape": 0.29022908246636664,
+     "mape": 0.6103579220470748,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.3177875102261838,
+     "relative_bias": 0.012175311685487276,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 872,
+     "mape_above_floor": 0.24366320786715978
+    }
+   },
+   "by_workload": {
+    "mAdd": {
+     "n": 54,
+     "mean_observed_s": 1.0600303629625059,
+     "mae_s": 0.19369401171190745,
+     "rmse_s": 0.3266072729022005,
+     "relative_mae": 0.1827249656987029,
+     "median_ape": 0.07452981739742723,
+     "mape": 0.1477751668500557,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.028841051888875,
+     "relative_bias": 0.0272077601704463,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 53,
+     "mape_above_floor": 0.14224178940379
+    },
+    "mBackground": {
+     "n": 426,
+     "mean_observed_s": 0.6151209330988345,
+     "mae_s": 0.06344384424626287,
+     "rmse_s": 0.08561506919634561,
+     "relative_mae": 0.10314044089939796,
+     "median_ape": 0.07765851638384491,
+     "mape": 0.10953407016207449,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -0.007239287541977566,
+     "relative_bias": -0.011768885031286024,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 303,
+     "mape_above_floor": 0.0932047796297706
+    },
+    "mBgModel": {
+     "n": 54,
+     "mean_observed_s": 0.4357575444447758,
+     "mae_s": 0.07601249284182661,
+     "rmse_s": 0.10641721611504337,
+     "relative_mae": 0.17443758303411264,
+     "median_ape": 0.11111198054212237,
+     "mape": 0.32184271537487313,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.018726401679231956,
+     "relative_bias": 0.042974360210085084,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 7,
+     "mape_above_floor": 0.021982827301346597
+    },
+    "mConcatFit": {
+     "n": 54,
+     "mean_observed_s": 0.26066499814920396,
+     "mae_s": 0.04754491182228558,
+     "rmse_s": 0.08170295156726537,
+     "relative_mae": 0.18239852745810928,
+     "median_ape": 0.06594423833883273,
+     "mape": 0.22593456902937903,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.021924060532179754,
+     "relative_bias": 0.08410818747375694,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 3,
+     "mape_above_floor": 0.14447491408858554
+    },
+    "mDiffFit": {
+     "n": 1584,
+     "mean_observed_s": 0.41676619457087444,
+     "mae_s": 0.2505121967359192,
+     "rmse_s": 0.3548167407138165,
+     "relative_mae": 0.6010856926480336,
+     "median_ape": 0.6344239757290813,
+     "mape": 0.9785796177350577,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -0.0978836115864243,
+     "relative_bias": -0.23486456642005402,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 550,
+     "mape_above_floor": 0.5222644023298693
+    },
+    "mImgtbl": {
+     "n": 54,
+     "mean_observed_s": 0.10287610185170909,
+     "mae_s": 0.014798218220411505,
+     "rmse_s": 0.024745138476884605,
+     "relative_mae": 0.1438450519999525,
+     "median_ape": 0.10177313473887989,
+     "mape": 0.12719917552372004,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.005490073644171973,
+     "relative_bias": 0.05336587939622409,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 0,
+     "mape_above_floor": null
+    },
+    "mProject": {
+     "n": 426,
+     "mean_observed_s": 186.26115432558655,
+     "mae_s": 10.681818778487203,
+     "rmse_s": 15.002125154286526,
+     "relative_mae": 0.05734861258196256,
+     "median_ape": 0.048788954667171085,
+     "mape": 0.059679307644482774,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 3.4527829058586756,
+     "relative_bias": 0.018537321527725383,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 426,
+     "mape_above_floor": 0.059679307644482774
+    },
+    "mViewer": {
+     "n": 54,
+     "mean_observed_s": 4.966485894445618,
+     "mae_s": 0.8278810102939858,
+     "rmse_s": 0.8581440831215484,
+     "relative_mae": 0.16669351889630157,
+     "median_ape": 0.24156265662978238,
+     "mape": 0.19847879266276822,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": -0.249424191887609,
+     "relative_bias": -0.0502214638657402,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 54,
+     "mape_above_floor": 0.19847879266276822
+    }
+   },
+   "by_pool": {
+    "E": {
+     "n": 513,
+     "mean_observed_s": 63.37886137582893,
+     "mae_s": 3.7641959504903935,
+     "rmse_s": 10.258582688839585,
+     "relative_mae": 0.05939197815765685,
+     "median_ape": 0.2540941502537728,
+     "mape": 0.7568534029647543,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 1.7118271030289416,
+     "relative_bias": 0.027009432890850078,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 372,
+     "mape_above_floor": 0.2538565000786832
+    },
+    "P": {
+     "n": 2193,
+     "mean_observed_s": 21.944682640811717,
+     "mae_s": 1.416277669464963,
+     "rmse_s": 4.3835114168364155,
+     "relative_mae": 0.06453853503586489,
+     "median_ape": 0.30841999720257046,
+     "mape": 0.5877955587627948,
+     "mape_note": "MAPE is dominated by rows with very small observed times (division by y); report median_ape as the headline relative error. mape_above_floor (config mape_floor_s) restricts MAPE to y >= the floor.",
+     "bias_s": 0.19387448069878713,
+     "relative_bias": 0.008834690565915418,
+     "mape_floor_s": 0.5,
+     "n_above_floor": 1024,
+     "mape_above_floor": 0.2591007917110289
+    }
+   },
+   "calibration_deciles": [
+    {
+     "bin": 0,
+     "n": 271,
+     "mean_predicted_s": 0.12409430694775543,
+     "mean_observed_s": 0.241649582656632
+    },
+    {
+     "bin": 1,
+     "n": 271,
+     "mean_predicted_s": 0.1756816239842698,
+     "mean_observed_s": 0.29674325129239537
+    },
+    {
+     "bin": 2,
+     "n": 271,
+     "mean_predicted_s": 0.20424381523208981,
+     "mean_observed_s": 0.27560330295182545
+    },
+    {
+     "bin": 3,
+     "n": 271,
+     "mean_predicted_s": 0.2658965262397843,
+     "mean_observed_s": 0.29203528044241645
+    },
+    {
+     "bin": 4,
+     "n": 271,
+     "mean_predicted_s": 0.34474385464110935,
+     "mean_observed_s": 0.3506808952031364
+    },
+    {
+     "bin": 5,
+     "n": 271,
+     "mean_predicted_s": 0.43255871834904475,
+     "mean_observed_s": 0.5556390885612927
+    },
+    {
+     "bin": 6,
+     "n": 270,
+     "mean_predicted_s": 0.5316524234124348,
+     "mean_observed_s": 0.5849663325928472
+    },
+    {
+     "bin": 7,
+     "n": 270,
+     "mean_predicted_s": 0.8159694582779579,
+     "mean_observed_s": 0.8916886392597344
+    },
+    {
+     "bin": 8,
+     "n": 270,
+     "mean_predicted_s": 76.01338745339804,
+     "mean_observed_s": 77.31305129888898
+    },
+    {
+     "bin": 9,
+     "n": 270,
+     "mean_predicted_s": 224.57263010944806,
+     "mean_observed_s": 217.84991479370345
+    }
+   ],
+   "inference_latency": {
+    "n_calls": 200,
+    "mean_us": 23.208999999999996,
+    "p50_us": 17.8,
+    "p90_us": 27.32,
+    "p99_us": 160.76199999999994,
+    "max_us": 305.8
+   },
+   "inference_measured_on_fold": "instance:d1.1_dss2b_c56.7_24.0",
+   "inference_peak_memory_over_test_set": {
+    "tracemalloc_peak_bytes": 59832,
+    "rss_delta_bytes": 0
+   },
+   "train_per_fold": {
+    "instance:d1.0_dss2b_c56.7_24.0": {
+     "train_seconds": 9.57139840000309,
+     "train_tracemalloc_peak_bytes": 1725111,
+     "train_rss_delta_bytes": 551538688,
+     "n_train_rows": 2478,
+     "n_train_rows_by_pool": {
+      "E": 445,
+      "P": 2033
+     }
+    },
+    "instance:d1.1_dss2b_c10.7_41.3": {
+     "train_seconds": 3.0393956000043545,
+     "train_tracemalloc_peak_bytes": 1358152,
+     "train_rss_delta_bytes": 143360,
+     "n_train_rows": 1998,
+     "n_train_rows_by_pool": {
+      "E": 325,
+      "P": 1673
+     }
+    },
+    "instance:d1.1_dss2b_c56.7_24.0": {
+     "train_seconds": 1.3957635999977356,
+     "train_tracemalloc_peak_bytes": 636536,
+     "train_rss_delta_bytes": 118784,
+     "n_train_rows": 936,
+     "n_train_rows_by_pool": {
+      "E": 256,
+      "P": 680
+     }
+    }
+   },
+   "train_seconds": 4.66885253333506,
+   "train_tracemalloc_peak_bytes": 1725111,
+   "train_rss_delta_bytes": 551538688,
+   "n_train_rows": 1804,
+   "train_aggregate": "seconds and rows: mean over folds; memory: max over folds",
+   "model_size_bytes": 16063,
+   "saved_model": {
+    "path": "data\\results\\stage3_20261012\\eval\\tuning_loo\\model_MLP.json",
+    "fitted_on_fold": "instance:d1.1_dss2b_c56.7_24.0",
+    "n_train_rows": 936,
+    "note": "fold model: trained on that fold's train side only, not refit on all training rows"
+   }
+  }
+ },
+ "rows_per_ctx_source": {
+  "decision": 2706
+ },
+ "dataset": {
+  "dir": "data/results/stage3_20261012/dataset_fit/20261012T195258/",
+  "n_rows_used": 2706,
+  "n_rows_dropped_not_decision_ctx": 0,
+  "manifest_outputs": {
+   "tasks.csv": {
+    "sha256": "78beebbbb661af52f2e8f890cd75757a42657121d6062e0a8f851d9161289bfb",
+    "bytes": 2356066
+   },
+   "candidates.csv": {
+    "sha256": "94f0d18c3528489c4ddfbdf521dfe7d93b2a1a34b3693204f107fca42f11c903",
+    "bytes": 3623184
+   },
+   "splits.json": {
+    "sha256": "6bde263b8fd9ea407f1e5a415e2cf41057dc5fb6739eceafe1cf21c11f792cb7",
+    "bytes": 23048
+   }
+  },
+  "profile": "data/results/stage2_20261012/profile_montage/20261012T092355_profile.json",
+  "rows_per_ctx_source": {
+   "decision": 2706
+  }
+ }
+}

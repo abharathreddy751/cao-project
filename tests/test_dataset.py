@@ -103,3 +103,18 @@ def test_campaign_idle_gap_is_enforced_by_retry_after(tmp_path):
         spans = sorted((t.t_started, t.t_completed) for t in dag.tasks.values())
         assert all(b0 - a1 >= gap for (_, a1), (b0, _) in zip(spans, spans[1:]))
         assert len(pool.activity["E0"]) == 4  # history persisted on the pool
+
+
+def test_campaign_policy_resolves_pools_and_concurrency_at_run_start():
+    dag = build_independent_dag(3)
+    s = RuntimeState(dag, {"P0": "P", "P1": "P", "E0": "E", "E1": "E"})
+    p = RandomOccupancyPolicy(seed=1, allowed_pools=["E"])
+    p.on_run_start(dag, s)
+    assert p.allowed == ["E0", "E1"]
+    q = RandomOccupancyPolicy(seed=4, concurrency=(2, 3))                 # default pools: all
+    q.on_run_start(dag, s)
+    assert 2 <= len(q.allowed) <= 3 and set(q.allowed) <= {"P0", "P1", "E0", "E1"}
+    with pytest.raises(ValueError, match="unknown pools"):
+        RandomOccupancyPolicy(seed=1, allowed_pools=["R"]).on_run_start(dag, s)
+    with pytest.raises(ValueError, match="at least one"):
+        RandomOccupancyPolicy(seed=1, allowed_workers=["P0"], allowed_pools=["P"])

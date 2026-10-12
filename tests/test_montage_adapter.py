@@ -143,3 +143,56 @@ def test_cleanup_work_only_after_verified_runs(root, tmp_path):
         assert a.verify(_cond(tmp_path, ref="0" * 64), wd2, rec2)[0] is False and (wd2 / "work" / "out.txt").is_file()
     finally:
         a.close()
+
+
+def test_random_occupancy_logs_decision_context_and_respects_eligibility(adapter, tmp_path):
+    from caosched.dataset.events import rows_from_events
+    cond = _cond(tmp_path, "RandomOccupancy", eligible_pools={"tB": ["E"]}, seed=5, allowed_pools=["P", "E"])
+    rec, wd = _run(adapter, cond, tmp_path, 0)
+    assert rec.status == "ok" and rec.output_ok is True and rec.extra["policy"] == "campaign_random_occupancy"
+    ev = read_events(wd / rec.event_log)
+    disp = {e["task_id"]: e for e in ev if e["event"] == "task_dispatched"}
+    assert len(disp) == 3 and disp["J2"]["pool"] == "E"                       # J2 is only eligible for E
+    for e in disp.values():                                                   # the chosen worker's context is logged
+        assert e["decision"]["ctx_version"] == 2 and "ctx" in e["decision"]["candidates"][e["worker_id"]]
+    assert [r["ctx_source"] for r in rows_from_events(ev, "decision")] == ["decision"] * 3
+    assert ev[0]["scheduler_config"]["allowed_pools"] == ["P", "E"] and ev[0]["scheduler_config"]["seed"] == 5
+    # the dataset builder accepts the log (session layout) and keeps its 3 rows with the logged context
+    from caosched.dataset.build import build_dataset
+    src = wd / rec.event_log
+    dst = tmp_path / "ev" / "20261012T101305" / "runs" / "r0" / "r0.jsonl"
+    dst.parent.mkdir(parents=True)
+    dst.write_text(src.read_text().replace('"experiment_id": "session"', '"experiment_id": "20261012T101305"'))
+    (dst.parent / "run_manifest.json").write_text(json.dumps({"status": rec.status, "verification": {"passed": rec.output_ok}}))
+    (tmp_path / "profiles").mkdir()
+    out = build_dataset(tmp_path / "ev", tmp_path / "profiles", tmp_path / "ds")
+    man = json.loads((out / "manifest.json").read_text())
+    assert man["n_task_rows"] == 3 and man["rows_per_ctx_source"] == {"decision": 3} and man["n_candidate_rows"] == 0
+    only_e, _ = _run(adapter, _cond(tmp_path, "RandomOccupancy", allowed_pools=["E"]), tmp_path, 1)
+    assert only_e.status == "ok" and only_e.extra["tasks_per_pool"].get("P", 0) == 0
+
+
+def test_random_occupancy_policy_kwargs():
+    p = build_policy(Condition("c", "RandomOccupancy", None, {}, {"seed": 3, "allowed_pools": ["E"], "min_idle_s": 0.5,
+                                                                    "concurrency": [1, 2]}), 99)
+    d = p.describe()
+    assert (d["seed"], d["allowed_pools"], d["min_idle_s"], d["concurrency"]) == (3, ["E"], 0.5, (1, 2))
+    assert build_policy(Condition("c", "RandomOccupancy"), 99).seed == 99          # default: the run seed
+
+
+def test_max_p_slots_limits_the_p_pool(root):
+    full = MontageAdapter(root)._config()
+    if len(full.p_core_slots) < 3:
+        pytest.skip("host has fewer than 3 physical P cores")
+    assert len(MontageAdapter(root, max_p_slots=2)._config().p_core_slots) == 2
+    assert MontageAdapter(root, max_p_slots=2)._config().e_core_slots == full.e_core_slots
+
+
+def test_reference_by_instance_overrides_the_default(tmp_path):
+    a, b = tmp_path / "a.json", tmp_path / "b.json"
+    a.write_text('{"out.txt": "aa"}')
+    b.write_text('{"out.txt": "bb"}')
+    cond = Condition("c", "B4", None, {}, {"reference_hashes": str(a), "reference_by_instance": {"i2": {"reference_hashes": str(b)}}},
+                     instance="i2")
+    assert MontageAdapter()._reference(cond) == {"out.txt": "bb"}
+    assert MontageAdapter()._reference(dataclasses.replace(cond, instance="i1")) == {"out.txt": "aa"}

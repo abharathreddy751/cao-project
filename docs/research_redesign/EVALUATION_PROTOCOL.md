@@ -95,3 +95,44 @@ End-to-end makespan; task execution time; queue wait; setup/staging; data transf
 - SHA-256 manifests for evidence directories.
 - Every table and figure states its label: real, replay, emulation, simulation or plan.
 - Results from the earlier machine are history and are not combined with new results.
+
+## 12. Pre-registration for the Stage 4 main run (written 2026-10-12, BEFORE the first main block)
+
+Status: **[plan] frozen before the main sessions start.** The design files are the pre-registration; their SHA-256 is stored by the runner and in every run manifest. Anything changed after the first main block creates a new session with a new design hash and its own report. Written by the assistant under the owner's delegation; numbers come from the files cited.
+
+### 12.1 Evidence used to set the design (pilot-type data, not part of the main analysis)
+
+* Stage 2 matrix (`data/results/stage2_20261012/sessions/20261012T101305`, 14 policies x 3 blocks, analysis `stage2_20261012/analysis_stage2/effects.csv`, reference B0 P-only): paired sd of log makespan (sd_log) among the predictive/plan contrasts is between 0.0005 (EFT_E1_rank) and 0.0109 (EFT_E3); the largest of the confirmatory contrasts is 0.0109 (EFT_E3). Predictive and plan policies were 0.9% to 1.7% **slower** than B0 P-only (EFT_E1 +1.69%, CI +1.55% to +1.92%); B4 greedy was +51.5% (CI +51.1% to +51.8%) slower than B0 P-only.
+* Stage 3 scheduling pilot (`stage3_20261012/pilot_sessions`, 6 predictors x 3 blocks, EFT with E1, E3, E1+rc, Ridge, CatBoost, MLP): all 18 runs verified, mean makespans 271.4 to 272.7 s, i.e. within 0.5% of each other. Model selection by the frozen rule (`stage3_20261012/selection/selection_record.json`, margin ln 1.02): **EFT_E1 is selected** (cheapest model not worse than any more complex one).
+* Pool profile: mProject 111.8 s on a P-core, 401.1 s on an E-core. With 9 mProject tasks the possible gain of any placement is bounded: all-P gives about two waves of 112 s (observed 270 s total), the best mix with scarce P-cores is bounded by one E-core task (401 s).
+
+### 12.2 Strongest applicable baseline (chosen before the main run)
+
+* Regime with all pools (6 P + 7 E workers): **B0 P-only** (270.9 s, fastest non-predictive policy in the Stage 2 matrix). B4 greedy is the patent-mapped comparison baseline and is also reported.
+* Regime with scarce fast cores (2 P + 7 E workers): **B4 greedy** is expected to be the strongest simple policy (P-only needs five waves of 112 s = about 560 s, greedy puts tasks on E-cores and is bounded by 401 s); this is a prediction made here from the profile, to be checked by the run, not an assumed result.
+
+### 12.3 Sessions (design files in `data/results/stage4_20261012/designs/`)
+
+| Session | Design file (sha256) | Pools | Instances | Blocks | Conditions | Reference |
+|---|---|---|---|---|---|---|
+| `stage4_main` | `design_main.json` (`e5302e6b3ac31b4f0a1b150f16196c746d81cc2763b36dc0c524cfbc6ce06ae0`) | 6 P + 7 E | d1.1 primary, d1.1 c10.7 (2 blocks each, seeded order) | 4 | B0 P-only, B4 greedy, HEFT, PEFT, EFT E1, EFT E3, EFT E1+rc, EFT Ridge, EFT CatBoost, EFT MLP, rank-priority EFT (E1) | B0 P-only |
+| `stage4_regimeR_P2E7` | `design_regimeR.json` (`9f619cc8dfa393302430e29cb6f988807551a4897d413602d7517abd93bc7f0f`) | 2 P + 7 E | d1.1 primary | 3 | B0 P-only, B4 greedy, EFT E1, HEFT, EFT CatBoost | B4 greedy |
+
+The proposed instrument is the rank-priority, predicted, queue-aware EFT with the predictor selected in Stage 3 (E1). E-only, round-robin and random are required non-predictive baselines; they are reported from the Stage 2 matrix (same machine, same instance, 3 blocks) and are **not** re-run in the main session, because they cost 27 minutes per block and cannot be the strongest baseline. They are never pooled with the main session (different design hash).
+
+### 12.4 Repeat count
+
+Rule (Section 9, `analysis/stats.py`): blocks n = ceil((1.96 + 0.84) * sd_log / ln(1 + m))^2 for a target minimum detectable effect m. With the largest observed sd_log = 0.0109 and m = 2% (the selection margin; below 2% differences cannot be separated from block noise in the pilot data) the rule gives n = 3; the design uses **4 blocks** (2 per instance, so both instances are balanced) for the main session and 3 for the regime session (budget-limited; the achieved half-width and MDE are reported, the regime session is exploratory about sensitivity, not confirmatory). If the achieved MDE exceeds 2% the report says "not resolved by this design". Blocks are fixed in advance; no interim looks.
+
+### 12.5 Primary and secondary analysis
+
+* Confirmatory family (Holm-adjusted): makespan contrasts of the instrument (rank-priority EFT, E1) and of each EFT predictor against the reference B0 P-only, paired within block, percentile bootstrap stratified by instance (`analysis/stats_paired.py`).
+* Exploratory: every other contrast, per-task times, queue wait, decision overhead per decision and in total, transfer (none: shared directory), utilisation where logged, and the regime session. Correctness: every included run's final outputs must be byte-identical to the instance's sequential reference.
+* Exclusions (`stats_paired.exclusion_reason`): session not complete, run status not ok, log missing/hash mismatch, output unverified or failed, no makespan. Excluded runs stay in the raw data; the sensitivity analysis includes them.
+* Outcome wording: "supported", "not supported" or "not resolved by this design". No claim for an interval that includes zero.
+
+### 12.6 Controls and limits stated in advance
+
+* Machine not idle by nature (WSL VM, browser, editor); memory preflight 2.5 GB before every block; environment manifest per session.
+* Code state: sessions run from the committed code of the Stage 3 commit plus the files listed in the Stage 4 commit; a dirty flag is recorded in each manifest.
+* The workload has one dominant task type (nine equal mProject tasks) and a pool speed ratio of 3.6: a trivial rule (use only P-cores) is optimal when at least three P workers exist, so a **null result against the strongest baseline is expected by construction** and is a reportable finding, not a failure.

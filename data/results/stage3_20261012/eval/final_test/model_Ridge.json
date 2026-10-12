@@ -1,0 +1,246 @@
+{
+ "schema_version": 1,
+ "estimator": "E4_interference_ridge",
+ "features": [
+  "intercept",
+  "busy_P",
+  "busy_E",
+  "corun_compression",
+  "corun_image_filter",
+  "corun_matmul",
+  "target_busy_frac"
+ ],
+ "base_profile": "data/results/stage2_20261012/profile_montage/20261012T092355_profile.json",
+ "weights": {
+  "mAdd|E": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mAdd|P": [
+   -0.10931909741704124,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   -0.03952183717072153
+  ],
+  "mBackground|E": [
+   0.244297416947078,
+   -0.022968650186225868,
+   0.037927674230503736,
+   0.0,
+   0.0,
+   0.0,
+   0.014433280733979826
+  ],
+  "mBackground|P": [
+   0.555560736639837,
+   -0.018290364348312334,
+   0.017166795295428906,
+   0.0,
+   0.0,
+   0.0,
+   -0.24405187471197107
+  ],
+  "mBgModel|E": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mBgModel|P": [
+   -0.2620928397999673,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.2734095388860024
+  ],
+  "mConcatFit|E": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mConcatFit|P": [
+   -0.12713774966766145,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.030766914493342953
+  ],
+  "mDiffFit|E": [
+   -0.23892430536611564,
+   -0.09444853114937704,
+   -0.22381705974107197,
+   0.0,
+   0.0,
+   0.0,
+   -0.26585135488143713
+  ],
+  "mDiffFit|P": [
+   -0.9381377851231285,
+   0.14764302822720599,
+   0.04945659131007783,
+   0.0,
+   0.0,
+   0.0,
+   -0.24938276632734885
+  ],
+  "mImgtbl|E": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mImgtbl|P": [
+   0.03229320269043399,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   -0.0763425485759032
+  ],
+  "mProject|E": [
+   -0.006517189001496182,
+   0.0005170498958174568,
+   0.002784000572304408,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mProject|P": [
+   0.2252543371315963,
+   0.004102154940534541,
+   0.006657305354439366,
+   0.0,
+   0.0,
+   0.0,
+   -0.1923543856772798
+  ],
+  "mViewer|E": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mViewer|P": [
+   -0.22274112551302722,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.16665989098111555
+  ]
+ },
+ "meta": {
+  "ridge_lambda": 1.0,
+  "min_rows": 30,
+  "groups": {
+   "mAdd|E": {
+    "n": 11,
+    "fallback_to_E1": true
+   },
+   "mAdd|P": {
+    "n": 43,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.1553277980489601
+   },
+   "mBackground|E": {
+    "n": 83,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.09659514142492641
+   },
+   "mBackground|P": {
+    "n": 343,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.1489743439684525
+   },
+   "mBgModel|E": {
+    "n": 7,
+    "fallback_to_E1": true
+   },
+   "mBgModel|P": {
+    "n": 47,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.24910146474231337
+   },
+   "mConcatFit|E": {
+    "n": 20,
+    "fallback_to_E1": true
+   },
+   "mConcatFit|P": {
+    "n": 34,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.23095986528822682
+   },
+   "mDiffFit|E": {
+    "n": 291,
+    "fallback_to_E1": false,
+    "train_rmse_log": 1.0833636040138763
+   },
+   "mDiffFit|P": {
+    "n": 1293,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.8732956557196202
+   },
+   "mImgtbl|E": {
+    "n": 9,
+    "fallback_to_E1": true
+   },
+   "mImgtbl|P": {
+    "n": 45,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.12791209124287958
+   },
+   "mProject|E": {
+    "n": 80,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.01108425756795344
+   },
+   "mProject|P": {
+    "n": 346,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.05340636064469265
+   },
+   "mViewer|E": {
+    "n": 12,
+    "fallback_to_E1": true
+   },
+   "mViewer|P": {
+    "n": 42,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.10366713107605129
+   }
+  },
+  "impute": {
+   "target_busy_frac": 0.2814137993347312
+  },
+  "n_rows_busy_frac_unknown": 0,
+  "fitted_on_fold": "instance:d1.5_dss2b_c56.7_24.0"
+ }
+}
