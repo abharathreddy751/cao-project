@@ -51,6 +51,31 @@ class PoolOnlyScheduler(SchedulerPolicy):
         return {**super().describe(), "pool": self.pool}
 
 
+class PoolOnlyEarlyScheduler(SchedulerPolicy):
+    """B0 with EARLY binding: every task goes to the least-loaded worker of one pool (ties: worker order), at the moment it
+    becomes ready, and waits in that worker's local queue. Identical placement set to ``PoolOnlyScheduler`` (late binding:
+    first idle worker); the only difference is WHEN the worker is chosen. Controlled contrast for the early-versus-late
+    binding explanation of the EFT/HEFT/PEFT makespan gap against B0 P-only (docs/research_redesign/FINAL_REPORT.md)."""
+
+    binds_only_idle = False
+
+    def __init__(self, pool: str):
+        self.pool = pool
+        self.name = f"B0_{pool}_early"
+
+    def on_run_start(self, dag, state) -> None:
+        if not state.worker_ids(self.pool):
+            raise ValueError(f"{self.name}: no workers in pool {self.pool!r}")
+        _require_placeable(self.name, dag, state, lambda t: {self.pool})
+
+    def select_worker(self, task: Task, state) -> str | None:
+        ids = [w for w in eligible_workers(task, state) if state.pool_of(w) == self.pool]
+        return min(ids, key=lambda w: (state.workers[w].load, ids.index(w))) if ids else None
+
+    def describe(self) -> dict:
+        return {**super().describe(), "pool": self.pool}
+
+
 class RoundRobinScheduler(SchedulerPolicy):
     """B1: classic round robin. Ready tasks (FIFO) are bound to workers in a
     fixed cyclic order (P workers then E workers), regardless of whether the

@@ -12,7 +12,8 @@ from pathlib import Path
 from caosched.experiment.gpu_adapter import gpu_stage_table_from_spike
 
 
-def main(out_dir: str, spike_dir: str, profile: str, n_blocks: int = 12) -> None:
+def main(out_dir: str, spike_dir: str, profile: str, n_blocks: int = 12, name: str = "stage4_gpu_workload",
+         seed: int = 20261040, reference: str = "B0_P_only", fname: str = "design_gpu.json") -> None:
     table = gpu_stage_table_from_spike(Path(spike_dir) / "gpu_spike.json", 1024)
     base = {"tile": 1024, "n_images": 16, "seed": 0, "denoise_iterations": 1, "profile": str(Path(profile).resolve())}
 
@@ -27,12 +28,12 @@ def main(out_dir: str, spike_dir: str, profile: str, n_blocks: int = 12) -> None
     conds = [cond("B0_P_only", "B0_P_only", False), cond("B4_cpu", "B4_greedy_eligible", False),
              cond("B4_gpu", "B4_greedy_eligible", True, **b4g), cond("random_gpu", "random", True),
              cond("EFT_E1_cpu", "EFT_E1", False), cond("EFT_E1_gpu", "EFT_E1", True), cond("HEFT_E1_gpu", "HEFT_E1", True)]
-    design = {"name": "stage4_gpu_workload", "evidence_label": "real", "seed": 20261040, "n_blocks": n_blocks,
-              "instances": [None], "warmup_blocks": 0, "min_free_ram_gb": 2.5, "reference": "B0_P_only",
+    design = {"name": name, "evidence_label": "real", "seed": seed, "n_blocks": n_blocks,
+              "instances": [None], "warmup_blocks": 0, "min_free_ram_gb": 2.5, "reference": reference,
               "run_timeout_s": 900, "gpu_stage_table": table, "conditions": conds}
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
-    with (out / "design_gpu.json").open("x") as f:
+    with (out / fname).open("x") as f:
         json.dump(design, f, indent=1)
     with (out / "adapter_config_gpu.json").open("x") as f:
         json.dump({"timeout_s": 300, "run_timeout_s": 900}, f)

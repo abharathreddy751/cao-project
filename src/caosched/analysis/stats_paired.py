@@ -299,58 +299,211 @@ def write_tables(result: dict, outdir) -> list[Path]:
     return written + [pj]
 
 
+# ---- figures (presentation only: no statistic is computed here, every number is read from the tables) ----
+
+_FAMILIES = (  # (name test, family, Okabe-Ito colour, marker): colour-blind-safe; marker shape differs for greyscale prints
+    (lambda n: n.startswith("B"), "baseline (B*)", "#E69F00", "s"),
+    (lambda n: n.startswith("random"), "random", "#CC79A7", "X"),
+    (lambda n: n.startswith(("HEFT", "PEFT")), "published list scheduler", "#009E73", "^"),
+    (lambda n: n.startswith("EFT"), "EFT + estimator", "#0072B2", "o"),
+)
+
+
+def _family(name: str):
+    return next(((f, c, m) for t, f, c, m in _FAMILIES if t(name)), ("other", "#56B4E9", "D"))
+
+
+def _is_num(v) -> bool:
+    return isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v)
+
+
+def _log_ticks(ax, axis: str, lo: float, hi: float) -> None:
+    """Truly logarithmic axis with plain-number tick labels: the coarsest 1-2-5-style tick set with >= 4 ticks in range."""
+    from matplotlib.ticker import FixedLocator, FuncFormatter, NullLocator
+    ticks: list[float] = []
+    for mult in ((1,), (1, 3), (1, 2, 5), (1, 1.5, 2, 3, 5, 7), (1, 1.2, 1.5, 2, 2.5, 3, 3.5, 4, 5, 6, 7, 8, 9)):
+        ticks = [m * 10.0 ** k for k in range(math.floor(math.log10(lo)) - 1, math.ceil(math.log10(hi)) + 1) for m in mult
+                 if lo <= m * 10.0 ** k <= hi]
+        if len(ticks) >= 4:
+            break
+    a = getattr(ax, f"{axis}axis")
+    a.set_major_locator(FixedLocator(ticks))
+    a.set_minor_locator(NullLocator())
+    a.set_major_formatter(FuncFormatter(lambda v, _: f"{v:g}"))
+    getattr(ax, f"set_{axis}lim")(lo, hi)
+
+
+def _pad_log(vals, pad=1.15):
+    return min(vals) / pad, max(vals) * pad
+
+
+def _legend(ax, names, fontsize=8, **kw):
+    from matplotlib.lines import Line2D
+    seen = {}
+    for n in names:
+        f, c, m = _family(n)
+        seen.setdefault(f, Line2D([], [], color=c, marker=m, ls="", markersize=6, label=f))
+    ax.legend(handles=list(seen.values()), fontsize=fontsize, frameon=False, **kw)
+
+
+def load_result(analysis_dir) -> dict:
+    """Rebuild the ``result`` dict ``make_figures`` needs from a written analysis directory (analysis.json + CSV tables).
+    Numbers and booleans are parsed back from text; 'not measured' stays text and empty cells are dropped."""
+    d = Path(analysis_dir)
+
+    def conv(v):
+        if v in ("True", "False"):
+            return v == "True"
+        try:
+            return float(v)
+        except ValueError:
+            return v
+
+    tables = {}
+    for name in ("summary", "effects"):
+        with (d / f"{name}.csv").open(newline="", encoding="utf-8") as fh:
+            tables[name] = [{k: conv(v) for k, v in row.items() if v != ""} for row in csv.DictReader(fh)]
+    return {"meta": json.loads((d / "analysis.json").read_text(encoding="utf-8")), "tables": tables}
+
+
 def make_figures(result: dict, outdir) -> list[Path]:
-    """Three figures, each tagged with the evidence label. Needs matplotlib."""
+    """Three figures (same file names as before), each with the evidence label in the title. Needs matplotlib.
+
+    Rules: no bar chart on a non-zero baseline (bars start at 0, otherwise a dot/interval plot); log axes are real log
+    axes with plain tick labels; every axis has a unit; an outlier policy gets a second, zoomed panel instead of
+    squashing the rest; components of very different size get their own axes."""
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    outdir, tag = Path(outdir), f"evidence: {result['meta']['evidence_label']}"
+    outdir = Path(outdir)
+    outdir.mkdir(parents=True, exist_ok=True)
+    meta = result["meta"]
+    ev = f"evidence: {meta['evidence_label']}"
+    ref = meta["reference"]
     summ = [r for r in result["tables"]["summary"] if r.get("scope") == "pooled_log_scale" and "geo_mean_s" in r]
     out = []
 
-    def save(fig, name, title):
-        fig.suptitle(title, fontsize=10)
-        fig.text(0.01, 0.01, tag, fontsize=8, style="italic")
+    def save(fig, name, title, note=""):
+        fig.suptitle(f"{title}\n[{ev}]", fontsize=10)
+        if note:
+            fig.text(0.01, 0.005, note, fontsize=7.5, style="italic", va="bottom")
         p = outdir / name
-        fig.savefig(p, dpi=150, bbox_inches="tight")
+        fig.savefig(p, dpi=150)
         plt.close(fig)
         out.append(p)
 
+    def new_fig(ncols, w, h, ratios=None, **kw):
+        fig, axs = plt.subplots(1, ncols, figsize=(w, h), squeeze=False, layout="constrained",
+                                gridspec_kw={"width_ratios": ratios} if ratios else None, **kw)
+        fig.get_layout_engine().set(rect=(0, 0.05, 1, 0.95))  # bottom strip stays free for the footnote
+        return fig, axs[0]
+
     names = [r["condition"] for r in summ]
-    fig, ax = plt.subplots(figsize=(6, 3.5))
-    ax.errorbar(names, [r["geo_mean_s"] for r in summ], yerr=[[r["geo_mean_s"] - r["ci_lo_s"] for r in summ],
-                [r["ci_hi_s"] - r["geo_mean_s"] for r in summ]], fmt="o", capsize=4)
-    ax.set_ylabel("makespan (s), geometric mean and 95% CI\n(log scale, bootstrap stratified by instance)")
-    plt.setp(ax.get_xticklabels(), rotation=30, ha="right")
-    save(fig, "fig_makespan_by_policy.png", "Makespan by policy (pooled over instances, log scale)")
+    n_inst = len({r.get("instance", "") for r in result["tables"]["summary"] if r.get("scope") == "per_instance"})
+    n_runs = sorted({int(r["n"]) for r in summ if _is_num(r.get("n"))})
+    n_txt = f"n = {'/'.join(map(str, n_runs))} runs per policy over {n_inst} instance(s)"
 
-    fig, ax = plt.subplots(figsize=(6, 3.5))
-    bottom = np.zeros(len(summ))
-    drawn = False
-    for k, lab in (("sched_overhead_total_s_mean", "scheduling/inference"), ("queue_wait_total_s_mean", "queue wait"),
-                   ("transfer_total_s_mean", "transfer")):
-        ok = [i for i, r in enumerate(summ) if isinstance(r.get(k), (int, float))]  # only measured components
-        if ok:
-            v = np.array([summ[i][k] for i in ok])
-            ax.bar([names[i] for i in ok], v, bottom=bottom[ok], label=lab)
-            bottom[ok] += v
-            drawn = True
-    if drawn:
-        ax.legend(fontsize=8)
-    else:
-        ax.text(0.5, 0.5, "no overhead component was measured", ha="center", va="center", transform=ax.transAxes)
-    ax.set_ylabel("task-seconds per run (sum over tasks, not wall time)")
-    plt.setp(ax.get_xticklabels(), rotation=30, ha="right")
-    save(fig, "fig_overhead_breakdown.png", "Overhead breakdown (measured components only; omitted = not measured)")
+    # 1. makespan: dot + 95% CI; log y for all policies and, when some policies are near the fastest, a linear zoom.
+    gm = [r["geo_mean_s"] for r in summ]
+    lo_all, hi_all = _pad_log(gm + [r["ci_lo_s"] for r in summ] + [r["ci_hi_s"] for r in summ])
+    near = [i for i, g in enumerate(gm) if g <= 1.1 * min(gm)]
+    zoom = 2 <= len(near) < len(gm)
+    fig, axs = new_fig(2 if zoom else 1, 11.5 if zoom else 6.5, 4.8, [1.5, 1] if zoom else None)
+    for ax, idx, logy in [(axs[0], list(range(len(summ))), True)] + ([(axs[1], near, False)] if zoom else []):
+        for x, i in enumerate(idx):
+            r = summ[i]
+            _, c, m = _family(names[i])
+            ax.errorbar(x, r["geo_mean_s"], yerr=[[r["geo_mean_s"] - r["ci_lo_s"]], [r["ci_hi_s"] - r["geo_mean_s"]]],
+                        fmt=m, color=c, capsize=4, ms=6)
+            ax.annotate(f"{r['geo_mean_s']:.1f}", (x, r["ci_hi_s"]), textcoords="offset points", xytext=(0, 6),
+                        ha="center", fontsize=7)
+        ax.set_xticks(range(len(idx)), [names[i] for i in idx], rotation=40, ha="right", fontsize=8)
+        ax.set_xlim(-0.6, len(idx) - 0.4)
+        ax.grid(axis="y", alpha=0.3)
+        if logy:
+            ax.set_yscale("log")
+            _log_ticks(ax, "y", lo_all, hi_all)
+            ax.set_ylabel("makespan (s), log scale")
+            ax.set_title("all policies (log axis)", fontsize=9)
+        else:
+            vs = [summ[i]["ci_lo_s"] for i in idx] + [summ[i]["ci_hi_s"] for i in idx]
+            mid, span = (max(vs) + min(vs)) / 2, max(max(vs) - min(vs), 0.02 * min(vs))  # >= 2% window: no magnified noise
+            ax.set_ylim(mid - 0.65 * span, mid + 0.8 * span)
+            ax.set_ylabel("makespan (s), linear, axis does not start at 0")
+            ax.set_title("zoom: policies within 10% of the fastest", fontsize=9)
+    _legend(axs[0], names, loc="upper right")
+    save(fig, "fig_makespan_by_policy.png", "Makespan by policy: geometric mean with 95% CI (dot/interval plot)",
+         f"{n_txt}; CI = bootstrap stratified by instance on the log scale; value above each dot = geometric mean (s).")
 
+    # 2. overhead: rows = policies, one axis per component (a 0.001 s component cannot share an axis with 450 s).
+    def col(k, scale=1.0):
+        return [r[k] * scale if _is_num(r.get(k)) else None for r in summ]
+    qw, tr = col("queue_wait_total_s_mean"), col("transfer_total_s_mean")
+    so, pdec = col("sched_overhead_total_s_mean"), col("sched_overhead_per_decision_s_mean", 1e3)
+    panels = [("queue wait + transfer, task-seconds per run (linear, from 0)", None),
+              ("scheduling + inference, s per run (log scale)", so),
+              ("scheduling + inference, ms per decision (log scale)", pdec)]
+    fig, axs = new_fig(3, 13, 0.38 * len(names) + 2.6, [1.2, 1, 1], sharey=True)
+    ys = np.arange(len(names))[::-1]  # first policy on top
+    for ax, (lab, vals) in zip(axs, panels):
+        ax.grid(axis="x", alpha=0.3)
+        if vals is None:
+            tot = np.zeros(len(names))
+            for v, lbl, hatch in ((qw, "queue wait", None), (tr, "transfer", "//")):
+                ok = [i for i, x in enumerate(v) if x is not None]
+                if ok:
+                    ax.barh(ys[ok], [v[i] for i in ok], left=tot[ok], color="#56B4E9", hatch=hatch, edgecolor="k", lw=0.3, label=lbl)
+                    tot[ok] += [v[i] for i in ok]
+            for y, t in zip(ys, tot):
+                ax.annotate(f"{t:.4g}", (t, y), textcoords="offset points", xytext=(3, 0), va="center", fontsize=7)
+            ax.set_xlim(0, max(tot.max() if len(tot) else 1, 1) * 1.15)
+            if any(x is not None for x in qw + tr):
+                ax.legend(fontsize=7, frameon=False, loc="lower right")
+        else:
+            ok = [i for i, x in enumerate(vals) if x is not None and x > 0]
+            ax.set_xscale("log")
+            for i in ok:
+                _, c, m = _family(names[i])
+                ax.plot([vals[i]], [ys[i]], m, color=c, ms=6)
+                ax.annotate(f"{vals[i]:.3g}", (vals[i], ys[i]), textcoords="offset points", xytext=(6, 0), va="center", fontsize=7)
+            if ok:
+                lo, hi = _pad_log([vals[i] for i in ok], 1.3)
+                _log_ticks(ax, "x", lo, hi * 2.5)  # room for the value labels
+        ax.set_xlabel(lab, fontsize=8)
+        ax.set_yticks(ys, names, fontsize=8)
+    _legend(axs[2], names, loc="lower right", fontsize=7)
+    missing = [k for k, v in (("transfer", tr), ("queue wait", qw), ("scheduling time", so)) if all(x is None for x in v)]
+    save(fig, "fig_overhead_breakdown.png", "Overhead components, mean per run (sums over tasks, not wall time)",
+         "Scheduling time includes estimator inference (not separable in the log). Not measured: " + (", ".join(missing) or "none") + ".")
+
+    # 3. effect vs reference: dot + 95% CI always drawn, numbers written out; zoom panel when outliers dominate the range.
     eff = [e for e in result["tables"]["effects"] if e["variant"] == "primary" and e["metric"] == "makespan_s" and "effect_pct" in e]
-    fig, ax = plt.subplots(figsize=(6, 0.6 * len(eff) + 1.5))
-    ax.errorbar([e["effect_pct"] for e in eff], range(len(eff)),
-                xerr=[[e["effect_pct"] - e["ci_lo_pct"] for e in eff], [e["ci_hi_pct"] - e["effect_pct"] for e in eff]],
-                fmt="o", capsize=4)
-    ax.axvline(0, color="k", lw=0.8)
-    ax.set_yticks(range(len(eff)), [e["cond"] for e in eff])
-    ax.set_xlabel(f"makespan change vs {result['meta']['reference']} (%), paired, 95% CI")
-    save(fig, "fig_effect_vs_baseline.png", "Effect relative to the reference baseline")
+    eff.sort(key=lambda e: e["effect_pct"])
+    inner = [e for e in eff if abs(e["effect_pct"]) <= 10]
+    zoom = 2 <= len(inner) < len(eff)
+    nb = sorted({int(e["n_blocks"]) for e in eff})
+    fig, axs = new_fig(2 if zoom else 1, 12 if zoom else 7.5, 0.42 * len(eff) + 2.4, [1.15, 1] if zoom else None)
+    for ax, rows in [(axs[0], eff)] + ([(axs[1], inner)] if zoom else []):
+        for y, e in enumerate(rows):
+            _, c, m = _family(e["cond"])
+            ax.errorbar(e["effect_pct"], y, xerr=[[e["effect_pct"] - e["ci_lo_pct"]], [e["ci_hi_pct"] - e["effect_pct"]]],
+                        fmt=m, color=c, mfc=c if e.get("ci_excludes_zero") else "white", capsize=4, ms=7, lw=1.8)
+            ax.annotate(f"{e['effect_pct']:+.2f}% [{e['ci_lo_pct']:+.2f}, {e['ci_hi_pct']:+.2f}]", (e["ci_hi_pct"], y),
+                        textcoords="offset points", xytext=(6, 0), va="center", fontsize=7)
+        ax.axvline(0, color="k", lw=0.8)
+        ax.set_yticks(range(len(rows)), [e["cond"] for e in rows], fontsize=8)
+        ax.set_ylim(-0.6, len(rows) - 0.4)
+        ax.grid(axis="x", alpha=0.3)
+        lo, hi = min(e["ci_lo_pct"] for e in rows), max(e["ci_hi_pct"] for e in rows)
+        span = (hi - lo) or 1.0
+        ax.set_xlim(min(lo, 0) - 0.08 * span, max(hi, 0) + 0.5 * span)  # right margin for the numbers
+        ax.set_xlabel(f"makespan change vs {ref} (%), paired, 95% CI", fontsize=8)
+    if zoom:
+        axs[0].set_title("all policies", fontsize=9)
+        axs[1].set_title("zoom: |effect| <= 10%", fontsize=9)
+    _legend(axs[0], [e["cond"] for e in eff], loc="lower right")
+    save(fig, "fig_effect_vs_baseline.png", f"Makespan effect relative to the reference baseline {ref}",
+         f"n = {'/'.join(map(str, nb))} paired blocks; positive = slower than {ref}; filled marker = 95% CI excludes 0 (unadjusted), hollow = includes 0. "
+         "Holm-adjusted p-values are in effects.csv.")
     return out

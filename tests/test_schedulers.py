@@ -193,3 +193,23 @@ def test_registry_builds_every_policy_fresh(tmp_path):
     for name, make in f.items():
         a, b = make(), make()
         assert a is not b and a.name == name
+
+
+
+def test_pool_only_early_binds_to_the_least_loaded_worker_of_its_pool():
+    from caosched.core.dag import build_independent_dag
+    from caosched.core.runtime_state import RuntimeState
+    from caosched.schedulers.simple import PoolOnlyEarlyScheduler
+    dag = build_independent_dag(3)
+    state = RuntimeState(dag, {"P0": "P", "P1": "P", "E0": "E"})
+    pol = PoolOnlyEarlyScheduler("P")
+    pol.on_run_start(dag, state)
+    assert pol.binds_only_idle is False and pol.name == "B0_P_early"
+    first = pol.select_worker(dag.tasks["t0"], state)
+    state.bind("t0", first)
+    state.mark_submitted(first, "t0", 0.0)
+    second = pol.select_worker(dag.tasks["t1"], state)
+    assert {first, second} == {"P0", "P1"}                       # spreads over the pool, never E0
+    state.bind("t1", second)
+    state.mark_submitted(second, "t1", 0.0)
+    assert pol.select_worker(dag.tasks["t2"], state) in {"P0", "P1"}   # busy workers accept queued tasks (early binding)

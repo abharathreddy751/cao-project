@@ -1,0 +1,32 @@
+fraction 0.1 repeat 0 done
+fraction 0.1 repeat 1 done
+fraction 0.1 repeat 2 done
+fraction 0.1 repeat 3 done
+fraction 0.1 repeat 4 done
+fraction 0.2 repeat 0 done
+fraction 0.2 repeat 1 done
+fraction 0.2 repeat 2 done
+fraction 0.2 repeat 3 done
+fraction 0.2 repeat 4 done
+fraction 0.4 repeat 0 done
+fraction 0.4 repeat 1 done
+fraction 0.4 repeat 2 done
+fraction 0.4 repeat 3 done
+fraction 0.4 repeat 4 done
+fraction 0.6 repeat 0 done
+fraction 0.6 repeat 1 done
+fraction 0.6 repeat 2 done
+fraction 0.6 repeat 3 done
+fraction 0.6 repeat 4 done
+fraction 0.8 repeat 0 done
+fraction 0.8 repeat 1 done
+fraction 0.8 repeat 2 done
+fraction 0.8 repeat 3 done
+fraction 0.8 repeat 4 done
+fraction 1.0 repeat 0 done
+final_test/CatBoost      MAE@80%=2.471s (sd 0.108) MAE@100%=2.318s change=-6.2% -> falling
+final_test/MLP           MAE@80%=3.621s (sd 1.770) MAE@100%=2.976s change=-17.8% -> flat (within subsample spread)
+final_test/Ridge         MAE@80%=1.361s (sd 0.012) MAE@100%=1.358s change=-0.2% -> flat (within subsample spread)
+tuning_loo/CatBoost      MAE@80%=2.586s (sd 0.186) MAE@100%=2.348s change=-9.2% -> falling
+tuning_loo/MLP           MAE@80%=1.852s (sd 0.224) MAE@100%=1.861s change=+0.5% -> flat (within subsample spread)
+tuning_loo/Ridge         MAE@80%=1.334s (sd 0.036) MAE@100%=1.323s change=-0.8% -> flat (within subsample spread)

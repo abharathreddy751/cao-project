@@ -42,7 +42,7 @@ from caosched.dataset.campaign import RandomOccupancyPolicy
 from caosched.experiment.design import Condition, RunRecord
 from caosched.experiment.manifest import sha256_file
 from caosched.schedulers import ALL_POLICIES, eft_factories, plan_factories, policy_factories, rank_eft_factories
-from caosched.schedulers.simple import RandomScheduler
+from caosched.schedulers.simple import PoolOnlyEarlyScheduler, RandomScheduler
 from caosched.workflow.adapter import load_workflow, stage_raw_inputs
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -65,6 +65,8 @@ def build_policy(cond: Condition, seed: int):
     profile = Path(kw["profile"]) if kw.get("profile") else None
     if name == "random":
         return RandomScheduler(kw.get("seed", seed))
+    if name == "B0_P_early":  # controlled early-binding contrast to B0_P_only (late binding)
+        return PoolOnlyEarlyScheduler("P")
     if name == "RandomOccupancy":  # Stage 3 data collection (late binding; logs the chosen worker's decision context)
         return RandomOccupancyPolicy(kw.get("seed", seed), allowed_pools=kw.get("allowed_pools"),
                                      min_idle_s=kw.get("min_idle_s", 0.0), concurrency=kw.get("concurrency"))

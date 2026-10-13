@@ -136,3 +136,27 @@ Rule (Section 9, `analysis/stats.py`): blocks n = ceil((1.96 + 0.84) * sd_log / 
 * Machine not idle by nature (WSL VM, browser, editor); memory preflight 2.5 GB before every block; environment manifest per session.
 * Code state: sessions run from the committed code of the Stage 3 commit plus the files listed in the Stage 4 commit; a dirty flag is recorded in each manifest.
 * The workload has one dominant task type (nine equal mProject tasks) and a pool speed ratio of 3.6: a trivial rule (use only P-cores) is optimal when at least three P workers exist, so a **null result against the strongest baseline is expected by construction** and is a reportable finding, not a failure.
+
+## 13. Pre-registration of the confirmatory sessions (written 2026-10-13, BEFORE their first block)
+
+Why: section 12's main design (4 blocks) cannot reach p < 0.05 under its own Holm-adjusted sign-flip test (minimum attainable p = 2/2^4 = 0.125), and the GPU session of the first round was written 10 seconds before it started, without a pre-registered analysis plan. The first-round sessions (`stage4_20261012`) are therefore treated as the PILOT for the sessions below; their numbers are not pooled with them (different design hashes). Block counts here are the smallest n for which the smallest attainable sign-flip p-value 2/2^n is below the Holm threshold of the family.
+
+| Session | Design (sha256) | Pools | Blocks | Conditions | Reference | Family / threshold |
+|---|---|---|---|---|---|---|
+| `stage5_main_confirm` | `design_main_confirm.json` `9228d7ac5bc4115554b5b9267d248ef24433d38dfe206844a1adf91fe9a94648` | 6 P + 7 E | 9 (instances alternate primary / c10.7) | B0 P-only, **B0 P-early (new)**, B4, HEFT, PEFT, EFT E1, E3, E1+rc, Ridge, CatBoost, MLP, rank-EFT | B0 P-only | 11 contrasts; Holm threshold 0.05/11 = 0.0045; 2/2^9 = 0.0039 |
+| `stage5_regimeR_confirm` | `design_regimeR_confirm.json` `7dac58e327362e752e0cf31679ab205d28ed56ce773544112b8eab34bb905126` | 2 P + 7 E | 8 (primary) | B0 P-only, B4, EFT E1, Ridge, CatBoost, MLP | B4 greedy | 5 contrasts; Holm 0.01; 2/2^8 = 0.0078 |
+| `stage5_gpu_confirm` | `gpu/design_gpu_confirm.json` `273a155df65f69ebcadb14eabfc62c8b6618028dcd06f12af43198978f3d8af7` | P, E + CUDA pool G, tile 1024, 16 branches | 24 | B0 P-only, B4 cpu, B4 gpu, random gpu, EFT E1 cpu, EFT E1 gpu, HEFT gpu | EFT E1 cpu | 6 contrasts; Holm 0.0083; 2/2^24 negligible |
+
+Adapter configs are in the same directories (SHA-256 recorded in the session `session.json`/run manifests). A background-load monitor (`scripts/load_monitor.py`) logs machine CPU, free RAM and the top non-experiment processes every 30 s during all sessions (`stage5_20261013/load/`), so how idle the machine really was is a measured quantity in the report.
+
+### 13.1 Pre-stated predictions (made from the pilot, before the confirmatory data)
+
+* P1 (mechanism): `B0_P_early` is slower than `B0_P_only` by 1% to 2% in the main session (same placement set, early instead of late binding). Supported only if the Holm-adjusted contrast is significant and positive.
+* P2: in the main session EFT/HEFT/PEFT variants are slower than B0 P-only by 1% to 2%; B4 is about 54% slower.
+* P3: in the scarce-P session EFT E1 equals B4 within +-0.5%; B0 P-only is about 41% slower; EFT CatBoost is slower than B4 by about 15%. Ridge and MLP effects are exploratory (no prediction).
+* P4: in the GPU session EFT E1 gpu is faster than EFT E1 cpu by 1% to 3%.
+Outcome wording per prediction: supported (pre-stated direction, Holm-significant, effect inside the stated range or stated as outside it), not supported, or not resolved. No other claim is confirmatory.
+
+### 13.2 Analyses planned for the same data
+
+Analysis tables from `scripts/analyze_experiment.py` per session with the stated reference; Friedman/Wilcoxon cross-check (scipy 1.17.1 installed; reported as a cross-check, not a substitute); utilisation = busy seconds of a worker divided by session-run makespan from `task_completed` intervals; overhead components as in `analysis/stats_paired.py`. Exclusion rules unchanged (section 12.5). Early-binding claims are drawn only from the `B0_P_early` contrast and the worker timelines.
