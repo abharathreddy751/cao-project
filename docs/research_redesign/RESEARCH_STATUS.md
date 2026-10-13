@@ -32,8 +32,8 @@ D1 CUDA flag applies to every task of a stage type; D2 E4 base-profile mismatch 
 
 ## Unverified claims (do not rely on them)
 
-- Verbatim patent claim wording; patent legal status beyond the catalogue entry.
-- HEFT, CPOP and PEFT original assumptions and complexity; TabM and CatBoost venue details beyond arXiv.
+- Patent legal status beyond the catalogue entry (claim wording is now read verbatim, SOURCES_VERBATIM.md section 1; closed 2026-10-13).
+- PEFT equation numbers as printed in the IEEE article (PEFT was read via the author's thesis chapter, thesis numbering; HEFT/CPOP originals and PEFT definitions are closed, SOURCES_VERBATIM.md sections 2-4); TabM and CatBoost venue details beyond arXiv.
 - Song et al. 2023, Wang et al. 2022, DDDQN-TS, Gong 2023, Nieto 2024, Liu 2024/2025 beyond abstracts; the IEEE versions of LACHESIS and Cao 2024; the journal version of SATA-DRL.
 - Montage input data size, source host, build on Windows, generator version requirements, task count the generator really produces.
 - Whether the earlier P/E speed ratios hold on the i5-13500HX; the 13500HX core layout.

@@ -1,0 +1,252 @@
+{
+ "name": "remote_emulation_confirm",
+ "evidence_label": "emulation",
+ "seed": 20261104,
+ "n_blocks": 12,
+ "instances": [
+  null
+ ],
+ "warmup_blocks": 0,
+ "min_free_ram_gb": 2.5,
+ "reference": "EFT_E1_no_remote",
+ "run_timeout_s": 900,
+ "links": {
+  "fast_lan": {
+   "name": "fast_lan",
+   "latency_ms": 0.2,
+   "bandwidth_mbps": 1000.0,
+   "per_message_ms": 0.05,
+   "jitter_ms": 0.0
+  },
+  "slow_wan": {
+   "name": "slow_wan",
+   "latency_ms": 30.0,
+   "bandwidth_mbps": 20.0,
+   "per_message_ms": 0.1,
+   "jitter_ms": 0.0
+  }
+ },
+ "analysis_plan": {
+  "family": "6 makespan contrasts vs EFT_E1_no_remote, Holm-adjusted sign-flip p (analysis/stats_paired.py)",
+  "holm_smallest_threshold": 0.008333333333333333,
+  "min_attainable_p_at_n_blocks": 0.00048828125,
+  "smallest_n_blocks_with_min_p_below_threshold": 8,
+  "blocks_that_may_be_lost_to_exclusion": 4,
+  "pre_stated_directions": [
+   "D1 (mechanism): on slow_wan, B4_remote is slower than B4_no_remote (exploratory contrast, --reference B4_no_remote).",
+   "D2 (mechanism): EFT_E1_remote places fewer tasks on R on slow_wan than on fast_lan (descriptive, tasks_per_pool).",
+   "D3: no direction is predicted for EFT_E1_remote_fast_lan vs EFT_E1_no_remote (one extra worker behind a link).",
+   "Wording per prediction: supported / not supported / not resolved by this design. No other claim is confirmatory."
+  ],
+  "profile_check": {
+   "fast_lan/img_denoise": {
+    "modelled_transfer_s": 0.01640809906826994,
+    "R_kernel_s": 0.01966389999142848,
+    "transfer_over_kernel": 0.8344275080437885
+   },
+   "fast_lan/img_edges": {
+    "modelled_transfer_s": 0.011365873299022396,
+    "R_kernel_s": 0.018390499986708164,
+    "transfer_over_kernel": 0.6180295971962232
+   },
+   "fast_lan/img_features": {
+    "modelled_transfer_s": 0.0038052274842307232,
+    "R_kernel_s": 0.006457100011175498,
+    "transfer_over_kernel": 0.5893090516865003
+   },
+   "slow_wan/img_denoise": {
+    "modelled_transfer_s": 0.6927711390682699,
+    "R_kernel_s": 0.01966389999142848,
+    "transfer_over_kernel": 35.23060732460243
+   },
+   "slow_wan/img_edges": {
+    "modelled_transfer_s": 0.4822080172990224,
+    "R_kernel_s": 0.018390499986708164,
+    "transfer_over_kernel": 26.220495236537392
+   },
+   "slow_wan/img_features": {
+    "modelled_transfer_s": 0.1664757874842307,
+    "R_kernel_s": 0.006457100011175498,
+    "transfer_over_kernel": 25.781819577845475
+   }
+  },
+  "links_note": "emulated labels given to the loopback shim, not measurements of a real network; no jitter"
+ },
+ "conditions": [
+  {
+   "name": "B0_P_only",
+   "policy": "B0_P_only",
+   "estimator": null,
+   "workload": {
+    "kind": "remote_image"
+   },
+   "kwargs": {
+    "tile": 512,
+    "n_images": 16,
+    "seed": 0,
+    "denoise_iterations": 1,
+    "profile": "D:\\cao project\\data\\results\\stage5_20261013\\remote\\remote_profile.json",
+    "remote_stages": [
+     "img_denoise",
+     "img_edges",
+     "img_features"
+    ],
+    "remote": false
+   }
+  },
+  {
+   "name": "B4_no_remote",
+   "policy": "B4_greedy_eligible",
+   "estimator": null,
+   "workload": {
+    "kind": "remote_image"
+   },
+   "kwargs": {
+    "tile": 512,
+    "n_images": 16,
+    "seed": 0,
+    "denoise_iterations": 1,
+    "profile": "D:\\cao project\\data\\results\\stage5_20261013\\remote\\remote_profile.json",
+    "remote_stages": [
+     "img_denoise",
+     "img_edges",
+     "img_features"
+    ],
+    "remote": false
+   }
+  },
+  {
+   "name": "EFT_E1_no_remote",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "remote_image"
+   },
+   "kwargs": {
+    "tile": 512,
+    "n_images": 16,
+    "seed": 0,
+    "denoise_iterations": 1,
+    "profile": "D:\\cao project\\data\\results\\stage5_20261013\\remote\\remote_profile.json",
+    "remote_stages": [
+     "img_denoise",
+     "img_edges",
+     "img_features"
+    ],
+    "remote": false
+   }
+  },
+  {
+   "name": "B4_remote_fast_lan",
+   "policy": "B4_greedy_eligible",
+   "estimator": null,
+   "workload": {
+    "kind": "remote_image"
+   },
+   "kwargs": {
+    "tile": 512,
+    "n_images": 16,
+    "seed": 0,
+    "denoise_iterations": 1,
+    "profile": "D:\\cao project\\data\\results\\stage5_20261013\\remote\\remote_profile.json",
+    "remote_stages": [
+     "img_denoise",
+     "img_edges",
+     "img_features"
+    ],
+    "remote": true,
+    "link": {
+     "name": "fast_lan",
+     "latency_ms": 0.2,
+     "bandwidth_mbps": 1000.0,
+     "per_message_ms": 0.05,
+     "jitter_ms": 0.0
+    }
+   }
+  },
+  {
+   "name": "EFT_E1_remote_fast_lan",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "remote_image"
+   },
+   "kwargs": {
+    "tile": 512,
+    "n_images": 16,
+    "seed": 0,
+    "denoise_iterations": 1,
+    "profile": "D:\\cao project\\data\\results\\stage5_20261013\\remote\\remote_profile.json",
+    "remote_stages": [
+     "img_denoise",
+     "img_edges",
+     "img_features"
+    ],
+    "remote": true,
+    "link": {
+     "name": "fast_lan",
+     "latency_ms": 0.2,
+     "bandwidth_mbps": 1000.0,
+     "per_message_ms": 0.05,
+     "jitter_ms": 0.0
+    }
+   }
+  },
+  {
+   "name": "B4_remote_slow_wan",
+   "policy": "B4_greedy_eligible",
+   "estimator": null,
+   "workload": {
+    "kind": "remote_image"
+   },
+   "kwargs": {
+    "tile": 512,
+    "n_images": 16,
+    "seed": 0,
+    "denoise_iterations": 1,
+    "profile": "D:\\cao project\\data\\results\\stage5_20261013\\remote\\remote_profile.json",
+    "remote_stages": [
+     "img_denoise",
+     "img_edges",
+     "img_features"
+    ],
+    "remote": true,
+    "link": {
+     "name": "slow_wan",
+     "latency_ms": 30.0,
+     "bandwidth_mbps": 20.0,
+     "per_message_ms": 0.1,
+     "jitter_ms": 0.0
+    }
+   }
+  },
+  {
+   "name": "EFT_E1_remote_slow_wan",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "remote_image"
+   },
+   "kwargs": {
+    "tile": 512,
+    "n_images": 16,
+    "seed": 0,
+    "denoise_iterations": 1,
+    "profile": "D:\\cao project\\data\\results\\stage5_20261013\\remote\\remote_profile.json",
+    "remote_stages": [
+     "img_denoise",
+     "img_edges",
+     "img_features"
+    ],
+    "remote": true,
+    "link": {
+     "name": "slow_wan",
+     "latency_ms": 30.0,
+     "bandwidth_mbps": 20.0,
+     "per_message_ms": 0.1,
+     "jitter_ms": 0.0
+    }
+   }
+  }
+ ]
+}

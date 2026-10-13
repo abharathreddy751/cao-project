@@ -2,6 +2,8 @@
 
 Scope: web research only, for the open items in [PROJECT_SPEC.md](PROJECT_SPEC.md) section 6-7 and [WORKLOAD_AND_DATA_PROVENANCE.md](WORKLOAD_AND_DATA_PROVENANCE.md) section 9. Nothing in the repository was changed except this file.
 
+**Update 2026-10-13 (second closure pass).** Verbatim extracts, equation numbers, the code check and the attempt log are in [SOURCES_VERBATIM.md](SOURCES_VERBATIM.md). Items closed in that pass: the patent claims (verbatim, my own keyword check), the HEFT/CPOP original (full text), the PEFT definitions (author's thesis chapter), Ilyushkin and Epema (full text), STScI DSS terms and acknowledgement. Section 6 below has been rewritten into "closed" and "still unverified". Where the text of sections 1-3 and 8 says "not reached" for these items, the 2026-10-13 notes next to them and SOURCES_VERBATIM.md take precedence.
+
 ## 0. How to read the inspection levels
 
 I used a fetch tool that returns a summarising model's answer to a prompt, not raw page text. That limits what "read" means here. Levels used below:
@@ -25,7 +27,9 @@ Web-search summaries also contained the search tool's own background statements 
 | image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/11561826 | Downloaded (1.5 MB), but the pages are scanned bitmap images (CCITT) with no text layer. No OCR tool is installed on this machine, so it could not be read. |
 | patents.justia.com/patent/11561826 | HTTP 403. NOT REACHABLE. |
 
-**Verbatim claim text: NOT obtained.** The paraphrase below is from the Google Patents page through the fetch tool. It matches the earlier paraphrase in PROJECT_SPEC section 7 on all points I could compare.
+**CLOSED 2026-10-13: verbatim claims obtained** (all 20, copied from the Google Patents markup read in the built-in browser; RENDERED-DOM level; see [SOURCES_VERBATIM.md](SOURCES_VERBATIM.md) section 1). My own keyword check on that text: machine learning, predict*, estimat*, model, offload*, GPU, CPU, FPGA (and learn*, neural) each occur 0 times in every claim, so also in independent claims 1 and 14. The text of this section below records the earlier (2026-10-11) state and is kept for the record.
+
+**(Earlier state) Verbatim claim text: NOT obtained.** The paraphrase below is from the Google Patents page through the fetch tool. It matches the earlier paraphrase in PROJECT_SPEC section 7 on all points I could compare.
 
 Title on the Google Patents page: "Scheduling processing of machine learning tasks on heterogeneous compute circuits". Inventors listed there: Sumit Nagpal, Abid Karumannil, Vishal Jain, Arun Kumar Patil (from a search summary, SNIPPET). Note that the title names machine-learning tasks as the workload. That is not the same as a claim to ML-based prediction. The description also uses ML platform language (for example Caffe and TensorFlow, seen in the fetched description text). CPC code G06F2209/509 carries the label "Offload". A CPC class is a classification label, not a claim.
 
@@ -43,11 +47,13 @@ Dependent claims (paraphrase): 2 blocking versus non-blocking kernels; 3 several
 
 Keyword check, run by the fetch tool on the claims section only (so it rests on the tool, not on my own reading of the raw text): none of "machine learning", "predict", "estimat", "offload", "model", "GPU", "CPU", "FPGA" appears in the claims. This agrees with PROJECT_SPEC section 7. It is still second-hand.
 
-Status: claim paraphrase REACHED TWICE (consistent); verbatim text UNVERIFIED. What the owner must supply: the claims section copied as text from the Google Patents page, or a text-layer PDF of the patent. No freedom-to-operate opinion is implied.
+Status (earlier): claim paraphrase REACHED TWICE (consistent); verbatim text UNVERIFIED. **Now: verbatim text obtained and consistent with the paraphrase (claims 1 method, 14 system; dependents as paraphrased).** No freedom-to-operate opinion is implied; the check is a text search of the claims, not a claim construction.
 
 ## 2. HEFT/CPOP and PEFT originals
 
 ### 2.1 Reachability of the originals
+
+**Update 2026-10-13:** the HEFT/CPOP original was read in full (Marmara open-access PDF, 15 pages, FULL-DIRECT; the server that failed on 2026-10-11 answered). The PEFT journal PDF is still closed (Porto copy restricted), but chapter 3 of the author's open-access PhD thesis reproduces the paper (FULL-DIRECT; thesis equation numbering). Definitions, equation numbers, the complexity statements and the comparison with `heft.py` and `peft.py` (including both papers' worked examples reproduced exactly by the code) are in [SOURCES_VERBATIM.md](SOURCES_VERBATIM.md) sections 2-4. The table below is the 2026-10-11 state.
 
 | Paper | Result |
 |---|---|
@@ -86,10 +92,14 @@ None of these is the original. Equation numbers below are those of the secondary
 
 ### 2.3 Summary for the baselines
 
+**Update 2026-10-13:** settled by the originals. HEFT (TPDS 2002): rank_u Eq. (8)-(9), EST Eq. (5), EFT Eq. (6), insertion-based slot search described in words, random tie-breaking, complexity O(e x q) (O(v^2 x p) for dense graphs), CPOP O(e x p). PEFT (thesis chapter 3, thesis numbering): OCT Eq. (7) WITH the same-processor zero-communication condition (so the hint in item E below is confirmed), rank_oct Eq. (8) = average of the OCT row over all processors, O_EFT Eq. (9), total complexity O(p(e+v) + v^2 p), O(v^2 p) for dense graphs. The code reproduces all printed values of both worked examples; differences are eligibility-restricted averages, injected communication defaulting to 0 (Montage runs use 0), deterministic tie-breaking, and the plan-following wrapper. Details: [SOURCES_VERBATIM.md](SOURCES_VERBATIM.md) section 4. The 2026-10-11 summary follows.
+
 - HEFT upward rank, insertion-based EFT and the stated O(v^2 p) or O(n^2) complexity are consistent across A, B, C. The original's own equation numbers and its own complexity statement (I have seen O(e x p) mentioned only in a search summary) are UNVERIFIED.
 - PEFT: OCT recursion (A, B), rank_oct as the average of the OCT row (B only), O_EFT = EFT + OCT (A, B). The exact treatment of communication in the OCT term (average, and whether zero on the same processor) is not settled by the sources I read. The implementation in `src/caosched/schedulers/` should cite the original, which the owner must supply, before this is stated as "as in the paper".
 
 ## 3. Reachability of the other published versions
+
+**Update 2026-10-13** (details and URLs in [SOURCES_VERBATIM.md](SOURCES_VERBATIM.md) sections 5 and 7). LACHESIS: IEEE Xplore page now renders; abstract read; full text behind sign-in; IEEE author order is Zhou, Li, Luo, Yuan, Zeng, Yao (arXiv lists Luo first). Cao 2024: IEEE page rendered (doc 10463608; six authors, arXiv v1 has two); abstract only. Liu 2024: ScienceDirect and SSRN both show bot-check pages; stopped; Crossref gives vol. 158, pp. 545-555, Sept 2024; arXiv has v1-v4 (v4 21 Mar 2024). The table below is the 2026-10-11 state.
 
 | Item | DOI | Result |
 |---|---|---|
@@ -110,7 +120,7 @@ Queries are listed in section 7.
 | Coleman et al., "WfBench" (arXiv 2210.03170) | FULL-DIRECT | Benchmarks generate CPU, memory and I/O work. Table III: real Montage versus benchmark makespans differ by at most about 14% for degrees 1.0 to 2.5, on 4 Haswell nodes with Pegasus/HTCondor. The conclusion lists GPU task support as planned future work. | Shows a Montage-shaped benchmark can be made; at the time of that paper GPU was not implemented. See 4d for the current code. |
 | Rayej et al., WIDESim (arXiv 2206.03538) | ABSTRACT | Simulator for workflows on graph-topology distributed systems (IoT/edge). Abstract does not mention HEFT, GPU or Montage. | Peripheral. |
 | Casanova et al., WRENCH (SC18 WORKS) | SNIPPET | Simulation framework on SimGrid; tested by simulating Pegasus. | Used by WfCommons for validation. Full text not read. |
-| Ilyushkin and Epema, CCGrid 2018, "The impact of task runtime estimate accuracy on scheduling workloads of workflows" | ABSTRACT (reassembled from OpenAlex) | Simulation, homogeneous and heterogeneous systems; seven policies including a plan-based HEFT variant; at high utilization the workflow processing order matters more than accurate estimates; the plan-based HEFT variant adds complexity without much gain. Green open-access copy listed at TU Delft (resolver.tudelft.nl/uuid:bf5bf685-bf94-4619-9f83-b872b21d3659), not opened. | Directly relevant to "how much prediction accuracy matters". Simulation. Full text should be read. |
+| Ilyushkin and Epema, CCGrid 2018, "The impact of task runtime estimate accuracy on scheduling workloads of workflows" | ABSTRACT (reassembled from OpenAlex) | Simulation, homogeneous and heterogeneous systems; seven policies including a plan-based HEFT variant; at high utilization the workflow processing order matters more than accurate estimates; the plan-based HEFT variant adds complexity without much gain. Green open-access copy listed at TU Delft (resolver.tudelft.nl/uuid:bf5bf685-bf94-4619-9f83-b872b21d3659), not opened. **2026-10-13: opened and read in full (accepted author manuscript, FULL-DIRECT); see SOURCES_VERBATIM.md section 5.1.** | Directly relevant to "how much prediction accuracy matters". Simulation (DGSim, 100 nodes, online workflow streams, slowdown metric, no transfer cost). Plan-based WHEFT is stable at 97% utilization only without estimate error and about 40% with it, because plan-driven dispatch cannot adapt; this resembles our `StaticPlanScheduler`. |
 
 ### 4b. Learned-HEFT / ML-predicted runtimes with HEFT
 
@@ -192,21 +202,35 @@ Other changes to the evidence base:
 8. WorkflowSim uses Montage with real Pegasus traces and layered overhead modelling; its scheduler study uses FCFS/MCT/MinMin/MaxMin, not HEFT.
 9. The patent title names machine-learning tasks; claims paraphrase still has none of the keywords. The statement in section 7 stands, with the title caveat added.
 
-## 6. Items still UNVERIFIED, and what the owner must provide
+## 6. Items closed, and items still UNVERIFIED
+
+### 6a. Closed on 2026-10-13 (pointer: [SOURCES_VERBATIM.md](SOURCES_VERBATIM.md))
+
+Numbers are the item numbers of the 2026-10-11 table (rows removed from the open table below).
+
+| # | Item | Closed how | Level | Where |
+|---|---|---|---|---|
+| 1 | Verbatim claims of US 11,561,826 B1 | Claims read from the Google Patents page markup in the built-in browser; all 20 claims copied; own keyword check: zero hits in every claim for machine learning, predict*, estimat*, model, offload*, GPU, CPU, FPGA | RENDERED-DOM | section 1 |
+| 2 | HEFT/CPOP original: rank definition, EFT/insertion text, complexity, equation numbers | Full PDF from the Marmara open-access repository (the server that failed on 2026-10-11 now answers); definitions restated with equation numbers (1)-(10); complexity O(e x q), dense O(v^2 x p); CPOP O(e x p); tie-breaking random | FULL-DIRECT | sections 2, 4 |
+| 3 | PEFT original: OCT communication term, rank_oct, O_EFT, complexity | Chapter 3 of the author's open-access PhD thesis (Porto) reproduces the paper; OCT with same-processor zero-communication condition, rank_oct = row average over all processors, O_EFT = EFT + OCT, total O(p(e+v) + v^2 p). Equation numbers are the thesis numbers; the IEEE-typeset article (restricted at Porto) was not read | FULL-DIRECT (thesis chapter) | sections 3, 4 |
+| 8 | Ilyushkin and Epema CCGrid 2018 full text | TU Delft accepted manuscript read in full | FULL-DIRECT | section 5.1 |
+| 10 | Arabnejad: same-processor condition in OCT communication term | Present in the original text (c_ij = 0 if p_w = p_k); the code has it | FULL-DIRECT | sections 3, 4 |
+| 11 | Original HEFT complexity as stated by the authors | O(e x q); dense graphs O(v^2 x p) | FULL-DIRECT | section 2 |
+| 20 | PEFT complexity equals HEFT order | Stated by the authors: same order for dense DAGs, O(v^2 x p) | FULL-DIRECT | section 3 |
+| new | HEFT/PEFT code versus papers | Both papers' worked examples reproduced exactly by `heft.py` and `peft.py` (rank_u, OCT, rank_oct, makespans 80, 122, 133, processor assignments); four documented differences (eligibility-restricted averages, communication default 0, deterministic ties, plan-following wrapper) | executed check | section 4 |
+| new | STScI DSS terms of use and acknowledgement text | Official MAST pages read; the 9 downloaded files carry survey POSSII-J, plate A1ET, copyright holder Caltech/Palomar; non-profit research use free with acknowledgement requested, commercial use needs written permission; acknowledgement paragraphs copied; no explicit statement on third-party redistribution of the files | RENDERED-DOM | section 6 |
+
+### 6b. Still UNVERIFIED, and what the owner must provide
 
 | # | Item | State after this pass | Access needed from owner |
 |---|---|---|---|
-| 1 | Verbatim claims of US 11,561,826 B1 | Paraphrase only, consistent across two reads; USPTO PDF image-only, Google PDF 403 | Claims text copied from the Google Patents page, or a text-layer PDF (or OCR output) of the grant |
-| 2 | HEFT/CPOP original (TPDS 13(3), 2002): rank definition, EFT/insertion text, complexity statement, equation numbers | Not read; only secondary restatements (section 2.2) | PDF via IEEE Xplore or institution; or retry the Marmara green copy hdl.handle.net/11424/244213 when the server is up |
-| 3 | PEFT original (TPDS 25(3), 2014): exact OCT (communication term), rank_oct, O_EFT, complexity, equation numbers | Not read; formulas from two open secondary papers; rank_oct from one only | PDF via IEEE Xplore (DOI 10.1109/TPDS.2013.57) or institution |
-| 4 | LACHESIS IEEE MDM 2022 camera-ready | IEEE page empty; preprint only | PDF via IEEE Xplore document 9861109 |
-| 5 | Cao 2024 IEEE IoT-J final | Not reachable; arXiv only | PDF via IEEE Xplore, DOI 10.1109/JIOT.2024.3374969 |
-| 6 | Liu 2024 FGCS final | Not reachable; SSRN accepted version 403; arXiv only | Elsevier PDF (DOI 10.1016/j.future.2024.04.034) or SSRN 4604459 PDF |
-| 7 | Song 2023 (Comput Electr Eng), Wang 2022 (IEEE TC) and other paywalled items from PROJECT_SPEC section 6 | Not retried in this pass | PDFs if they are to be used beyond the abstract |
-| 8 | Ilyushkin and Epema CCGrid 2018 full text | Abstract only; green copy URL known (TU Delft resolver) but not opened | Open the TU Delft copy or supply the PDF |
+| 3b | PEFT IEEE-typeset article (TPDS 25(3), 2014), to confirm its own equation numbers | Porto repository copy restricted (not circumvented); thesis chapter read instead | PDF via IEEE Xplore (DOI 10.1109/TPDS.2013.57) or institution; needed only if the thesis cites equation numbers |
+| 4 | LACHESIS IEEE MDM 2022 full text | IEEE abstract read (rendered); full text behind sign-in. IEEE author order is Zhou first, arXiv lists Luo first | PDF via IEEE Xplore document 9861109 |
+| 5 | Cao 2024 IEEE IoT-J final full text | IEEE abstract read; six authors versus two on arXiv v1; the project's simulation-only and baseline statements rest on arXiv v1 | PDF via IEEE Xplore document 10463608 |
+| 6 | Liu 2024 FGCS final | ScienceDirect and SSRN bot-check pages (stopped); Crossref metadata only; arXiv v1-v4 exist | Elsevier PDF (DOI 10.1016/j.future.2024.04.034) or SSRN 4604459 PDF |
+| 7a | Song 2023 (Comput Electr Eng 107:108653) | Metadata and abstract only; ScienceDirect captcha | PDF if used beyond the abstract |
+| 7b | Wang 2022 (IEEE TC, DOI 10.1109/TC.2021.3131040, online 2021-11-26) | Abstract only; accepted manuscript exists at Exeter ORE (handle 10871/127931) but the download is behind an anti-bot challenge (HTTP 202, x-amzn-waf-action: challenge) | Download the file in a normal browser and supply it, or the IEEE PDF |
 | 9 | Pham 2017, Nadeem 2019, Monge 2014, Chirkin (GA-HEFT) | Snippet only | PDFs |
-| 10 | Arabnejad claim of a same-processor condition in the OCT communication term | Hint only (fragment in the MPEFT paper) | Resolved by item 3 |
-| 11 | Original HEFT complexity as stated by authors (O(e x p) was mentioned only in a search summary) | UNVERIFIED | Resolved by item 2 |
 | 12 | WfBench GPU kernels (`bin/cuda`, `wfbench` script): what they compute, CUDA version needs, Windows behaviour; WfBench on Windows in general | Parameter names and release notes read; code not read | Either a read of the repository files by a later pass, or a local test by the owner |
 | 13 | WfInstances Montage README table (the two rows with equal task counts) and per-instance file content (runtimes, files, machines) | Table read through fetch only | Download one Montage JSON (for example `montage-chameleon-2mass-05d-001.json`) and the README; confirm counts |
 | 14 | WorkflowSim venue and year | Not printed in extracted PDF text | Owner or a later pass to confirm from the publisher record |
@@ -215,7 +239,6 @@ Other changes to the evidence base:
 | 17 | Reshi venue (IPCCC 2022 is inferred from a DOI prefix) | Inferred | Confirm from the publisher record |
 | 18 | Legion, PaRSEC scheduling internals | Snippet and one abstract | Paper PDFs if cited |
 | 19 | Montage input data volumes, Pegasus version requirements (already open in WORKLOAD_AND_DATA_PROVENANCE.md section 9) | Not addressed here | Unchanged; need local measurement or Pegasus docs for the chosen version |
-| 20 | Arabnejad claim that PEFT complexity equals HEFT (O(v^2 p)) | Stated by two secondary papers and in a PEFT abstract snippet | Resolved by item 3 |
 
 ## 7. Search queries used
 
@@ -254,15 +277,21 @@ Other changes to the evidence base:
 
 Direct fetches (not searches): Google Patents, Justia, patentimages, USPTO PDF; OpenAlex and Semantic Scholar and Crossref metadata for DOIs 10.1109/71.993206, 10.1109/TPDS.2013.57, 10.1109/JIOT.2024.3374969, 10.1109/MDM55031.2022.00040, 10.1016/j.future.2024.04.034, 10.1109/CCGRID.2018.00048, 10.1016/j.future.2024.03.017; arXiv pages 2103.06980 (not reopened), 2309.06918, 2208.07905, 2504.20867, 2607.22242, 2404.03226, 2609.14213, 2508.09503, 2511.19832, 2505.03932, 2105.14352, 2210.03170, 2206.03538, 2111.11624, 1909.11365; GitHub wfcommons/wfcommons (README, releases v1.4, v1.5, PR 127, recipes directory, bin, wfbench directory, bench.py), wfcommons/WfInstances, wfcommons/pegasus-instances, Caltech-IPAC/Montage; docs.wfcommons.org; PyPI wfcommons; Parsl, Dask, Ray, Pegasus API documentation pages; Wikipedia HEFT; PMC4165743, Europe PMC XML for PMC9323220 and PMC4165743.
 
+### 7a. Added in the 2026-10-13 pass
+
+Web searches (standard mode, session web search): (a) Topcuoglu Hariri Wu "Performance-effective and low-complexity task scheduling for heterogeneous computing" pdf; (b) Arabnejad Barbosa "List Scheduling Algorithm for Heterogeneous Systems by an Optimistic Cost Table" pdf repository; (c) PEFT "optimistic cost table" Arabnejad Barbosa filepdf OR "open access" OR repositorio-aberto OR core.ac.uk; (d) Hamid Arabnejad PhD thesis Universidade do Porto scheduling workflows heterogeneous PEFT optimistic cost table repositorio-aberto; (e) Ilyushkin Epema "The impact of task runtime estimate accuracy on scheduling workloads of workflows" TU Delft repository pdf; (f) Song 2023 Computers and Electrical Engineering DAG task scheduling BiGCN optimistic cost table duplication heterogeneous reinforcement learning; (g) Wang 2022 IEEE Transactions on Computers DAG scheduling sequence-to-sequence off-policy reinforcement learning heterogeneous. Direct page reads (built-in browser and fetch), per-attempt outcomes and URLs: [SOURCES_VERBATIM.md](SOURCES_VERBATIM.md) section 7.
+
 ## 8. Ten-line summary
 
-1. Patent: Google Patents text reached; verbatim claims NOT obtained (fetch tool paraphrases only, USPTO PDF is image-only, Google PDF 403). Independent claims are 1 (method) and 14 (system). Keyword check (claims only, via the fetch tool): no ML, prediction, offloading, model, CPU, GPU or FPGA. The patent title does name machine-learning tasks as the workload.
-2. HEFT/CPOP and PEFT originals: NOT reachable (IEEE closed; the Marmara green copy of HEFT errored). Formulas for rank_u, EST/EFT, OCT, rank_oct, O_EFT and complexity are given from open secondary papers (Dai and Zhang 2014; Guo et al. 2022; Beaumont et al. survey), with their own equation numbers.
-3. LACHESIS IEEE, Cao IoT-J and Liu FGCS final versions: all NOT reachable; DOIs recorded; arXiv versions remain the only ones read.
+(Lines 1-3 and 5 were revised on 2026-10-13; the original 2026-10-11 wording is replaced where it is now wrong.)
+
+1. Patent: verbatim claims obtained on 2026-10-13 (Google Patents markup read in the browser; all 20 claims in SOURCES_VERBATIM.md). Independent claims are 1 (method) and 14 (system). Own keyword check: machine learning, predict*, estimat*, model, offload*, GPU, CPU, FPGA do not appear in any claim, so not in claims 1 and 14 either. The patent title and abstract do name machine-learning work as the workload; the claims do not. No freedom-to-operate opinion.
+2. HEFT/CPOP original: read in full (Marmara open-access PDF). PEFT: journal PDF still closed, but chapter 3 of the author's open thesis reproduces the paper and was read in full. Both worked examples of the papers are reproduced exactly by `heft.py` and `peft.py`; differences are listed in SOURCES_VERBATIM.md section 4 (eligibility-restricted averages, communication default 0 in the Montage runs, deterministic ties, plan-following wrapper).
+3. LACHESIS IEEE and Cao IoT-J: abstracts read on Xplore, full text paywalled; Liu FGCS: ScienceDirect and SSRN bot-check pages, metadata only; arXiv versions remain the only full texts read for these three. IEEE lists Zhou first for the MDM paper (arXiv: Luo first).
 4. WorkflowSim, WfCommons and WfBench were read in full from PDFs; WorkflowSim uses Montage but evaluates FCFS/MCT/MinMin/MaxMin.
-5. HEFT with predicted runtimes already exists in simulation (Lotaru, Reshi); Ilyushkin and Epema study estimate accuracy in simulation (abstract only).
+5. HEFT with predicted runtimes already exists in simulation (Lotaru, Reshi); Ilyushkin and Epema (read in full on 2026-10-13) study estimate accuracy in simulation for online workflow streams and find a plan-driven HEFT adaptation fragile under estimate error.
 6. The survey arXiv 2504.20867 says no runtime-prediction method it covers targets GPUs and that most are evaluated in simulation.
 7. New near neighbour: arXiv 2607.22242 (real CPU/GPU hardware, DAGs of four tools, HEFT baseline, no learned predictor).
 8. Parsl, Dask, Ray and Pegasus: GPU handling is resource labels and pinning; no runtime prediction in pages read. WfBench GPU is future work in the paper but `gpu_work` exists in current code (v1.5, kernels unread).
 9. WfCommons has a Montage recipe; WfInstances has 17 Montage traces; Windows execution of WfBench is unverified.
-10. No GPU-accelerated Montage found (only the separate dfreproject library); gap stays worded as not found in sources inspected, and section 6 lists 20 items with the access the owner must supply.
+10. No GPU-accelerated Montage found (only the separate dfreproject library); gap stays worded as not found in sources inspected, and section 6b lists the items still open with the access the owner must supply (section 6a lists what was closed on 2026-10-13, including the STScI DSS terms: non-profit research use free with acknowledgement requested, commercial use needs written permission, acknowledgement text and the Caltech/Palomar holder recorded in SOURCES_VERBATIM.md section 6).
