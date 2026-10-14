@@ -1,0 +1,413 @@
+{
+  "run_id": "remote_confirm__b0008_02_B4_remote_slow_wan",
+  "session_id": "remote_confirm",
+  "block": 8,
+  "position": 2,
+  "instance": null,
+  "warmup": false,
+  "seed": 1827278014,
+  "policy": "B4_greedy_eligible",
+  "condition": {
+    "name": "B4_remote_slow_wan",
+    "policy": "B4_greedy_eligible",
+    "estimator": null,
+    "workload": {
+      "kind": "remote_image"
+    },
+    "kwargs": {
+      "tile": 512,
+      "n_images": 16,
+      "seed": 0,
+      "denoise_iterations": 1,
+      "profile": "D:\\cao project\\data\\results\\stage5_20261013\\remote\\remote_profile.json",
+      "remote_stages": [
+        "img_denoise",
+        "img_edges",
+        "img_features"
+      ],
+      "remote": true,
+      "link": {
+        "name": "slow_wan",
+        "latency_ms": 30.0,
+        "bandwidth_mbps": 20.0,
+        "per_message_ms": 0.1,
+        "jitter_ms": 0.0
+      }
+    },
+    "instance": null
+  },
+  "evidence_label": "emulation",
+  "machine_id": "681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978",
+  "environment_hash": "bac0fdd048d7d4cd07d46a4ed4fc15a0d5b21cd94b71541be631229f3f1ed53b",
+  "code": {
+    "git_commit": "868eeeaa57ffcb1531682fefb9b25295036b1594",
+    "git_dirty": true,
+    "git_available": true,
+    "src_sha256": "95a74ba367080a1de3c49ef168b59845a894167a9a26e6084ce71fb825548d64"
+  },
+  "design": {
+    "name": "remote_emulation_confirm",
+    "sha256": "4dab0106d6d9a86af400af779cd2aaf789b7389d73c7b53eea77f89cb6ea3d57",
+    "reference": "EFT_E1_no_remote",
+    "warmup_blocks": 0,
+    "run_timeout_s": 900
+  },
+  "input_hashes": {
+    "source": "56b073e6a954508a2b1e8cefc0075039144b9d192839bce5f146aa2789da03dc"
+  },
+  "status": "ok",
+  "error": null,
+  "verification": {
+    "passed": true,
+    "output_hashes": {
+      "package": "92a573baa3af74069c7fb0eecb7adea238429a6e95c5c441c7aa74bc0020dd29"
+    }
+  },
+  "event_log": {
+    "path": "b0008_02_B4_remote_slow_wan.jsonl",
+    "sha256": "dee12d8b92002e33243cbf5fd19f97c6f7940b73320d3d875bf8f1b23a8255f1",
+    "bytes": 79631
+  },
+  "extra": {
+    "evidence_label": "emulation",
+    "n_tasks": 68,
+    "policy": "B4_greedy_eligible_R",
+    "tile": 512,
+    "grid": 4,
+    "n_images": 16,
+    "denoise_iterations": 1,
+    "remote": true,
+    "remote_stages": [
+      "img_denoise",
+      "img_edges",
+      "img_features"
+    ],
+    "link": {
+      "name": "slow_wan",
+      "latency_s": 0.03,
+      "bandwidth_Bps": 2500000.0,
+      "per_message_s": 0.0001
+    },
+    "link_kwargs": {
+      "name": "slow_wan",
+      "latency_ms": 30.0,
+      "bandwidth_mbps": 20.0,
+      "per_message_ms": 0.1,
+      "jitter_ms": 0.0
+    },
+    "link_active": true,
+    "node_core": 19,
+    "max_p_slots": 2,
+    "pools": {
+      "P": [
+        0,
+        2
+      ],
+      "E": [
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "R": [
+        19
+      ]
+    },
+    "transfer_model": null,
+    "cuda_tasks": [],
+    "emulation_note": "node = real process on a core of this machine behind a loopback socket with a delay shim; no real network, same clock, token handshake only",
+    "decision_time_total_s": 0.002043000131379813,
+    "makespan_seconds": 2.9395041999814566,
+    "n_completed": 68,
+    "tasks_per_pool": {
+      "P": 57,
+      "R": 1,
+      "E": 10
+    },
+    "task_placement": {
+      "source": [
+        "P",
+        "P0"
+      ],
+      "tile_0": [
+        "P",
+        "P0"
+      ],
+      "denoise_0": [
+        "R",
+        "R0"
+      ],
+      "edges_0": [
+        "P",
+        "P0"
+      ],
+      "features_0": [
+        "P",
+        "P0"
+      ],
+      "tile_1": [
+        "P",
+        "P1"
+      ],
+      "denoise_1": [
+        "P",
+        "P0"
+      ],
+      "edges_1": [
+        "P",
+        "P1"
+      ],
+      "features_1": [
+        "P",
+        "P0"
+      ],
+      "tile_2": [
+        "E",
+        "E0"
+      ],
+      "denoise_2": [
+        "P",
+        "P0"
+      ],
+      "edges_2": [
+        "P",
+        "P0"
+      ],
+      "features_2": [
+        "P",
+        "P0"
+      ],
+      "tile_3": [
+        "E",
+        "E1"
+      ],
+      "denoise_3": [
+        "P",
+        "P1"
+      ],
+      "edges_3": [
+        "P",
+        "P1"
+      ],
+      "features_3": [
+        "P",
+        "P1"
+      ],
+      "tile_4": [
+        "E",
+        "E2"
+      ],
+      "denoise_4": [
+        "P",
+        "P0"
+      ],
+      "edges_4": [
+        "P",
+        "P0"
+      ],
+      "features_4": [
+        "P",
+        "P0"
+      ],
+      "tile_5": [
+        "E",
+        "E3"
+      ],
+      "denoise_5": [
+        "E",
+        "E1"
+      ],
+      "edges_5": [
+        "P",
+        "P1"
+      ],
+      "features_5": [
+        "P",
+        "P1"
+      ],
+      "tile_6": [
+        "E",
+        "E4"
+      ],
+      "denoise_6": [
+        "E",
+        "E0"
+      ],
+      "edges_6": [
+        "P",
+        "P0"
+      ],
+      "features_6": [
+        "P",
+        "P0"
+      ],
+      "tile_7": [
+        "E",
+        "E5"
+      ],
+      "denoise_7": [
+        "E",
+        "E2"
+      ],
+      "edges_7": [
+        "E",
+        "E0"
+      ],
+      "features_7": [
+        "P",
+        "P0"
+      ],
+      "tile_8": [
+        "P",
+        "P0"
+      ],
+      "denoise_8": [
+        "P",
+        "P1"
+      ],
+      "edges_8": [
+        "P",
+        "P1"
+      ],
+      "features_8": [
+        "P",
+        "P0"
+      ],
+      "tile_9": [
+        "P",
+        "P0"
+      ],
+      "denoise_9": [
+        "P",
+        "P0"
+      ],
+      "edges_9": [
+        "P",
+        "P0"
+      ],
+      "features_9": [
+        "P",
+        "P0"
+      ],
+      "tile_10": [
+        "P",
+        "P0"
+      ],
+      "denoise_10": [
+        "P",
+        "P1"
+      ],
+      "edges_10": [
+        "P",
+        "P1"
+      ],
+      "features_10": [
+        "P",
+        "P0"
+      ],
+      "tile_11": [
+        "P",
+        "P0"
+      ],
+      "denoise_11": [
+        "P",
+        "P0"
+      ],
+      "edges_11": [
+        "P",
+        "P0"
+      ],
+      "features_11": [
+        "P",
+        "P1"
+      ],
+      "tile_12": [
+        "P",
+        "P0"
+      ],
+      "denoise_12": [
+        "P",
+        "P1"
+      ],
+      "edges_12": [
+        "P",
+        "P0"
+      ],
+      "features_12": [
+        "P",
+        "P1"
+      ],
+      "tile_13": [
+        "P",
+        "P0"
+      ],
+      "denoise_13": [
+        "P",
+        "P0"
+      ],
+      "edges_13": [
+        "P",
+        "P1"
+      ],
+      "features_13": [
+        "P",
+        "P0"
+      ],
+      "tile_14": [
+        "P",
+        "P0"
+      ],
+      "denoise_14": [
+        "P",
+        "P1"
+      ],
+      "edges_14": [
+        "P",
+        "P1"
+      ],
+      "features_14": [
+        "P",
+        "P0"
+      ],
+      "tile_15": [
+        "P",
+        "P0"
+      ],
+      "denoise_15": [
+        "P",
+        "P1"
+      ],
+      "edges_15": [
+        "P",
+        "P0"
+      ],
+      "features_15": [
+        "P",
+        "P1"
+      ],
+      "mosaic": [
+        "P",
+        "P1"
+      ],
+      "aggregate": [
+        "P",
+        "P0"
+      ],
+      "package": [
+        "P",
+        "P0"
+      ]
+    },
+    "remote_tasks": [
+      "denoise_0"
+    ],
+    "output_verdict": {
+      "match": "exact",
+      "sha256": "92a573baa3af74069c7fb0eecb7adea238429a6e95c5c441c7aa74bc0020dd29"
+    }
+  },
+  "started_utc": "2026-10-13T23:34:05.861423+00:00",
+  "wall_s": 12.399292499991134
+}

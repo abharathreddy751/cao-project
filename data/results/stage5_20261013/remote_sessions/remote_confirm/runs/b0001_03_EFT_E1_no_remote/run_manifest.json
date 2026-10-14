@@ -1,0 +1,393 @@
+{
+  "run_id": "remote_confirm__b0001_03_EFT_E1_no_remote",
+  "session_id": "remote_confirm",
+  "block": 1,
+  "position": 3,
+  "instance": null,
+  "warmup": false,
+  "seed": 1763117671,
+  "policy": "EFT_E1",
+  "condition": {
+    "name": "EFT_E1_no_remote",
+    "policy": "EFT_E1",
+    "estimator": null,
+    "workload": {
+      "kind": "remote_image"
+    },
+    "kwargs": {
+      "tile": 512,
+      "n_images": 16,
+      "seed": 0,
+      "denoise_iterations": 1,
+      "profile": "D:\\cao project\\data\\results\\stage5_20261013\\remote\\remote_profile.json",
+      "remote_stages": [
+        "img_denoise",
+        "img_edges",
+        "img_features"
+      ],
+      "remote": false
+    },
+    "instance": null
+  },
+  "evidence_label": "emulation",
+  "machine_id": "681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978",
+  "environment_hash": "bac0fdd048d7d4cd07d46a4ed4fc15a0d5b21cd94b71541be631229f3f1ed53b",
+  "code": {
+    "git_commit": "868eeeaa57ffcb1531682fefb9b25295036b1594",
+    "git_dirty": true,
+    "git_available": true,
+    "src_sha256": "95a74ba367080a1de3c49ef168b59845a894167a9a26e6084ce71fb825548d64"
+  },
+  "design": {
+    "name": "remote_emulation_confirm",
+    "sha256": "4dab0106d6d9a86af400af779cd2aaf789b7389d73c7b53eea77f89cb6ea3d57",
+    "reference": "EFT_E1_no_remote",
+    "warmup_blocks": 0,
+    "run_timeout_s": 900
+  },
+  "input_hashes": {
+    "source": "56b073e6a954508a2b1e8cefc0075039144b9d192839bce5f146aa2789da03dc"
+  },
+  "status": "ok",
+  "error": null,
+  "verification": {
+    "passed": true,
+    "output_hashes": {
+      "package": "92a573baa3af74069c7fb0eecb7adea238429a6e95c5c441c7aa74bc0020dd29"
+    }
+  },
+  "event_log": {
+    "path": "b0001_03_EFT_E1_no_remote.jsonl",
+    "sha256": "7eb934f3ec586ddfeaefdc9cff3430dbbfc99d65ff4f6b3e280fbebc3839eafa",
+    "bytes": 206935
+  },
+  "extra": {
+    "evidence_label": "emulation",
+    "n_tasks": 68,
+    "policy": "EFT_E1",
+    "tile": 512,
+    "grid": 4,
+    "n_images": 16,
+    "denoise_iterations": 1,
+    "remote": false,
+    "remote_stages": [],
+    "link": {
+      "name": "none",
+      "latency_s": 0.0,
+      "bandwidth_Bps": null,
+      "per_message_s": 0.0
+    },
+    "link_kwargs": null,
+    "link_active": false,
+    "node_core": 19,
+    "max_p_slots": 2,
+    "pools": {
+      "P": [
+        0,
+        2
+      ],
+      "E": [
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "R": [
+        19
+      ]
+    },
+    "transfer_model": null,
+    "cuda_tasks": [],
+    "emulation_note": "node = real process on a core of this machine behind a loopback socket with a delay shim; no real network, same clock, token handshake only",
+    "decision_time_total_s": 0.0183131001831498,
+    "makespan_seconds": 2.2270501000166405,
+    "n_completed": 68,
+    "tasks_per_pool": {
+      "P": 46,
+      "E": 22
+    },
+    "task_placement": {
+      "source": [
+        "P",
+        "P0"
+      ],
+      "tile_0": [
+        "P",
+        "P0"
+      ],
+      "denoise_0": [
+        "P",
+        "P0"
+      ],
+      "edges_0": [
+        "P",
+        "P0"
+      ],
+      "features_0": [
+        "E",
+        "E5"
+      ],
+      "tile_1": [
+        "P",
+        "P0"
+      ],
+      "denoise_1": [
+        "P",
+        "P1"
+      ],
+      "edges_1": [
+        "P",
+        "P0"
+      ],
+      "features_1": [
+        "E",
+        "E1"
+      ],
+      "tile_2": [
+        "P",
+        "P1"
+      ],
+      "denoise_2": [
+        "P",
+        "P0"
+      ],
+      "edges_2": [
+        "P",
+        "P0"
+      ],
+      "features_2": [
+        "E",
+        "E5"
+      ],
+      "tile_3": [
+        "P",
+        "P1"
+      ],
+      "denoise_3": [
+        "P",
+        "P0"
+      ],
+      "edges_3": [
+        "P",
+        "P1"
+      ],
+      "features_3": [
+        "P",
+        "P0"
+      ],
+      "tile_4": [
+        "P",
+        "P0"
+      ],
+      "denoise_4": [
+        "P",
+        "P0"
+      ],
+      "edges_4": [
+        "P",
+        "P1"
+      ],
+      "features_4": [
+        "E",
+        "E0"
+      ],
+      "tile_5": [
+        "P",
+        "P1"
+      ],
+      "denoise_5": [
+        "P",
+        "P0"
+      ],
+      "edges_5": [
+        "P",
+        "P0"
+      ],
+      "features_5": [
+        "P",
+        "P1"
+      ],
+      "tile_6": [
+        "E",
+        "E0"
+      ],
+      "denoise_6": [
+        "P",
+        "P0"
+      ],
+      "edges_6": [
+        "P",
+        "P0"
+      ],
+      "features_6": [
+        "E",
+        "E3"
+      ],
+      "tile_7": [
+        "E",
+        "E0"
+      ],
+      "denoise_7": [
+        "P",
+        "P1"
+      ],
+      "edges_7": [
+        "P",
+        "P1"
+      ],
+      "features_7": [
+        "P",
+        "P0"
+      ],
+      "tile_8": [
+        "E",
+        "E1"
+      ],
+      "denoise_8": [
+        "P",
+        "P1"
+      ],
+      "edges_8": [
+        "E",
+        "E0"
+      ],
+      "features_8": [
+        "E",
+        "E1"
+      ],
+      "tile_9": [
+        "E",
+        "E1"
+      ],
+      "denoise_9": [
+        "E",
+        "E2"
+      ],
+      "edges_9": [
+        "P",
+        "P1"
+      ],
+      "features_9": [
+        "P",
+        "P0"
+      ],
+      "tile_10": [
+        "E",
+        "E2"
+      ],
+      "denoise_10": [
+        "P",
+        "P0"
+      ],
+      "edges_10": [
+        "P",
+        "P1"
+      ],
+      "features_10": [
+        "E",
+        "E0"
+      ],
+      "tile_11": [
+        "E",
+        "E2"
+      ],
+      "denoise_11": [
+        "E",
+        "E4"
+      ],
+      "edges_11": [
+        "P",
+        "P0"
+      ],
+      "features_11": [
+        "P",
+        "P1"
+      ],
+      "tile_12": [
+        "E",
+        "E3"
+      ],
+      "denoise_12": [
+        "P",
+        "P0"
+      ],
+      "edges_12": [
+        "P",
+        "P0"
+      ],
+      "features_12": [
+        "E",
+        "E1"
+      ],
+      "tile_13": [
+        "E",
+        "E3"
+      ],
+      "denoise_13": [
+        "P",
+        "P0"
+      ],
+      "edges_13": [
+        "P",
+        "P1"
+      ],
+      "features_13": [
+        "P",
+        "P0"
+      ],
+      "tile_14": [
+        "E",
+        "E4"
+      ],
+      "denoise_14": [
+        "P",
+        "P1"
+      ],
+      "edges_14": [
+        "P",
+        "P0"
+      ],
+      "features_14": [
+        "E",
+        "E0"
+      ],
+      "tile_15": [
+        "E",
+        "E4"
+      ],
+      "denoise_15": [
+        "P",
+        "P1"
+      ],
+      "edges_15": [
+        "P",
+        "P0"
+      ],
+      "features_15": [
+        "P",
+        "P0"
+      ],
+      "mosaic": [
+        "P",
+        "P0"
+      ],
+      "aggregate": [
+        "P",
+        "P1"
+      ],
+      "package": [
+        "P",
+        "P0"
+      ]
+    },
+    "remote_tasks": [],
+    "output_verdict": {
+      "match": "exact",
+      "sha256": "92a573baa3af74069c7fb0eecb7adea238429a6e95c5c441c7aa74bc0020dd29"
+    }
+  },
+  "started_utc": "2026-10-13T23:24:39.408818+00:00",
+  "wall_s": 11.648127100022975
+}

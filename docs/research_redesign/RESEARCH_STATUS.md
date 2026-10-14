@@ -1,6 +1,6 @@
 # Research status
 
-Date: 2026-10-12. State: **Stages 1-4 executed on this machine (reports below); the clean-checkout reproduction is the last open item.** Older sections below are history (2026-10-11) unless marked.
+Date: 2026-10-14. State: **Stages 1-4 executed on this machine and the confirmatory sessions run and analysed (408 runs, all verified, 0 failed gate checks); the first-round Stage 4 sessions are the PILOT. Result: a confirmed null (section "Confirmatory sessions report" below; details in `FINAL_REPORT.md`). Open items: six, listed at the end of that section.** Older sections below are history (2026-10-11 and 2026-10-12) unless marked.
 
 ## Verified current state
 
@@ -31,6 +31,8 @@ D1 CUDA flag applies to every task of a stage type; D2 E4 base-profile mismatch 
 - Owner decision: **this machine first, Raspberry Pi 5 later.**
 
 ## Unverified claims (do not rely on them)
+
+Update 2026-10-14: the items closed since this list was written are named in "Closed gaps" of the confirmatory report below; the items that remain open are the six items there (also `FINAL_REPORT.md` section 14.3). Entries below that name a closed item are kept as history.
 
 - Patent legal status beyond the catalogue entry (claim wording is now read verbatim, SOURCES_VERBATIM.md section 1; closed 2026-10-13).
 - PEFT equation numbers as printed in the IEEE article (PEFT was read via the author's thesis chapter, thesis numbering; HEFT/CPOP originals and PEFT definitions are closed, SOURCES_VERBATIM.md sections 2-4); TabM and CatBoost venue details beyond arXiv.
@@ -115,7 +117,7 @@ Scheduling pilot (EFT with each predictor, primary instance, 3 blocks): mean mak
 
 Deviations: collection was reduced to 42 runs (v2 designs) after the Stage 2 timing; the d1.5 held-out session was run with the same 3 conditions; machine not idle; first dataset build attempt excluded everything (wrong directory layout), kept as `dataset/20261012T195144`.
 
-## Stage 4 report (2026-10-13) - PASS for software, measurement and correctness gates; scientific outcome is negative/null (stated, not hidden)
+## Stage 4 report (2026-10-13; this first round is now the PILOT of the confirmatory sessions below) - PASS for software, measurement and correctness gates; scientific outcome is negative/null (stated, not hidden)
 
 | Gate | Result | Evidence |
 |---|---|---|
@@ -131,6 +133,49 @@ Outcomes (descriptive, label real): in all three conditions tested no predictive
 
 Limits: see `FINAL_REPORT.md` section on limitations.
 
+## Confirmatory sessions report (2026-10-14) - PASS for software, measurement and correctness gates; the scientific outcome is a confirmed null (stated, not hidden)
+
+Why a second round: the pilot's pre-registered Holm-adjusted sign-flip test could not reach p < 0.05 with 4 blocks (smallest attainable p 0.125), and the pilot GPU session had no written analysis plan. EVALUATION_PROTOCOL section 13 (main, scarce-P, GPU; commit `13d1649`) and section 14 (remote emulation; commit `868eeea`) were committed before the first block of each session (first run 16 s and 12 s after the commit). Evidence directory: `data/results/stage5_20261013/` (`S5`). Results per session and prediction: EVALUATION_PROTOCOL section 15.
+
+| Gate | Result | Evidence |
+|---|---|---|
+| All planned blocks complete; excluded runs listed | PASS: `stage5_main_confirm` 9 blocks (108 runs), `stage5_regimeR_confirm` 8 (48), `stage5_gpu_confirm` 24 (168), `remote_emulation_confirm` 12 (84, label emulation) = 408 runs; 0 excluded | `S5/sessions_main`, `sessions_regimeR`, `gpu_sessions`, `remote_sessions`; `S5/analysis_*/exclusions.csv` (header only; the post-hoc table lists 24 runs by design) |
+| Correctness on all included runs | PASS: 408 of 408 completed and verified, 0 dependency violations, 0 worker overlaps, 0 ineligible placements, `n_failing_checks` 0 | `S5/gate_sessions_main.json`, `gate_sessions_regimeR.json`, `gate_gpu_sessions.json`, `gate_remote.json` |
+| Design hash equals the pre-registration | PASS: `9228d7ac...`, `7dac58e3...`, `273a155d...`, `4dab0106...` | EVALUATION_PROTOCOL 13, 14; `S5/analysis_*/analysis.json` |
+| Significance method can reach p < 0.05 | PASS: block counts 9, 8, 24, 12 chosen so 2/2^n is below the Holm threshold; the pilot flaw is resolved | `S5/analysis_*/effects.csv` (`p_holm`) |
+| Tables re-derived from raw logs, hashes re-checked | PASS: four checks each, `ok` true for main, scarce-P, GPU and remote | `data/results/stage5_repro/repro_analysis_{main,regimeR,gpu,remote}.json` |
+| Full test suite | PASS: 392 passed, 1 skipped after the sessions (384 passed, 1 skipped before them) | `S5/full_suite_final.txt`, `S5/full_suite_before_confirmatory.txt` |
+| Background load measured | DONE: 1,928 samples every 30 s, median non-experiment CPU 35.1% summed over processes, median machine CPU 23.6%, minimum free RAM 2.09 GB | `S5/load/load_20261013T121952.jsonl` |
+
+Outcomes per pre-stated prediction (label real; remote: emulation; numbers from the `effects.csv` files named in EVALUATION_PROTOCOL 15):
+
+* **P1 supported.** `B0_P_early` (same placements as B0 P-only, early binding) is +1.68% (+1.24 to +2.31), p_holm 0.036: early versus late binding is now a controlled contrast. Post-hoc without the slow window +1.40% (+1.20 to +1.60).
+* **P2 supported** for EFT_E1 +1.62%, E3 +1.59%, rank +1.41%, Ridge +1.54%, HEFT +1.54%, PEFT +1.73% (all significant, each in 9 of 9 blocks); direction only for EFT_CatBoost +8.68%, EFT_E1_rc +13.92%, EFT_MLP +12.99% (inflated by the slow window; +1.44%, +1.93%, +2.04% post-hoc); B4 +47.9% (+53.5% post-hoc).
+* **P3 supported** (scarce-P): B0 P-only +42.48% (+41.05 to +43.54), EFT_CatBoost +15.65% (+14.84 to +16.12); EFT_E1 -0.13% (-1.10 to +0.88): point estimate inside +-0.5%, equivalence not resolved. EFT_Ridge -0.59% (-1.18 to -0.18), p_holm 0.0325: significant, about 2.4 s of 412 s, below the 2% practical margin, no prediction had been made.
+* **P4 supported** (GPU): EFT_E1 with GPU -2.10% (-2.93 to -1.35), p_holm 0.0006 against its CPU-only version; -0.65% (-1.82 to +0.34) against B0 P-only (not distinguishable); about -3.5% against B4 with GPU (computed in FINAL_REPORT 11.1). Makespans about 7 s because CPU stages dominate.
+* **D1 supported, D2 not supported, D3 no difference (remote, emulation).** B4 with R is +30.69% (+29.42 to +32.02), p_holm 0.0024 on the WAN link; the transfer-aware EFT placed 0 tasks on R on both links; EFT with R on the LAN +0.14% (-1.10 to +1.19). The emulated remote pool gave no benefit to either policy. Calibrated transfer cost 0.779 ms + 1.617 ns per byte (n = 60).
+* **Claims:** (a) prediction beats the best non-predictive baseline in some condition: not supported at the practical margin in all four conditions (the only significant advantage is Ridge over B4 by 0.59% in scarce-P); (b) a simple method matches prediction: supported; (c) predictor sophistication improves scheduling: not supported; (d) offline Ridge generalises to the held-out `d1.5` (MAE 1.36 s against 3.26 s for E1), scheduling effects do not depend on it; (e) significance resolved for P1, P3 (except equivalence of EFT_E1), P4 and D1.
+
+**Slow window (stated plainly).** 14 consecutive runs of the main session, from block 5 run 0 (12:40 UTC on 2026-10-13) to block 6 run 1 (ends about 14:30 UTC), ran slower: about 1.4 times for every policy but B4 in block 5, and about 2.5 times for three runs (EFT_CatBoost in block 5, EFT_E1_rc and EFT_MLP in block 6); the `mProject` kernel on P cores took 296 s to 380 s in the last three against 115 s to 158 s elsewhere; placements of `mProject` did not change. The load monitor shows no heavy non-experiment process in that window; CPU frequency and temperature were not logged, so the cause is not identified. The pre-registered exclusion rules do not exclude such runs, so the primary analysis keeps them; the post-hoc sensitivity analysis without blocks 5 and 6 (`S5/analysis_main_posthoc_excl_blocks_5_6`, 7 blocks, cannot be Holm-significant) gives +1.15% to +2.04% for the EFT variants. A measurement limit of this machine, not something to fix by re-running.
+
+**Closed gaps (replace the older "unverified" wording):**
+
+* Patent US 11,561,826 B1 claims read verbatim (all 20; `SOURCES_VERBATIM.md` section 1): 0 occurrences of machine-learning, prediction, estimation, model, offload, GPU, CPU or FPGA vocabulary in any claim.
+* HEFT/CPOP original read in full; PEFT read through the author's thesis chapter; both papers' worked examples reproduced exactly by `tests/test_heft_peft_papers.py` (3 tests; makespans 80, 122, 133).
+* DSS terms read (non-profit research use free with acknowledgement requested; commercial use needs written permission; no rule on third-party redistribution of the files); acknowledgement text included in `FINAL_REPORT.md` section 15.1.
+* Licences of all components read from their files (`LICENCES.md`); components without a licence file are listed there (section 5); the project's own licence is the owner's choice.
+* Drift check (late/early MAE ratio learned 1.29 to 1.40 against 1.01 to 1.02 for the references; time-split MAE E1 3.514 s, Ridge 0.8395 s, CatBoost 2.123 s, MLP 1.334 s), learning curve (Ridge flat from 20% to 40% of the runs, CatBoost non-monotone, so the TabM entry condition 2 is not established) and one-step regret table (B4 mean regret 6.85 s per decision in the main set, EFT_E1 0.312 s; scarce-P EFT_CatBoost 2.538 s against EFT_E1 0.134 s; exactly 6 `mProject` decisions differ, regret 57.5 s to 61.7 s; pilot sessions) run: `S5/analysis_extra/`.
+* Figures fixed and three diagrams produced (`S5/figures/`); early-binding mechanism tested as a controlled contrast (P1); the Holm flaw resolved by the confirmatory sessions; the GPU session pre-registered before it ran; background load measured.
+
+**Genuinely remaining:**
+
+1. Raspberry Pi 5, real network, foreign clock, ARM: requires hardware that is not available on this machine and is excluded by the project specification as a later extension; no edge claim is made.
+2. The cause of the slow window is not identified (no frequency or temperature log).
+3. Full texts behind publisher paywalls or bot checks were not accessible and are listed with every attempt in `SOURCES_VERBATIM.md` section 7 (IEEE-typeset PEFT article, LACHESIS, Cao and Song full texts, Liu FGCS full text, Wang accepted manuscript); no claim of the results depends on them.
+4. The project has no licence file of its own (the owner's choice).
+5. The remote pool is emulated (loopback, no jitter).
+6. One machine, patched Windows Montage build.
+
 ## Documents in this redesign
 
 [PROJECT_SPEC.md](PROJECT_SPEC.md) · [ARCHITECTURE_DECISIONS.md](ARCHITECTURE_DECISIONS.md) · [FOUR_STAGE_IMPLEMENTATION_PLAN.md](FOUR_STAGE_IMPLEMENTATION_PLAN.md) · [WORKLOAD_AND_DATA_PROVENANCE.md](WORKLOAD_AND_DATA_PROVENANCE.md) · [EVALUATION_PROTOCOL.md](EVALUATION_PROTOCOL.md)
@@ -139,4 +184,4 @@ Older documents (`PROJECT_STATUS.md`, `docs/PROJECT_BRIEF.md`, `docs/B4_PATENT_M
 
 ## Next action
 
-Review and answer the decisions above. After approval, start Stage 1 step 1–2: environment re-baseline and the Montage environment choice. Do not start implementation before that.
+The owner decisions are listed in `FINAL_REPORT.md` section 14.2 (further conditions where prediction might matter, Raspberry Pi 5 go or no-go, licence of the project and data rights, archiving and a stage-level manifest, presentation details). No implementation or experiment is pending.

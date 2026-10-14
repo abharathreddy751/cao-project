@@ -1,0 +1,13 @@
+test,cond,n_blocks,statistic,p_value,multiplicity
+friedman,all,9,53.08547008547015,1.732142217138904e-07,
+wilcoxon_vs_ref,B0_P_early,9,0.0,0.00390625,unadjusted (cross-check only)
+wilcoxon_vs_ref,B4_greedy_eligible,9,0.0,0.00390625,unadjusted (cross-check only)
+wilcoxon_vs_ref,EFT_CatBoost,9,0.0,0.00390625,unadjusted (cross-check only)
+wilcoxon_vs_ref,EFT_E1,9,0.0,0.00390625,unadjusted (cross-check only)
+wilcoxon_vs_ref,EFT_E1_rank,9,0.0,0.00390625,unadjusted (cross-check only)
+wilcoxon_vs_ref,EFT_E1_rc,9,0.0,0.00390625,unadjusted (cross-check only)
+wilcoxon_vs_ref,EFT_E3,9,0.0,0.00390625,unadjusted (cross-check only)
+wilcoxon_vs_ref,EFT_MLP,9,0.0,0.00390625,unadjusted (cross-check only)
+wilcoxon_vs_ref,EFT_Ridge,9,0.0,0.00390625,unadjusted (cross-check only)
+wilcoxon_vs_ref,HEFT_E1,9,0.0,0.00390625,unadjusted (cross-check only)
+wilcoxon_vs_ref,PEFT_E1,9,0.0,0.00390625,unadjusted (cross-check only)

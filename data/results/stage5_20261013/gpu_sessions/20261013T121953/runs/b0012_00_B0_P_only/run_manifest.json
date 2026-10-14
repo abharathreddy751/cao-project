@@ -1,0 +1,362 @@
+{
+  "run_id": "20261013T121953__b0012_00_B0_P_only",
+  "session_id": "20261013T121953",
+  "block": 12,
+  "position": 0,
+  "instance": null,
+  "warmup": false,
+  "seed": 1898375041,
+  "policy": "B0_P_only",
+  "condition": {
+    "name": "B0_P_only",
+    "policy": "B0_P_only",
+    "estimator": null,
+    "workload": {
+      "kind": "gpu_image"
+    },
+    "kwargs": {
+      "tile": 1024,
+      "n_images": 16,
+      "seed": 0,
+      "denoise_iterations": 1,
+      "profile": "D:\\cao project\\data\\results\\stage4_20261012\\gpu\\profile_t1024\\20261013T025309_profile.json",
+      "gpu_stage_table": {
+        "img_denoise": true,
+        "img_edges": true,
+        "img_features": true
+      },
+      "no_gpu": true
+    },
+    "instance": null
+  },
+  "evidence_label": "real",
+  "machine_id": "681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978",
+  "environment_hash": "bac0fdd048d7d4cd07d46a4ed4fc15a0d5b21cd94b71541be631229f3f1ed53b",
+  "code": {
+    "git_commit": "13d1649b7ab09c8e78118bff83226663201d3255",
+    "git_dirty": true,
+    "git_available": true,
+    "src_sha256": "d6e480bcfa67f5cb152f672dda2266ce9ea3965ded684601b3119468b371a967"
+  },
+  "design": {
+    "name": "stage5_gpu_confirm",
+    "sha256": "273a155df65f69ebcadb14eabfc62c8b6618028dcd06f12af43198978f3d8af7",
+    "reference": "EFT_E1_cpu",
+    "warmup_blocks": 0,
+    "run_timeout_s": 900
+  },
+  "input_hashes": {
+    "source": "ad7a2ea36204358d75394f82cfc64a352218fc1ac251f25824385b3a8a9cd98d"
+  },
+  "status": "ok",
+  "error": null,
+  "verification": {
+    "passed": true,
+    "output_hashes": {
+      "package": "b3c088f1c6a35803bc46f8213612eb8f6ef97335fbdb6d00814c554c046765b5"
+    }
+  },
+  "event_log": {
+    "path": "b0012_00_B0_P_only.jsonl",
+    "sha256": "3d45fc625147bdc2ed84e9b0398329f4c21c4ffa5c0301f53d1e697ca2754be0",
+    "bytes": 79951
+  },
+  "extra": {
+    "n_tasks": 68,
+    "policy": "B0_P_only",
+    "tile": 1024,
+    "grid": 4,
+    "n_images": 16,
+    "denoise_iterations": 1,
+    "gpu_pool": false,
+    "gpu_stages": [],
+    "h2d_d2h_copy_time": "not measured (inside the CUDA stage kernel time)",
+    "decision_time_total_s": 0.006498300208477303,
+    "makespan_seconds": 7.137630799988983,
+    "n_completed": 68,
+    "tasks_per_pool": {
+      "P": 68
+    },
+    "task_placement": {
+      "source": [
+        "P",
+        "P0"
+      ],
+      "tile_0": [
+        "P",
+        "P0"
+      ],
+      "denoise_0": [
+        "P",
+        "P0"
+      ],
+      "edges_0": [
+        "P",
+        "P0"
+      ],
+      "features_0": [
+        "P",
+        "P3"
+      ],
+      "tile_1": [
+        "P",
+        "P1"
+      ],
+      "denoise_1": [
+        "P",
+        "P2"
+      ],
+      "edges_1": [
+        "P",
+        "P5"
+      ],
+      "features_1": [
+        "P",
+        "P0"
+      ],
+      "tile_2": [
+        "P",
+        "P2"
+      ],
+      "denoise_2": [
+        "P",
+        "P0"
+      ],
+      "edges_2": [
+        "P",
+        "P4"
+      ],
+      "features_2": [
+        "P",
+        "P5"
+      ],
+      "tile_3": [
+        "P",
+        "P3"
+      ],
+      "denoise_3": [
+        "P",
+        "P1"
+      ],
+      "edges_3": [
+        "P",
+        "P2"
+      ],
+      "features_3": [
+        "P",
+        "P3"
+      ],
+      "tile_4": [
+        "P",
+        "P4"
+      ],
+      "denoise_4": [
+        "P",
+        "P4"
+      ],
+      "edges_4": [
+        "P",
+        "P3"
+      ],
+      "features_4": [
+        "P",
+        "P1"
+      ],
+      "tile_5": [
+        "P",
+        "P5"
+      ],
+      "denoise_5": [
+        "P",
+        "P5"
+      ],
+      "edges_5": [
+        "P",
+        "P1"
+      ],
+      "features_5": [
+        "P",
+        "P3"
+      ],
+      "tile_6": [
+        "P",
+        "P0"
+      ],
+      "denoise_6": [
+        "P",
+        "P5"
+      ],
+      "edges_6": [
+        "P",
+        "P1"
+      ],
+      "features_6": [
+        "P",
+        "P0"
+      ],
+      "tile_7": [
+        "P",
+        "P0"
+      ],
+      "denoise_7": [
+        "P",
+        "P3"
+      ],
+      "edges_7": [
+        "P",
+        "P4"
+      ],
+      "features_7": [
+        "P",
+        "P1"
+      ],
+      "tile_8": [
+        "P",
+        "P0"
+      ],
+      "denoise_8": [
+        "P",
+        "P2"
+      ],
+      "edges_8": [
+        "P",
+        "P2"
+      ],
+      "features_8": [
+        "P",
+        "P1"
+      ],
+      "tile_9": [
+        "P",
+        "P1"
+      ],
+      "denoise_9": [
+        "P",
+        "P0"
+      ],
+      "edges_9": [
+        "P",
+        "P3"
+      ],
+      "features_9": [
+        "P",
+        "P3"
+      ],
+      "tile_10": [
+        "P",
+        "P3"
+      ],
+      "denoise_10": [
+        "P",
+        "P5"
+      ],
+      "edges_10": [
+        "P",
+        "P1"
+      ],
+      "features_10": [
+        "P",
+        "P0"
+      ],
+      "tile_11": [
+        "P",
+        "P4"
+      ],
+      "denoise_11": [
+        "P",
+        "P1"
+      ],
+      "edges_11": [
+        "P",
+        "P0"
+      ],
+      "features_11": [
+        "P",
+        "P2"
+      ],
+      "tile_12": [
+        "P",
+        "P5"
+      ],
+      "denoise_12": [
+        "P",
+        "P4"
+      ],
+      "edges_12": [
+        "P",
+        "P2"
+      ],
+      "features_12": [
+        "P",
+        "P4"
+      ],
+      "tile_13": [
+        "P",
+        "P2"
+      ],
+      "denoise_13": [
+        "P",
+        "P2"
+      ],
+      "edges_13": [
+        "P",
+        "P5"
+      ],
+      "features_13": [
+        "P",
+        "P1"
+      ],
+      "tile_14": [
+        "P",
+        "P0"
+      ],
+      "denoise_14": [
+        "P",
+        "P3"
+      ],
+      "edges_14": [
+        "P",
+        "P5"
+      ],
+      "features_14": [
+        "P",
+        "P0"
+      ],
+      "tile_15": [
+        "P",
+        "P4"
+      ],
+      "denoise_15": [
+        "P",
+        "P3"
+      ],
+      "edges_15": [
+        "P",
+        "P4"
+      ],
+      "features_15": [
+        "P",
+        "P5"
+      ],
+      "mosaic": [
+        "P",
+        "P2"
+      ],
+      "aggregate": [
+        "P",
+        "P0"
+      ],
+      "package": [
+        "P",
+        "P0"
+      ]
+    },
+    "cuda_tasks": [],
+    "output_verdict": {
+      "match": "exact",
+      "sha256": "b3c088f1c6a35803bc46f8213612eb8f6ef97335fbdb6d00814c554c046765b5"
+    }
+  },
+  "started_utc": "2026-10-13T07:20:36.169687+00:00",
+  "wall_s": 15.963353400002234
+}

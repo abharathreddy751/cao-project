@@ -1,0 +1,2477 @@
+{
+ "label": "real",
+ "session": "data/results/stage5_20261013/gpu_sessions/20261013T121953",
+ "n_runs": 168,
+ "n_failing_checks": 0,
+ "failing": {},
+ "makespan_by_condition": {
+  "B0_P_only": {
+   "n": 24,
+   "mean_s": 7.177218208335641,
+   "min_s": 7.015199799992843,
+   "max_s": 7.910721399995964
+  },
+  "B4_cpu": {
+   "n": 24,
+   "mean_s": 7.430210987497655,
+   "min_s": 7.313575599982869,
+   "max_s": 7.588500100013334
+  },
+  "B4_gpu": {
+   "n": 24,
+   "mean_s": 7.3915588499924825,
+   "min_s": 7.159814999991795,
+   "max_s": 8.015299799997592
+  },
+  "EFT_E1_cpu": {
+   "n": 24,
+   "mean_s": 7.282484104163207,
+   "min_s": 7.062768799980404,
+   "max_s": 7.723945600009756
+  },
+  "EFT_E1_gpu": {
+   "n": 24,
+   "mean_s": 7.1287138666654455,
+   "min_s": 7.011387300008209,
+   "max_s": 7.383104999986244
+  },
+  "HEFT_E1_gpu": {
+   "n": 24,
+   "mean_s": 7.352086295832123,
+   "min_s": 7.116633199999342,
+   "max_s": 7.691280600003665
+  },
+  "random_gpu": {
+   "n": 24,
+   "mean_s": 12.265539966667953,
+   "min_s": 7.297928999993019,
+   "max_s": 17.531004999997094
+  }
+ },
+ "runs": {
+  "b0000_00_random_gpu": {
+   "condition": "random_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 8.277996499993606,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 37,
+    "E": 19,
+    "G": 12
+   }
+  },
+  "b0000_01_B4_cpu": {
+   "condition": "B4_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.473106999997981,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0000_02_EFT_E1_cpu": {
+   "condition": "EFT_E1_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.293406999990111,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 61,
+    "E": 7
+   }
+  },
+  "b0000_03_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.241420300008031,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0000_04_B4_gpu": {
+   "condition": "B4_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.591414900001837,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 33,
+    "G": 28,
+    "E": 7
+   }
+  },
+  "b0000_05_HEFT_E1_gpu": {
+   "condition": "HEFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.3368005999946035,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 43,
+    "G": 18,
+    "E": 7
+   }
+  },
+  "b0000_06_EFT_E1_gpu": {
+   "condition": "EFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.318935000017518,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 31,
+    "G": 33,
+    "E": 4
+   }
+  },
+  "b0001_00_HEFT_E1_gpu": {
+   "condition": "HEFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.399360300012631,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 43,
+    "G": 18,
+    "E": 7
+   }
+  },
+  "b0001_01_B4_cpu": {
+   "condition": "B4_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.441825799993239,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0001_02_EFT_E1_gpu": {
+   "condition": "EFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.226189299981343,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 31,
+    "G": 33,
+    "E": 4
+   }
+  },
+  "b0001_03_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.0904011000238825,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0001_04_random_gpu": {
+   "condition": "random_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.418796999991173,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 38,
+    "E": 15,
+    "G": 15
+   }
+  },
+  "b0001_05_B4_gpu": {
+   "condition": "B4_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 8.015299799997592,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 28,
+    "G": 33,
+    "E": 7
+   }
+  },
+  "b0001_06_EFT_E1_cpu": {
+   "condition": "EFT_E1_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.529528500017477,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0002_00_HEFT_E1_gpu": {
+   "condition": "HEFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.691280600003665,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 43,
+    "G": 18,
+    "E": 7
+   }
+  },
+  "b0002_01_B4_gpu": {
+   "condition": "B4_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.3700580000004265,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 36,
+    "G": 25,
+    "E": 7
+   }
+  },
+  "b0002_02_EFT_E1_gpu": {
+   "condition": "EFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.121254900004715,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 31,
+    "G": 33,
+    "E": 4
+   }
+  },
+  "b0002_03_random_gpu": {
+   "condition": "random_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 8.243333899998106,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 42,
+    "G": 8,
+    "E": 18
+   }
+  },
+  "b0002_04_B4_cpu": {
+   "condition": "B4_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.423634400009178,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 59,
+    "E": 9
+   }
+  },
+  "b0002_05_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.910721399995964,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0002_06_EFT_E1_cpu": {
+   "condition": "EFT_E1_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.723945600009756,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 61,
+    "E": 7
+   }
+  },
+  "b0003_00_B4_cpu": {
+   "condition": "B4_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.426086199993733,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0003_01_HEFT_E1_gpu": {
+   "condition": "HEFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.222029299999122,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 43,
+    "G": 18,
+    "E": 7
+   }
+  },
+  "b0003_02_B4_gpu": {
+   "condition": "B4_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.159814999991795,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 39,
+    "G": 22,
+    "E": 7
+   }
+  },
+  "b0003_03_random_gpu": {
+   "condition": "random_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.564068200008478,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 41,
+    "G": 10,
+    "E": 17
+   }
+  },
+  "b0003_04_EFT_E1_cpu": {
+   "condition": "EFT_E1_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.339221600006567,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0003_05_EFT_E1_gpu": {
+   "condition": "EFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.383104999986244,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 33,
+    "G": 31,
+    "E": 4
+   }
+  },
+  "b0003_06_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.053575500001898,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0004_00_HEFT_E1_gpu": {
+   "condition": "HEFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.557256200001575,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 43,
+    "G": 18,
+    "E": 7
+   }
+  },
+  "b0004_01_EFT_E1_gpu": {
+   "condition": "EFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.260074499994516,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 40,
+    "G": 24,
+    "E": 4
+   }
+  },
+  "b0004_02_B4_cpu": {
+   "condition": "B4_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.581252899981337,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0004_03_EFT_E1_cpu": {
+   "condition": "EFT_E1_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.416637799993623,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 61,
+    "E": 7
+   }
+  },
+  "b0004_04_B4_gpu": {
+   "condition": "B4_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.197057600016706,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 37,
+    "G": 24,
+    "E": 7
+   }
+  },
+  "b0004_05_random_gpu": {
+   "condition": "random_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 8.381289999990258,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 38,
+    "E": 17,
+    "G": 13
+   }
+  },
+  "b0004_06_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.385267500008922,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0005_00_B4_gpu": {
+   "condition": "B4_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.314407800004119,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 33,
+    "G": 28,
+    "E": 7
+   }
+  },
+  "b0005_01_EFT_E1_gpu": {
+   "condition": "EFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.119998700014548,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 36,
+    "G": 28,
+    "E": 4
+   }
+  },
+  "b0005_02_HEFT_E1_gpu": {
+   "condition": "HEFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.347633799974574,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 43,
+    "G": 18,
+    "E": 7
+   }
+  },
+  "b0005_03_B4_cpu": {
+   "condition": "B4_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.380184899986489,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0005_04_random_gpu": {
+   "condition": "random_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 17.266669600008754,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "E": 23,
+    "P": 40,
+    "G": 5
+   }
+  },
+  "b0005_05_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.059529800026212,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0005_06_EFT_E1_cpu": {
+   "condition": "EFT_E1_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.062768799980404,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 63,
+    "E": 5
+   }
+  },
+  "b0006_00_EFT_E1_cpu": {
+   "condition": "EFT_E1_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.224996100005228,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 63,
+    "E": 5
+   }
+  },
+  "b0006_01_B4_cpu": {
+   "condition": "B4_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.473683499993058,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0006_02_B4_gpu": {
+   "condition": "B4_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.321389099990483,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 31,
+    "G": 30,
+    "E": 7
+   }
+  },
+  "b0006_03_random_gpu": {
+   "condition": "random_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 16.238823299994692,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "E": 20,
+    "P": 42,
+    "G": 6
+   }
+  },
+  "b0006_04_HEFT_E1_gpu": {
+   "condition": "HEFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.4443261999986134,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 43,
+    "G": 18,
+    "E": 7
+   }
+  },
+  "b0006_05_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.1383998000237625,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0006_06_EFT_E1_gpu": {
+   "condition": "EFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.140523900015978,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 41,
+    "G": 23,
+    "E": 4
+   }
+  },
+  "b0007_00_B4_gpu": {
+   "condition": "B4_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.384969299979275,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 33,
+    "G": 28,
+    "E": 7
+   }
+  },
+  "b0007_01_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.1419383000175,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0007_02_random_gpu": {
+   "condition": "random_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.444469899986871,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 40,
+    "G": 15,
+    "E": 13
+   }
+  },
+  "b0007_03_EFT_E1_gpu": {
+   "condition": "EFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.077190799987875,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 34,
+    "G": 30,
+    "E": 4
+   }
+  },
+  "b0007_04_EFT_E1_cpu": {
+   "condition": "EFT_E1_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.189954700006638,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 63,
+    "E": 5
+   }
+  },
+  "b0007_05_B4_cpu": {
+   "condition": "B4_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.314518799976213,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0007_06_HEFT_E1_gpu": {
+   "condition": "HEFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.2172305999847595,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 43,
+    "G": 18,
+    "E": 7
+   }
+  },
+  "b0008_00_B4_gpu": {
+   "condition": "B4_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.279195299983257,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 40,
+    "G": 21,
+    "E": 7
+   }
+  },
+  "b0008_01_EFT_E1_gpu": {
+   "condition": "EFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.015518100000918,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 37,
+    "G": 27,
+    "E": 4
+   }
+  },
+  "b0008_02_HEFT_E1_gpu": {
+   "condition": "HEFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.329470700002275,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 43,
+    "G": 18,
+    "E": 7
+   }
+  },
+  "b0008_03_EFT_E1_cpu": {
+   "condition": "EFT_E1_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.363573499984341,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 59,
+    "E": 9
+   }
+  },
+  "b0008_04_B4_cpu": {
+   "condition": "B4_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.588500100013334,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0008_05_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.268877199996496,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0008_06_random_gpu": {
+   "condition": "random_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 16.249559199990472,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "E": 24,
+    "P": 39,
+    "G": 5
+   }
+  },
+  "b0009_00_B4_cpu": {
+   "condition": "B4_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.464292699994985,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0009_01_EFT_E1_gpu": {
+   "condition": "EFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.100139099988155,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 38,
+    "G": 26,
+    "E": 4
+   }
+  },
+  "b0009_02_random_gpu": {
+   "condition": "random_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.297928999993019,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 43,
+    "E": 17,
+    "G": 8
+   }
+  },
+  "b0009_03_B4_gpu": {
+   "condition": "B4_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.387011199985864,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 37,
+    "G": 24,
+    "E": 7
+   }
+  },
+  "b0009_04_EFT_E1_cpu": {
+   "condition": "EFT_E1_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.0963275999820326,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 63,
+    "E": 5
+   }
+  },
+  "b0009_05_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.186256000015419,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0009_06_HEFT_E1_gpu": {
+   "condition": "HEFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.466166899976088,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 43,
+    "G": 18,
+    "E": 7
+   }
+  },
+  "b0010_00_HEFT_E1_gpu": {
+   "condition": "HEFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.2272079000249505,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 43,
+    "G": 18,
+    "E": 7
+   }
+  },
+  "b0010_01_B4_gpu": {
+   "condition": "B4_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.265886999986833,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 38,
+    "G": 23,
+    "E": 7
+   }
+  },
+  "b0010_02_B4_cpu": {
+   "condition": "B4_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.381446099985624,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0010_03_EFT_E1_gpu": {
+   "condition": "EFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.06239419998019,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 34,
+    "G": 30,
+    "E": 4
+   }
+  },
+  "b0010_04_EFT_E1_cpu": {
+   "condition": "EFT_E1_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.229087999992771,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 63,
+    "E": 5
+   }
+  },
+  "b0010_05_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.190815199981444,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0010_06_random_gpu": {
+   "condition": "random_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 17.531004999997094,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "E": 28,
+    "P": 32,
+    "G": 8
+   }
+  },
+  "b0011_00_EFT_E1_cpu": {
+   "condition": "EFT_E1_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.2889069999800995,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 62,
+    "E": 6
+   }
+  },
+  "b0011_01_B4_cpu": {
+   "condition": "B4_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.462998000002699,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0011_02_random_gpu": {
+   "condition": "random_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 16.45815270001185,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "E": 25,
+    "P": 36,
+    "G": 7
+   }
+  },
+  "b0011_03_B4_gpu": {
+   "condition": "B4_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.539156499988167,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 37,
+    "G": 24,
+    "E": 7
+   }
+  },
+  "b0011_04_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.077795699995477,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0011_05_EFT_E1_gpu": {
+   "condition": "EFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.138159199996153,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 33,
+    "G": 31,
+    "E": 4
+   }
+  },
+  "b0011_06_HEFT_E1_gpu": {
+   "condition": "HEFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.34702109999489,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 43,
+    "G": 18,
+    "E": 7
+   }
+  },
+  "b0012_00_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.137630799988983,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0012_01_EFT_E1_gpu": {
+   "condition": "EFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.136931199987885,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 33,
+    "G": 31,
+    "E": 4
+   }
+  },
+  "b0012_02_EFT_E1_cpu": {
+   "condition": "EFT_E1_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.301450400002068,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 61,
+    "E": 7
+   }
+  },
+  "b0012_03_B4_gpu": {
+   "condition": "B4_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.300926999974763,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 35,
+    "G": 26,
+    "E": 7
+   }
+  },
+  "b0012_04_HEFT_E1_gpu": {
+   "condition": "HEFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.116633199999342,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 43,
+    "G": 18,
+    "E": 7
+   }
+  },
+  "b0012_05_B4_cpu": {
+   "condition": "B4_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.500411000015447,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0012_06_random_gpu": {
+   "condition": "random_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.341559199994663,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 39,
+    "G": 11,
+    "E": 18
+   }
+  },
+  "b0013_00_B4_gpu": {
+   "condition": "B4_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.414288700005272,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 33,
+    "G": 28,
+    "E": 7
+   }
+  },
+  "b0013_01_B4_cpu": {
+   "condition": "B4_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.414498700003605,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0013_02_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.210199699999066,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0013_03_EFT_E1_cpu": {
+   "condition": "EFT_E1_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.386564999993425,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0013_04_random_gpu": {
+   "condition": "random_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 16.134348899999168,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "E": 25,
+    "P": 36,
+    "G": 7
+   }
+  },
+  "b0013_05_HEFT_E1_gpu": {
+   "condition": "HEFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.484206699999049,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 43,
+    "G": 18,
+    "E": 7
+   }
+  },
+  "b0013_06_EFT_E1_gpu": {
+   "condition": "EFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.074752800021088,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 36,
+    "G": 28,
+    "E": 4
+   }
+  },
+  "b0014_00_EFT_E1_gpu": {
+   "condition": "EFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.0741446999891195,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 33,
+    "G": 31,
+    "E": 4
+   }
+  },
+  "b0014_01_random_gpu": {
+   "condition": "random_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.3813846000120975,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 41,
+    "G": 12,
+    "E": 15
+   }
+  },
+  "b0014_02_B4_gpu": {
+   "condition": "B4_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.344642799987923,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 36,
+    "G": 25,
+    "E": 7
+   }
+  },
+  "b0014_03_HEFT_E1_gpu": {
+   "condition": "HEFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.467963700008113,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 43,
+    "G": 18,
+    "E": 7
+   }
+  },
+  "b0014_04_B4_cpu": {
+   "condition": "B4_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.433156999992207,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0014_05_EFT_E1_cpu": {
+   "condition": "EFT_E1_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.321390199998859,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 62,
+    "E": 6
+   }
+  },
+  "b0014_06_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.283995599980699,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0015_00_HEFT_E1_gpu": {
+   "condition": "HEFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.282394700014265,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 43,
+    "G": 18,
+    "E": 7
+   }
+  },
+  "b0015_01_EFT_E1_gpu": {
+   "condition": "EFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.0284800000081304,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 34,
+    "G": 30,
+    "E": 4
+   }
+  },
+  "b0015_02_random_gpu": {
+   "condition": "random_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 17.22233230000711,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "E": 23,
+    "P": 37,
+    "G": 8
+   }
+  },
+  "b0015_03_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.12076259998139,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0015_04_B4_cpu": {
+   "condition": "B4_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.453773299988825,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0015_05_EFT_E1_cpu": {
+   "condition": "EFT_E1_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.337276500009466,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 63,
+    "E": 5
+   }
+  },
+  "b0015_06_B4_gpu": {
+   "condition": "B4_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.669087199989008,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 33,
+    "G": 28,
+    "E": 7
+   }
+  },
+  "b0016_00_B4_gpu": {
+   "condition": "B4_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.218309399991995,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 40,
+    "G": 21,
+    "E": 7
+   }
+  },
+  "b0016_01_random_gpu": {
+   "condition": "random_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 17.446285999991233,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "E": 23,
+    "P": 39,
+    "G": 6
+   }
+  },
+  "b0016_02_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.182736299990211,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0016_03_HEFT_E1_gpu": {
+   "condition": "HEFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.307558600004995,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 43,
+    "G": 18,
+    "E": 7
+   }
+  },
+  "b0016_04_EFT_E1_gpu": {
+   "condition": "EFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.070489200006705,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 38,
+    "G": 26,
+    "E": 4
+   }
+  },
+  "b0016_05_EFT_E1_cpu": {
+   "condition": "EFT_E1_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.224204099999042,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 62,
+    "E": 6
+   }
+  },
+  "b0016_06_B4_cpu": {
+   "condition": "B4_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.365535000019008,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0017_00_random_gpu": {
+   "condition": "random_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 17.17086929999641,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "E": 22,
+    "P": 38,
+    "G": 8
+   }
+  },
+  "b0017_01_B4_cpu": {
+   "condition": "B4_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.313575599982869,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0017_02_EFT_E1_cpu": {
+   "condition": "EFT_E1_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.261417700006859,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0017_03_B4_gpu": {
+   "condition": "B4_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.200187200010987,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 42,
+    "G": 19,
+    "E": 7
+   }
+  },
+  "b0017_04_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.052237900003092,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0017_05_EFT_E1_gpu": {
+   "condition": "EFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.011387300008209,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 33,
+    "G": 31,
+    "E": 4
+   }
+  },
+  "b0017_06_HEFT_E1_gpu": {
+   "condition": "HEFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.24818100000266,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 43,
+    "G": 18,
+    "E": 7
+   }
+  },
+  "b0018_00_B4_gpu": {
+   "condition": "B4_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.295672300009755,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 35,
+    "G": 26,
+    "E": 7
+   }
+  },
+  "b0018_01_B4_cpu": {
+   "condition": "B4_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.42971490000491,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0018_02_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.184184000012465,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0018_03_random_gpu": {
+   "condition": "random_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 16.0333268000104,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "E": 24,
+    "P": 33,
+    "G": 11
+   }
+  },
+  "b0018_04_EFT_E1_gpu": {
+   "condition": "EFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.071785800013458,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 36,
+    "G": 28,
+    "E": 4
+   }
+  },
+  "b0018_05_HEFT_E1_gpu": {
+   "condition": "HEFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.290441499993904,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 43,
+    "G": 18,
+    "E": 7
+   }
+  },
+  "b0018_06_EFT_E1_cpu": {
+   "condition": "EFT_E1_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.197566899994854,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 62,
+    "E": 6
+   }
+  },
+  "b0019_00_B4_gpu": {
+   "condition": "B4_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.603204899991397,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 31,
+    "G": 30,
+    "E": 7
+   }
+  },
+  "b0019_01_B4_cpu": {
+   "condition": "B4_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.363035799993668,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0019_02_random_gpu": {
+   "condition": "random_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 17.083050699991873,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "E": 22,
+    "P": 39,
+    "G": 7
+   }
+  },
+  "b0019_03_EFT_E1_gpu": {
+   "condition": "EFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.126033399981679,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 33,
+    "G": 31,
+    "E": 4
+   }
+  },
+  "b0019_04_HEFT_E1_gpu": {
+   "condition": "HEFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.2975423999887425,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 43,
+    "G": 18,
+    "E": 7
+   }
+  },
+  "b0019_05_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.103130100003909,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0019_06_EFT_E1_cpu": {
+   "condition": "EFT_E1_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.211965900001815,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 63,
+    "E": 5
+   }
+  },
+  "b0020_00_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.018939600005979,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0020_01_B4_gpu": {
+   "condition": "B4_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.213839299976826,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 32,
+    "G": 29,
+    "E": 7
+   }
+  },
+  "b0020_02_HEFT_E1_gpu": {
+   "condition": "HEFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.367082599987043,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 43,
+    "G": 18,
+    "E": 7
+   }
+  },
+  "b0020_03_random_gpu": {
+   "condition": "random_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 8.226341800007503,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 40,
+    "G": 14,
+    "E": 14
+   }
+  },
+  "b0020_04_EFT_E1_gpu": {
+   "condition": "EFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.165558799984865,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 37,
+    "G": 27,
+    "E": 4
+   }
+  },
+  "b0020_05_EFT_E1_cpu": {
+   "condition": "EFT_E1_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.202653199987253,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 62,
+    "E": 6
+   }
+  },
+  "b0020_06_B4_cpu": {
+   "condition": "B4_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.4414520999998786,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0021_00_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.136880800011568,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0021_01_EFT_E1_gpu": {
+   "condition": "EFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.143337800021982,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 36,
+    "G": 28,
+    "E": 4
+   }
+  },
+  "b0021_02_random_gpu": {
+   "condition": "random_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 16.285774400021182,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "E": 27,
+    "P": 34,
+    "G": 7
+   }
+  },
+  "b0021_03_EFT_E1_cpu": {
+   "condition": "EFT_E1_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.1945813999918755,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 61,
+    "E": 7
+   }
+  },
+  "b0021_04_B4_gpu": {
+   "condition": "B4_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.364736099989386,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 30,
+    "G": 31,
+    "E": 7
+   }
+  },
+  "b0021_05_B4_cpu": {
+   "condition": "B4_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.380015900009312,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0021_06_HEFT_E1_gpu": {
+   "condition": "HEFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.253539299999829,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 43,
+    "G": 18,
+    "E": 7
+   }
+  },
+  "b0022_00_EFT_E1_cpu": {
+   "condition": "EFT_E1_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.157007200003136,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 63,
+    "E": 5
+   }
+  },
+  "b0022_01_B4_cpu": {
+   "condition": "B4_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.403357599978335,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0022_02_HEFT_E1_gpu": {
+   "condition": "HEFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.265714400011348,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 43,
+    "G": 18,
+    "E": 7
+   }
+  },
+  "b0022_03_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.015199799992843,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0022_04_random_gpu": {
+   "condition": "random_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 8.322601100022439,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 37,
+    "E": 16,
+    "G": 15
+   }
+  },
+  "b0022_05_EFT_E1_gpu": {
+   "condition": "EFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.112473299988778,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 35,
+    "G": 29,
+    "E": 4
+   }
+  },
+  "b0022_06_B4_gpu": {
+   "condition": "B4_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.521337499987567,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 37,
+    "G": 24,
+    "E": 7
+   }
+  },
+  "b0023_00_B4_gpu": {
+   "condition": "B4_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.425518499978352,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 35,
+    "G": 26,
+    "E": 7
+   }
+  },
+  "b0023_01_EFT_E1_gpu": {
+   "condition": "EFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.110275799990632,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 36,
+    "G": 28,
+    "E": 4
+   }
+  },
+  "b0023_02_HEFT_E1_gpu": {
+   "condition": "HEFT_E1_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.483028799993917,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 43,
+    "G": 18,
+    "E": 7
+   }
+  },
+  "b0023_03_B4_cpu": {
+   "condition": "B4_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.415006400027778,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 61,
+    "E": 7
+   }
+  },
+  "b0023_04_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.062341999990167,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0023_05_EFT_E1_cpu": {
+   "condition": "EFT_E1_cpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.225183799979277,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 61,
+    "E": 7
+   }
+  },
+  "b0023_06_random_gpu": {
+   "condition": "random_gpu",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 7.352989800012438,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 39,
+    "G": 11,
+    "E": 18
+   }
+  }
+ }
+}

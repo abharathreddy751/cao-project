@@ -22,9 +22,11 @@ def main(argv=None) -> int:
     ap.add_argument("--reference")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--no-figures", action="store_true")
+    ap.add_argument("--posthoc-exclude-blocks", type=int, nargs="*", default=[], help="POST-HOC sensitivity: drop these blocks from the primary analysis (reason recorded in exclusions.csv; never a pre-registered rule)")
     ap.add_argument("--allow-mixed-code", action="store_true", help="pool sessions run with different source versions")
     a = ap.parse_args(argv)
-    res = analyze(a.sessions, a.reference, a.seed, allow_mixed_code=a.allow_mixed_code)
+    res = analyze(a.sessions, a.reference, a.seed, allow_mixed_code=a.allow_mixed_code,
+                   posthoc_exclude_blocks=tuple(a.posthoc_exclude_blocks))
     files = write_tables(res, a.out)
     if not a.no_figures:
         try:

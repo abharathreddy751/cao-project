@@ -160,3 +160,12 @@ def test_figures_tagged(tmp_path):
     from caosched.analysis.stats_paired import make_figures
     figs = make_figures(analyze([_session(tmp_path, "S", {"B": 0.9}, n_blocks=8)]), tmp_path)
     assert len(figs) == 3 and all(f.stat().st_size > 0 for f in figs)
+
+
+
+def test_posthoc_block_exclusion_is_recorded_and_changes_n(tmp_path):
+    sdir = _session(tmp_path, "S", {"B": 0.9}, n_blocks=12)
+    base = analyze([sdir], seed=1)
+    ph = analyze([sdir], seed=1, posthoc_exclude_blocks=(3, 4))
+    assert _eff(ph)["n_blocks"] == _eff(base)["n_blocks"] - 2
+    assert {r["reason"] for r in ph["tables"]["exclusions"] if r["block"] in (3, 4)} == {"post-hoc block exclusion (declared as such, not pre-registered)"}

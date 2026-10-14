@@ -2,6 +2,8 @@
 
 Status: **written 2026-10-11 before any of these commands was re-run for this document.** Every command carries a marker. `[not yet run]` means the author of this file has not seen it succeed; the commands were read from the scripts' own usage text and argument parsers, not executed. Nothing below is a result. Replace markers only with the outcome recorded in `repro_log.json` (section 12), never from memory.
 
+**Update 2026-10-14:** sections 14 and 15 were added after the confirmatory sessions (stage 5). Section 14 lists the stage-5 commands, reconstructed from the scripts' own usage text and argument parsers and from the session metadata (the exact chain script that ran the sessions is not stored in the repository); section 15 lists the logs that were actually observed, with their paths. Sections 1 to 13 are unchanged and keep their original markers.
+
 Paths: `<REPO>` is the repository root, `<DATA>` is `<REPO>/data`. Commands are shown for a Windows shell with the repository venv active; use `python` from that venv. Scripts that take no path arguments (`montage_prepare.py`, `montage_sequential.py`, `stage1_report.py`, `gpu_spike.py` default) resolve `data/` relative to their own location, so they must be run from a full checkout that has `data/montage/`.
 
 ## 0. What can and cannot be reproduced from git alone
@@ -174,3 +176,85 @@ Fill this section only from the `repro_log.json` written by `scripts/reproduce_c
 - The cu128 index install of `torch==2.11.0+cu128` together with `--extra-index-url https://pypi.org/simple` was not tried; if pip resolves a different torch, the `pip_freeze` log shows it.
 - Re-downloaded Montage inputs equal the recorded hashes only if the archive still serves the same files; not checked.
 - Rebuilt Montage executables are not claimed to be byte-identical to the recorded hashes.
+
+## 14. Stage 5 (confirmatory sessions): commands
+
+`S5` = `data/results/stage5_20261013`. Prerequisites and hygiene as in sections 1 to 11. The sessions ran on 2026-10-13 (the remote session ended 23:39 UTC); the commands below are what the scripts accept, in the order in which the evidence was produced. Markers: `[observed]` means the output named in section 15 exists; `[reconstructed]` means the invocation is derived from the usage text and the session metadata, not from a stored command log. Nothing was re-run for this document.
+
+**14.1 Designs (written and committed before the first block; exclusive create; the SHA-256 goes into every run manifest).** `[reconstructed]` Output hashes: main `9228d7ac...4648`, scarce-P `7dac58e3...5126`, GPU `273a155d...8af7`, remote `4dab0106...3d49` (EVALUATION_PROTOCOL 13, 14).
+```
+python scripts/make_stage5_designs.py data/results/stage5_20261013/designs data/results/stage1_20261011/gpu/spike_20261012T092018 data/results/stage4_20261012/gpu/profile_t1024/20261013T025309_profile.json
+python scripts/profile_gpu_workload.py --out data/results/stage5_20261013/remote/profile_t512 --tile 512 --n-images 16 --no-gpu
+python scripts/calibrate_link.py --base-profile data/results/stage5_20261013/remote/profile_t512/<STAMP>_profile.json --out data/results/stage5_20261013/remote/remote_profile.json --tile 512
+python scripts/make_remote_design.py data/results/stage5_20261013/designs/remote data/results/stage5_20261013/remote/remote_profile.json 12
+```
+Adapter settings: `designs/adapter_config_main.json`, `adapter_config_regimeR.json`, `gpu/adapter_config_gpu.json`, `remote/adapter_config_remote.json` (timeouts; `max_p_slots` 2 for remote). The link calibration (`remote_profile.json`, `remote_profile_raw.csv`) is label emulation: a loopback socket with the shim at zero.
+
+**14.2 Background-load monitor (start it before the first session, leave it running through all of them).** `[reconstructed]`; output `[observed]`: `S5/load/load_20261013T121952.jsonl`.
+```
+python scripts/load_monitor.py data/results/stage5_20261013/load/load_<STAMP>.jsonl --interval 30
+```
+
+**14.3 Run chain.** Run the sessions one after another on an otherwise idle machine (memory preflight, section 11). `[reconstructed]`; outputs `[observed]`: the session directories and `S5/{gpu,main,regimeR,remote}.stdout.txt`, `S5/progress.txt`. Session ids default to the local timestamp (the directory names).
+```
+$env:CAO_GPU_ADAPTER_CONFIG = "data\results\stage5_20261013\designs\gpu\adapter_config_gpu.json"
+python scripts/run_experiment.py --design data/results/stage5_20261013/designs/gpu/design_gpu_confirm.json --out data/results/stage5_20261013/gpu_sessions --adapter caosched.experiment.gpu_adapter:factory
+$env:CAO_MONTAGE_ADAPTER_CONFIG = "data\results\stage5_20261013\designs\adapter_config_main.json"
+python scripts/run_experiment.py --design data/results/stage5_20261013/designs/design_main_confirm.json --out data/results/stage5_20261013/sessions_main --adapter caosched.experiment.montage_adapter:factory
+$env:CAO_MONTAGE_ADAPTER_CONFIG = "data\results\stage5_20261013\designs\adapter_config_regimeR.json"
+python scripts/run_experiment.py --design data/results/stage5_20261013/designs/design_regimeR_confirm.json --out data/results/stage5_20261013/sessions_regimeR --adapter caosched.experiment.montage_adapter:factory
+$env:CAO_REMOTE_ADAPTER_CONFIG = "data\results\stage5_20261013\designs\remote\adapter_config_remote.json"
+python scripts/run_experiment.py --design data/results/stage5_20261013/designs/remote/design_remote.json --out data/results/stage5_20261013/remote_sessions --adapter caosched.experiment.remote_adapter:factory --session-id remote_confirm
+```
+The gate files (`gate_sessions_main.json`, `gate_sessions_regimeR.json`, `gate_gpu_sessions.json`, `gate_remote.json`) hold per run: `completed`, `output_verified`, `dependency_violations`, `worker_overlaps`, `ineligible_placements`, `makespan_s`, `tasks_per_pool`; they are produced from the raw event logs by `python scripts/stage2_gate.py <session_dir> <out.json>` `[reconstructed: the usage text of that script matches the file layout; the invocation is not stored]`. The script's output carries the label `real`, so `gate_remote.json` says `real` while the session metadata and the analysis say `emulation`.
+
+**14.4 Analyses** (reference as in the design; seed 0; 10,000 bootstrap resamples). `[reconstructed]` from `analysis.json` (`paths`, `reference`); outputs `[observed]`.
+```
+python scripts/analyze_experiment.py --sessions data/results/stage5_20261013/sessions_main/<ID> --out data/results/stage5_20261013/analysis_main --reference B0_P_only --seed 0
+python scripts/analyze_experiment.py --sessions data/results/stage5_20261013/sessions_regimeR/<ID> --out data/results/stage5_20261013/analysis_regimeR --reference B4_greedy_eligible --seed 0
+python scripts/analyze_experiment.py --sessions data/results/stage5_20261013/gpu_sessions/<ID> --out data/results/stage5_20261013/analysis_gpu --reference EFT_E1_cpu --seed 0
+python scripts/analyze_experiment.py --sessions data/results/stage5_20261013/remote_sessions/remote_confirm --out data/results/stage5_20261013/analysis_remote --reference EFT_E1_no_remote --seed 0
+```
+Second-reference analyses (exploratory, made after the first analyses; no figures were written for them, so `--no-figures` was presumably used):
+```
+python scripts/analyze_experiment.py --sessions <gpu session> --out data/results/stage5_20261013/analysis_gpu_vs_P --reference B0_P_only --seed 0 --no-figures
+python scripts/analyze_experiment.py --sessions <remote session> --out data/results/stage5_20261013/analysis_remote_vs_B4 --reference B4_no_remote --seed 0 --no-figures
+```
+**Post-hoc sensitivity option** (declared post-hoc, never a pre-registered rule; the dropped runs and the reason are written to `exclusions.csv`; 7 blocks cannot be Holm-significant):
+```
+python scripts/analyze_experiment.py --sessions data/results/stage5_20261013/sessions_main/<ID> --out data/results/stage5_20261013/analysis_main_posthoc_excl_blocks_5_6 --reference B0_P_only --seed 0 --no-figures --posthoc-exclude-blocks 5 6
+```
+Relate slow runs to the load log (prints runs above a factor of their condition's median with the load samples in their time window): `python scripts/load_vs_runs.py <session_dir> data/results/stage5_20261013/load/load_20261013T121952.jsonl --factor 1.2` `[reconstructed; its output was not stored]`.
+
+**14.5 Per-session manifests and reproduction from raw logs.** `[reconstructed]`; outputs `[observed]` in `data/results/stage5_repro/`.
+```
+python scripts/make_manifest.py data/results/stage5_20261013/sessions_main/<ID>
+python scripts/make_manifest.py data/results/stage5_20261013/sessions_main/<ID> --verify
+python scripts/reproduce_subset.py --analysis-dir data/results/stage5_20261013/analysis_main --log data/results/stage5_repro/repro_analysis_main.json
+```
+(same pattern for `analysis_regimeR`, `analysis_gpu`, `analysis_remote`). The stage-level manifest of `S5` (analyses, load log, designs, figures, extra analyses) was written at the end: `data/results/stage5_20261013/SHA256_MANIFEST.tsv`.
+
+**14.6 Offline analyses, figures, tests.** Drift, learning curve and regret use the exact commands recorded in `S5/analysis_extra/commands.txt` `[observed]` (frozen config `stage3_20261012/eval_cfg/cfg_final_test.json`, sha256 `ae2802ee...3843`; the time-split config differs only in `"split": {"policy": "time", "train_fraction": 0.7}`).
+```
+python scripts/make_diagrams.py --out data/results/stage5_20261013/figures --analysis
+python -m pytest -q
+```
+`make_diagrams.py` writes the three diagrams and re-draws the pilot analysis figures into `figures/analysis_main`, `analysis_regimeR`, `gpu_analysis` (the confirmatory figures are the `fig_*.png` written by `analyze_experiment.py` into each analysis directory). The full-suite invocation is not recorded; the logs are in section 15.
+
+## 15. Observed logs, confirmatory sessions (read 2026-10-14; paths under `data/results/stage5_20261013`, `S5`)
+
+| Item | Observation | File |
+|---|---|---|
+| Main session | `stage5_main_confirm`, 9 of 9 blocks, started 2026-10-13T07:51:19Z, finished 17:15:59Z, status complete; run-chain `rc=0` | `sessions_main/20261013T132115/session.json`, `main.stdout.txt`, `progress.txt` |
+| Scarce-P session | `stage5_regimeR_confirm`, 8 of 8 blocks, 17:16:04Z to 23:19:09Z, status complete; `rc=0` | `sessions_regimeR/20261013T224600/session.json`, `regimeR.stdout.txt`, `progress.txt` |
+| GPU session | `stage5_gpu_confirm`, 24 of 24 blocks, 06:49:56Z to 07:51:15Z, status complete; `rc=0` | `gpu_sessions/20261013T121953/session.json`, `gpu.stdout.txt`, `progress.txt` |
+| Remote session (emulation) | `remote_emulation_confirm`, 12 of 12 blocks, 23:22:40Z to 23:39:15Z, status complete; `rc=0`; `progress.txt` ends `ALLDONE` after gpu, main and regimeR | `remote_sessions/remote_confirm/session.json`, `remote.stdout.txt` |
+| Gates | 108, 48, 168 and 84 runs, `n_failing_checks` 0 in all four | `gate_sessions_main.json`, `gate_sessions_regimeR.json`, `gate_gpu_sessions.json`, `gate_remote.json` |
+| Analyses | `n_runs` 108, 48, 168, 84; `n_excluded` 0; design hashes equal the protocol; evidence labels real, real, real, emulation; `code_versions` `95a74ba36708` (main, scarce-P, remote) and `d6e480bcfa67` (GPU) | `analysis_main`, `analysis_regimeR`, `analysis_gpu`, `analysis_remote` (`analysis.json`) |
+| Post-hoc analysis | `n_runs` 108, `n_included_primary` 84, `n_excluded` 24 | `analysis_main_posthoc_excl_blocks_5_6/analysis.json`, `exclusions.csv` |
+| Reproduction from raw logs | four checks each (session manifest with missing, changed, extra all empty; event-log hashes; `summary` table; `effects` table), `ok` true, written 2026-10-13T23:42:27Z to 23:42:33Z | `data/results/stage5_repro/repro_analysis_{main,regimeR,gpu,remote}.json` |
+| Full test suite | before the sessions: `384 passed, 1 skipped in 98.01s` (file time 2026-10-13 12:19 +0530); after: `392 passed, 1 skipped in 131.54s` (2026-10-14 05:15 +0530) | `full_suite_before_confirmatory.txt`, `full_suite_final.txt` |
+| Background load | 1,928 samples from 2026-10-13T06:50:24Z to 23:18:48Z, longest gap 32.0 s; median non-experiment CPU 35.1%, median machine CPU 23.6%, minimum free RAM 2.09 GB (computed here) | `load/load_20261013T121952.jsonl` |
+| Drift, learning curve, regret | see `analysis_extra/commands.txt` for the commands and config hashes; learning-curve verdicts in `learning_curve/run.log` | `analysis_extra/` |
+
+Not observed here: a rebuild of Montage from the patched sources (the recipe is in `MONTAGE_WINDOWS_BUILD.md`). Added at the end: the exact chain scripts that ran the sessions are stored in `scripts/chains/` (`run_stage5.sh` is the stage-5 chain), stage-level SHA-256 manifests exist for stages 1 to 5, and a clean-checkout run at the final state is `data/results/stage5_repro/repro_clean_checkout_final.json`.

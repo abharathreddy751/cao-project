@@ -171,7 +171,8 @@ def _num(v):
     return NOT_MEASURED if v is None else v
 
 
-def analyze(paths, reference: str | None = None, seed: int = 0, allow_mixed_code: bool = False) -> dict:
+def analyze(paths, reference: str | None = None, seed: int = 0, allow_mixed_code: bool = False,
+            posthoc_exclude_blocks=()) -> dict:
     paths = _unique_paths(paths)
     runs = load_runs(paths)
     meta = check_poolable(runs, allow_mixed_code)
@@ -180,6 +181,8 @@ def analyze(paths, reference: str | None = None, seed: int = 0, allow_mixed_code
         raise ValueError("no reference condition: set 'reference' in the design or pass one")
     for r in runs:
         r["excluded"] = exclusion_reason(r)
+        if r["excluded"] is None and r["manifest"]["block"] in set(posthoc_exclude_blocks):
+            r["excluded"] = "post-hoc block exclusion (declared as such, not pre-registered)"
     conds = sorted({r["manifest"]["condition"]["name"] for r in runs})
     if reference not in conds:
         raise ValueError(f"reference {reference!r} has no runs")

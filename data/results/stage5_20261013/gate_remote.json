@@ -1,0 +1,1241 @@
+{
+ "label": "real",
+ "session": "data/results/stage5_20261013/remote_sessions/remote_confirm",
+ "n_runs": 84,
+ "n_failing_checks": 0,
+ "failing": {},
+ "makespan_by_condition": {
+  "B0_P_only": {
+   "n": 12,
+   "mean_s": 2.0770347583287125,
+   "min_s": 2.03063850000035,
+   "max_s": 2.1497651000099722
+  },
+  "B4_no_remote": {
+   "n": 12,
+   "mean_s": 2.2270934999978635,
+   "min_s": 2.183561399986502,
+   "max_s": 2.276539899990894
+  },
+  "B4_remote_fast_lan": {
+   "n": 12,
+   "mean_s": 2.250498533328937,
+   "min_s": 2.1975944000005256,
+   "max_s": 2.309081099985633
+  },
+  "B4_remote_slow_wan": {
+   "n": 12,
+   "mean_s": 2.9108246416702364,
+   "min_s": 2.849368399998639,
+   "max_s": 3.043308499996783
+  },
+  "EFT_E1_no_remote": {
+   "n": 12,
+   "mean_s": 2.218849641668688,
+   "min_s": 2.170867899985751,
+   "max_s": 2.2741721000056714
+  },
+  "EFT_E1_remote_fast_lan": {
+   "n": 12,
+   "mean_s": 2.2219609250023495,
+   "min_s": 2.157824099995196,
+   "max_s": 2.27945329999784
+  },
+  "EFT_E1_remote_slow_wan": {
+   "n": 12,
+   "mean_s": 2.2260333000061414,
+   "min_s": 2.1747333999956027,
+   "max_s": 2.2784264000074472
+  }
+ },
+ "runs": {
+  "b0000_00_EFT_E1_remote_slow_wan": {
+   "condition": "EFT_E1_remote_slow_wan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.2784264000074472,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 49,
+    "E": 19
+   }
+  },
+  "b0000_01_B4_no_remote": {
+   "condition": "B4_no_remote",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.183561399986502,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 60,
+    "E": 8
+   }
+  },
+  "b0000_02_B4_remote_fast_lan": {
+   "condition": "B4_remote_fast_lan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.309081099985633,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 54,
+    "R": 1,
+    "E": 13
+   }
+  },
+  "b0000_03_EFT_E1_remote_fast_lan": {
+   "condition": "EFT_E1_remote_fast_lan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.259641400014516,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 48,
+    "E": 20
+   }
+  },
+  "b0000_04_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.1055968000146095,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0000_05_B4_remote_slow_wan": {
+   "condition": "B4_remote_slow_wan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.895978400018066,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 59,
+    "R": 1,
+    "E": 8
+   }
+  },
+  "b0000_06_EFT_E1_no_remote": {
+   "condition": "EFT_E1_no_remote",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.2668910999782383,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 46,
+    "E": 22
+   }
+  },
+  "b0001_00_B4_remote_slow_wan": {
+   "condition": "B4_remote_slow_wan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 3.043308499996783,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 55,
+    "R": 1,
+    "E": 12
+   }
+  },
+  "b0001_01_B4_no_remote": {
+   "condition": "B4_no_remote",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.276539899990894,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 58,
+    "E": 10
+   }
+  },
+  "b0001_02_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.1153764000046067,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0001_03_EFT_E1_no_remote": {
+   "condition": "EFT_E1_no_remote",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.2270501000166405,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 46,
+    "E": 22
+   }
+  },
+  "b0001_04_EFT_E1_remote_slow_wan": {
+   "condition": "EFT_E1_remote_slow_wan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.223004100000253,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 48,
+    "E": 20
+   }
+  },
+  "b0001_05_EFT_E1_remote_fast_lan": {
+   "condition": "EFT_E1_remote_fast_lan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.2529684000182897,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 45,
+    "E": 23
+   }
+  },
+  "b0001_06_B4_remote_fast_lan": {
+   "condition": "B4_remote_fast_lan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.2662769999878947,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 55,
+    "R": 1,
+    "E": 12
+   }
+  },
+  "b0002_00_EFT_E1_remote_slow_wan": {
+   "condition": "EFT_E1_remote_slow_wan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.2616151999973226,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 47,
+    "E": 21
+   }
+  },
+  "b0002_01_B4_remote_fast_lan": {
+   "condition": "B4_remote_fast_lan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.2743257000111043,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 57,
+    "R": 1,
+    "E": 10
+   }
+  },
+  "b0002_02_EFT_E1_remote_fast_lan": {
+   "condition": "EFT_E1_remote_fast_lan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.191564799984917,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 48,
+    "E": 20
+   }
+  },
+  "b0002_03_B4_remote_slow_wan": {
+   "condition": "B4_remote_slow_wan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.8907023000065237,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 56,
+    "R": 1,
+    "E": 11
+   }
+  },
+  "b0002_04_B4_no_remote": {
+   "condition": "B4_no_remote",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.2509365000005346,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 55,
+    "E": 13
+   }
+  },
+  "b0002_05_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.1497651000099722,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0002_06_EFT_E1_no_remote": {
+   "condition": "EFT_E1_no_remote",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.2255595000169706,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 48,
+    "E": 20
+   }
+  },
+  "b0003_00_B4_no_remote": {
+   "condition": "B4_no_remote",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.1958800999855157,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 58,
+    "E": 10
+   }
+  },
+  "b0003_01_EFT_E1_no_remote": {
+   "condition": "EFT_E1_no_remote",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.1914581000164617,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 49,
+    "E": 19
+   }
+  },
+  "b0003_02_EFT_E1_remote_fast_lan": {
+   "condition": "EFT_E1_remote_fast_lan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.2039674000116065,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 49,
+    "E": 19
+   }
+  },
+  "b0003_03_B4_remote_slow_wan": {
+   "condition": "B4_remote_slow_wan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.8874678000283893,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 58,
+    "R": 1,
+    "E": 9
+   }
+  },
+  "b0003_04_EFT_E1_remote_slow_wan": {
+   "condition": "EFT_E1_remote_slow_wan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.1908842000120785,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 47,
+    "E": 21
+   }
+  },
+  "b0003_05_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.03063850000035,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0003_06_B4_remote_fast_lan": {
+   "condition": "B4_remote_fast_lan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.241316299972823,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 57,
+    "R": 1,
+    "E": 10
+   }
+  },
+  "b0004_00_EFT_E1_remote_slow_wan": {
+   "condition": "EFT_E1_remote_slow_wan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.2553786000062246,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 48,
+    "E": 20
+   }
+  },
+  "b0004_01_B4_remote_slow_wan": {
+   "condition": "B4_remote_slow_wan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.849368399998639,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 57,
+    "R": 1,
+    "E": 10
+   }
+  },
+  "b0004_02_B4_no_remote": {
+   "condition": "B4_no_remote",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.230586800025776,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 58,
+    "E": 10
+   }
+  },
+  "b0004_03_B4_remote_fast_lan": {
+   "condition": "B4_remote_fast_lan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.306165999994846,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 57,
+    "R": 1,
+    "E": 10
+   }
+  },
+  "b0004_04_EFT_E1_remote_fast_lan": {
+   "condition": "EFT_E1_remote_fast_lan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.23131000000285,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 47,
+    "E": 21
+   }
+  },
+  "b0004_05_EFT_E1_no_remote": {
+   "condition": "EFT_E1_no_remote",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.1938244000193663,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 46,
+    "E": 22
+   }
+  },
+  "b0004_06_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.0729266999987885,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0005_00_EFT_E1_no_remote": {
+   "condition": "EFT_E1_no_remote",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.2338730999908876,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 49,
+    "E": 19
+   }
+  },
+  "b0005_01_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.1245949000003748,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0005_02_B4_remote_fast_lan": {
+   "condition": "B4_remote_fast_lan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.223849700007122,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 54,
+    "R": 1,
+    "E": 13
+   }
+  },
+  "b0005_03_EFT_E1_remote_fast_lan": {
+   "condition": "EFT_E1_remote_fast_lan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.2405738000234123,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 47,
+    "E": 21
+   }
+  },
+  "b0005_04_B4_remote_slow_wan": {
+   "condition": "B4_remote_slow_wan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.8948883999837562,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 55,
+    "R": 1,
+    "E": 12
+   }
+  },
+  "b0005_05_B4_no_remote": {
+   "condition": "B4_no_remote",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.2556528999994043,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 58,
+    "E": 10
+   }
+  },
+  "b0005_06_EFT_E1_remote_slow_wan": {
+   "condition": "EFT_E1_remote_slow_wan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.210319400008302,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 50,
+    "E": 18
+   }
+  },
+  "b0006_00_EFT_E1_remote_fast_lan": {
+   "condition": "EFT_E1_remote_fast_lan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.2153996999841183,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 48,
+    "E": 20
+   }
+  },
+  "b0006_01_B4_remote_fast_lan": {
+   "condition": "B4_remote_fast_lan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.225796300015645,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 57,
+    "R": 1,
+    "E": 10
+   }
+  },
+  "b0006_02_B4_no_remote": {
+   "condition": "B4_no_remote",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.20076410000911,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 58,
+    "E": 10
+   }
+  },
+  "b0006_03_EFT_E1_no_remote": {
+   "condition": "EFT_E1_no_remote",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.2072334999975283,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 48,
+    "E": 20
+   }
+  },
+  "b0006_04_B4_remote_slow_wan": {
+   "condition": "B4_remote_slow_wan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.953344700013986,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 57,
+    "R": 1,
+    "E": 10
+   }
+  },
+  "b0006_05_EFT_E1_remote_slow_wan": {
+   "condition": "EFT_E1_remote_slow_wan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.24237059999723,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 49,
+    "E": 19
+   }
+  },
+  "b0006_06_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.0764561999822035,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0007_00_B4_no_remote": {
+   "condition": "B4_no_remote",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.2714927999768406,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 55,
+    "E": 13
+   }
+  },
+  "b0007_01_B4_remote_slow_wan": {
+   "condition": "B4_remote_slow_wan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.912230699992506,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 57,
+    "R": 1,
+    "E": 10
+   }
+  },
+  "b0007_02_EFT_E1_no_remote": {
+   "condition": "EFT_E1_no_remote",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.200869899999816,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 46,
+    "E": 22
+   }
+  },
+  "b0007_03_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.0435707999859005,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0007_04_EFT_E1_remote_fast_lan": {
+   "condition": "EFT_E1_remote_fast_lan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.1953425999963656,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 49,
+    "E": 19
+   }
+  },
+  "b0007_05_EFT_E1_remote_slow_wan": {
+   "condition": "EFT_E1_remote_slow_wan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.1972471000044607,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 47,
+    "E": 21
+   }
+  },
+  "b0007_06_B4_remote_fast_lan": {
+   "condition": "B4_remote_fast_lan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.242433899984462,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 57,
+    "R": 1,
+    "E": 10
+   }
+  },
+  "b0008_00_EFT_E1_remote_slow_wan": {
+   "condition": "EFT_E1_remote_slow_wan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.1951533000101335,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 49,
+    "E": 19
+   }
+  },
+  "b0008_01_B4_remote_fast_lan": {
+   "condition": "B4_remote_fast_lan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.1975944000005256,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 57,
+    "R": 1,
+    "E": 10
+   }
+  },
+  "b0008_02_B4_remote_slow_wan": {
+   "condition": "B4_remote_slow_wan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.9395041999814566,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 57,
+    "R": 1,
+    "E": 10
+   }
+  },
+  "b0008_03_B4_no_remote": {
+   "condition": "B4_no_remote",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.1932764000084717,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 58,
+    "E": 10
+   }
+  },
+  "b0008_04_EFT_E1_remote_fast_lan": {
+   "condition": "EFT_E1_remote_fast_lan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.157824099995196,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 47,
+    "E": 21
+   }
+  },
+  "b0008_05_EFT_E1_no_remote": {
+   "condition": "EFT_E1_no_remote",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.2741721000056714,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 49,
+    "E": 19
+   }
+  },
+  "b0008_06_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.031133399985265,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0009_00_B4_remote_fast_lan": {
+   "condition": "B4_remote_fast_lan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.226604600000428,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 57,
+    "R": 1,
+    "E": 10
+   }
+  },
+  "b0009_01_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.035046599979978,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0009_02_EFT_E1_no_remote": {
+   "condition": "EFT_E1_no_remote",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.170867899985751,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 48,
+    "E": 20
+   }
+  },
+  "b0009_03_EFT_E1_remote_slow_wan": {
+   "condition": "EFT_E1_remote_slow_wan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.2770906000223476,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 47,
+    "E": 21
+   }
+  },
+  "b0009_04_B4_no_remote": {
+   "condition": "B4_no_remote",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.223068499995861,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 55,
+    "E": 13
+   }
+  },
+  "b0009_05_EFT_E1_remote_fast_lan": {
+   "condition": "EFT_E1_remote_fast_lan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.22723039999255,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 49,
+    "E": 19
+   }
+  },
+  "b0009_06_B4_remote_slow_wan": {
+   "condition": "B4_remote_slow_wan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.9079081999952905,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 55,
+    "R": 1,
+    "E": 12
+   }
+  },
+  "b0010_00_EFT_E1_no_remote": {
+   "condition": "EFT_E1_no_remote",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.218311500007985,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 47,
+    "E": 21
+   }
+  },
+  "b0010_01_B4_no_remote": {
+   "condition": "B4_no_remote",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.219313700014027,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 58,
+    "E": 10
+   }
+  },
+  "b0010_02_EFT_E1_remote_slow_wan": {
+   "condition": "EFT_E1_remote_slow_wan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.1747333999956027,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 48,
+    "E": 20
+   }
+  },
+  "b0010_03_B4_remote_slow_wan": {
+   "condition": "B4_remote_slow_wan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.8910247000167146,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 57,
+    "R": 1,
+    "E": 10
+   }
+  },
+  "b0010_04_EFT_E1_remote_fast_lan": {
+   "condition": "EFT_E1_remote_fast_lan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.2082552000065334,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 49,
+    "E": 19
+   }
+  },
+  "b0010_05_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.0740348999970593,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0010_06_B4_remote_fast_lan": {
+   "condition": "B4_remote_fast_lan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.2770306000020355,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 54,
+    "R": 1,
+    "E": 13
+   }
+  },
+  "b0011_00_B4_remote_slow_wan": {
+   "condition": "B4_remote_slow_wan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.8641694000107236,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 57,
+    "R": 1,
+    "E": 10
+   }
+  },
+  "b0011_01_EFT_E1_no_remote": {
+   "condition": "EFT_E1_no_remote",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.2160844999889378,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 47,
+    "E": 21
+   }
+  },
+  "b0011_02_EFT_E1_remote_fast_lan": {
+   "condition": "EFT_E1_remote_fast_lan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.27945329999784,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 49,
+    "E": 19
+   }
+  },
+  "b0011_03_B4_remote_fast_lan": {
+   "condition": "B4_remote_fast_lan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.2155067999847233,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 57,
+    "R": 1,
+    "E": 10
+   }
+  },
+  "b0011_04_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.0652767999854404,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 68
+   }
+  },
+  "b0011_05_B4_no_remote": {
+   "condition": "B4_no_remote",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.224048899981426,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 57,
+    "E": 11
+   }
+  },
+  "b0011_06_EFT_E1_remote_slow_wan": {
+   "condition": "EFT_E1_remote_slow_wan",
+   "completed": true,
+   "n_tasks": 68,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 2.2061767000122927,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 45,
+    "E": 23
+   }
+  }
+ }
+}

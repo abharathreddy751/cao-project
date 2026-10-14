@@ -167,3 +167,97 @@ Analysis tables from `scripts/analyze_experiment.py` per session with the stated
 What is emulated: one real node process on a core of this machine behind a loopback link shim with a configured latency, bandwidth and per-message cost (no jitter, no real network, no foreign clock, no ARM host, no authentication beyond the tested handshake). All results of this session are labelled **emulation** and are never pooled with real-hardware sessions. Calibration (2026-10-14, idle machine, `data/results/stage5_20261013/remote/remote_profile.json`, raw `remote_profile_raw.csv`): transfer = 0.779 ms + 1.617 ns per byte at shim zero (n=60, median absolute residual 0.084 ms).
 
 Design `data/results/stage5_20261013/designs/remote/design_remote.json` (sha256 `4dab0106d6d9a86af400af779cd2aaf789b7389d73c7b53eea77f89cb6ea3d57`; adapter config `7b6c04ee8ab30ec192448f09df980d5cb1b89351638c1fd88fd75c271589caac`): image pipeline tile 512, 16 branches, pools P (2 workers), E, R (emulated node), 7 conditions (B0 P-only, B4 no remote, EFT E1 no remote, B4 and EFT E1 with R on `fast_lan` 0.2 ms / 1000 Mbit/s and on `slow_wan` 30 ms / 20 Mbit/s), 12 blocks, reference `EFT_E1_no_remote`; family 6 contrasts, Holm threshold 0.05/6 = 0.00833, minimum attainable sign-flip p at 12 blocks 0.000488 (n >= 8 suffices, so up to 4 blocks may be lost). Pre-stated directions: D1 B4 with R is slower than B4 without R on the WAN link; D2 EFT places fewer tasks on R on the WAN link than on the LAN link; D3 no direction for EFT with R on the LAN link. Wording per prediction: supported / not supported / not resolved. The profile check stored in the design (modelled transfer time over R kernel time per stage and link) is the evidence that transfer is a visible share of task time on these links.
+
+## 15. Results of the confirmatory sessions (written 2026-10-14, AFTER all four sessions and their analyses; sections 12 to 14 above are unchanged)
+
+Paths are under `data/results/stage5_20261013/` (`S5`). Numbers are copied from the `effects.csv` of each analysis directory (rows `variant primary`, `metric makespan_s`, columns `cond`, `ref`, `effect_pct`, `ci_lo_pct`, `ci_hi_pct`, `p_holm`; 10,000 bootstrap resamples, seed 0) and from `summary.csv` and `gate_*.json`. Interpretation and caveats: [FINAL_REPORT.md](FINAL_REPORT.md) sections 8 and 11. The first-round Stage 4 sessions (section 12) are the PILOT and are not pooled with these results.
+
+### 15.1 Execution facts
+
+| Session | Design sha256 (as in section 13 or 14) | Blocks | Runs | Started to finished (UTC, 2026-10-13) | Gate (`S5/gate_*.json`) | Excluded runs |
+|---|---|---|---|---|---|---|
+| `stage5_main_confirm` | `9228d7ac...4648` (matches `analysis.json`) | 9 of 9 | 108 | 07:51:19 to 17:15:59 | 108 completed and verified, 0 failing checks | 0 |
+| `stage5_regimeR_confirm` | `7dac58e3...5126` (matches) | 8 of 8 | 48 | 17:16:04 to 23:19:09 | 48 completed and verified, 0 failing checks | 0 |
+| `stage5_gpu_confirm` | `273a155d...8af7` (matches) | 24 of 24 | 168 | 06:49:56 to 07:51:15 | 168 completed and verified, 0 failing checks | 0 |
+| `remote_emulation_confirm` (label **emulation**) | `4dab0106...3d49` (matches) | 12 of 12 | 84 | 23:22:40 to 23:39:15 | 84 completed and verified, 0 failing checks | 0 |
+
+Total 408 runs. Each session was committed to the protocol before its first block (section 13: commit `13d1649` at 12:19:40 +0530, first run 12:19:56 +0530; section 14: commit `868eeea` at 04:52:28 +0530 on 2026-10-14, first run 04:52:40 +0530). No design was changed after its first block; no interim look was taken.
+
+### 15.2 Main session (reference B0 P-only, 9 blocks, family of 11 contrasts, smallest Holm step 0.05/11 = 0.0045, significant if `p_holm` < 0.05; `S5/analysis_main/effects.csv`)
+
+| Condition | Effect (95% CI) | p_perm | p_holm | Significant | Post-hoc effect without blocks 5 and 6, 7 blocks (95% CI) |
+|---|---|---|---|---|---|
+| B0_P_early | +1.675% (+1.236 to +2.310) | 0.0049 | 0.0360 | yes | +1.403% (+1.197 to +1.598) |
+| EFT_E1 | +1.619% (+1.210 to +2.277) | 0.0048 | 0.0360 | yes | +1.330% (+1.193 to +1.475) |
+| EFT_E1_rank | +1.415% (+1.036 to +1.986) | 0.0047 | 0.0360 | yes | +1.148% (+0.980 to +1.308) |
+| EFT_E3 | +1.586% (+1.113 to +2.221) | 0.0039 | 0.0360 | yes | +1.306% (+1.023 to +1.638) |
+| EFT_Ridge | +1.536% (+1.119 to +2.059) | 0.0041 | 0.0360 | yes | +1.305% (+1.055 to +1.633) |
+| HEFT_E1 | +1.545% (+1.144 to +2.083) | 0.0045 | 0.0360 | yes | +1.335% (+1.094 to +1.564) |
+| PEFT_E1 | +1.730% (+1.135 to +2.476) | 0.0031 | 0.0341 | yes | +1.371% (+1.016 to +1.846) |
+| EFT_CatBoost | +8.678% (+1.323 to +24.659) | 0.0044 | 0.0360 | yes | +1.444% (+1.229 to +1.696) |
+| EFT_E1_rc | +13.925% (+1.633 to +41.714) | 0.0039 | 0.0360 | yes | +1.931% (+1.293 to +2.763) |
+| EFT_MLP | +12.99% (+1.748 to +37.71) | 0.0036 | 0.0360 | yes | +2.043% (+1.393 to +3.028) |
+| B4_greedy_eligible | +47.868% (+37.473 to +54.586) | 0.0052 | 0.0360 | yes | +53.49% (+51.59 to +55.47) |
+
+Geometric-mean makespan of the reference B0 P-only: 282.99 s (all blocks, interval 271.7 to 304.5), 272.40 s (post-hoc set). Every contrast above is in the same direction in 9 of 9 blocks (computed from `analysis_main/runs.csv`). The post-hoc analysis (`S5/analysis_main_posthoc_excl_blocks_5_6/`, `--posthoc-exclude-blocks 5 6`, 24 runs listed in `exclusions.csv`) is **post-hoc and not pre-registered**; with 7 blocks its `p_holm` is 0.1584 for every contrast, so it cannot be significant and is read as intervals only. **Slow window:** blocks 5 and 6 (0-based ids `b0005`, `b0006`): 14 consecutive runs from 12:40:54 UTC (`b0005_00`) to the start of `b0006_02` at 14:29:56 UTC ran slower; block 5 about 1.4 times for every policy except B4, and three runs (`b0005_11_EFT_CatBoost` 712.1 s, `b0006_00_EFT_E1_rc` 750.1 s, `b0006_01_EFT_MLP` 683.7 s) about 2.5 times. The cause is not identified (`S5/load/load_20261013T121952.jsonl` shows no heavy non-experiment process; CPU frequency and temperature were not logged). The exclusion rules of section 12.5 do not exclude such runs, so the table above is the pre-registered primary result.
+
+### 15.3 Scarce-P session (reference B4 greedy, 8 blocks, family of 5 contrasts, smallest Holm step 0.01, significant if `p_holm` < 0.05; `S5/analysis_regimeR/effects.csv`)
+
+| Condition | Effect (95% CI) | p_perm | p_holm | Significant |
+|---|---|---|---|---|
+| B0_P_only | +42.476% (+41.045 to +43.543) | 0.0081 | 0.0325 | yes |
+| EFT_CatBoost | +15.647% (+14.835 to +16.117) | 0.0065 | 0.0325 | yes |
+| EFT_E1 | -0.130% (-1.102 to +0.881) | 0.5515 | 1 | no |
+| EFT_MLP | -0.019% (-0.212 to +0.266) | 0.9112 | 1 | no |
+| EFT_Ridge | **-0.585%** (-1.185 to -0.184) | 0.0089 | 0.0325 | yes (below the 2% practical margin) |
+
+Geometric-mean makespan of B4: 412.17 s; EFT_Ridge faster than B4 in 8 of 8 blocks (computed from `runs.csv`).
+
+### 15.4 GPU session (reference EFT_E1_cpu, 24 blocks, family of 6 contrasts, smallest Holm step 0.0083, significant if `p_holm` < 0.05; `S5/analysis_gpu/effects.csv`)
+
+| Condition | Effect vs EFT_E1_cpu (95% CI) | p_holm | Significant |
+|---|---|---|---|
+| EFT_E1_gpu | **-2.102%** (-2.934 to -1.348) | 0.0006 | yes |
+| B0_P_only | -1.457% (-2.135 to -0.791) | 0.0012 | yes |
+| HEFT_E1_gpu | +0.959% (+0.248 to +1.698) | 0.0396 | yes |
+| B4_gpu | +1.484% (+0.362 to +2.587) | 0.0396 | yes |
+| B4_cpu | +2.042% (+1.228 to +2.728) | 0.0012 | yes |
+| random_gpu | +56.57% (+33.63 to +83.04) | 0.0006 | yes |
+
+Exploratory second reference B0 P-only (`S5/analysis_gpu_vs_P/effects.csv`): EFT_E1_gpu -0.655% (-1.824 to +0.343), p_holm 0.2721; EFT_E1_cpu +1.478% (+0.806 to +2.171); B4_gpu +2.984% (+1.474 to +4.478); B4_cpu +3.551% (+2.458 to +4.335); HEFT_E1_gpu +2.451% (+1.693 to +3.176). **Computed here** (not in a stored table): EFT_E1_gpu against B4_gpu -3.53% (block-wise log ratios of `analysis_gpu/runs.csv`, 22 of 24 blocks faster; the point estimate equals the difference of the two stored effects).
+
+### 15.5 Remote-pool session [emulation] (reference EFT_E1_no_remote, 12 blocks, family of 6 contrasts, smallest Holm step 0.0083, significant if `p_holm` < 0.05; `S5/analysis_remote/effects.csv`, `S5/analysis_remote_vs_B4/effects.csv`, `S5/gate_remote.json`)
+
+| Condition | Tasks on R (12 blocks) | Effect vs EFT_E1_no_remote (95% CI), p_holm | Effect vs B4_no_remote (95% CI), p_holm |
+|---|---|---|---|
+| B0_P_only | 0 | -6.399% (-7.444 to -5.488), 0.0035 | -6.745% (-7.677 to -5.832), 0.0035 |
+| B4_no_remote | 0 | +0.371% (-0.862 to +1.455), 1 | reference |
+| B4_remote_fast_lan | 12 | +1.423% (+0.239 to +2.474), 0.1368 | +1.048% (+0.006 to +2.272), 0.4128 |
+| B4_remote_slow_wan | 12 | +31.18% (+29.90 to +32.60), 0.0024 | **+30.69%** (+29.42 to +32.02), 0.0024 |
+| EFT_E1_remote_fast_lan | 0 | +0.138% (-1.095 to +1.187), 1 | -0.232% (-1.240 to +0.811), 1 |
+| EFT_E1_remote_slow_wan | 0 | +0.320% (-0.846 to +1.551), 1 | -0.051% (-1.208 to +1.184), 1 |
+
+Link calibration (`S5/remote/remote_profile.json`): transfer = 0.779 ms + 1.617 ns per byte (n = 60). The `analysis.json` label of this session is `emulation`; the `label` field of `gate_remote.json` reads `real` (a field of the gate script, not of the analysis), and the session's own `session.json` and `design.json` say `emulation`.
+
+### 15.6 Outcome per pre-stated prediction (wording of section 13.1 and section 14)
+
+| Prediction | Outcome |
+|---|---|
+| P1: `B0_P_early` slower than `B0_P_only` by 1% to 2%, Holm-significant and positive | **Supported**: +1.675% (+1.236 to +2.310), p_holm 0.036 (post-hoc +1.403%, +1.197 to +1.598) |
+| P2: EFT/HEFT/PEFT 1% to 2% slower than B0 P-only; B4 about 54% slower | **Supported** for EFT_E1 (+1.619%), E3 (+1.586%), rank (+1.415%), Ridge (+1.536%), HEFT (+1.545%), PEFT (+1.730%). **Direction only** for EFT_CatBoost (+8.678%), EFT_E1_rc (+13.925%) and EFT_MLP (+12.99%): their all-blocks magnitude is dominated by three runs of the slow window (+1.444%, +1.931%, +2.043% post-hoc). B4: +47.868% all blocks, +53.49% post-hoc |
+| P3: scarce-P, EFT_E1 equals B4 within +-0.5%; B0 P-only about 41% slower; EFT_CatBoost about 15% slower | **Supported** for P-only (+42.476%) and CatBoost (+15.647%). EFT_E1: point estimate -0.130% inside +-0.5%, interval -1.102 to +0.881 wider than the band: **equivalence not resolved**. Ridge (-0.585%, p_holm 0.0325) and MLP (-0.019%) were exploratory |
+| P4: EFT_E1 gpu faster than EFT_E1 cpu by 1% to 3% | **Supported**: -2.102% (-2.934 to -1.348), p_holm 0.0006 |
+| D1 (emulation): B4 with R slower than B4 without R on the WAN link | **Supported**: +30.69% (+29.42 to +32.02), p_holm 0.0024 |
+| D2 (emulation): EFT places fewer tasks on R on the WAN link than on the LAN link | **Not supported**: 0 tasks on R on both links, no placement on R at all |
+| D3 (emulation): no direction for EFT_E1 with R on the LAN link | EFT_E1_remote_fast_lan +0.138% (-1.095 to +1.187), p_holm 1: not distinguishable from no remote |
+
+### 15.7 Claims of section 12.5 after the confirmatory sessions
+
+(a) Prediction beats the best non-predictive baseline in some condition: **not supported at the practical margin (2%) in all four conditions**; the only statistically significant advantage of a predictive policy over the strongest simple baseline is EFT_Ridge over B4 (-0.585%, 8 of 8 blocks) in the scarce-P regime, below the margin and not predicted. (b) A simple method matches prediction: **supported**. (c) Predictor sophistication improves scheduling: **not supported** (scarce-P CatBoost +15.647% worse, Ridge -0.585%, E1 and MLP tie B4). (d) Generalisation: offline Ridge yes on the held-out `d1.5` instance (MAE 1.36 s against 3.26 s for E1); scheduling effects do not depend on it. (e) Significance: **resolved** for P1, P3 (except equivalence of EFT_E1 at +-0.5%), P4 and D1.
+
+### 15.8 Deviations and notes
+
+* The post-hoc exclusion analysis and the second-reference analyses (`analysis_gpu_vs_P`, `analysis_remote_vs_B4`) were made after seeing the primary analyses and are exploratory; the stored `p_holm` of those tables adjusts within their own family. D1 is the exploratory contrast stated in section 14.
+* The GPU session ran from source hash `d6e480bcfa67`, the main, scarce-P and remote sessions from `95a74ba36708` (`analysis.json`, `code_versions`); git dirty flag true in all four. Sessions are not pooled.
+* The minimum free RAM seen by the load monitor (2.09 GB at 20:36:08 UTC, scarce-P session) is below the 2.5 GB preflight threshold, which is evaluated at block start; all runs of that session verified.
+* Evidence manifests exist per session (`SHA256_MANIFEST.tsv` inside each session directory); no stage-level manifest of `S5` has been written. Re-derivation of the `summary` and `effects` tables from the raw logs: `data/results/stage5_repro/repro_analysis_{main,regimeR,gpu,remote}.json`, all `ok`.

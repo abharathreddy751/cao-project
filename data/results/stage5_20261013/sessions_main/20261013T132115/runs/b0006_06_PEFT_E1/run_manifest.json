@@ -1,0 +1,107 @@
+{
+  "run_id": "20261013T132115__b0006_06_PEFT_E1",
+  "session_id": "20261013T132115",
+  "block": 6,
+  "position": 6,
+  "instance": "d1.1_dss2b_c10.7_41.3",
+  "warmup": false,
+  "seed": 1674432667,
+  "policy": "PEFT_E1",
+  "condition": {
+    "name": "PEFT_E1",
+    "policy": "PEFT_E1",
+    "estimator": null,
+    "workload": {
+      "kind": "montage"
+    },
+    "kwargs": {
+      "profile": "D:\\cao project\\data\\results\\stage2_20261012\\profile_montage\\20261012T092355_profile.json",
+      "fits_atol": null,
+      "final_outputs": [
+        "1-mosaic.fits",
+        "1-mosaic_area.fits",
+        "1-mosaic.png"
+      ],
+      "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+      "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work",
+      "reference_by_instance": {
+        "d1.1_dss2b_c56.7_24.0": {
+          "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+          "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work"
+        },
+        "d1.1_dss2b_c10.7_41.3": {
+          "reference_hashes": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.1_dss2b_c10.7_41.3\\run.json",
+          "reference_dir": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.1_dss2b_c10.7_41.3\\work"
+        }
+      }
+    },
+    "instance": "d1.1_dss2b_c10.7_41.3"
+  },
+  "evidence_label": "real",
+  "machine_id": "681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978",
+  "environment_hash": "bac0fdd048d7d4cd07d46a4ed4fc15a0d5b21cd94b71541be631229f3f1ed53b",
+  "code": {
+    "git_commit": "13d1649b7ab09c8e78118bff83226663201d3255",
+    "git_dirty": true,
+    "git_available": true,
+    "src_sha256": "95a74ba367080a1de3c49ef168b59845a894167a9a26e6084ce71fb825548d64"
+  },
+  "design": {
+    "name": "stage5_main_confirm",
+    "sha256": "9228d7ac5bc4115554b5b9267d248ef24433d38dfe206844a1adf91fe9a94648",
+    "reference": "B0_P_only",
+    "warmup_blocks": 0,
+    "run_timeout_s": 2400
+  },
+  "input_hashes": {
+    "1-corrected.tbl": "8224e1f83eeda3a73c67203db273fd75d179d9fb4215352765a9dd950ed3e852",
+    "1-images.tbl": "630c1b6ad2a0193489a13efacf75debf0bf909c032bc57efef9ec8ace0060d9c",
+    "1-projected.tbl": "2523d162b808d74de2f978f012e30d90e9dbbe06875e718e1845577f7ea21aa4",
+    "1-stat.tbl": "929d85eaa98d7203871963c07632f2469a4c769298457b91a1a48ae0360f329b",
+    "poss2ukstu_blue_001_001.fits": "01ba560eb1b837354db8035954be8018d66b0f301f8a18f4d59ec282744051a3",
+    "poss2ukstu_blue_001_002.fits": "69f746b5ea76cbedfa73c4143df7c6d6d7d081f46daee8f99618e6563c16a980",
+    "poss2ukstu_blue_001_003.fits": "0ef0c75758dfe27029f2acfa35e305ec6bca0ed37b08dd6e79eb0185209955da",
+    "poss2ukstu_blue_002_001.fits": "6687bac40806109a39fb423234c1dba328272a151f0cceca20e7feb4681f3048",
+    "poss2ukstu_blue_002_002.fits": "26be262b0ab103c4c89e979cf514ed1177a8a1cc604fff47a4d01d9afc0b0ebb",
+    "poss2ukstu_blue_002_003.fits": "61a02481d50b0fddbc5d986196fe40621f24a126841b6a8d417d64627cb2347d",
+    "poss2ukstu_blue_003_001.fits": "bbac7b730a1cc3f06435723d142b5ba62c603225f7f12cf35696165552389fe5",
+    "poss2ukstu_blue_003_002.fits": "b02a513c8f8b7bdbed1430f28ca84464fbb976f675eb27f3678ff7c9a61174ef",
+    "poss2ukstu_blue_003_003.fits": "3a439606ce15ed16403b25cb64dc42a4e69550a442cd05569d1ec43f93c42f6b",
+    "region-oversized.hdr": "014e911c2c6f66ac92f2a9ec23dab18f4ae4a371cab599e52d7fa4cb40dfdd69",
+    "region.hdr": "3cb7710bf7dd11bd7b2f1972e57f012d33ffbb8c546c236fc0f878196a3e3c34"
+  },
+  "status": "ok",
+  "error": null,
+  "verification": {
+    "passed": true,
+    "output_hashes": {
+      "1-mosaic.fits": "2bc9362e4ff9b4fe44465c3c04b521c5924c257da20781817a0e4b73b67dc555",
+      "1-mosaic_area.fits": "4146b6f27ebc52677bf6495e7a5bf1f744b64b60fd4457d76b0f784052a224a3",
+      "1-mosaic.png": "8857791ebee4e7b2d37f2dceb51404f0c7d372028a46f0ae6796c35da873d076"
+    }
+  },
+  "event_log": {
+    "path": "b0006_06_PEFT_E1.jsonl",
+    "sha256": "27cd2e28bd8fad66a79bbe79318728b02e96a47b65806059e253965222e9d69b",
+    "bytes": 243547
+  },
+  "extra": {
+    "n_tasks": 59,
+    "policy": "PEFT_E1",
+    "decision_time_total_s": 0.005879099713638425,
+    "makespan_seconds": 279.5776364999765,
+    "n_completed": 59,
+    "tasks_per_pool": {
+      "P": 50,
+      "E": 9
+    },
+    "output_verdict": {
+      "1-mosaic.fits": "identical",
+      "1-mosaic_area.fits": "identical",
+      "1-mosaic.png": "identical"
+    },
+    "work_dir_removed_after_verification": true
+  },
+  "started_utc": "2026-10-13T14:51:03.718895+00:00",
+  "wall_s": 281.86613999999827
+}

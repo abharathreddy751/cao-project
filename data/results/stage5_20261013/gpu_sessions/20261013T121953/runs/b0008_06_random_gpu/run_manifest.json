@@ -1,0 +1,413 @@
+{
+  "run_id": "20261013T121953__b0008_06_random_gpu",
+  "session_id": "20261013T121953",
+  "block": 8,
+  "position": 6,
+  "instance": null,
+  "warmup": false,
+  "seed": 654615102,
+  "policy": "random",
+  "condition": {
+    "name": "random_gpu",
+    "policy": "random",
+    "estimator": null,
+    "workload": {
+      "kind": "gpu_image"
+    },
+    "kwargs": {
+      "tile": 1024,
+      "n_images": 16,
+      "seed": 0,
+      "denoise_iterations": 1,
+      "profile": "D:\\cao project\\data\\results\\stage4_20261012\\gpu\\profile_t1024\\20261013T025309_profile.json",
+      "gpu_stage_table": {
+        "img_denoise": true,
+        "img_edges": true,
+        "img_features": true
+      }
+    },
+    "instance": null
+  },
+  "evidence_label": "real",
+  "machine_id": "681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978",
+  "environment_hash": "bac0fdd048d7d4cd07d46a4ed4fc15a0d5b21cd94b71541be631229f3f1ed53b",
+  "code": {
+    "git_commit": "13d1649b7ab09c8e78118bff83226663201d3255",
+    "git_dirty": true,
+    "git_available": true,
+    "src_sha256": "d6e480bcfa67f5cb152f672dda2266ce9ea3965ded684601b3119468b371a967"
+  },
+  "design": {
+    "name": "stage5_gpu_confirm",
+    "sha256": "273a155df65f69ebcadb14eabfc62c8b6618028dcd06f12af43198978f3d8af7",
+    "reference": "EFT_E1_cpu",
+    "warmup_blocks": 0,
+    "run_timeout_s": 900
+  },
+  "input_hashes": {
+    "source": "ad7a2ea36204358d75394f82cfc64a352218fc1ac251f25824385b3a8a9cd98d"
+  },
+  "status": "ok",
+  "error": null,
+  "verification": {
+    "passed": true,
+    "output_hashes": {
+      "package": "b3c088f1c6a35803bc46f8213612eb8f6ef97335fbdb6d00814c554c046765b5"
+    }
+  },
+  "event_log": {
+    "path": "b0008_06_random_gpu.jsonl",
+    "sha256": "239d5015f13551f5942571bbab4a2fde4bff4e5907f6f91f9c213435c06954f0",
+    "bytes": 80703
+  },
+  "extra": {
+    "n_tasks": 68,
+    "policy": "random_s654615102",
+    "tile": 1024,
+    "grid": 4,
+    "n_images": 16,
+    "denoise_iterations": 1,
+    "gpu_pool": true,
+    "gpu_stages": [
+      "img_denoise",
+      "img_edges",
+      "img_features"
+    ],
+    "h2d_d2h_copy_time": "not measured (inside the CUDA stage kernel time)",
+    "decision_time_total_s": 0.0014716999721713364,
+    "makespan_seconds": 16.249559199990472,
+    "n_completed": 68,
+    "tasks_per_pool": {
+      "E": 24,
+      "P": 39,
+      "G": 5
+    },
+    "task_placement": {
+      "source": [
+        "E",
+        "E0"
+      ],
+      "tile_0": [
+        "P",
+        "P1"
+      ],
+      "denoise_0": [
+        "P",
+        "P0"
+      ],
+      "edges_0": [
+        "E",
+        "E0"
+      ],
+      "features_0": [
+        "G",
+        "G0"
+      ],
+      "tile_1": [
+        "P",
+        "P5"
+      ],
+      "denoise_1": [
+        "P",
+        "P1"
+      ],
+      "edges_1": [
+        "P",
+        "P4"
+      ],
+      "features_1": [
+        "P",
+        "P1"
+      ],
+      "tile_2": [
+        "P",
+        "P4"
+      ],
+      "denoise_2": [
+        "P",
+        "P2"
+      ],
+      "edges_2": [
+        "P",
+        "P0"
+      ],
+      "features_2": [
+        "P",
+        "P2"
+      ],
+      "tile_3": [
+        "E",
+        "E5"
+      ],
+      "denoise_3": [
+        "E",
+        "E5"
+      ],
+      "edges_3": [
+        "P",
+        "P1"
+      ],
+      "features_3": [
+        "E",
+        "E2"
+      ],
+      "tile_4": [
+        "E",
+        "E0"
+      ],
+      "denoise_4": [
+        "G",
+        "G0"
+      ],
+      "edges_4": [
+        "P",
+        "P2"
+      ],
+      "features_4": [
+        "P",
+        "P3"
+      ],
+      "tile_5": [
+        "P",
+        "P2"
+      ],
+      "denoise_5": [
+        "P",
+        "P3"
+      ],
+      "edges_5": [
+        "P",
+        "P1"
+      ],
+      "features_5": [
+        "P",
+        "P2"
+      ],
+      "tile_6": [
+        "E",
+        "E4"
+      ],
+      "denoise_6": [
+        "E",
+        "E2"
+      ],
+      "edges_6": [
+        "E",
+        "E6"
+      ],
+      "features_6": [
+        "P",
+        "P5"
+      ],
+      "tile_7": [
+        "E",
+        "E2"
+      ],
+      "denoise_7": [
+        "P",
+        "P4"
+      ],
+      "edges_7": [
+        "P",
+        "P0"
+      ],
+      "features_7": [
+        "E",
+        "E0"
+      ],
+      "tile_8": [
+        "E",
+        "E6"
+      ],
+      "denoise_8": [
+        "P",
+        "P3"
+      ],
+      "edges_8": [
+        "P",
+        "P4"
+      ],
+      "features_8": [
+        "E",
+        "E4"
+      ],
+      "tile_9": [
+        "E",
+        "E3"
+      ],
+      "denoise_9": [
+        "E",
+        "E3"
+      ],
+      "edges_9": [
+        "P",
+        "P4"
+      ],
+      "features_9": [
+        "P",
+        "P0"
+      ],
+      "tile_10": [
+        "P",
+        "P3"
+      ],
+      "denoise_10": [
+        "P",
+        "P4"
+      ],
+      "edges_10": [
+        "P",
+        "P5"
+      ],
+      "features_10": [
+        "P",
+        "P5"
+      ],
+      "tile_11": [
+        "E",
+        "E1"
+      ],
+      "denoise_11": [
+        "E",
+        "E1"
+      ],
+      "edges_11": [
+        "P",
+        "P2"
+      ],
+      "features_11": [
+        "E",
+        "E1"
+      ],
+      "tile_12": [
+        "P",
+        "P0"
+      ],
+      "denoise_12": [
+        "G",
+        "G0"
+      ],
+      "edges_12": [
+        "P",
+        "P0"
+      ],
+      "features_12": [
+        "E",
+        "E0"
+      ],
+      "tile_13": [
+        "E",
+        "E0"
+      ],
+      "denoise_13": [
+        "E",
+        "E0"
+      ],
+      "edges_13": [
+        "G",
+        "G0"
+      ],
+      "features_13": [
+        "P",
+        "P4"
+      ],
+      "tile_14": [
+        "E",
+        "E0"
+      ],
+      "denoise_14": [
+        "P",
+        "P4"
+      ],
+      "edges_14": [
+        "P",
+        "P5"
+      ],
+      "features_14": [
+        "G",
+        "G0"
+      ],
+      "tile_15": [
+        "E",
+        "E0"
+      ],
+      "denoise_15": [
+        "P",
+        "P5"
+      ],
+      "edges_15": [
+        "P",
+        "P3"
+      ],
+      "features_15": [
+        "P",
+        "P4"
+      ],
+      "mosaic": [
+        "E",
+        "E2"
+      ],
+      "aggregate": [
+        "P",
+        "P3"
+      ],
+      "package": [
+        "P",
+        "P0"
+      ]
+    },
+    "cuda_tasks": [
+      "denoise_12",
+      "denoise_4",
+      "edges_13",
+      "features_0",
+      "features_14"
+    ],
+    "output_verdict": {
+      "denoise_12": {
+        "equivalent": true,
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "frac_diff": 0.0,
+        "max_rel": 0.0
+      },
+      "denoise_4": {
+        "equivalent": true,
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "frac_diff": 0.0,
+        "max_rel": 0.0
+      },
+      "edges_13": {
+        "equivalent": true,
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "frac_diff": 0.0,
+        "max_rel": 0.0
+      },
+      "features_0": {
+        "equivalent": true,
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "frac_diff": 0.0,
+        "max_rel": 0.0
+      },
+      "features_14": {
+        "equivalent": true,
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "frac_diff": 0.0,
+        "max_rel": 0.0
+      },
+      "final_mosaic": {
+        "equivalent": true,
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "frac_diff": 0.0,
+        "max_rel": 0.0
+      }
+    }
+  },
+  "started_utc": "2026-10-13T07:12:22.855758+00:00",
+  "wall_s": 32.72103200000129
+}
