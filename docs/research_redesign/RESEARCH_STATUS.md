@@ -1,6 +1,6 @@
 # Research status
 
-Date: 2026-10-14. State: **Stages 1-4 executed on this machine and the confirmatory sessions run and analysed (408 runs, all verified, 0 failed gate checks); the first-round Stage 4 sessions are the PILOT. Result: a confirmed null (section "Confirmatory sessions report" below; details in `FINAL_REPORT.md`). Open items: six, listed at the end of that section.** Older sections below are history (2026-10-11 and 2026-10-12) unless marked.
+Date: 2026-10-14. State: **Stages 1-4 executed on this machine and the confirmatory sessions run and analysed (408 runs, all verified, 0 failed gate checks); the first-round Stage 4 sessions are the PILOT. Result: a confirmed null (section "Confirmatory sessions report" below; details in `FINAL_REPORT.md`). Open items: five, listed at the end of that section.** Older sections below are history (2026-10-11 and 2026-10-12) unless marked.
 
 ## Verified current state
 
@@ -78,7 +78,7 @@ Update 2026-10-14: the items closed since this list was written are named in "Cl
 
 Route used: native Windows build (route 1), no WSL/container/admin. Deviations and failures (kept, excluded): first run with the wrong mDiffFit variant; runs A-C and rep1-3 (PATH, then runner misreading a tolerated message; rep1-3 partly concurrent); an unpinned set killed after mProject ran ~2x slower; debug resume runs `debug_resume1..3` (label debug, found mImgtbl option-order and mViewer stack bugs, patched). The machine was not idle during timing (WSL VM, browser, editor; power plan Balanced). Timings in these runs are indicative; the E1 profile is measured separately.
 
-Quality gates for code (2026-10-12): full suite 364 passed, 1 skipped, then 366 passed, 1 skipped after the mypy pass; mypy on `src/caosched`: 0 errors (6 targeted `# type: ignore[code]` with reasons, see the subagent report in this session); `data/results/stage1_20261011/tests/`.
+Quality gates for code (2026-10-12): full suite 364 passed, 1 skipped, then 366 passed, 1 skipped after the mypy pass; mypy on `src/caosched`: 0 errors when run with `--ignore-missing-imports` (re-run 2026-10-14: "no issues found in 79 source files"; without that flag 16 `import-untyped` errors remain for psutil, yaml, scipy, catboost and astropy, whose stub packages are not installed) (6 targeted `# type: ignore[code]` with reasons, see the subagent report in this session); `data/results/stage1_20261011/tests/`.
 
 Not claimed by Stage 1: any scheduling result, any model result, any speed-up of Montage on GPU (none exists).
 

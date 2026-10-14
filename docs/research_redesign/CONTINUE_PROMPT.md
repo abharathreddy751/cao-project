@@ -1,3 +1,5 @@
+> **Superseded (2026-10-14).** Written on 2026-10-12 for a new session; every step below is done (see `RESEARCH_STATUS.md` and `FINAL_REPORT.md`). Open items are listed in `FINAL_REPORT.md` section 14.3 (Raspberry Pi 5 needs hardware). Kept as history.
+
 # Prompt to continue the CAO research redesign (paste into a new session)
 
 Repo `D:\cao project`, branch `redesign/montage` (HEAD `4df01e0`, E4 fix committed; ~94 files uncommitted). Machine: Windows, i5-13500HX, 15.7 GB RAM, RTX 3050 6 GB. Python: `.venv\Scripts\python.exe` (3.11.9). Contract: `docs/research_redesign/*.md` (PROJECT_SPEC, ARCHITECTURE_DECISIONS, FOUR_STAGE_IMPLEMENTATION_PLAN, WORKLOAD_AND_DATA_PROVENANCE, EVALUATION_PROTOCOL, RESEARCH_STATUS). Pi 5 is out of scope.

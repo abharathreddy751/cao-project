@@ -4,6 +4,8 @@ Empirical study of how much execution-time prediction is needed to improve DAG t
 scheduling across P-core / E-core / remote-worker pools, on real Intel 12th-gen
 hybrid hardware (no emulation).
 
+**Current state (2026-10-14):** the redesign on branch `redesign/montage` (Montage workflow, 14 policies, six predictors, GPU workload, emulated remote pool; i5-13500HX, not the i5-1235U below) has no implementation left open except the Raspberry Pi 5 extension (no hardware); the other open items (paywalled papers, project licence, emulated remote pool, one machine) are listed in `FINAL_REPORT.md` section 14.3. Start with `docs/research_redesign/FINAL_REPORT.md` and `docs/research_redesign/RESEARCH_STATUS.md`; reproduction steps are in `docs/research_redesign/REPRODUCE.md`. The sections below and `PROJECT_STATUS.md` describe the earlier i5-1235U phases 0-6 and are historical.
+
 See `ARCHITECTURE.md` for the system design and `PROJECT_STATUS.md` for current
 progress, phase-by-phase results, and known limitations.
 
