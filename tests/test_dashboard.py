@@ -21,6 +21,19 @@ SUMMARY = json.loads(data.PHASE_B_SUMMARY.read_text(encoding="utf-8"))
 K16 = SUMMARY["accepted_sessions"]["16"]
 
 
+def _history_logs_present() -> bool:
+    try:
+        data.session_log(K16, "demo_B4_greedy_eligible_R_r00")
+        return True
+    except data.NotFound:
+        return False
+
+
+# the 68-task demo event logs live in data/events, which the Stage 0 record keeps out of Git
+needs_history = pytest.mark.skipif(not _history_logs_present(),
+                                   reason="historical event logs (data/events, excluded from Git) are absent")
+
+
 def _runs_csv(session):
     return list(csv.DictReader(open(data.RESULTS / f"{session}_runs.csv", encoding="utf-8")))
 
@@ -31,6 +44,7 @@ def test_accepted_sessions_come_from_the_verified_summary():
     assert all(len(x["runs"]) == 20 for x in s)
 
 
+@needs_history
 def test_run_view_matches_the_saved_log_and_runs_csv():
     row = next(r for r in _runs_csv(K16) if r["policy"] == data.EFT)
     run = row["event_log"].rsplit("/", 1)[-1][:-len(".jsonl")]
@@ -46,6 +60,7 @@ def test_run_view_matches_the_saved_log_and_runs_csv():
     assert any(t.get("candidates") for t in v["tasks"])  # EFT decisions are exposed
 
 
+@needs_history
 def test_run_view_handles_a_log_still_being_written(tmp_path):
     src = data.session_log(K16, "demo_B4_greedy_eligible_R_r00")
     lines = src.read_text(encoding="utf-8").splitlines()
@@ -63,6 +78,7 @@ def test_unsafe_or_unaccepted_paths_are_rejected(session, run):
         data.session_log(session, run)
 
 
+@needs_history
 def test_artifacts_are_real_pngs():
     log = data.session_log(K16, "demo_B4_greedy_eligible_R_r00")
     for which in ("source", "mosaic"):
