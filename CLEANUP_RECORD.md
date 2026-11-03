@@ -30,3 +30,10 @@ Effect on the claims: the Montage result (EFT 1.6% slower than static P-only) is
 Not touched: everything outside `D:\cao project`, including `D:\cao_upload_copy`, `D:\cao_checkpoint_revival` and `D:\cao_project_guide_output`.
 
 Note: the 25 small tracked `run.json` files of the removed stage 1 folders (run configuration of each Montage run) were restored from git, so the record of what each run was set up to do is kept.
+
+## Second clean-up and GitHub publication (4 November 2026)
+
+* The public repository https://github.com/abharathreddy751/cao-project holds the final version on its default branch `final`: all code, tests, configuration, documents, the submission package and the small result files (analyses, models, manifests), 2,130 files. A fresh clone passes the test suite (516 passed; the one failure is the free-RAM gate of `tests/test_profile_montage.py`, and three dashboard tests skip until the tab 2 data from Google Drive is unpacked).
+* Files that are too large for git are on Google Drive: the raw dataset zip, the tab 2 demo data and the complete development history as a git bundle (see `README.md`).
+* The older studies (Study 2 and the stage 1 to 5 raw files that were tracked in git) are no longer in the working tree or on the `final` branch. They remain in the git history and in the history bundle (`git clone cao_full_git_history_20261103.bundle`).
+* Removed locally: the duplicate `SUBMISSION_FINAL.zip`, the build leftovers in `SUBMISSION_FINAL/_draft`, the older demo logs and artifacts in `data/events` and `data/artifacts` (four accepted sessions kept), and the old release bundle zip.
