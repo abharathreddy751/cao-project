@@ -1,0 +1,7 @@
+run_id,condition,block,reason
+20261025T090432__b0000_00_PRED_RANK_GREEDY_gpu,PRED_RANK_GREEDY_gpu,0,warm-up block (design rule)
+20261025T090432__b0000_01_B0_P_only,B0_P_only,0,warm-up block (design rule)
+20261025T090432__b0000_02_RSA_TASK_ONLY_gpu,RSA_TASK_ONLY_gpu,0,warm-up block (design rule)
+20261025T090432__b0000_03_B4_gpu,B4_gpu,0,warm-up block (design rule)
+20261025T090432__b0000_04_RSA_COMBINED_gpu,RSA_COMBINED_gpu,0,warm-up block (design rule)
+20261025T090432__b0000_05_RSA_STATE_ONLY_gpu,RSA_STATE_ONLY_gpu,0,warm-up block (design rule)

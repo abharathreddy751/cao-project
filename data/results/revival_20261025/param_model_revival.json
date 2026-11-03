@@ -1,0 +1,216 @@
+{
+ "groups": {
+  "img_aggregate|E": {
+   "features": [],
+   "coef": [
+    0.00017704998608678577
+   ],
+   "n": 10,
+   "mae_s": 2.741999458521604e-05
+  },
+  "img_aggregate|P": {
+   "form": "log_power",
+   "features": [],
+   "coef": [
+    -9.438376202656226
+   ],
+   "n": 8,
+   "mae_s": 1.8127379851095918e-05
+  },
+  "img_denoise|E": {
+   "form": "log_power",
+   "features": [
+    "iterations",
+    "size"
+   ],
+   "coef": [
+    -17.20505520032047,
+    0.9813680582547568,
+    1.0662278778423282
+   ],
+   "n": 261,
+   "mae_s": 0.01750541643261354
+  },
+  "img_denoise|P": {
+   "form": "log_power",
+   "features": [
+    "iterations",
+    "size"
+   ],
+   "coef": [
+    -16.707736535438222,
+    0.9548459318768716,
+    0.9613777362751531
+   ],
+   "n": 189,
+   "mae_s": 0.032604296042213765
+  },
+  "img_edges|E": {
+   "form": "log_power",
+   "features": [
+    "size"
+   ],
+   "coef": [
+    -16.937338366676943,
+    1.0573698424190086
+   ],
+   "n": 226,
+   "mae_s": 0.0037519376374176155
+  },
+  "img_edges|P": {
+   "form": "log_power",
+   "features": [
+    "size"
+   ],
+   "coef": [
+    -18.03230759165991,
+    1.0882739929344167
+   ],
+   "n": 224,
+   "mae_s": 0.0031543347780959847
+  },
+  "img_features|E": {
+   "form": "log_power",
+   "features": [
+    "size"
+   ],
+   "coef": [
+    -17.084756347244326,
+    0.9693981098808457
+   ],
+   "n": 232,
+   "mae_s": 0.0007028298281046232
+  },
+  "img_features|P": {
+   "form": "log_power",
+   "features": [
+    "size"
+   ],
+   "coef": [
+    -18.021189074093712,
+    0.9895740294074883
+   ],
+   "n": 218,
+   "mae_s": 0.0005233211465875996
+  },
+  "img_source|E": {
+   "form": "log_power",
+   "features": [
+    "size"
+   ],
+   "coef": [
+    -14.317504737590363,
+    1.0355842043242973
+   ],
+   "n": 294,
+   "mae_s": 0.03632492239053173
+  },
+  "img_source|P": {
+   "form": "log_power",
+   "features": [
+    "size"
+   ],
+   "coef": [
+    -15.538696271116235,
+    1.092394961581072
+   ],
+   "n": 156,
+   "mae_s": 0.02585478290472975
+  }
+ },
+ "form_selection": {
+  "img_aggregate|E": {
+   "chosen": "additive",
+   "reason": "group absent from the selection sessions"
+  },
+  "img_aggregate|P": {
+   "chosen": "log_power",
+   "select_mae_ms": {
+    "additive": 0.008968747958230468,
+    "log_power": 0.007197349433307414
+   },
+   "n_train": 8,
+   "n_select": 48
+  },
+  "img_denoise|E": {
+   "chosen": "log_power",
+   "select_mae_ms": {
+    "additive": 12.982532878182793,
+    "log_power": 7.466409808874369
+   },
+   "n_train": 261,
+   "n_select": 1045
+  },
+  "img_denoise|P": {
+   "chosen": "log_power",
+   "select_mae_ms": {
+    "additive": 26.523560414685477,
+    "log_power": 10.919452304080323
+   },
+   "n_train": 189,
+   "n_select": 2411
+  },
+  "img_edges|E": {
+   "chosen": "log_power",
+   "select_mae_ms": {
+    "additive": 5.4024874172307475,
+    "log_power": 4.5900730902141875
+   },
+   "n_train": 226,
+   "n_select": 926
+  },
+  "img_edges|P": {
+   "chosen": "log_power",
+   "select_mae_ms": {
+    "additive": 3.937540978381067,
+    "log_power": 2.6016656744564126
+   },
+   "n_train": 224,
+   "n_select": 2530
+  },
+  "img_features|E": {
+   "chosen": "log_power",
+   "select_mae_ms": {
+    "additive": 1.1418010837590513,
+    "log_power": 0.9705288524643293
+   },
+   "n_train": 232,
+   "n_select": 995
+  },
+  "img_features|P": {
+   "chosen": "log_power",
+   "select_mae_ms": {
+    "additive": 0.9187216482580314,
+    "log_power": 0.7076908420104587
+   },
+   "n_train": 218,
+   "n_select": 2461
+  },
+  "img_source|E": {
+   "chosen": "log_power",
+   "select_mae_ms": {
+    "additive": 42.878900003009704,
+    "log_power": 28.727479318579007
+   },
+   "n_train": 294,
+   "n_select": 1079
+  },
+  "img_source|P": {
+   "chosen": "log_power",
+   "select_mae_ms": {
+    "additive": 33.6933038254247,
+    "log_power": 29.90494062718867
+   },
+   "n_train": 156,
+   "n_select": 2377
+  }
+ },
+ "train_sessions": [
+  "data/results/study2_20261024/retrain_classes/sessions/retrain_random",
+  "data/results/study2_20261024/retrain_classes/sessions/retrain_e_only"
+ ],
+ "select_sessions": [
+  "data/results/study2_20261024/classes_pilot_sessions/20261025T005458"
+ ],
+ "rule": "per-group form chosen on held-out selection sessions"
+}

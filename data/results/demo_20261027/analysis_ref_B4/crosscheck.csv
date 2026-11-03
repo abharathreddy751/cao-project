@@ -1,0 +1,6 @@
+test,cond,n_blocks,statistic,p_value,multiplicity
+friedman,all,10,36.08000000000001,2.786085823951377e-07,
+wilcoxon_vs_ref,B0_P_only,10,24.0,0.76953125,unadjusted (cross-check only)
+wilcoxon_vs_ref,B4_param_first,10,0.0,0.001953125,unadjusted (cross-check only)
+wilcoxon_vs_ref,EFT_E1_noctx,10,0.0,0.001953125,unadjusted (cross-check only)
+wilcoxon_vs_ref,PRED_RANK_GREEDY,10,0.0,0.001953125,unadjusted (cross-check only)

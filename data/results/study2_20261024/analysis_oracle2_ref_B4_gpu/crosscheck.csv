@@ -1,0 +1,7 @@
+test,cond,n_blocks,statistic,p_value,multiplicity
+friedman,all,12,40.71428571428572,1.071606775557693e-07,
+wilcoxon_vs_ref,B0_P_only,12,0.0,0.00048828125,unadjusted (cross-check only)
+wilcoxon_vs_ref,EFT_E1_noctx_gpu,12,31.0,0.5693359375,unadjusted (cross-check only)
+wilcoxon_vs_ref,O_EFT_E5_cpu,12,4.0,0.00341796875,unadjusted (cross-check only)
+wilcoxon_vs_ref,O_EFT_E5_e2e_gpu,12,24.0,0.26611328125,unadjusted (cross-check only)
+wilcoxon_vs_ref,O_EFT_E5_gpu,12,10.0,0.02099609375,unadjusted (cross-check only)

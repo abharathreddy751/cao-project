@@ -1,0 +1,127 @@
+{
+ "name": "stage3_collect_d1.0_dss2b_c56.7_24.0",
+ "evidence_label": "real",
+ "seed": 20261013,
+ "n_blocks": 6,
+ "instances": [
+  "d1.0_dss2b_c56.7_24.0"
+ ],
+ "warmup_blocks": 0,
+ "min_free_ram_gb": 2.5,
+ "reference": "EFT_E1",
+ "run_timeout_s": 1800,
+ "conditions": [
+  {
+   "name": "EFT_E1",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "montage",
+    "instance": "d1.0_dss2b_c56.7_24.0"
+   },
+   "kwargs": {
+    "reference_hashes": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.0_dss2b_c56.7_24.0\\run.json",
+    "reference_dir": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.0_dss2b_c56.7_24.0\\work",
+    "fits_atol": null,
+    "final_outputs": [
+     "1-mosaic.fits",
+     "1-mosaic_area.fits",
+     "1-mosaic.png"
+    ],
+    "profile": "D:\\cao project\\data\\results\\stage2_20261012\\profile_montage\\20261012T092355_profile.json"
+   }
+  },
+  {
+   "name": "RandomOccupancy_s1",
+   "policy": "RandomOccupancy",
+   "estimator": null,
+   "workload": {
+    "kind": "montage",
+    "instance": "d1.0_dss2b_c56.7_24.0"
+   },
+   "kwargs": {
+    "reference_hashes": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.0_dss2b_c56.7_24.0\\run.json",
+    "reference_dir": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.0_dss2b_c56.7_24.0\\work",
+    "fits_atol": null,
+    "final_outputs": [
+     "1-mosaic.fits",
+     "1-mosaic_area.fits",
+     "1-mosaic.png"
+    ],
+    "seed": 3101,
+    "min_idle_s": 0.0
+   }
+  },
+  {
+   "name": "RandomOccupancy_s2",
+   "policy": "RandomOccupancy",
+   "estimator": null,
+   "workload": {
+    "kind": "montage",
+    "instance": "d1.0_dss2b_c56.7_24.0"
+   },
+   "kwargs": {
+    "reference_hashes": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.0_dss2b_c56.7_24.0\\run.json",
+    "reference_dir": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.0_dss2b_c56.7_24.0\\work",
+    "fits_atol": null,
+    "final_outputs": [
+     "1-mosaic.fits",
+     "1-mosaic_area.fits",
+     "1-mosaic.png"
+    ],
+    "seed": 3102,
+    "min_idle_s": 0.0,
+    "concurrency": [
+     4,
+     13
+    ]
+   }
+  },
+  {
+   "name": "RandomOccupancy_s3",
+   "policy": "RandomOccupancy",
+   "estimator": null,
+   "workload": {
+    "kind": "montage",
+    "instance": "d1.0_dss2b_c56.7_24.0"
+   },
+   "kwargs": {
+    "reference_hashes": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.0_dss2b_c56.7_24.0\\run.json",
+    "reference_dir": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.0_dss2b_c56.7_24.0\\work",
+    "fits_atol": null,
+    "final_outputs": [
+     "1-mosaic.fits",
+     "1-mosaic_area.fits",
+     "1-mosaic.png"
+    ],
+    "seed": 3103,
+    "min_idle_s": 1.0,
+    "concurrency": [
+     4,
+     13
+    ]
+   }
+  },
+  {
+   "name": "RandomOccupancy_s4",
+   "policy": "RandomOccupancy",
+   "estimator": null,
+   "workload": {
+    "kind": "montage",
+    "instance": "d1.0_dss2b_c56.7_24.0"
+   },
+   "kwargs": {
+    "reference_hashes": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.0_dss2b_c56.7_24.0\\run.json",
+    "reference_dir": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.0_dss2b_c56.7_24.0\\work",
+    "fits_atol": null,
+    "final_outputs": [
+     "1-mosaic.fits",
+     "1-mosaic_area.fits",
+     "1-mosaic.png"
+    ],
+    "seed": 3104,
+    "min_idle_s": 2.0
+   }
+  }
+ ]
+}

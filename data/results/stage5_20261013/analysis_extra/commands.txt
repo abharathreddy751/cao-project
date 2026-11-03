@@ -1,0 +1,9 @@
+Run from D:\cao project with .venv\Scripts\python.exe (2026-10-13). Frozen config: stage3_20261012/eval_cfg/cfg_final_test.json
+sha256 ae2802ee11e685b6eb946902b1a8389dbdc6e49ccc46e90bb5b9056a59329843 (unchanged). drift/cfg_time.json differs from it ONLY in
+"split" -> {"policy":"time","train_fraction":0.7}; sha256 2f3ccd0c7d7f18318da05e1567e7267e5032513099558a4de30a74d0ef6c3c71.
+Note: order_index is empty in these datasets, so run order = first task start epoch (run_order_key).
+
+1 drift:  scripts/evaluate_models.py --dataset data/results/stage3_20261012/dataset_fit/20261012T195258 --profile data/results/stage2_20261012/profile_montage/20261012T092355_profile.json --config drift/cfg_time.json --out drift/eval_time
+          scripts/drift_check.py --dataset <same dataset_fit> --eval drift/eval_time --out drift/summary
+2 curve:  scripts/learning_curve.py --dataset-fit data/results/stage3_20261012/dataset_fit/20261012T195258 --dataset-all data/results/stage3_20261012/dataset/20261012T195206 --profile <same> --config learning_curve/cfg_final_test.json --out learning_curve --repeats 5
+3 regret: scripts/regret_table.py --main data/results/stage4_20261012/sessions_main/20261012T212448 --regime data/results/stage4_20261012/sessions_regimeR/20261013T005542 --oracle-extra data/results/stage2_20261012/sessions/* data/results/stage3_20261012/pilot_sessions/* --out regret

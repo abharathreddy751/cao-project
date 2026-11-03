@@ -1,0 +1,12 @@
+retrain_random ['random'] 13 blocks
+retrain_e_only ['B0_E_only'] 7 blocks
+img_aggregate|E        n=   11 features=[] train_mae=   0.031 ms
+img_aggregate|P        n=    7 features=[] train_mae=   0.006 ms
+img_denoise|E          n=  823 features=['iterations'] train_mae=   8.182 ms
+img_denoise|P          n=  329 features=['iterations'] train_mae=   2.884 ms
+img_edges|E            n=  963 features=[] train_mae=   2.202 ms
+img_edges|P            n=  189 features=[] train_mae=   0.955 ms
+img_features|E         n=  904 features=[] train_mae=   0.354 ms
+img_features|P         n=  248 features=[] train_mae=   0.239 ms
+img_source|E           n=  862 features=[] train_mae=  19.968 ms
+img_source|P           n=  290 features=[] train_mae=   8.473 ms

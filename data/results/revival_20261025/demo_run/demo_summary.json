@@ -1,0 +1,1265 @@
+{
+ "label": "demo",
+ "status": "ok",
+ "extra": {
+  "n_tasks": 295,
+  "policy": "RSA_COMBINED",
+  "workload_key": [
+   "dyn",
+   "((48, 256, 2), (12, 256, 300), (12, 1024, 3))",
+   "6",
+   "0",
+   "81"
+  ],
+  "denoise_iterations": 8,
+  "gpu_pool": false,
+  "gpu_stages": [],
+  "h2d_d2h_copy_time": "not measured (inside the CUDA stage kernel time)",
+  "decision_time_total_s": 0.2210996001958847,
+  "makespan_seconds": 2.9990129999350756,
+  "n_completed": 295,
+  "tasks_per_pool": {
+   "P": 199,
+   "E": 96
+  },
+  "task_placement": {
+   "source_0": [
+    "P",
+    "P0"
+   ],
+   "denoise_0": [
+    "E",
+    "E6"
+   ],
+   "edges_0": [
+    "E",
+    "E6"
+   ],
+   "features_0": [
+    "P",
+    "P5"
+   ],
+   "source_1": [
+    "P",
+    "P4"
+   ],
+   "denoise_1": [
+    "P",
+    "P4"
+   ],
+   "edges_1": [
+    "E",
+    "E5"
+   ],
+   "features_1": [
+    "P",
+    "P2"
+   ],
+   "source_2": [
+    "P",
+    "P2"
+   ],
+   "denoise_2": [
+    "P",
+    "P0"
+   ],
+   "edges_2": [
+    "E",
+    "E4"
+   ],
+   "features_2": [
+    "P",
+    "P4"
+   ],
+   "source_3": [
+    "P",
+    "P0"
+   ],
+   "denoise_3": [
+    "E",
+    "E5"
+   ],
+   "edges_3": [
+    "P",
+    "P2"
+   ],
+   "features_3": [
+    "P",
+    "P0"
+   ],
+   "source_4": [
+    "E",
+    "E5"
+   ],
+   "denoise_4": [
+    "P",
+    "P5"
+   ],
+   "edges_4": [
+    "P",
+    "P0"
+   ],
+   "features_4": [
+    "E",
+    "E0"
+   ],
+   "source_5": [
+    "E",
+    "E6"
+   ],
+   "denoise_5": [
+    "P",
+    "P2"
+   ],
+   "edges_5": [
+    "P",
+    "P3"
+   ],
+   "features_5": [
+    "E",
+    "E0"
+   ],
+   "source_6": [
+    "E",
+    "E6"
+   ],
+   "denoise_6": [
+    "P",
+    "P3"
+   ],
+   "edges_6": [
+    "P",
+    "P4"
+   ],
+   "features_6": [
+    "E",
+    "E5"
+   ],
+   "source_7": [
+    "P",
+    "P0"
+   ],
+   "denoise_7": [
+    "P",
+    "P2"
+   ],
+   "edges_7": [
+    "P",
+    "P1"
+   ],
+   "features_7": [
+    "E",
+    "E3"
+   ],
+   "source_8": [
+    "P",
+    "P4"
+   ],
+   "denoise_8": [
+    "P",
+    "P1"
+   ],
+   "edges_8": [
+    "E",
+    "E0"
+   ],
+   "features_8": [
+    "P",
+    "P3"
+   ],
+   "source_9": [
+    "P",
+    "P1"
+   ],
+   "denoise_9": [
+    "P",
+    "P2"
+   ],
+   "edges_9": [
+    "P",
+    "P3"
+   ],
+   "features_9": [
+    "P",
+    "P3"
+   ],
+   "source_10": [
+    "P",
+    "P1"
+   ],
+   "denoise_10": [
+    "P",
+    "P3"
+   ],
+   "edges_10": [
+    "P",
+    "P2"
+   ],
+   "features_10": [
+    "E",
+    "E2"
+   ],
+   "source_11": [
+    "P",
+    "P2"
+   ],
+   "denoise_11": [
+    "P",
+    "P4"
+   ],
+   "edges_11": [
+    "P",
+    "P3"
+   ],
+   "features_11": [
+    "E",
+    "E1"
+   ],
+   "source_12": [
+    "P",
+    "P3"
+   ],
+   "denoise_12": [
+    "P",
+    "P0"
+   ],
+   "edges_12": [
+    "P",
+    "P4"
+   ],
+   "features_12": [
+    "P",
+    "P0"
+   ],
+   "source_13": [
+    "E",
+    "E6"
+   ],
+   "denoise_13": [
+    "E",
+    "E6"
+   ],
+   "edges_13": [
+    "P",
+    "P5"
+   ],
+   "features_13": [
+    "P",
+    "P1"
+   ],
+   "source_14": [
+    "P",
+    "P5"
+   ],
+   "denoise_14": [
+    "P",
+    "P1"
+   ],
+   "edges_14": [
+    "P",
+    "P5"
+   ],
+   "features_14": [
+    "E",
+    "E4"
+   ],
+   "source_15": [
+    "P",
+    "P4"
+   ],
+   "denoise_15": [
+    "E",
+    "E6"
+   ],
+   "edges_15": [
+    "P",
+    "P1"
+   ],
+   "features_15": [
+    "E",
+    "E5"
+   ],
+   "source_16": [
+    "P",
+    "P0"
+   ],
+   "denoise_16": [
+    "P",
+    "P4"
+   ],
+   "edges_16": [
+    "P",
+    "P4"
+   ],
+   "features_16": [
+    "E",
+    "E6"
+   ],
+   "source_17": [
+    "P",
+    "P1"
+   ],
+   "denoise_17": [
+    "P",
+    "P2"
+   ],
+   "edges_17": [
+    "E",
+    "E5"
+   ],
+   "features_17": [
+    "P",
+    "P5"
+   ],
+   "source_18": [
+    "P",
+    "P2"
+   ],
+   "denoise_18": [
+    "P",
+    "P3"
+   ],
+   "edges_18": [
+    "P",
+    "P2"
+   ],
+   "features_18": [
+    "P",
+    "P1"
+   ],
+   "source_19": [
+    "E",
+    "E6"
+   ],
+   "denoise_19": [
+    "P",
+    "P1"
+   ],
+   "edges_19": [
+    "P",
+    "P0"
+   ],
+   "features_19": [
+    "E",
+    "E6"
+   ],
+   "source_20": [
+    "E",
+    "E5"
+   ],
+   "denoise_20": [
+    "P",
+    "P1"
+   ],
+   "edges_20": [
+    "E",
+    "E4"
+   ],
+   "features_20": [
+    "P",
+    "P2"
+   ],
+   "source_21": [
+    "P",
+    "P3"
+   ],
+   "denoise_21": [
+    "P",
+    "P0"
+   ],
+   "edges_21": [
+    "P",
+    "P3"
+   ],
+   "features_21": [
+    "E",
+    "E3"
+   ],
+   "source_22": [
+    "P",
+    "P5"
+   ],
+   "denoise_22": [
+    "P",
+    "P5"
+   ],
+   "edges_22": [
+    "E",
+    "E6"
+   ],
+   "features_22": [
+    "P",
+    "P0"
+   ],
+   "source_23": [
+    "P",
+    "P4"
+   ],
+   "denoise_23": [
+    "E",
+    "E5"
+   ],
+   "edges_23": [
+    "P",
+    "P0"
+   ],
+   "features_23": [
+    "E",
+    "E1"
+   ],
+   "source_24": [
+    "P",
+    "P0"
+   ],
+   "denoise_24": [
+    "E",
+    "E6"
+   ],
+   "edges_24": [
+    "E",
+    "E0"
+   ],
+   "features_24": [
+    "P",
+    "P4"
+   ],
+   "source_25": [
+    "E",
+    "E6"
+   ],
+   "denoise_25": [
+    "P",
+    "P0"
+   ],
+   "edges_25": [
+    "E",
+    "E5"
+   ],
+   "features_25": [
+    "P",
+    "P4"
+   ],
+   "source_26": [
+    "P",
+    "P2"
+   ],
+   "denoise_26": [
+    "P",
+    "P0"
+   ],
+   "edges_26": [
+    "P",
+    "P4"
+   ],
+   "features_26": [
+    "E",
+    "E5"
+   ],
+   "source_27": [
+    "P",
+    "P1"
+   ],
+   "denoise_27": [
+    "P",
+    "P3"
+   ],
+   "edges_27": [
+    "P",
+    "P5"
+   ],
+   "features_27": [
+    "E",
+    "E2"
+   ],
+   "source_28": [
+    "P",
+    "P2"
+   ],
+   "denoise_28": [
+    "P",
+    "P0"
+   ],
+   "edges_28": [
+    "P",
+    "P4"
+   ],
+   "features_28": [
+    "E",
+    "E0"
+   ],
+   "source_29": [
+    "P",
+    "P3"
+   ],
+   "denoise_29": [
+    "P",
+    "P4"
+   ],
+   "edges_29": [
+    "P",
+    "P3"
+   ],
+   "features_29": [
+    "E",
+    "E4"
+   ],
+   "source_30": [
+    "P",
+    "P5"
+   ],
+   "denoise_30": [
+    "P",
+    "P2"
+   ],
+   "edges_30": [
+    "P",
+    "P1"
+   ],
+   "features_30": [
+    "P",
+    "P1"
+   ],
+   "source_31": [
+    "E",
+    "E6"
+   ],
+   "denoise_31": [
+    "P",
+    "P4"
+   ],
+   "edges_31": [
+    "P",
+    "P2"
+   ],
+   "features_31": [
+    "E",
+    "E4"
+   ],
+   "source_32": [
+    "E",
+    "E6"
+   ],
+   "denoise_32": [
+    "P",
+    "P0"
+   ],
+   "edges_32": [
+    "P",
+    "P5"
+   ],
+   "features_32": [
+    "E",
+    "E3"
+   ],
+   "source_33": [
+    "E",
+    "E5"
+   ],
+   "denoise_33": [
+    "P",
+    "P2"
+   ],
+   "edges_33": [
+    "E",
+    "E6"
+   ],
+   "features_33": [
+    "P",
+    "P3"
+   ],
+   "source_34": [
+    "P",
+    "P4"
+   ],
+   "denoise_34": [
+    "P",
+    "P5"
+   ],
+   "edges_34": [
+    "P",
+    "P0"
+   ],
+   "features_34": [
+    "E",
+    "E5"
+   ],
+   "source_35": [
+    "P",
+    "P0"
+   ],
+   "denoise_35": [
+    "P",
+    "P1"
+   ],
+   "edges_35": [
+    "P",
+    "P2"
+   ],
+   "features_35": [
+    "P",
+    "P3"
+   ],
+   "source_36": [
+    "P",
+    "P3"
+   ],
+   "denoise_36": [
+    "E",
+    "E5"
+   ],
+   "edges_36": [
+    "P",
+    "P5"
+   ],
+   "features_36": [
+    "P",
+    "P1"
+   ],
+   "source_37": [
+    "E",
+    "E6"
+   ],
+   "denoise_37": [
+    "E",
+    "E0"
+   ],
+   "edges_37": [
+    "E",
+    "E2"
+   ],
+   "features_37": [
+    "P",
+    "P3"
+   ],
+   "source_38": [
+    "P",
+    "P1"
+   ],
+   "denoise_38": [
+    "E",
+    "E6"
+   ],
+   "edges_38": [
+    "E",
+    "E5"
+   ],
+   "features_38": [
+    "P",
+    "P2"
+   ],
+   "source_39": [
+    "P",
+    "P2"
+   ],
+   "denoise_39": [
+    "E",
+    "E5"
+   ],
+   "edges_39": [
+    "E",
+    "E4"
+   ],
+   "features_39": [
+    "E",
+    "E1"
+   ],
+   "source_40": [
+    "P",
+    "P3"
+   ],
+   "denoise_40": [
+    "P",
+    "P3"
+   ],
+   "edges_40": [
+    "E",
+    "E0"
+   ],
+   "features_40": [
+    "E",
+    "E2"
+   ],
+   "source_41": [
+    "P",
+    "P5"
+   ],
+   "denoise_41": [
+    "P",
+    "P1"
+   ],
+   "edges_41": [
+    "P",
+    "P2"
+   ],
+   "features_41": [
+    "P",
+    "P0"
+   ],
+   "source_42": [
+    "P",
+    "P4"
+   ],
+   "denoise_42": [
+    "P",
+    "P4"
+   ],
+   "edges_42": [
+    "P",
+    "P1"
+   ],
+   "features_42": [
+    "E",
+    "E6"
+   ],
+   "source_43": [
+    "P",
+    "P0"
+   ],
+   "denoise_43": [
+    "P",
+    "P5"
+   ],
+   "edges_43": [
+    "P",
+    "P4"
+   ],
+   "features_43": [
+    "P",
+    "P5"
+   ],
+   "source_44": [
+    "E",
+    "E6"
+   ],
+   "denoise_44": [
+    "P",
+    "P5"
+   ],
+   "edges_44": [
+    "P",
+    "P1"
+   ],
+   "features_44": [
+    "P",
+    "P3"
+   ],
+   "source_45": [
+    "P",
+    "P1"
+   ],
+   "denoise_45": [
+    "P",
+    "P0"
+   ],
+   "edges_45": [
+    "P",
+    "P2"
+   ],
+   "features_45": [
+    "E",
+    "E4"
+   ],
+   "source_46": [
+    "P",
+    "P2"
+   ],
+   "denoise_46": [
+    "P",
+    "P2"
+   ],
+   "edges_46": [
+    "E",
+    "E1"
+   ],
+   "features_46": [
+    "E",
+    "E0"
+   ],
+   "source_47": [
+    "P",
+    "P3"
+   ],
+   "denoise_47": [
+    "E",
+    "E6"
+   ],
+   "edges_47": [
+    "P",
+    "P5"
+   ],
+   "features_47": [
+    "P",
+    "P0"
+   ],
+   "source_48": [
+    "P",
+    "P4"
+   ],
+   "denoise_48": [
+    "P",
+    "P5"
+   ],
+   "edges_48": [
+    "E",
+    "E5"
+   ],
+   "features_48": [
+    "P",
+    "P2"
+   ],
+   "source_49": [
+    "E",
+    "E6"
+   ],
+   "denoise_49": [
+    "P",
+    "P2"
+   ],
+   "edges_49": [
+    "E",
+    "E5"
+   ],
+   "features_49": [
+    "E",
+    "E2"
+   ],
+   "source_50": [
+    "P",
+    "P5"
+   ],
+   "denoise_50": [
+    "P",
+    "P0"
+   ],
+   "edges_50": [
+    "P",
+    "P5"
+   ],
+   "features_50": [
+    "P",
+    "P5"
+   ],
+   "source_51": [
+    "E",
+    "E0"
+   ],
+   "denoise_51": [
+    "P",
+    "P4"
+   ],
+   "edges_51": [
+    "P",
+    "P1"
+   ],
+   "features_51": [
+    "E",
+    "E6"
+   ],
+   "source_52": [
+    "E",
+    "E5"
+   ],
+   "denoise_52": [
+    "P",
+    "P3"
+   ],
+   "edges_52": [
+    "E",
+    "E4"
+   ],
+   "features_52": [
+    "E",
+    "E1"
+   ],
+   "source_53": [
+    "P",
+    "P5"
+   ],
+   "denoise_53": [
+    "E",
+    "E5"
+   ],
+   "edges_53": [
+    "E",
+    "E0"
+   ],
+   "features_53": [
+    "E",
+    "E5"
+   ],
+   "source_54": [
+    "P",
+    "P4"
+   ],
+   "denoise_54": [
+    "P",
+    "P3"
+   ],
+   "edges_54": [
+    "P",
+    "P3"
+   ],
+   "features_54": [
+    "P",
+    "P4"
+   ],
+   "source_55": [
+    "P",
+    "P0"
+   ],
+   "denoise_55": [
+    "P",
+    "P4"
+   ],
+   "edges_55": [
+    "P",
+    "P1"
+   ],
+   "features_55": [
+    "P",
+    "P1"
+   ],
+   "source_56": [
+    "E",
+    "E1"
+   ],
+   "denoise_56": [
+    "P",
+    "P5"
+   ],
+   "edges_56": [
+    "P",
+    "P0"
+   ],
+   "features_56": [
+    "P",
+    "P4"
+   ],
+   "source_57": [
+    "P",
+    "P1"
+   ],
+   "denoise_57": [
+    "P",
+    "P5"
+   ],
+   "edges_57": [
+    "P",
+    "P0"
+   ],
+   "features_57": [
+    "E",
+    "E6"
+   ],
+   "source_58": [
+    "P",
+    "P2"
+   ],
+   "denoise_58": [
+    "P",
+    "P1"
+   ],
+   "edges_58": [
+    "E",
+    "E3"
+   ],
+   "features_58": [
+    "P",
+    "P5"
+   ],
+   "source_59": [
+    "P",
+    "P3"
+   ],
+   "denoise_59": [
+    "E",
+    "E4"
+   ],
+   "edges_59": [
+    "E",
+    "E1"
+   ],
+   "features_59": [
+    "E",
+    "E0"
+   ],
+   "source_60": [
+    "E",
+    "E6"
+   ],
+   "denoise_60": [
+    "E",
+    "E1"
+   ],
+   "edges_60": [
+    "P",
+    "P0"
+   ],
+   "features_60": [
+    "P",
+    "P2"
+   ],
+   "source_61": [
+    "E",
+    "E2"
+   ],
+   "denoise_61": [
+    "P",
+    "P2"
+   ],
+   "edges_61": [
+    "P",
+    "P5"
+   ],
+   "features_61": [
+    "E",
+    "E5"
+   ],
+   "source_62": [
+    "P",
+    "P3"
+   ],
+   "denoise_62": [
+    "P",
+    "P1"
+   ],
+   "edges_62": [
+    "P",
+    "P4"
+   ],
+   "features_62": [
+    "P",
+    "P2"
+   ],
+   "source_63": [
+    "P",
+    "P5"
+   ],
+   "denoise_63": [
+    "P",
+    "P4"
+   ],
+   "edges_63": [
+    "P",
+    "P3"
+   ],
+   "features_63": [
+    "E",
+    "E3"
+   ],
+   "source_64": [
+    "P",
+    "P4"
+   ],
+   "denoise_64": [
+    "P",
+    "P5"
+   ],
+   "edges_64": [
+    "P",
+    "P1"
+   ],
+   "features_64": [
+    "P",
+    "P1"
+   ],
+   "source_65": [
+    "P",
+    "P0"
+   ],
+   "denoise_65": [
+    "P",
+    "P0"
+   ],
+   "edges_65": [
+    "E",
+    "E6"
+   ],
+   "features_65": [
+    "P",
+    "P4"
+   ],
+   "source_66": [
+    "E",
+    "E3"
+   ],
+   "denoise_66": [
+    "P",
+    "P4"
+   ],
+   "edges_66": [
+    "P",
+    "P4"
+   ],
+   "features_66": [
+    "P",
+    "P1"
+   ],
+   "source_67": [
+    "P",
+    "P3"
+   ],
+   "denoise_67": [
+    "E",
+    "E3"
+   ],
+   "edges_67": [
+    "P",
+    "P2"
+   ],
+   "features_67": [
+    "P",
+    "P5"
+   ],
+   "source_68": [
+    "E",
+    "E4"
+   ],
+   "denoise_68": [
+    "P",
+    "P3"
+   ],
+   "edges_68": [
+    "P",
+    "P1"
+   ],
+   "features_68": [
+    "P",
+    "P3"
+   ],
+   "source_69": [
+    "P",
+    "P2"
+   ],
+   "denoise_69": [
+    "E",
+    "E6"
+   ],
+   "edges_69": [
+    "E",
+    "E3"
+   ],
+   "features_69": [
+    "P",
+    "P0"
+   ],
+   "source_70": [
+    "E",
+    "E6"
+   ],
+   "denoise_70": [
+    "E",
+    "E2"
+   ],
+   "edges_70": [
+    "P",
+    "P5"
+   ],
+   "features_70": [
+    "E",
+    "E6"
+   ],
+   "source_71": [
+    "E",
+    "E5"
+   ],
+   "denoise_71": [
+    "P",
+    "P0"
+   ],
+   "edges_71": [
+    "P",
+    "P3"
+   ],
+   "features_71": [
+    "P",
+    "P5"
+   ],
+   "gagg_0": [
+    "P",
+    "P1"
+   ],
+   "gagg_1": [
+    "P",
+    "P2"
+   ],
+   "gagg_2": [
+    "E",
+    "E4"
+   ],
+   "gagg_3": [
+    "P",
+    "P0"
+   ],
+   "gagg_4": [
+    "P",
+    "P3"
+   ],
+   "gagg_5": [
+    "P",
+    "P4"
+   ],
+   "aggregate": [
+    "P",
+    "P0"
+   ]
+  },
+  "cuda_tasks": [],
+  "scheduling_fraction": 0.07372412196968509,
+  "output_verdict": {
+   "match": "exact",
+   "sha256": "6f15ff7676ff8011d38ecb979d221a39c35478318f02bf22669766c47c4f87f4"
+  },
+  "contention": {
+   "name": "c111",
+   "windows": [
+    {
+     "core": 0,
+     "start_s": 0.2,
+     "end_s": 1.2,
+     "burners": 2
+    },
+    {
+     "core": 8,
+     "start_s": 0.2,
+     "end_s": 1.2,
+     "burners": 2
+    },
+    {
+     "core": 10,
+     "start_s": 0.2,
+     "end_s": 1.2,
+     "burners": 2
+    },
+    {
+     "core": 2,
+     "start_s": 1.2,
+     "end_s": 2.2,
+     "burners": 2
+    },
+    {
+     "core": 4,
+     "start_s": 1.2,
+     "end_s": 2.2,
+     "burners": 2
+    },
+    {
+     "core": 6,
+     "start_s": 1.2,
+     "end_s": 2.2,
+     "burners": 2
+    }
+   ]
+  },
+  "contention_t0": 909878.3161608999,
+  "revival": {
+   "fallbacks": {
+    "gain_below_cost": 18
+   },
+   "mean_decision_latency_s": 0.00015822516461089407,
+   "over_budget": false,
+   "no_model": false,
+   "finite": true
+  }
+ }
+}

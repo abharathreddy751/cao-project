@@ -1,0 +1,94 @@
+{
+ "experiment_id": "phase5_20261003T153046",
+ "config": {
+  "profile": "data/profiles/20261003T152700_profile.json",
+  "e2e_terms": "data/models/e2e_terms_20261003T152812.json",
+  "e4_model": "data/models/e4_20261003T144301_occupancy_history.json",
+  "estimator_config": "config/phase3.yaml",
+  "traces_from": "config/phase2.yaml",
+  "rc": {
+   "alpha": 0.2,
+   "min_obs": 1,
+   "clamp": [
+    0.5,
+    3.0
+   ]
+  },
+  "remote": {
+   "node_core": 11,
+   "proxy_core": 4
+  },
+  "links": {
+   "loopback": {
+    "latency_s": 0.0,
+    "bandwidth_Bps": null,
+    "per_message_s": 0.0
+   },
+   "lan_1g": {
+    "latency_s": 0.0002,
+    "bandwidth_Bps": 125000000,
+    "per_message_s": 5e-05
+   },
+   "lan_100m": {
+    "latency_s": 0.0005,
+    "bandwidth_Bps": 12500000,
+    "per_message_s": 5e-05
+   },
+   "wifi_50m": {
+    "latency_s": 0.003,
+    "bandwidth_Bps": 6250000,
+    "per_message_s": 0.0001
+   }
+  },
+  "policies": {
+   "eft": [
+    "E1+rc",
+    "E1+rc@e2e",
+    "E4f+rc",
+    "E4f+rc@e2e"
+   ],
+   "local_only_baselines": [
+    "B4_greedy_eligible"
+   ],
+   "coverage_baselines": [
+    "B0_P_only",
+    "B0_E_only"
+   ],
+   "remote_greedy": true
+  },
+  "experiment": {
+   "repeats": 3,
+   "order_seed": 5050,
+   "run_timeout_s": 1200
+  }
+ },
+ "config_order": [
+  "remote_lan_1g",
+  "remote_loopback",
+  "local_2P6E",
+  "remote_lan_100m",
+  "local_2P7E",
+  "remote_wifi_50m"
+ ],
+ "runtime_config": {
+  "p_core_slots": [
+   0,
+   2
+  ],
+  "e_core_slots": [
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ],
+  "coordinator_core": 4
+ },
+ "coordinator_core": 4,
+ "repeats": 1,
+ "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+ "platform": "Windows-10-10.0.26100-SP0",
+ "notes": "remote node = one E core of this machine behind the link shim; compute speed is the E core's"
+}

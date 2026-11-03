@@ -1,0 +1,13 @@
+case,side,best_quiet,best_contended,quiet_separated,contended_separated,flip,flip_firm,best_quiet_s,best_contended_s
+img_denoise_n2,256,P,P,True,True,False,False,0.007045899983495474,0.006709299981594086
+img_denoise_n2,512,P,P,True,True,False,False,0.01729394996073097,0.017574199941009283
+img_denoise_n60,256,P,P,True,True,False,False,0.09709459997247905,0.0809899500454776
+img_denoise_n60,512,G,P,False,True,True,True,0.3407869500806555,0.3343155999900773
+img_denoise_n8,256,P,P,True,True,False,False,0.013985849975142628,0.013384499994572252
+img_denoise_n8,512,P,P,True,True,False,False,0.049838349979836494,0.06065435003256425
+img_edges,256,P,G,False,False,True,False,0.006328699993900955,0.008056650054641068
+img_edges,512,G,G,True,True,False,False,0.0078221500152722,0.008808449958451092
+img_features,256,P,P,True,True,False,False,0.0030836500809527934,0.003333349945023656
+img_features,512,G,P,True,True,True,True,0.006273199978750199,0.006363050022628158
+img_source,256,P,P,True,True,False,False,0.02095345000270754,0.021661349979694933
+img_source,512,P,P,True,True,False,False,0.11003080004593357,0.10065400000894442

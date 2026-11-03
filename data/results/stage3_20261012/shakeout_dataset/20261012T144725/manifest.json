@@ -1,0 +1,239 @@
+{
+ "schema_version": 1,
+ "built_at": "20261012T144725",
+ "events_root": "data\\results\\stage2_20261012\\sessions",
+ "n_task_rows": 1062,
+ "n_candidate_rows": 9204,
+ "rows_per_source_kind": {
+  "session": 1062
+ },
+ "n_runs": 18,
+ "sessions": [
+  "20261012T101305"
+ ],
+ "context_source": "decision",
+ "rows_per_ctx_source": {
+  "decision": 1062
+ },
+ "n_rows_dropped_no_decision_ctx": 1416,
+ "instances": [
+  "d1.1_dss2b_c56.7_24.0"
+ ],
+ "calibration_profiles": [
+  "20261012T092355_profile.json"
+ ],
+ "calibration_policy": "only profiles measured at or before the session; none -> null",
+ "sources": [
+  {
+   "source_log": "sessions/20261012T101305/runs/b0000_03_EFT_E3/b0000_03_EFT_E3.jsonl",
+   "sha256": "49a6b5bd2a7ca41e07837fb84621bd6cc42515fa2113709a92efae4903af9ca6",
+   "rows": 59
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0000_05_HEFT_E1/b0000_05_HEFT_E1.jsonl",
+   "sha256": "00ec3a838e47c6ca9fc6c30050785f96bc4e0511bd22387e9d02d09f4d59aff7",
+   "rows": 59
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0000_08_EFT_E1/b0000_08_EFT_E1.jsonl",
+   "sha256": "bf44b28bdef4ffbe49b1ebcef9156ef596fc39e4783796415c693d1c737aa05a",
+   "rows": 59
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0000_09_EFT_E1_rc/b0000_09_EFT_E1_rc.jsonl",
+   "sha256": "cb9e785c584cd7e5de14f20c22b11f0193856f119621b65db6bf081bb48b10a5",
+   "rows": 59
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0000_11_EFT_E1_rank/b0000_11_EFT_E1_rank.jsonl",
+   "sha256": "909704082257c501fc44c25ba93e759fe898e557b8acfe11535a9501bc060529",
+   "rows": 59
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0000_13_PEFT_E1/b0000_13_PEFT_E1.jsonl",
+   "sha256": "90978aac2fb5495e4e3b2e5b916f4d5e8471a1479b6340b654a7a7e9a5059621",
+   "rows": 59
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0001_00_EFT_E3/b0001_00_EFT_E3.jsonl",
+   "sha256": "9e9ed81e2ea90eb88a9518009bd8e53daead9eb10c009d0986fdc2b32432bd16",
+   "rows": 59
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0001_02_EFT_E1_rank/b0001_02_EFT_E1_rank.jsonl",
+   "sha256": "11058618ab808bf34e9ab0ef2d47f9b4d7ddaf2de3be3846523353f42c9b567e",
+   "rows": 59
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0001_03_PEFT_E1/b0001_03_PEFT_E1.jsonl",
+   "sha256": "46dcb5e574f5da6e1fda7627c6919c5766654bd816f193d717dbf834d3c9fae2",
+   "rows": 59
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0001_05_EFT_E1/b0001_05_EFT_E1.jsonl",
+   "sha256": "e6da9838b62cf378ad95d71c6cd83b3f7750dc9e80832767c818b67a584c6197",
+   "rows": 59
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0001_11_EFT_E1_rc/b0001_11_EFT_E1_rc.jsonl",
+   "sha256": "c32f178dfd6f2c4edf3bf0345fd38871e0095897b179496c922f79348d96183b",
+   "rows": 59
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0001_12_HEFT_E1/b0001_12_HEFT_E1.jsonl",
+   "sha256": "25f4e7e863405fa5409e8a94b258f0ed160b109d4ddd2d786166188bb34f0756",
+   "rows": 59
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0002_00_EFT_E1_rank/b0002_00_EFT_E1_rank.jsonl",
+   "sha256": "29aade6f1ecca2a0394238e073c3f1e11f8556b0e0a92f91dc76adccbb7148fc",
+   "rows": 59
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0002_04_PEFT_E1/b0002_04_PEFT_E1.jsonl",
+   "sha256": "9171555b984cc3f24d37e908092754f2a58c1662a18f27b22602375de0118e5b",
+   "rows": 59
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0002_06_HEFT_E1/b0002_06_HEFT_E1.jsonl",
+   "sha256": "f7e714104b2e7dcf1da586187f9e3fe15c5e2fa92f83676d9011a9df0b1b5f56",
+   "rows": 59
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0002_07_EFT_E1/b0002_07_EFT_E1.jsonl",
+   "sha256": "ba227cb865f6d02541642c25b4fcd0114158188ab9c0ed28301d4f4defb82dbc",
+   "rows": 59
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0002_11_EFT_E3/b0002_11_EFT_E3.jsonl",
+   "sha256": "e740bf0e493741afa551ea7666520822c7c3cc9728dbd84bbfaf5546c344a52b",
+   "rows": 59
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0002_13_EFT_E1_rc/b0002_13_EFT_E1_rc.jsonl",
+   "sha256": "5ea6f1b93007d37ba569fdd58bc3d4fd7c66c1df37d3ef19e8797a41a23fb6d8",
+   "rows": 59
+  }
+ ],
+ "excluded": [
+  {
+   "source_log": "sessions/20261012T101305/preflight.jsonl",
+   "reason": "unrecognised source directory"
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0000_00_B5_criticality/b0000_00_B5_criticality.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0000_01_B0_E_only/b0000_01_B0_E_only.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0000_02_B2_static_P/b0000_02_B2_static_P.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0000_04_B3_shortest_queue/b0000_04_B3_shortest_queue.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0000_06_B0_P_only/b0000_06_B0_P_only.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0000_07_B1_round_robin/b0000_07_B1_round_robin.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0000_10_random/b0000_10_random.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0000_12_B4_greedy_eligible/b0000_12_B4_greedy_eligible.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0001_01_B0_E_only/b0001_01_B0_E_only.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0001_04_B5_criticality/b0001_04_B5_criticality.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0001_06_B2_static_P/b0001_06_B2_static_P.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0001_07_B3_shortest_queue/b0001_07_B3_shortest_queue.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0001_08_B1_round_robin/b0001_08_B1_round_robin.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0001_09_B4_greedy_eligible/b0001_09_B4_greedy_eligible.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0001_10_random/b0001_10_random.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0001_13_B0_P_only/b0001_13_B0_P_only.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0002_01_B3_shortest_queue/b0002_01_B3_shortest_queue.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0002_02_B2_static_P/b0002_02_B2_static_P.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0002_03_B0_E_only/b0002_03_B0_E_only.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0002_05_B4_greedy_eligible/b0002_05_B4_greedy_eligible.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0002_08_B0_P_only/b0002_08_B0_P_only.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0002_09_random/b0002_09_random.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0002_10_B5_criticality/b0002_10_B5_criticality.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  },
+  {
+   "source_log": "sessions/20261012T101305/runs/b0002_12_B1_round_robin/b0002_12_B1_round_robin.jsonl",
+   "reason": "no task with a logged decision context (context_source=decision)"
+  }
+ ],
+ "outputs": {
+  "tasks.csv": {
+   "sha256": "76e06686c2e3c9e54cace0f81d7beb3c4fe356719060b79d4d26346ce5f9f620",
+   "bytes": 918106
+  },
+  "candidates.csv": {
+   "sha256": "cf20e02a3ec613c1bfc5fabc3542fdb326c8660d1aa4c1ccc8622786fd5bade6",
+   "bytes": 2014567
+  },
+  "splits.json": {
+   "sha256": "f3b6d4f0f8ac65cd9c608abc4bb62eab0eae39c999df1d2126287eabefc6f03e",
+   "bytes": 4702
+  }
+ },
+ "notes": [
+  "All rows derive from logged task executions; no synthetic values.",
+  "Raw logs were read only; sha256 recorded per source.",
+  "memory_available_bytes / software_version are null/'unrecorded' for logs predating those fields."
+ ]
+}

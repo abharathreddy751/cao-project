@@ -1,0 +1,149 @@
+{
+ "experiment_id": "phase6b_20261003T162145",
+ "config_path": "config/phase6b.yaml",
+ "config": {
+  "profile": "data/profiles/20261003T152700_profile.json",
+  "e2e_terms": "data/models/e2e_terms_20261003T152812.json",
+  "e4_model": "data/models/e4_20261003T144301_occupancy_history.json",
+  "estimator_config": "config/phase3.yaml",
+  "traces_from": "config/phase2.yaml",
+  "rc": {
+   "alpha": 0.2,
+   "min_obs": 1,
+   "clamp": [
+    0.5,
+    3.0
+   ]
+  },
+  "reference": "B4_greedy_eligible",
+  "local": {
+   "baselines": [
+    "B0_E_only",
+    "B4_greedy_eligible"
+   ],
+   "eft": [
+    "E0",
+    "E1",
+    "E1+rc",
+    "E3",
+    "E4f+rc",
+    "E1+rc@e2e",
+    "E4f+rc@e2e"
+   ],
+   "oracle": true
+  },
+  "remote": {
+   "node_core": 11,
+   "proxy_core": 4,
+   "links": {
+    "lan_1g": {
+     "latency_s": 0.0002,
+     "bandwidth_Bps": 125000000,
+     "per_message_s": 5e-05
+    },
+    "wifi_50m": {
+     "latency_s": 0.003,
+     "bandwidth_Bps": 6250000,
+     "per_message_s": 0.0001
+    }
+   },
+   "greedy": true,
+   "eft": [
+    "E1+rc"
+   ]
+  },
+  "seed_stage": {
+   "repeats_per_trace": 2,
+   "policies": [
+    "B0_P_only",
+    "B0_E_only"
+   ]
+  },
+  "contrasts": [
+   [
+    "EFT_E1_rc",
+    "EFT_E1"
+   ],
+   [
+    "EFT_E1",
+    "EFT_E0"
+   ],
+   [
+    "EFT_E3",
+    "EFT_E1"
+   ],
+   [
+    "EFT_E4f_rc",
+    "EFT_E1_rc"
+   ],
+   [
+    "EFT_E1_rc_e2e",
+    "EFT_E1_rc"
+   ],
+   [
+    "EFT_E4f_rc_e2e",
+    "EFT_E4f_rc"
+   ],
+   [
+    "O_eft_E5",
+    "EFT_E1_rc"
+   ],
+   [
+    "EFT_E1_rc_R@lan_1g",
+    "EFT_E1_rc"
+   ],
+   [
+    "EFT_E1_rc_R@wifi_50m",
+    "EFT_E1_rc"
+   ],
+   [
+    "B4_greedy_eligible_R@lan_1g",
+    "B4_greedy_eligible"
+   ],
+   [
+    "B4_greedy_eligible_R@wifi_50m",
+    "B4_greedy_eligible"
+   ]
+  ],
+  "experiment": {
+   "repeats": 40,
+   "order_seed": 6060,
+   "run_timeout_s": 1200
+  }
+ },
+ "conditions": [
+  "B0_E_only",
+  "B4_greedy_eligible",
+  "EFT_E0",
+  "EFT_E1",
+  "EFT_E1_rc",
+  "EFT_E3",
+  "EFT_E4f_rc",
+  "EFT_E1_rc_e2e",
+  "EFT_E4f_rc_e2e",
+  "O_eft_E5",
+  "B4_greedy_eligible_R@lan_1g",
+  "EFT_E1_rc_R@lan_1g",
+  "B4_greedy_eligible_R@wifi_50m",
+  "EFT_E1_rc_R@wifi_50m"
+ ],
+ "repeats": 40,
+ "n_blocks": 120,
+ "p_slots": [
+  0,
+  2
+ ],
+ "e_slots": [
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "remote_node_core": 11,
+ "coordinator_core": 4,
+ "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+ "platform": "Windows-10-10.0.26100-SP0",
+ "design": "single pool; blocks = (repeat, trace); all conditions once per block in seeded random order; trace order shuffled per repeat; link shim switched per run"
+}

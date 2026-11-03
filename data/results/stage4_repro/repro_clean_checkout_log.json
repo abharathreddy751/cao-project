@@ -1,0 +1,432 @@
+{
+  "schema_version": 1,
+  "started_utc": "2026-10-12T22:19:17.124078+00:00",
+  "dest": "C:\\Users\\Venkatesh\\cao_clean_checkout",
+  "label": "software check (stub adapter, no timings)",
+  "python": {
+    "version": "3.11.9",
+    "implementation": "CPython",
+    "platform": "Windows-10-10.0.26200-SP0"
+  },
+  "args": {
+    "dest": "C:/Users/Venkatesh/cao_clean_checkout",
+    "source": "D:\\cao project",
+    "branch": "redesign/montage",
+    "tests": [
+      "tests/test_task.py",
+      "tests/test_stats.py",
+      "tests/test_experiment_design.py",
+      "tests/test_analysis_paired.py"
+    ],
+    "with_gpu": false,
+    "torch_index": "https://download.pytorch.org/whl/cu128",
+    "montage_subset": true,
+    "data_dir": "D:/cao project/data",
+    "instance": [
+      "d1.1_dss2b_c56.7_24.0"
+    ],
+    "timeout_s": 600.0,
+    "install_timeout_s": 3600.0
+  },
+  "source": {
+    "path": "D:\\cao project",
+    "branch": "redesign/montage",
+    "dirty_entries": 1,
+    "branch_tip": "f5bf2e640d45e8c7c6aba6c8a04127ff1a51cfe6"
+  },
+  "clone": {
+    "commit": "f5bf2e640d45e8c7c6aba6c8a04127ff1a51cfe6",
+    "branch": "redesign/montage"
+  },
+  "limits": [
+    "Only COMMITTED files are in the clone; data/ is gitignored (Montage binaries, instance inputs, raw results), so Montage cannot be re-run in the clone and no Montage timing is reproduced by this check.",
+    "The stub adapter is synthetic (evidence label 'plan'): it verifies the experiment/analysis/manifest code path and determinism of the derived tables, not any performance number.",
+    "Only this pytest subset was run, not the full suite: ['tests/test_task.py', 'tests/test_stats.py', 'tests/test_experiment_design.py', 'tests/test_analysis_paired.py']",
+    "GPU/CPU timing numbers are machine-specific and are not reproduced here.",
+    "The source checkout has 1 uncommitted/untracked entries; they are NOT in the clone, so a failure of required_files_present or a test import usually means 'commit it first'.",
+    "torch (CUDA) was not installed (no --with-gpu): CUDA tests and the GPU spike are not covered.",
+    "--montage-subset hashed the ORIGINAL data dir read-only; it checks listed binaries and the named instances only, and does not re-download inputs."
+  ],
+  "crashed": null,
+  "torch_lines_dropped_from_lock": [
+    "torch==2.11.0+cu128"
+  ],
+  "finished_utc": "2026-10-12T22:21:13.497214+00:00",
+  "steps": [
+    {
+      "name": "git_clone",
+      "argv": [
+        "git",
+        "clone",
+        "--branch",
+        "redesign/montage",
+        "--single-branch",
+        "D:\\cao project",
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\repo"
+      ],
+      "cwd": "C:\\Users\\Venkatesh\\cao_clean_checkout",
+      "started_utc": "2026-10-12T22:19:17.224822+00:00",
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "timeout_s": 600.0,
+      "duration_s": 4.344,
+      "ok": true,
+      "status": "ok",
+      "stdout_tail": "",
+      "stderr_tail": "Cloning into 'C:\\Users\\Venkatesh\\cao_clean_checkout\\repo'...\ndone.\nUpdating files:  65% (708/1084)\nUpdating files:  66% (716/1084)\nUpdating files:  67% (727/1084)\nUpdating files:  68% (738/1084)\nUpdating files:  69% (748/1084)\nUpdating files:  70% (759/1084)\nUpdating files:  71% (770/1084)\nUpdating files:  72% (781/1084)\nUpdating files:  73% (792/1084)\nUpdating files:  74% (803/1084)\nUpdating files:  75% (813/1084)\nUpdating files:  76% (824/1084)\nUpdating files:  77% (835/1084)\nUpdating files:  78% (846/1084)\nUpdating files:  79% (857/1084)\nUpdating files:  80% (868/1084)\nUpdating files:  81% (879/1084)\nUpdating files:  82% (889/1084)\nUpdating files:  83% (900/1084)\nUpdating files:  84% (911/1084)\nUpdating files:  85% (922/1084)\nUpdating files:  86% (933/1084)\nUpdating files:  87% (944/1084)\nUpdating files:  88% (954/1084)\nUpdating files:  89% (965/1084)\nUpdating files:  90% (976/1084)\nUpdating files:  91% (987/1084)\nUpdating files:  92% (998/1084)\nUpdating files:  93% (1009/1084)\nUpdating files:  94% (1019/1084)\nUpdating files:  95% (1030/1084)\nUpdating files:  96% (1041/1084)\nUpdating files:  97% (1052/1084)\nUpdating files:  98% (1063/1084)\nUpdating files:  99% (1074/1084)\nUpdating files: 100% (1084/1084)\nUpdating files: 100% (1084/1084), done.\n",
+      "log_file": "00_git_clone.txt"
+    },
+    {
+      "name": "required_files_present",
+      "started_utc": "2026-10-12T22:19:21.681399+00:00",
+      "exit_code": 0,
+      "error": null,
+      "detail": {
+        "missing": []
+      },
+      "duration_s": 0.001,
+      "ok": true,
+      "status": "ok"
+    },
+    {
+      "name": "clone_is_branch_tip",
+      "started_utc": "2026-10-12T22:19:21.681399+00:00",
+      "exit_code": 0,
+      "error": null,
+      "detail": {
+        "branch_tip": "f5bf2e640d45e8c7c6aba6c8a04127ff1a51cfe6",
+        "clone_head": "f5bf2e640d45e8c7c6aba6c8a04127ff1a51cfe6"
+      },
+      "duration_s": 0.0,
+      "ok": true,
+      "status": "ok"
+    },
+    {
+      "name": "venv",
+      "argv": [
+        "C:\\Users\\Venkatesh\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "-m",
+        "venv",
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\venv"
+      ],
+      "cwd": "C:\\Users\\Venkatesh\\cao_clean_checkout",
+      "started_utc": "2026-10-12T22:19:21.681399+00:00",
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "timeout_s": 600.0,
+      "duration_s": 6.652,
+      "ok": true,
+      "status": "ok",
+      "stdout_tail": "",
+      "stderr_tail": "",
+      "log_file": "03_venv.txt"
+    },
+    {
+      "name": "venv_python_version",
+      "argv": [
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\venv\\Scripts\\python.exe",
+        "-c",
+        "import sys; sys.exit(0 if '%d.%d' % sys.version_info[:2] == '3.11' else 1)"
+      ],
+      "cwd": "C:\\Users\\Venkatesh\\cao_clean_checkout",
+      "started_utc": "2026-10-12T22:19:28.338804+00:00",
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "timeout_s": 600.0,
+      "duration_s": 0.11,
+      "ok": true,
+      "status": "ok",
+      "stdout_tail": "",
+      "stderr_tail": "",
+      "log_file": "04_venv_python_version.txt"
+    },
+    {
+      "name": "filter_requirements",
+      "started_utc": "2026-10-12T22:19:28.450912+00:00",
+      "exit_code": 0,
+      "error": null,
+      "detail": {
+        "dropped": [
+          "torch==2.11.0+cu128"
+        ],
+        "written": "requirements-cpu.txt"
+      },
+      "duration_s": 0.002,
+      "ok": true,
+      "status": "ok"
+    },
+    {
+      "name": "pip_install_lock",
+      "argv": [
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\venv\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "install",
+        "--no-input",
+        "-r",
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\requirements-cpu.txt"
+      ],
+      "cwd": "C:\\Users\\Venkatesh\\cao_clean_checkout",
+      "started_utc": "2026-10-12T22:19:28.451981+00:00",
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "timeout_s": 3600.0,
+      "duration_s": 82.21,
+      "ok": true,
+      "status": "ok",
+      "stdout_tail": "cached psutil-7.2.2-cp37-abi3-win_amd64.whl (137 kB)\nUsing cached pyerfa-2.0.1.5-cp39-abi3-win_amd64.whl (349 kB)\nUsing cached pygments-2.21.0-py3-none-any.whl (1.3 MB)\nUsing cached pyparsing-3.3.3-py3-none-any.whl (126 kB)\nUsing cached pytest-9.1.1-py3-none-any.whl (386 kB)\nUsing cached python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)\nUsing cached pyyaml-6.0.3-cp311-cp311-win_amd64.whl (158 kB)\nUsing cached requests-2.34.2-py3-none-any.whl (73 kB)\nUsing cached scipy-1.17.1-cp311-cp311-win_amd64.whl (36.6 MB)\nUsing cached six-1.17.0-py2.py3-none-any.whl (11 kB)\nUsing cached sympy-1.14.0-py3-none-any.whl (6.3 MB)\nUsing cached typing_extensions-4.16.0-py3-none-any.whl (45 kB)\nUsing cached tzdata-2026.5-py2.py3-none-any.whl (347 kB)\nUsing cached urllib3-2.8.0-py3-none-any.whl (135 kB)\nInstalling collected packages: mpmath, urllib3, tzdata, typing_extensions, sympy, six, PyYAML, pyparsing, Pygments, psutil, pluggy, pillow, packaging, numpy, networkx, narwhals, MarkupSafe, kiwisolver, iniconfig, idna, graphviz, fsspec, fonttools, filelock, cycler, colorama, charset-normalizer, certifi, astropy-iers-data, scipy, requests, python-dateutil, pytest, pyerfa, plotly, pegasus-wms.common, Jinja2, contourpy, pegasus-wms.api, pandas, matplotlib, astropy, catboost\nSuccessfully installed Jinja2-3.1.6 MarkupSafe-3.0.3 PyYAML-6.0.3 Pygments-2.21.0 astropy-8.0.1 astropy-iers-data-0.2026.10.5.1.0.7 catboost-1.2.10 certifi-2026.7.22 charset-normalizer-3.5.2 colorama-0.4.6 contourpy-1.3.3 cycler-0.12.1 filelock-3.32.3 fonttools-4.66.1 fsspec-2026.7.0 graphviz-0.21 idna-3.20 iniconfig-2.3.1 kiwisolver-1.5.1 matplotlib-3.11.2 mpmath-1.3.0 narwhals-2.27.1 networkx-3.6.1 numpy-2.4.6 packaging-26.3 pandas-3.0.6 pegasus-wms.api-5.1.3 pegasus-wms.common-5.1.3 pillow-12.3.0 plotly-7.1.0 pluggy-1.6.0 psutil-7.2.2 pyerfa-2.0.1.5 pyparsing-3.3.3 pytest-9.1.1 python-dateutil-2.9.0.post0 requests-2.34.2 scipy-1.17.1 six-1.17.0 sympy-1.14.0 typing_extensions-4.16.0 tzdata-2026.5 urllib3-2.8.0\n",
+      "stderr_tail": "",
+      "log_file": "06_pip_install_lock.txt"
+    },
+    {
+      "name": "pip_install_package",
+      "argv": [
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\venv\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "install",
+        "--no-input",
+        "--no-deps",
+        "-e",
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\repo"
+      ],
+      "cwd": "C:\\Users\\Venkatesh\\cao_clean_checkout",
+      "started_utc": "2026-10-12T22:20:50.666456+00:00",
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "timeout_s": 3600.0,
+      "duration_s": 6.793,
+      "ok": true,
+      "status": "ok",
+      "stdout_tail": "Obtaining file:///C:/Users/Venkatesh/cao_clean_checkout/repo\n  Installing build dependencies: started\n  Installing build dependencies: finished with status 'done'\n  Checking if build backend supports build_editable: started\n  Checking if build backend supports build_editable: finished with status 'done'\n  Getting requirements to build editable: started\n  Getting requirements to build editable: finished with status 'done'\n  Preparing editable metadata (pyproject.toml): started\n  Preparing editable metadata (pyproject.toml): finished with status 'done'\nBuilding wheels for collected packages: caosched\n  Building editable for caosched (pyproject.toml): started\n  Building editable for caosched (pyproject.toml): finished with status 'done'\n  Created wheel for caosched: filename=caosched-0.1.0-0.editable-py3-none-any.whl size=2977 sha256=8b0eaaefb78d46e9734c377e2b6ae9ff924aaacea24ef194ef99478d27c42d14\n  Stored in directory: C:\\Users\\Venkatesh\\AppData\\Local\\Temp\\pip-ephem-wheel-cache-a7gwn9p7\\wheels\\be\\e3\\89\\ced4915c7c673cedf6dcddc5f36f1989058ace6cf17917d9e7\nSuccessfully built caosched\nInstalling collected packages: caosched\nSuccessfully installed caosched-0.1.0\n",
+      "stderr_tail": "",
+      "log_file": "07_pip_install_package.txt"
+    },
+    {
+      "name": "import_from_clone",
+      "argv": [
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\venv\\Scripts\\python.exe",
+        "-c",
+        "import sys, pathlib, caosched; p = pathlib.Path(caosched.__file__).resolve(); print(p); sys.exit(0 if pathlib.Path(sys.argv[1]).resolve() in p.parents else 1)",
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\repo"
+      ],
+      "cwd": "C:\\Users\\Venkatesh\\cao_clean_checkout",
+      "started_utc": "2026-10-12T22:20:57.455754+00:00",
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "timeout_s": 600.0,
+      "duration_s": 0.134,
+      "ok": true,
+      "status": "ok",
+      "stdout_tail": "C:\\Users\\Venkatesh\\cao_clean_checkout\\repo\\src\\caosched\\__init__.py\n",
+      "stderr_tail": "",
+      "log_file": "08_import_from_clone.txt"
+    },
+    {
+      "name": "pip_freeze",
+      "argv": [
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\venv\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "freeze"
+      ],
+      "cwd": "C:\\Users\\Venkatesh\\cao_clean_checkout",
+      "started_utc": "2026-10-12T22:20:57.590878+00:00",
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "timeout_s": 600.0,
+      "duration_s": 0.767,
+      "ok": true,
+      "status": "ok",
+      "stdout_tail": "astropy==8.0.1\nastropy-iers-data==0.2026.10.5.1.0.7\n# Editable Git install (caosched==0.1.0) with either a deleted local remote or invalid URI:\n# 'D:\\cao'\n-e c:\\users\\venkatesh\\cao_clean_checkout\\repo\ncatboost==1.2.10\ncertifi==2026.7.22\ncharset-normalizer==3.5.2\ncolorama==0.4.6\ncontourpy==1.3.3\ncycler==0.12.1\nfilelock==3.32.3\nfonttools==4.66.1\nfsspec==2026.7.0\ngraphviz==0.21\nidna==3.20\niniconfig==2.3.1\nJinja2==3.1.6\nkiwisolver==1.5.1\nMarkupSafe==3.0.3\nmatplotlib==3.11.2\nmpmath==1.3.0\nnarwhals==2.27.1\nnetworkx==3.6.1\nnumpy==2.4.6\npackaging==26.3\npandas==3.0.6\npegasus-wms.api==5.1.3\npegasus-wms.common==5.1.3\npillow==12.3.0\nplotly==7.1.0\npluggy==1.6.0\npsutil==7.2.2\npyerfa==2.0.1.5\nPygments==2.21.0\npyparsing==3.3.3\npytest==9.1.1\npython-dateutil==2.9.0.post0\nPyYAML==6.0.3\nrequests==2.34.2\nscipy==1.17.1\nsix==1.17.0\nsympy==1.14.0\ntyping_extensions==4.16.0\ntzdata==2026.5\nurllib3==2.8.0\n",
+      "stderr_tail": "",
+      "log_file": "09_pip_freeze.txt"
+    },
+    {
+      "name": "pytest_subset",
+      "argv": [
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "tests/test_task.py",
+        "tests/test_stats.py",
+        "tests/test_experiment_design.py",
+        "tests/test_analysis_paired.py"
+      ],
+      "cwd": "C:\\Users\\Venkatesh\\cao_clean_checkout\\repo",
+      "started_utc": "2026-10-12T22:20:58.366885+00:00",
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "timeout_s": 600.0,
+      "duration_s": 7.94,
+      "ok": true,
+      "status": "ok",
+      "stdout_tail": "..................................                                       [100%]\n34 passed in 7.43s\n",
+      "stderr_tail": "",
+      "log_file": "10_pytest_subset.txt"
+    },
+    {
+      "name": "write_design",
+      "started_utc": "2026-10-12T22:21:06.308666+00:00",
+      "exit_code": 0,
+      "error": null,
+      "detail": {
+        "design": "design.json"
+      },
+      "duration_s": 0.001,
+      "ok": true,
+      "status": "ok"
+    },
+    {
+      "name": "stub_run_experiment",
+      "argv": [
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\venv\\Scripts\\python.exe",
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\repo\\scripts\\run_experiment.py",
+        "--design",
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\work\\design.json",
+        "--out",
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\work\\experiments",
+        "--adapter",
+        "stub",
+        "--session-id",
+        "repro_stub"
+      ],
+      "cwd": "C:\\Users\\Venkatesh\\cao_clean_checkout\\repo",
+      "started_utc": "2026-10-12T22:21:06.309176+00:00",
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "timeout_s": 600.0,
+      "duration_s": 3.839,
+      "ok": true,
+      "status": "ok",
+      "stdout_tail": "{\n  \"session_id\": \"repro_stub\",\n  \"design_name\": \"repro_stub\",\n  \"design_sha256\": \"c9ddfab2529b10eb6c49ef06d7642ed72f7a4520de55e5245fe676791c2b0e04\",\n  \"evidence_label\": \"plan\",\n  \"machine_id\": \"681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978\",\n  \"environment_hash\": \"64f41c2a59f2964189c882bf883d4e2cf60b298ac20dbeb6a52160f573101505\",\n  \"started_utc\": \"2026-10-12T22:21:10.032652+00:00\",\n  \"status\": \"complete\",\n  \"reason\": null,\n  \"n_blocks\": 8,\n  \"blocks_completed\": 8,\n  \"finished_utc\": \"2026-10-12T22:21:10.131046+00:00\"\n}\n",
+      "stderr_tail": "",
+      "log_file": "12_stub_run_experiment.txt"
+    },
+    {
+      "name": "stub_analyze",
+      "argv": [
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\venv\\Scripts\\python.exe",
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\repo\\scripts\\analyze_experiment.py",
+        "--sessions",
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\work\\experiments\\repro_stub",
+        "--out",
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\work\\analysis",
+        "--reference",
+        "A",
+        "--seed",
+        "0"
+      ],
+      "cwd": "C:\\Users\\Venkatesh\\cao_clean_checkout\\repo",
+      "started_utc": "2026-10-12T22:21:10.147819+00:00",
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "timeout_s": 600.0,
+      "duration_s": 1.567,
+      "ok": true,
+      "status": "ok",
+      "stdout_tail": "C:\\Users\\Venkatesh\\cao_clean_checkout\\work\\analysis\\runs.csv\nC:\\Users\\Venkatesh\\cao_clean_checkout\\work\\analysis\\exclusions.csv\nC:\\Users\\Venkatesh\\cao_clean_checkout\\work\\analysis\\summary.csv\nC:\\Users\\Venkatesh\\cao_clean_checkout\\work\\analysis\\effects.csv\nC:\\Users\\Venkatesh\\cao_clean_checkout\\work\\analysis\\crosscheck.csv\nC:\\Users\\Venkatesh\\cao_clean_checkout\\work\\analysis\\analysis.json\nC:\\Users\\Venkatesh\\cao_clean_checkout\\work\\analysis\\fig_makespan_by_policy.png\nC:\\Users\\Venkatesh\\cao_clean_checkout\\work\\analysis\\fig_overhead_breakdown.png\nC:\\Users\\Venkatesh\\cao_clean_checkout\\work\\analysis\\fig_effect_vs_baseline.png\n",
+      "stderr_tail": "",
+      "log_file": "13_stub_analyze.txt"
+    },
+    {
+      "name": "stub_make_manifest",
+      "argv": [
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\venv\\Scripts\\python.exe",
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\repo\\scripts\\make_manifest.py",
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\work\\experiments\\repro_stub"
+      ],
+      "cwd": "C:\\Users\\Venkatesh\\cao_clean_checkout\\repo",
+      "started_utc": "2026-10-12T22:21:11.717029+00:00",
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "timeout_s": 600.0,
+      "duration_s": 0.179,
+      "ok": true,
+      "status": "ok",
+      "stdout_tail": "C:\\Users\\Venkatesh\\cao_clean_checkout\\work\\experiments\\repro_stub\\SHA256_MANIFEST.tsv  sha256=63f0fed1fc5d4e6fabf01520754f3c8b68df7f7e4bd5992334e4f115c8bc75fe\n",
+      "stderr_tail": "",
+      "log_file": "14_stub_make_manifest.txt"
+    },
+    {
+      "name": "stub_verify_manifest",
+      "argv": [
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\venv\\Scripts\\python.exe",
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\repo\\scripts\\make_manifest.py",
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\work\\experiments\\repro_stub",
+        "--verify"
+      ],
+      "cwd": "C:\\Users\\Venkatesh\\cao_clean_checkout\\repo",
+      "started_utc": "2026-10-12T22:21:11.897031+00:00",
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "timeout_s": 600.0,
+      "duration_s": 0.176,
+      "ok": true,
+      "status": "ok",
+      "stdout_tail": "{\n  \"ok\": true,\n  \"n_checked\": 53,\n  \"missing\": [],\n  \"changed\": [],\n  \"extra\": [],\n  \"manifest_sha256\": \"63f0fed1fc5d4e6fabf01520754f3c8b68df7f7e4bd5992334e4f115c8bc75fe\"\n}\n",
+      "stderr_tail": "",
+      "log_file": "15_stub_verify_manifest.txt"
+    },
+    {
+      "name": "stub_reproduce_subset",
+      "argv": [
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\venv\\Scripts\\python.exe",
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\repo\\scripts\\reproduce_subset.py",
+        "--analysis-dir",
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\work\\analysis",
+        "--log",
+        "C:\\Users\\Venkatesh\\cao_clean_checkout\\work\\reproduction_log.json"
+      ],
+      "cwd": "C:\\Users\\Venkatesh\\cao_clean_checkout\\repo",
+      "started_utc": "2026-10-12T22:21:12.078595+00:00",
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "timeout_s": 600.0,
+      "duration_s": 1.098,
+      "ok": true,
+      "status": "ok",
+      "stdout_tail": "{\n  \"evidence manifest C:\\\\Users\\\\Venkatesh\\\\cao_clean_checkout\\\\work\\\\experiments\\\\repro_stub\": true,\n  \"event-log hashes vs run manifests\": true,\n  \"table summary reproduced from raw logs\": true,\n  \"table effects reproduced from raw logs\": true\n}\n",
+      "stderr_tail": "",
+      "log_file": "16_stub_reproduce_subset.txt"
+    },
+    {
+      "name": "montage_subset_hashes",
+      "started_utc": "2026-10-12T22:21:13.178353+00:00",
+      "exit_code": 0,
+      "error": null,
+      "detail": {
+        "n_expected": 44,
+        "n_binaries_in_manifest": 34,
+        "instances": [
+          "d1.1_dss2b_c56.7_24.0"
+        ],
+        "missing": [],
+        "changed": [],
+        "n_missing": 0,
+        "n_changed": 0,
+        "note": "extra files in data/ are not checked; instances not named are not checked"
+      },
+      "duration_s": 0.318,
+      "ok": true,
+      "status": "ok"
+    }
+  ],
+  "ok": true
+}

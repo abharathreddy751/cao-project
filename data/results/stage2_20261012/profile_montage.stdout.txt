@@ -1,0 +1,18 @@
+pools -> pinned logical processor: {'P': 0, 'E': 13}
+mAdd         E  median     2.625 s  (n=2, tasks=1)
+mAdd         P  median     0.917 s  (n=2, tasks=1)
+mBackground  E  median     0.844 s  (n=18, tasks=9)
+mBackground  P  median     0.316 s  (n=18, tasks=9)
+mBgModel     E  median     1.280 s  (n=2, tasks=1)
+mBgModel     P  median     0.356 s  (n=2, tasks=1)
+mConcatFit   E  median     0.526 s  (n=2, tasks=1)
+mConcatFit   P  median     0.189 s  (n=2, tasks=1)
+mDiffFit     E  median     1.188 s  (n=40, tasks=20)
+mDiffFit     P  median     0.389 s  (n=40, tasks=20)
+mImgtbl      E  median     0.200 s  (n=2, tasks=1)
+mImgtbl      P  median     0.085 s  (n=2, tasks=1)
+mProject     E  median   401.080 s  (n=4, tasks=2)
+mProject     P  median   111.773 s  (n=4, tasks=2)
+mViewer      E  median    10.576 s  (n=2, tasks=1)
+mViewer      P  median     3.843 s  (n=2, tasks=1)
+rc=0

@@ -1,0 +1,14 @@
+{
+  "session_id": "20261024T195629",
+  "design_name": "study2_oracle",
+  "design_sha256": "d973a30d30200553993b1060a0950d07183fe18f7b2ce8976435b2c562bda062",
+  "evidence_label": "real",
+  "machine_id": "681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978",
+  "environment_hash": "bac0fdd048d7d4cd07d46a4ed4fc15a0d5b21cd94b71541be631229f3f1ed53b",
+  "started_utc": "2026-10-24T14:26:33.818794+00:00",
+  "status": "complete",
+  "reason": null,
+  "n_blocks": 13,
+  "blocks_completed": 13,
+  "finished_utc": "2026-10-24T14:33:40.113758+00:00"
+}

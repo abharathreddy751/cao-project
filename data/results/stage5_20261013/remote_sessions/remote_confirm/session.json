@@ -1,0 +1,14 @@
+{
+  "session_id": "remote_confirm",
+  "design_name": "remote_emulation_confirm",
+  "design_sha256": "4dab0106d6d9a86af400af779cd2aaf789b7389d73c7b53eea77f89cb6ea3d57",
+  "evidence_label": "emulation",
+  "machine_id": "681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978",
+  "environment_hash": "bac0fdd048d7d4cd07d46a4ed4fc15a0d5b21cd94b71541be631229f3f1ed53b",
+  "started_utc": "2026-10-13T23:22:40.486265+00:00",
+  "status": "complete",
+  "reason": null,
+  "n_blocks": 12,
+  "blocks_completed": 12,
+  "finished_utc": "2026-10-13T23:39:15.117209+00:00"
+}

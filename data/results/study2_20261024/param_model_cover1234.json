@@ -1,0 +1,147 @@
+{
+ "groups": {
+  "img_aggregate|E": {
+   "features": [],
+   "coef": [
+    0.0002600515162515821
+   ],
+   "n": 33,
+   "mae_s": 2.5610847200230245e-05
+  },
+  "img_aggregate|P": {
+   "features": [],
+   "coef": [
+    8.426726033741777e-05
+   ],
+   "n": 55,
+   "mae_s": 1.6885551985753463e-05
+  },
+  "img_denoise|E": {
+   "features": [
+    "iterations"
+   ],
+   "coef": [
+    0.0019361998954931477,
+    0.019043475667058125
+   ],
+   "n": 2673,
+   "mae_s": 0.02286391467373071
+  },
+  "img_denoise|P": {
+   "features": [
+    "iterations"
+   ],
+   "coef": [
+    0.0020800669697341916,
+    0.0076091296143067436
+   ],
+   "n": 2959,
+   "mae_s": 0.011543445138982662
+  },
+  "img_edges|E": {
+   "features": [],
+   "coef": [
+    0.02979392861480704
+   ],
+   "n": 1328,
+   "mae_s": 0.0028387141532263773
+  },
+  "img_edges|P": {
+   "features": [],
+   "coef": [
+    0.012636112779143897
+   ],
+   "n": 4304,
+   "mae_s": 0.0015771402105111806
+  },
+  "img_features|E": {
+   "features": [],
+   "coef": [
+    0.007865130274402781
+   ],
+   "n": 981,
+   "mae_s": 0.00043946107867368507
+  },
+  "img_features|P": {
+   "features": [],
+   "coef": [
+    0.003701718102390088
+   ],
+   "n": 4651,
+   "mae_s": 0.00033383216755583243
+  },
+  "img_source|E": {
+   "features": [],
+   "coef": [
+    0.29673717116148157
+   ],
+   "n": 2344,
+   "mae_s": 0.03611658174031848
+  },
+  "img_source|P": {
+   "features": [],
+   "coef": [
+    0.16480846468975582
+   ],
+   "n": 3288,
+   "mae_s": 0.0225108672630563
+  }
+ },
+ "sessions": [
+  "data/results/study2_20261024/iters_cover_sessions/20261024T203133",
+  "data/results/study2_20261024/iters_cover2_sessions/20261024T203633",
+  "data/results/study2_20261024/iters_cover3_sessions/20261024T203922",
+  "data/results/study2_20261024/iters_cover4_sessions/20261024T204519"
+ ],
+ "holdout_sessions": [
+  "data/results/study2_20261024/iters_confirm_sessions/20261024T211614"
+ ],
+ "holdout_report": {
+  "img_aggregate|P": {
+   "n": 216,
+   "mae_s": 2.6989716267047032e-05,
+   "median_ape": 0.22570626137718097
+  },
+  "img_denoise|E": {
+   "n": 6523,
+   "mae_s": 0.021382755788796545,
+   "median_ape": 0.02975945336945812
+  },
+  "img_denoise|P": {
+   "n": 7301,
+   "mae_s": 0.03240681795548805,
+   "median_ape": 0.07503114400967076
+  },
+  "img_edges|E": {
+   "n": 5797,
+   "mae_s": 0.003808989901651277,
+   "median_ape": 0.09590492059231435
+  },
+  "img_edges|P": {
+   "n": 8027,
+   "mae_s": 0.001733013606656199,
+   "median_ape": 0.11526684147836103
+  },
+  "img_features|E": {
+   "n": 5561,
+   "mae_s": 0.0008447124003886079,
+   "median_ape": 0.0721863649193276
+  },
+  "img_features|P": {
+   "n": 8263,
+   "mae_s": 0.00045043173202923806,
+   "median_ape": 0.08898724521049309
+  },
+  "img_source|E": {
+   "n": 3148,
+   "mae_s": 0.04363338436956754,
+   "median_ape": 0.10832301533304421
+  },
+  "img_source|P": {
+   "n": 10676,
+   "mae_s": 0.027276255008562563,
+   "median_ape": 0.1624377461280681
+  }
+ },
+ "rule": "ridge least squares per (workload, pool), warm-up block excluded"
+}

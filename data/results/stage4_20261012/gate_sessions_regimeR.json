@@ -1,0 +1,248 @@
+{
+ "label": "real",
+ "session": "data/results/stage4_20261012/sessions_regimeR/20261013T005542",
+ "n_runs": 15,
+ "n_failing_checks": 0,
+ "failing": {},
+ "makespan_by_condition": {
+  "B0_P_only": {
+   "n": 3,
+   "mean_s": 576.5064552000064,
+   "min_s": 574.622116700004,
+   "max_s": 577.73637340001
+  },
+  "B4_greedy_eligible": {
+   "n": 3,
+   "mean_s": 407.6367839666685,
+   "min_s": 407.155520100001,
+   "max_s": 407.98585530000855
+  },
+  "EFT_CatBoost": {
+   "n": 3,
+   "mean_s": 468.6124342333351,
+   "min_s": 467.9432805999968,
+   "max_s": 469.8027541000047
+  },
+  "EFT_E1": {
+   "n": 3,
+   "mean_s": 407.5780553333364,
+   "min_s": 407.51500310000847,
+   "max_s": 407.6314905999898
+  },
+  "HEFT_E1": {
+   "n": 3,
+   "mean_s": 407.89889526666957,
+   "min_s": 407.5091221000039,
+   "max_s": 408.1059241000039
+  }
+ },
+ "runs": {
+  "b0000_00_EFT_E1": {
+   "condition": "EFT_E1",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 407.6314905999898,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 39,
+    "E": 20
+   }
+  },
+  "b0000_01_B4_greedy_eligible": {
+   "condition": "B4_greedy_eligible",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 407.7689764999959,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 23,
+    "E": 36
+   }
+  },
+  "b0000_02_EFT_CatBoost": {
+   "condition": "EFT_CatBoost",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 467.9432805999968,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 31,
+    "E": 28
+   }
+  },
+  "b0000_03_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 577.73637340001,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 59
+   }
+  },
+  "b0000_04_HEFT_E1": {
+   "condition": "HEFT_E1",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 408.0816396000009,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 33,
+    "E": 26
+   }
+  },
+  "b0001_00_B4_greedy_eligible": {
+   "condition": "B4_greedy_eligible",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 407.98585530000855,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 26,
+    "E": 33
+   }
+  },
+  "b0001_01_EFT_E1": {
+   "condition": "EFT_E1",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 407.51500310000847,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 41,
+    "E": 18
+   }
+  },
+  "b0001_02_EFT_CatBoost": {
+   "condition": "EFT_CatBoost",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 468.09126800000377,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 31,
+    "E": 28
+   }
+  },
+  "b0001_03_HEFT_E1": {
+   "condition": "HEFT_E1",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 408.1059241000039,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 33,
+    "E": 26
+   }
+  },
+  "b0001_04_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 577.1608755000052,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 59
+   }
+  },
+  "b0002_00_HEFT_E1": {
+   "condition": "HEFT_E1",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 407.5091221000039,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 33,
+    "E": 26
+   }
+  },
+  "b0002_01_EFT_E1": {
+   "condition": "EFT_E1",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 407.58767230001104,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 41,
+    "E": 18
+   }
+  },
+  "b0002_02_B4_greedy_eligible": {
+   "condition": "B4_greedy_eligible",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 407.155520100001,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 25,
+    "E": 34
+   }
+  },
+  "b0002_03_EFT_CatBoost": {
+   "condition": "EFT_CatBoost",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 469.8027541000047,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 31,
+    "E": 28
+   }
+  },
+  "b0002_04_B0_P_only": {
+   "condition": "B0_P_only",
+   "completed": true,
+   "n_tasks": 59,
+   "dependency_violations": [],
+   "worker_overlaps": [],
+   "ineligible_placements": [],
+   "makespan_s": 574.622116700004,
+   "output_verified": true,
+   "tasks_per_pool": {
+    "P": 59
+   }
+  }
+ }
+}

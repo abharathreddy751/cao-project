@@ -1,0 +1,450 @@
+{
+ "schema_version": 1,
+ "name": "independent_mixed",
+ "seed": 2,
+ "generator": {
+  "generator": "independent",
+  "n_tasks": 60,
+  "workload_mix": {
+   "matmul": 1,
+   "image_filter": 1,
+   "compression": 1
+  },
+  "sizes": {
+   "matmul": [
+    256,
+    512
+   ],
+   "image_filter": [
+    512,
+    1024
+   ],
+   "compression": [
+    1048576,
+    4194304
+   ]
+  }
+ },
+ "tasks": [
+  {
+   "id": "t0",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 393353683,
+   "deps": []
+  },
+  {
+   "id": "t1",
+   "workload": "compression",
+   "size": 1048576,
+   "seed": 1323436024,
+   "deps": []
+  },
+  {
+   "id": "t2",
+   "workload": "compression",
+   "size": 1048576,
+   "seed": 153478260,
+   "deps": []
+  },
+  {
+   "id": "t3",
+   "workload": "image_filter",
+   "size": 512,
+   "seed": 1849712019,
+   "deps": []
+  },
+  {
+   "id": "t4",
+   "workload": "image_filter",
+   "size": 1024,
+   "seed": 1910634194,
+   "deps": []
+  },
+  {
+   "id": "t5",
+   "workload": "image_filter",
+   "size": 512,
+   "seed": 117874757,
+   "deps": []
+  },
+  {
+   "id": "t6",
+   "workload": "image_filter",
+   "size": 1024,
+   "seed": 1632151663,
+   "deps": []
+  },
+  {
+   "id": "t7",
+   "workload": "image_filter",
+   "size": 512,
+   "seed": 762083711,
+   "deps": []
+  },
+  {
+   "id": "t8",
+   "workload": "compression",
+   "size": 1048576,
+   "seed": 759006542,
+   "deps": []
+  },
+  {
+   "id": "t9",
+   "workload": "compression",
+   "size": 1048576,
+   "seed": 1544862794,
+   "deps": []
+  },
+  {
+   "id": "t10",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 1913998966,
+   "deps": []
+  },
+  {
+   "id": "t11",
+   "workload": "matmul",
+   "size": 512,
+   "seed": 1519503515,
+   "deps": []
+  },
+  {
+   "id": "t12",
+   "workload": "image_filter",
+   "size": 1024,
+   "seed": 692282802,
+   "deps": []
+  },
+  {
+   "id": "t13",
+   "workload": "matmul",
+   "size": 512,
+   "seed": 1981726674,
+   "deps": []
+  },
+  {
+   "id": "t14",
+   "workload": "image_filter",
+   "size": 512,
+   "seed": 2104593779,
+   "deps": []
+  },
+  {
+   "id": "t15",
+   "workload": "compression",
+   "size": 4194304,
+   "seed": 1520092894,
+   "deps": []
+  },
+  {
+   "id": "t16",
+   "workload": "image_filter",
+   "size": 1024,
+   "seed": 1980032180,
+   "deps": []
+  },
+  {
+   "id": "t17",
+   "workload": "image_filter",
+   "size": 1024,
+   "seed": 2089967836,
+   "deps": []
+  },
+  {
+   "id": "t18",
+   "workload": "image_filter",
+   "size": 1024,
+   "seed": 713263864,
+   "deps": []
+  },
+  {
+   "id": "t19",
+   "workload": "matmul",
+   "size": 512,
+   "seed": 2060579930,
+   "deps": []
+  },
+  {
+   "id": "t20",
+   "workload": "compression",
+   "size": 4194304,
+   "seed": 1339361182,
+   "deps": []
+  },
+  {
+   "id": "t21",
+   "workload": "matmul",
+   "size": 512,
+   "seed": 1574527462,
+   "deps": []
+  },
+  {
+   "id": "t22",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 1466554885,
+   "deps": []
+  },
+  {
+   "id": "t23",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 455940514,
+   "deps": []
+  },
+  {
+   "id": "t24",
+   "workload": "compression",
+   "size": 1048576,
+   "seed": 1172954418,
+   "deps": []
+  },
+  {
+   "id": "t25",
+   "workload": "image_filter",
+   "size": 512,
+   "seed": 586262577,
+   "deps": []
+  },
+  {
+   "id": "t26",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 904000145,
+   "deps": []
+  },
+  {
+   "id": "t27",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 1816417465,
+   "deps": []
+  },
+  {
+   "id": "t28",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 243938737,
+   "deps": []
+  },
+  {
+   "id": "t29",
+   "workload": "image_filter",
+   "size": 512,
+   "seed": 1071601613,
+   "deps": []
+  },
+  {
+   "id": "t30",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 494879349,
+   "deps": []
+  },
+  {
+   "id": "t31",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 175554966,
+   "deps": []
+  },
+  {
+   "id": "t32",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 1602440615,
+   "deps": []
+  },
+  {
+   "id": "t33",
+   "workload": "compression",
+   "size": 1048576,
+   "seed": 789152174,
+   "deps": []
+  },
+  {
+   "id": "t34",
+   "workload": "image_filter",
+   "size": 512,
+   "seed": 1655992836,
+   "deps": []
+  },
+  {
+   "id": "t35",
+   "workload": "image_filter",
+   "size": 512,
+   "seed": 650344385,
+   "deps": []
+  },
+  {
+   "id": "t36",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 1478332035,
+   "deps": []
+  },
+  {
+   "id": "t37",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 1228475045,
+   "deps": []
+  },
+  {
+   "id": "t38",
+   "workload": "image_filter",
+   "size": 512,
+   "seed": 1324506119,
+   "deps": []
+  },
+  {
+   "id": "t39",
+   "workload": "image_filter",
+   "size": 512,
+   "seed": 1133623010,
+   "deps": []
+  },
+  {
+   "id": "t40",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 2030572515,
+   "deps": []
+  },
+  {
+   "id": "t41",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 1358523604,
+   "deps": []
+  },
+  {
+   "id": "t42",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 1923380227,
+   "deps": []
+  },
+  {
+   "id": "t43",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 1687718336,
+   "deps": []
+  },
+  {
+   "id": "t44",
+   "workload": "image_filter",
+   "size": 1024,
+   "seed": 617742822,
+   "deps": []
+  },
+  {
+   "id": "t45",
+   "workload": "matmul",
+   "size": 512,
+   "seed": 1112810657,
+   "deps": []
+  },
+  {
+   "id": "t46",
+   "workload": "compression",
+   "size": 4194304,
+   "seed": 77452082,
+   "deps": []
+  },
+  {
+   "id": "t47",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 243872514,
+   "deps": []
+  },
+  {
+   "id": "t48",
+   "workload": "compression",
+   "size": 1048576,
+   "seed": 692198464,
+   "deps": []
+  },
+  {
+   "id": "t49",
+   "workload": "compression",
+   "size": 4194304,
+   "seed": 994950956,
+   "deps": []
+  },
+  {
+   "id": "t50",
+   "workload": "image_filter",
+   "size": 512,
+   "seed": 1059828510,
+   "deps": []
+  },
+  {
+   "id": "t51",
+   "workload": "compression",
+   "size": 4194304,
+   "seed": 315884807,
+   "deps": []
+  },
+  {
+   "id": "t52",
+   "workload": "compression",
+   "size": 1048576,
+   "seed": 1545453871,
+   "deps": []
+  },
+  {
+   "id": "t53",
+   "workload": "compression",
+   "size": 4194304,
+   "seed": 1197166857,
+   "deps": []
+  },
+  {
+   "id": "t54",
+   "workload": "image_filter",
+   "size": 512,
+   "seed": 649035920,
+   "deps": []
+  },
+  {
+   "id": "t55",
+   "workload": "compression",
+   "size": 4194304,
+   "seed": 688207320,
+   "deps": []
+  },
+  {
+   "id": "t56",
+   "workload": "compression",
+   "size": 1048576,
+   "seed": 1034509522,
+   "deps": []
+  },
+  {
+   "id": "t57",
+   "workload": "compression",
+   "size": 1048576,
+   "seed": 780653589,
+   "deps": []
+  },
+  {
+   "id": "t58",
+   "workload": "matmul",
+   "size": 256,
+   "seed": 933526756,
+   "deps": []
+  },
+  {
+   "id": "t59",
+   "workload": "compression",
+   "size": 4194304,
+   "seed": 1949304083,
+   "deps": []
+  }
+ ]
+}

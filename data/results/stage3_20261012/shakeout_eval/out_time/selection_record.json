@@ -1,0 +1,160 @@
+{
+ "rule": "cheapest model not worse (CI upper bound diff_hi <= margin) than every more complex model",
+ "margin": 0.0,
+ "selected": "MLP",
+ "checks": [
+  {
+   "model": "E1",
+   "complexity": 0,
+   "qualifies": false,
+   "against": [
+    {
+     "complex": "E3",
+     "diff_mean": 0.0,
+     "diff_lo": -1.0,
+     "diff_hi": 1.0,
+     "not_worse": false
+    },
+    {
+     "complex": "E1+rc",
+     "diff_mean": 0.0,
+     "diff_lo": -1.0,
+     "diff_hi": 1.0,
+     "not_worse": false
+    },
+    {
+     "complex": "Ridge",
+     "diff_mean": 0.0,
+     "diff_lo": -1.0,
+     "diff_hi": 1.0,
+     "not_worse": false
+    },
+    {
+     "complex": "CatBoost",
+     "diff_mean": 0.0,
+     "diff_lo": -1.0,
+     "diff_hi": 1.0,
+     "not_worse": false
+    },
+    {
+     "complex": "MLP",
+     "diff_mean": 0.0,
+     "diff_lo": -1.0,
+     "diff_hi": 1.0,
+     "not_worse": false
+    }
+   ]
+  },
+  {
+   "model": "E3",
+   "complexity": 1,
+   "qualifies": false,
+   "against": [
+    {
+     "complex": "E1+rc",
+     "diff_mean": 0.0,
+     "diff_lo": -1.0,
+     "diff_hi": 1.0,
+     "not_worse": false
+    },
+    {
+     "complex": "Ridge",
+     "diff_mean": 0.0,
+     "diff_lo": -1.0,
+     "diff_hi": 1.0,
+     "not_worse": false
+    },
+    {
+     "complex": "CatBoost",
+     "diff_mean": 0.0,
+     "diff_lo": -1.0,
+     "diff_hi": 1.0,
+     "not_worse": false
+    },
+    {
+     "complex": "MLP",
+     "diff_mean": 0.0,
+     "diff_lo": -1.0,
+     "diff_hi": 1.0,
+     "not_worse": false
+    }
+   ]
+  },
+  {
+   "model": "E1+rc",
+   "complexity": 2,
+   "qualifies": false,
+   "against": [
+    {
+     "complex": "Ridge",
+     "diff_mean": 0.0,
+     "diff_lo": -1.0,
+     "diff_hi": 1.0,
+     "not_worse": false
+    },
+    {
+     "complex": "CatBoost",
+     "diff_mean": 0.0,
+     "diff_lo": -1.0,
+     "diff_hi": 1.0,
+     "not_worse": false
+    },
+    {
+     "complex": "MLP",
+     "diff_mean": 0.0,
+     "diff_lo": -1.0,
+     "diff_hi": 1.0,
+     "not_worse": false
+    }
+   ]
+  },
+  {
+   "model": "Ridge",
+   "complexity": 3,
+   "qualifies": false,
+   "against": [
+    {
+     "complex": "CatBoost",
+     "diff_mean": 0.0,
+     "diff_lo": -1.0,
+     "diff_hi": 1.0,
+     "not_worse": false
+    },
+    {
+     "complex": "MLP",
+     "diff_mean": 0.0,
+     "diff_lo": -1.0,
+     "diff_hi": 1.0,
+     "not_worse": false
+    }
+   ]
+  },
+  {
+   "model": "CatBoost",
+   "complexity": 4,
+   "qualifies": false,
+   "against": [
+    {
+     "complex": "MLP",
+     "diff_mean": 0.0,
+     "diff_lo": -1.0,
+     "diff_hi": 1.0,
+     "not_worse": false
+    }
+   ]
+  },
+  {
+   "model": "MLP",
+   "complexity": 5,
+   "qualifies": true,
+   "against": []
+  }
+ ],
+ "scheduling_input": "data/results/stage3_20261012/shakeout_eval/scheduling_PLACEHOLDER.json",
+ "prediction_metrics": "data\\results\\stage3_20261012\\shakeout_eval\\out_time\\metrics.json",
+ "rows_per_ctx_source": {
+  "decision": 1062
+ },
+ "require_decision_context": true,
+ "allow_non_decision_context": false
+}

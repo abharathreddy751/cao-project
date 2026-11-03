@@ -1,0 +1,14 @@
+{
+  "session_id": "20261024T202525",
+  "design_name": "study2_mixed_cover",
+  "design_sha256": "8012fcbf27261a7b6d23943cc991c0c3ac3c929efb0675605bc06b36b65361ea",
+  "evidence_label": "real",
+  "machine_id": "681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978",
+  "environment_hash": "bac0fdd048d7d4cd07d46a4ed4fc15a0d5b21cd94b71541be631229f3f1ed53b",
+  "started_utc": "2026-10-24T14:55:28.793467+00:00",
+  "status": "complete",
+  "reason": null,
+  "n_blocks": 11,
+  "blocks_completed": 11,
+  "finished_utc": "2026-10-24T14:58:05.389154+00:00"
+}

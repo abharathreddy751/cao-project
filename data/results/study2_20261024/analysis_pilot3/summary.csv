@@ -1,0 +1,7 @@
+condition,instance,scope,n,evidence_label
+B0_P_only,all,pooled_log_scale,0,real
+B4_gpu,all,pooled_log_scale,0,real
+EFT_E1_e2e_gpu,all,pooled_log_scale,0,real
+EFT_E1_gpu,all,pooled_log_scale,0,real
+EFT_E1_rc_e2e_gpu,all,pooled_log_scale,0,real
+EFT_E1_rc_gpu,all,pooled_log_scale,0,real

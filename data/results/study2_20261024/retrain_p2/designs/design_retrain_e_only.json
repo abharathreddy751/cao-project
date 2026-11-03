@@ -1,0 +1,43 @@
+{
+ "name": "retrain_e_only",
+ "evidence_label": "real",
+ "seed": 31,
+ "n_blocks": 7,
+ "instances": [
+  "order_a",
+  "order_b"
+ ],
+ "warmup_blocks": 1,
+ "min_free_ram_gb": 0.8,
+ "require_ac_power": true,
+ "reference": "B0_E_only",
+ "conditions": [
+  {
+   "name": "B0_E_only",
+   "policy": "B0_E_only",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "tile": 512,
+    "seed": 0,
+    "order_seeds": {
+     "order_a": 11,
+     "order_b": 22
+    },
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json"
+   }
+  }
+ ]
+}

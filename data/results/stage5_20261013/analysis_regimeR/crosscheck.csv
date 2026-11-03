@@ -1,0 +1,7 @@
+test,cond,n_blocks,statistic,p_value,multiplicity
+friedman,all,8,34.071428571428555,2.304299962255201e-06,
+wilcoxon_vs_ref,B0_P_only,8,0.0,0.0078125,unadjusted (cross-check only)
+wilcoxon_vs_ref,EFT_CatBoost,8,0.0,0.0078125,unadjusted (cross-check only)
+wilcoxon_vs_ref,EFT_E1,8,11.0,0.3828125,unadjusted (cross-check only)
+wilcoxon_vs_ref,EFT_MLP,8,10.0,0.3125,unadjusted (cross-check only)
+wilcoxon_vs_ref,EFT_Ridge,8,0.0,0.0078125,unadjusted (cross-check only)

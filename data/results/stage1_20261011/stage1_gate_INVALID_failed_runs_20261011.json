@@ -1,0 +1,52 @@
+{
+ "label": "real",
+ "instance": "d1.1_dss2b_c56.7_24.0",
+ "reps": {
+  "rep1": {
+   "status": "failed:ID0000011",
+   "n_tasks": 11,
+   "total_wall_s": 3444.4792158,
+   "all_tasks_timed": true,
+   "final_outputs": {}
+  },
+  "rep2": {
+   "status": "failed:ID0000011",
+   "n_tasks": 11,
+   "total_wall_s": 3656.5775153000004,
+   "all_tasks_timed": true,
+   "final_outputs": {}
+  },
+  "rep3": {
+   "status": "failed:ID0000011",
+   "n_tasks": 11,
+   "total_wall_s": 3656.3834981,
+   "all_tasks_timed": true,
+   "final_outputs": {}
+  }
+ },
+ "completed_3_of_3": false,
+ "output_hashes_identical": true,
+ "mosaic_comparison": "missing",
+ "wcs": "missing",
+ "dag": {
+  "n_jobs": 59,
+  "edges_jobDependencies": 147,
+  "edges_from_files": 147,
+  "only_in_jobDependencies": [],
+  "only_in_files": []
+ },
+ "per_transformation_wall_s": {
+  "mProject": {
+   "n": 27,
+   "min": 191.44626500000004,
+   "median": 401.9929910000001,
+   "max": 483.97456690000035
+  },
+  "mDiffFit": {
+   "n": 6,
+   "min": 0.055788000000575266,
+   "median": 0.3478088500000922,
+   "max": 0.681283999999323
+  }
+ }
+}

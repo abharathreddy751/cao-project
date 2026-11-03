@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "D:\cao project\scripts\run_experiment.py", line 43, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "D:\cao project\scripts\run_experiment.py", line 37, in main
+    s = run_session(a.design, a.out, adapter, session_id=a.session_id)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\cao project\src\caosched\experiment\runner.py", line 165, in run_session
+    design = load_design(design_path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\cao project\src\caosched\experiment\design.py", line 107, in load_design
+    raise ValueError("reference must be a condition name")
+ValueError: reference must be a condition name

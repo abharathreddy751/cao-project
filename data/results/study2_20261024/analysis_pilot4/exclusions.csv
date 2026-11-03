@@ -1,0 +1,8 @@
+run_id,condition,block,reason
+20261024T010345__b0000_00_EFT_E1_gpu,EFT_E1_gpu,0,warm-up block (design rule)
+20261024T010345__b0000_01_B0_P_only,B0_P_only,0,warm-up block (design rule)
+20261024T010345__b0000_02_B4_gpu,B4_gpu,0,warm-up block (design rule)
+20261024T010345__b0000_03_EFT_E1_rc_late_e2e_gpu,EFT_E1_rc_late_e2e_gpu,0,warm-up block (design rule)
+20261024T010345__b0000_04_EFT_E1_late_e2e_gpu,EFT_E1_late_e2e_gpu,0,warm-up block (design rule)
+20261024T010345__b0000_05_EFT_E1_rc_late_gpu,EFT_E1_rc_late_gpu,0,warm-up block (design rule)
+20261024T010345__b0000_06_EFT_E1_late_gpu,EFT_E1_late_gpu,0,warm-up block (design rule)

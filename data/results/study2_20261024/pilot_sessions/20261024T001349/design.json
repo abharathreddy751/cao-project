@@ -1,0 +1,253 @@
+{
+ "name": "study2_pilot",
+ "evidence_label": "real",
+ "seed": 20261201,
+ "n_blocks": 8,
+ "instances": [
+  null
+ ],
+ "warmup_blocks": 1,
+ "min_free_ram_gb": 1.2,
+ "reference": "STATIC_G_edges_features",
+ "gpu_stage_table": {
+  "img_denoise": true,
+  "img_edges": true,
+  "img_features": true
+ },
+ "conditions": [
+  {
+   "name": "B0_P_only",
+   "policy": "B0_P_only",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_batch"
+   },
+   "kwargs": {
+    "k": 64,
+    "tile": 512,
+    "seed": 0,
+    "denoise_iterations": 8,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    },
+    "no_gpu": true
+   }
+  },
+  {
+   "name": "STATIC_G_edges_features",
+   "policy": "B2",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_batch"
+   },
+   "kwargs": {
+    "k": 64,
+    "tile": 512,
+    "seed": 0,
+    "denoise_iterations": 8,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    },
+    "policy_cfg": {
+     "B2_static_mapping": {
+      "mapping": {
+       "img_source": "P",
+       "img_aggregate": "P",
+       "img_denoise": "P",
+       "img_edges": "G",
+       "img_features": "G"
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "STATIC_GPU_first",
+   "policy": "B2",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_batch"
+   },
+   "kwargs": {
+    "k": 64,
+    "tile": 512,
+    "seed": 0,
+    "denoise_iterations": 8,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    },
+    "policy_cfg": {
+     "B2_static_mapping": {
+      "mapping": {
+       "img_source": "P",
+       "img_aggregate": "P",
+       "img_denoise": "G",
+       "img_edges": "G",
+       "img_features": "G"
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "B3_gpu",
+   "policy": "B3",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_batch"
+   },
+   "kwargs": {
+    "k": 64,
+    "tile": 512,
+    "seed": 0,
+    "denoise_iterations": 8,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    }
+   }
+  },
+  {
+   "name": "B4_gpu",
+   "policy": "B4",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_batch"
+   },
+   "kwargs": {
+    "k": 64,
+    "tile": 512,
+    "seed": 0,
+    "denoise_iterations": 8,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    },
+    "policy_cfg": {
+     "B4_greedy_eligible": {
+      "priority": [
+       "G",
+       "P",
+       "E"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "B4_cpu",
+   "policy": "B4",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_batch"
+   },
+   "kwargs": {
+    "k": 64,
+    "tile": 512,
+    "seed": 0,
+    "denoise_iterations": 8,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    },
+    "no_gpu": true
+   }
+  },
+  {
+   "name": "EFT_E1_gpu",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_batch"
+   },
+   "kwargs": {
+    "k": 64,
+    "tile": 512,
+    "seed": 0,
+    "denoise_iterations": 8,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    }
+   }
+  },
+  {
+   "name": "EFT_E1_cpu",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_batch"
+   },
+   "kwargs": {
+    "k": 64,
+    "tile": 512,
+    "seed": 0,
+    "denoise_iterations": 8,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    },
+    "no_gpu": true
+   }
+  },
+  {
+   "name": "EFT_E1_rc_gpu",
+   "policy": "EFT_E1_rc",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_batch"
+   },
+   "kwargs": {
+    "k": 64,
+    "tile": 512,
+    "seed": 0,
+    "denoise_iterations": 8,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    }
+   }
+  },
+  {
+   "name": "HEFT_E1_gpu",
+   "policy": "HEFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_batch"
+   },
+   "kwargs": {
+    "k": 64,
+    "tile": 512,
+    "seed": 0,
+    "denoise_iterations": 8,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,7 @@
+test,cond,n_blocks,statistic,p_value,multiplicity
+friedman,all,30,94.38095238095241,8.05957002165897e-19,
+wilcoxon_vs_ref,B0_P_only,30,0.0,1.862645149230957e-09,unadjusted (cross-check only)
+wilcoxon_vs_ref,PRED_RANK_GREEDY_gpu,30,232.0,1.0,unadjusted (cross-check only)
+wilcoxon_vs_ref,RSA_COMBINED_gpu,30,45.0,3.049522638320923e-05,unadjusted (cross-check only)
+wilcoxon_vs_ref,RSA_STATE_ONLY_gpu,30,34.0,6.917864084243774e-06,unadjusted (cross-check only)
+wilcoxon_vs_ref,RSA_TASK_ONLY_gpu,30,72.0,0.0005548261106014252,unadjusted (cross-check only)

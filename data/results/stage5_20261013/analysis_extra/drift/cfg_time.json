@@ -1,0 +1,46 @@
+{
+ "seed": 0,
+ "require_decision_context": true,
+ "allow_profile_after_sessions": false,
+ "mape_floor_s": 0.5,
+ "measure_memory": true,
+ "e3_window": 8,
+ "rc": {
+  "alpha": 0.2,
+  "min_obs": 1,
+  "clamp": [
+   0.5,
+   3.0
+  ]
+ },
+ "ridge": {
+  "ridge_lambda": 1.0,
+  "min_rows": 30,
+  "feature_set": "occupancy+history"
+ },
+ "catboost": {
+  "iterations": 300,
+  "depth": 4,
+  "learning_rate": 0.05
+ },
+ "mlp": {
+  "hidden": [
+   16,
+   16
+  ],
+  "epochs": 200,
+  "lr": 0.001,
+  "weight_decay": 0.0001,
+  "batch_size": 64
+ },
+ "latency": {
+  "n_calls": 200
+ },
+ "selection": {
+  "margin": 0.0198
+ },
+ "split": {
+  "policy": "time",
+  "train_fraction": 0.7
+ }
+}

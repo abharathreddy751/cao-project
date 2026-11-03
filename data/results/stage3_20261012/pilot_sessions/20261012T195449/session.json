@@ -1,0 +1,14 @@
+{
+  "session_id": "20261012T195449",
+  "design_name": "stage3_scheduling_pilot",
+  "design_sha256": "2dd0e47a81b52930ff0a592ea7822f3cb25d78d4263c10cfda63004498ca7186",
+  "evidence_label": "real",
+  "machine_id": "681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978",
+  "environment_hash": "bac0fdd048d7d4cd07d46a4ed4fc15a0d5b21cd94b71541be631229f3f1ed53b",
+  "started_utc": "2026-10-12T14:24:53.586504+00:00",
+  "status": "complete",
+  "reason": null,
+  "n_blocks": 3,
+  "blocks_completed": 3,
+  "finished_utc": "2026-10-12T15:47:10.865627+00:00"
+}

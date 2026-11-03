@@ -1,0 +1,31 @@
+{
+  "when_utc": "2026-10-24T16:06:18.140457+00:00",
+  "analysis_dir": "data\\results\\study2_20261024\\analysis_iters_gate_ref_O_EFT_E5_rank",
+  "checks": [
+    {
+      "check": "evidence manifest data\\results\\study2_20261024\\iters_gate_sessions\\20261024T204814",
+      "ok": true,
+      "detail": {
+        "missing": [],
+        "changed": [],
+        "extra": []
+      }
+    },
+    {
+      "check": "event-log hashes vs run manifests",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "table summary reproduced from raw logs",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "table effects reproduced from raw logs",
+      "ok": true,
+      "detail": []
+    }
+  ],
+  "ok": true
+}

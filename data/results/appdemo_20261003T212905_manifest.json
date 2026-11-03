@@ -1,0 +1,42 @@
+{
+ "session": "appdemo_20261003T212905",
+ "args": {
+  "size": 1024,
+  "grid": 4,
+  "profile_runs": 2,
+  "node_core": 11,
+  "link_profile": "data/profiles/20261003T152700_profile.json",
+  "denoise_iterations": 1,
+  "repeats": 10,
+  "order_seed": 0,
+  "min_run_gib": 0.5
+ },
+ "pipeline": {
+  "width": 1024,
+  "height": 1024,
+  "grid": 4,
+  "seed": 11,
+  "denoise_iterations": 1
+ },
+ "remote_stages": {
+  "img_denoise": [
+   "R"
+  ],
+  "img_edges": [
+   "R"
+  ]
+ },
+ "link": {
+  "name": "lan_1g",
+  "latency_s": 0.0002,
+  "bandwidth_Bps": 125000000.0,
+  "per_message_s": 5e-05
+ },
+ "profile": "20261003T212905.appprofile.json",
+ "policies": [
+  "B4_greedy_eligible_R",
+  "EFT_E1_rc_R"
+ ],
+ "runs_completed": 5,
+ "stop_reason": "stopped before repeat 2 run 1: 0.44 GiB available"
+}

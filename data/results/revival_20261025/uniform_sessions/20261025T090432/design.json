@@ -1,0 +1,161 @@
+{
+ "name": "revival_uniform",
+ "evidence_label": "real",
+ "seed": 20262503,
+ "n_blocks": 31,
+ "instances": [
+  null
+ ],
+ "warmup_blocks": 1,
+ "min_free_ram_gb": 0.8,
+ "require_ac_power": true,
+ "reference": "B4_gpu",
+ "gpu_stage_table": {
+  "img_denoise": true,
+  "img_edges": true,
+  "img_features": true
+ },
+ "conditions": [
+  {
+   "name": "B0_P_only",
+   "policy": "B0_P_only",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_batch"
+   },
+   "kwargs": {
+    "k": 64,
+    "tile": 512,
+    "seed": 0,
+    "denoise_iterations": 8,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    },
+    "no_gpu": true
+   }
+  },
+  {
+   "name": "B4_gpu",
+   "policy": "B4",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_batch"
+   },
+   "kwargs": {
+    "k": 64,
+    "tile": 512,
+    "seed": 0,
+    "denoise_iterations": 8,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    },
+    "policy_cfg": {
+     "B4_greedy_eligible": {
+      "priority": [
+       "G",
+       "P",
+       "E"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "PRED_RANK_GREEDY_gpu",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_batch"
+   },
+   "kwargs": {
+    "k": 64,
+    "tile": 512,
+    "seed": 0,
+    "denoise_iterations": 8,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    },
+    "binding": "pred_rank_greedy",
+    "param_model": "D:\\cao project\\data\\results\\study2_20261024\\param_model_uniform.json"
+   }
+  },
+  {
+   "name": "RSA_TASK_ONLY_gpu",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_batch"
+   },
+   "kwargs": {
+    "k": 64,
+    "tile": 512,
+    "seed": 0,
+    "denoise_iterations": 8,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    },
+    "binding": "rsa_task_only",
+    "param_model": "D:\\cao project\\data\\results\\study2_20261024\\param_model_uniform.json",
+    "calibration": "D:\\cao project\\data\\results\\revival_20261025\\calibration_core0.json"
+   }
+  },
+  {
+   "name": "RSA_STATE_ONLY_gpu",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_batch"
+   },
+   "kwargs": {
+    "k": 64,
+    "tile": 512,
+    "seed": 0,
+    "denoise_iterations": 8,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    },
+    "binding": "rsa_state_only",
+    "blind_model": "D:\\cao project\\data\\results\\study2_20261024\\param_model_uniform.json",
+    "calibration": "D:\\cao project\\data\\results\\revival_20261025\\calibration_core0.json"
+   }
+  },
+  {
+   "name": "RSA_COMBINED_gpu",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_batch"
+   },
+   "kwargs": {
+    "k": 64,
+    "tile": 512,
+    "seed": 0,
+    "denoise_iterations": 8,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    },
+    "binding": "rsa_combined",
+    "param_model": "D:\\cao project\\data\\results\\study2_20261024\\param_model_uniform.json",
+    "calibration": "D:\\cao project\\data\\results\\revival_20261025\\calibration_core0.json"
+   }
+  }
+ ]
+}

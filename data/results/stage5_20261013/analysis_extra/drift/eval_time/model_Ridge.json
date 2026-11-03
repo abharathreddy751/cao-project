@@ -1,0 +1,243 @@
+{
+ "schema_version": 1,
+ "estimator": "E4_interference_ridge",
+ "features": [
+  "intercept",
+  "busy_P",
+  "busy_E",
+  "corun_compression",
+  "corun_image_filter",
+  "corun_matmul",
+  "target_busy_frac"
+ ],
+ "base_profile": "data/results/stage2_20261012/profile_montage/20261012T092355_profile.json",
+ "weights": {
+  "mAdd|E": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mAdd|P": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mBackground|E": [
+   0.25052255826162995,
+   -0.021710869546580226,
+   0.03362987961884814,
+   0.0,
+   0.0,
+   0.0,
+   0.04482797742201504
+  ],
+  "mBackground|P": [
+   0.5635776591346711,
+   -0.019743853835083775,
+   0.010135901105653456,
+   0.0,
+   0.0,
+   0.0,
+   -0.24973157853158892
+  ],
+  "mBgModel|E": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mBgModel|P": [
+   -0.2739982876111909,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.33329594563055426
+  ],
+  "mConcatFit|E": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mConcatFit|P": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mDiffFit|E": [
+   -0.10062045497352644,
+   -0.1392376230698653,
+   -0.23087853149716606,
+   0.0,
+   0.0,
+   0.0,
+   -0.18545847621645628
+  ],
+  "mDiffFit|P": [
+   -0.874471130412473,
+   0.13759138430799575,
+   0.033927278376543746,
+   0.0,
+   0.0,
+   0.0,
+   -0.2741989665432039
+  ],
+  "mImgtbl|E": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mImgtbl|P": [
+   0.03504208180103363,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   -0.06249241825007892
+  ],
+  "mProject|E": [
+   -0.006322139221563774,
+   0.0010849007556397595,
+   0.002552215360317083,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mProject|P": [
+   0.22382390150389397,
+   0.0037450506237822795,
+   0.008143296992620347,
+   0.0,
+   0.0,
+   0.0,
+   -0.18754531145539596
+  ],
+  "mViewer|E": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mViewer|P": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ "meta": {
+  "ridge_lambda": 1.0,
+  "min_rows": 30,
+  "groups": {
+   "mAdd|E": {
+    "n": 9,
+    "fallback_to_E1": true
+   },
+   "mAdd|P": {
+    "n": 27,
+    "fallback_to_E1": true
+   },
+   "mBackground|E": {
+    "n": 59,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.09605747600017867
+   },
+   "mBackground|P": {
+    "n": 225,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.15083913746931507
+   },
+   "mBgModel|E": {
+    "n": 5,
+    "fallback_to_E1": true
+   },
+   "mBgModel|P": {
+    "n": 31,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.24051666373166
+   },
+   "mConcatFit|E": {
+    "n": 15,
+    "fallback_to_E1": true
+   },
+   "mConcatFit|P": {
+    "n": 21,
+    "fallback_to_E1": true
+   },
+   "mDiffFit|E": {
+    "n": 206,
+    "fallback_to_E1": false,
+    "train_rmse_log": 1.0585988158161936
+   },
+   "mDiffFit|P": {
+    "n": 850,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.8721754271833031
+   },
+   "mImgtbl|E": {
+    "n": 4,
+    "fallback_to_E1": true
+   },
+   "mImgtbl|P": {
+    "n": 32,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.1416392631358152
+   },
+   "mProject|E": {
+    "n": 53,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.010844564108700364
+   },
+   "mProject|P": {
+    "n": 231,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.053707504864980014
+   },
+   "mViewer|E": {
+    "n": 7,
+    "fallback_to_E1": true
+   },
+   "mViewer|P": {
+    "n": 29,
+    "fallback_to_E1": true
+   }
+  },
+  "impute": {
+   "target_busy_frac": 0.2773432963413566
+  },
+  "n_rows_busy_frac_unknown": 0,
+  "fitted_on_fold": "time"
+ }
+}

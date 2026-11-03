@@ -1,0 +1,35 @@
+{
+ "denoise_line_by_pool": {
+  "E": [
+   0.0028565408995022954,
+   0.0185055030506129
+  ],
+  "P": [
+   0.0022535125104059302,
+   0.00749866209981623
+  ]
+ },
+ "fit": {
+  "E": {
+   "n": 1439,
+   "iterations": [
+    2,
+    120
+   ],
+   "mean_abs_error_s": 0.008161573690106219
+  },
+  "P": {
+   "n": 1889,
+   "iterations": [
+    2,
+    120
+   ],
+   "mean_abs_error_s": 0.012434747943811436
+  }
+ },
+ "sessions": [
+  "data/results/study2_20261024/iters_cover_sessions/20261024T203133",
+  "data/results/study2_20261024/iters_cover2_sessions/20261024T203633"
+ ],
+ "rule": "least squares per pool, warm-up block excluded"
+}

@@ -1,0 +1,31 @@
+start 2026-10-04 19:21:48
+============================= test session starts =============================
+platform win32 -- Python 3.11.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: D:\cao project
+configfile: pyproject.toml
+testpaths: tests
+collected 166 items
+
+tests\test_apps.py .........                                             [  5%]
+tests\test_clock.py ...                                                  [  7%]
+tests\test_coordinator.py .......................                        [ 21%]
+tests\test_dag.py ...............                                        [ 30%]
+tests\test_dataset.py .....                                              [ 33%]
+tests\test_dataset_build.py ...                                          [ 34%]
+tests\test_e2e.py .......                                                [ 39%]
+tests\test_estimators.py .............                                   [ 46%]
+tests\test_phase4.py ..........                                          [ 53%]
+tests\test_ready_queue.py .....                                          [ 56%]
+tests\test_remote.py ........                                            [ 60%]
+tests\test_runtime_state.py ..                                           [ 62%]
+tests\test_schedulers.py ..............                                  [ 70%]
+tests\test_stats.py ........                                             [ 75%]
+tests\test_task.py ...........                                           [ 81%]
+tests\test_topology.py ....                                              [ 84%]
+tests\test_trace.py ........                                             [ 89%]
+tests\test_worker_pool.py ............                                   [ 96%]
+tests\test_workloads.py ......                                           [100%]
+
+============================ 166 passed in 14.49s =============================
+exit=0
+end 2026-10-04 19:22:04

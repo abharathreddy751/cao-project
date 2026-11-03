@@ -1,0 +1,48 @@
+== k=1 appdemo_20261004T185921: logged critical_path_length [7]
+  img_source     sum-of-kernels per run    540.1 ms (sd   27.2, n runs 20, tasks/run 1)
+  img_package    sum-of-kernels per run     99.1 ms (sd    4.6, n runs 20, tasks/run 1)
+  img_edges      sum-of-kernels per run     87.7 ms (sd    7.6, n runs 20, tasks/run 16)
+  img_denoise    sum-of-kernels per run     64.1 ms (sd    8.3, n runs 20, tasks/run 16)
+  img_features   sum-of-kernels per run     26.6 ms (sd    2.9, n runs 20, tasks/run 16)
+  img_tile       sum-of-kernels per run      2.8 ms (sd    0.5, n runs 20, tasks/run 16)
+  img_mosaic     sum-of-kernels per run      1.1 ms (sd    0.1, n runs 20, tasks/run 1)
+  img_aggregate  sum-of-kernels per run      0.1 ms (sd    0.1, n runs 20, tasks/run 1)
+  pairs with B4_ first: n=8, mean EFT-B4 +56.3 ms
+  pairs with EFT first: n=2, mean EFT-B4 +64.4 ms
+  makespan by position in pair: pos0 1028.8 ms (n=10), pos1 1060.9 ms (n=10)
+== k=4 appdemo_20261003T213900: logged critical_path_length [7]
+  img_source     sum-of-kernels per run    446.8 ms (sd   32.9, n runs 20, tasks/run 1)
+  img_denoise    sum-of-kernels per run    202.8 ms (sd   26.7, n runs 20, tasks/run 16)
+  img_edges      sum-of-kernels per run     82.8 ms (sd   13.7, n runs 20, tasks/run 16)
+  img_package    sum-of-kernels per run     58.5 ms (sd    7.2, n runs 20, tasks/run 1)
+  img_features   sum-of-kernels per run     22.4 ms (sd    5.1, n runs 20, tasks/run 16)
+  img_tile       sum-of-kernels per run      3.2 ms (sd    1.5, n runs 20, tasks/run 16)
+  img_mosaic     sum-of-kernels per run      0.9 ms (sd    0.2, n runs 20, tasks/run 1)
+  img_aggregate  sum-of-kernels per run      0.1 ms (sd    0.0, n runs 20, tasks/run 1)
+  pairs with B4_ first: n=8, mean EFT-B4 +83.3 ms
+  pairs with EFT first: n=2, mean EFT-B4 +69.6 ms
+  makespan by position in pair: pos0 852.1 ms (n=10), pos1 904.8 ms (n=10)
+== k=16 appdemo_20261004T185801: logged critical_path_length [7]
+  img_denoise    sum-of-kernels per run    873.6 ms (sd   48.1, n runs 20, tasks/run 16)
+  img_source     sum-of-kernels per run    553.1 ms (sd   32.6, n runs 20, tasks/run 1)
+  img_package    sum-of-kernels per run     87.6 ms (sd    5.6, n runs 20, tasks/run 1)
+  img_edges      sum-of-kernels per run     87.2 ms (sd   10.0, n runs 20, tasks/run 16)
+  img_features   sum-of-kernels per run     27.8 ms (sd    3.1, n runs 20, tasks/run 16)
+  img_tile       sum-of-kernels per run      3.2 ms (sd    0.9, n runs 20, tasks/run 16)
+  img_mosaic     sum-of-kernels per run      1.3 ms (sd    0.3, n runs 20, tasks/run 1)
+  img_aggregate  sum-of-kernels per run      0.1 ms (sd    0.0, n runs 20, tasks/run 1)
+  pairs with B4_ first: n=8, mean EFT-B4 +72.2 ms
+  pairs with EFT first: n=2, mean EFT-B4 +55.6 ms
+  makespan by position in pair: pos0 1148.8 ms (n=10), pos1 1195.5 ms (n=10)
+== k=64 appdemo_20261003T214453: logged critical_path_length [7]
+  img_denoise    sum-of-kernels per run   2886.6 ms (sd   77.6, n runs 20, tasks/run 16)
+  img_source     sum-of-kernels per run    442.4 ms (sd   15.9, n runs 20, tasks/run 1)
+  img_edges      sum-of-kernels per run     63.1 ms (sd   10.7, n runs 20, tasks/run 16)
+  img_package    sum-of-kernels per run     59.0 ms (sd    5.1, n runs 20, tasks/run 1)
+  img_features   sum-of-kernels per run     20.8 ms (sd    5.0, n runs 20, tasks/run 16)
+  img_tile       sum-of-kernels per run      3.2 ms (sd    1.1, n runs 20, tasks/run 16)
+  img_mosaic     sum-of-kernels per run      0.8 ms (sd    0.2, n runs 20, tasks/run 1)
+  img_aggregate  sum-of-kernels per run      0.1 ms (sd    0.0, n runs 20, tasks/run 1)
+  pairs with B4_ first: n=8, mean EFT-B4 +60.0 ms
+  pairs with EFT first: n=2, mean EFT-B4 +33.9 ms
+  makespan by position in pair: pos0 1153.1 ms (n=10), pos1 1194.3 ms (n=10)

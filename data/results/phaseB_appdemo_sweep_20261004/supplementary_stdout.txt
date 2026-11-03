@@ -1,0 +1,30 @@
+
+== k=1 appdemo_20261004T185921  verification {'event_log_matches_runs_csv': 20, 'final_output_exact_vs_reference': 20, 'final_sha_matches_runs_csv': 20}
+  B4_greedy_eligible_R  makespan 1015.9 ± 52.8 [978.1, 1053.6] ms; total kernel 807.0 ± 41.7 [777.2, 836.8] ms; decision 14.1 ± 4.2 [11.1, 17.1] us; remote/run 3.9 (39 total)
+  EFT_E1_rc_R           makespan 1073.8 ± 21.9 [1058.1, 1089.4] ms; total kernel 836.3 ± 25.0 [818.5, 854.2] ms; decision 99.9 ± 4.7 [96.5, 103.2] us; remote/run 0.9 (9 total)
+  EFT-B4 makespan 57.9 ± 66.4 [10.4, 105.4] ms (EFT higher in 8/10); +5.8% t-CI [+1.0, +10.8] boot [+1.8, +10.0]
+  img_denoise kernel P/E/R 4.66/3.85/3.75 ms; io P/E/R 30.24/23.27/24.12; transfer R 7.79 ms; remote-path minus local E 7.92 (n=10), minus P 4.58 (n=10)
+  img_edges   kernel P/E/R 5.09/5.59/5.70 ms; io P/E/R 28.12/25.57/26.76; transfer R 9.78 ms; remote-path minus local E 10.77 (n=18), minus P 9.66 (n=18)
+
+== k=4 appdemo_20261003T213900  verification {'event_log_matches_runs_csv': 20, 'final_output_exact_vs_reference': 20, 'final_sha_matches_runs_csv': 20}
+  B4_greedy_eligible_R  makespan 838.2 ± 46.5 [804.9, 871.5] ms; total kernel 800.6 ± 46.4 [767.4, 833.8] ms; decision 9.5 ± 0.4 [9.2, 9.8] us; remote/run 4.0 (40 total)
+  EFT_E1_rc_R           makespan 918.7 ± 143.4 [816.1, 1021.3] ms; total kernel 834.5 ± 71.6 [783.3, 885.6] ms; decision 84.8 ± 5.2 [81.1, 88.5] us; remote/run 0.9 (9 total)
+  EFT-B4 makespan 80.5 ± 121.5 [-6.4, 167.4] ms (EFT higher in 8/10); +8.8% t-CI [+0.3, +17.9] boot [+2.7, +17.2]
+  img_denoise kernel P/E/R 18.87/11.72/10.98 ms; io P/E/R 26.13/22.74/21.84; transfer R 6.24 ms; remote-path minus local E 3.59 (n=14), minus P -6.81 (n=14)
+  img_edges   kernel P/E/R 6.99/4.64/4.50 ms; io P/E/R 22.32/18.97/19.03; transfer R 6.41 ms; remote-path minus local E 7.14 (n=15), minus P 1.86 (n=15)
+
+== k=16 appdemo_20261004T185801  verification {'event_log_matches_runs_csv': 20, 'final_output_exact_vs_reference': 20, 'final_sha_matches_runs_csv': 20}
+  B4_greedy_eligible_R  makespan 1137.7 ± 77.9 [1082.0, 1193.4] ms; total kernel 1613.0 ± 107.0 [1536.4, 1689.5] ms; decision 14.1 ± 4.0 [11.2, 16.9] us; remote/run 3.9 (39 total)
+  EFT_E1_rc_R           makespan 1206.6 ± 46.5 [1173.4, 1239.8] ms; total kernel 1654.7 ± 40.5 [1625.7, 1683.6] ms; decision 107.3 ± 12.8 [98.2, 116.4] us; remote/run 2.3 (23 total)
+  EFT-B4 makespan 68.9 ± 75.0 [15.2, 122.5] ms (EFT higher in 9/10); +6.2% t-CI [+1.1, +11.6] boot [+2.4, +11.2]
+  img_denoise kernel P/E/R 48.49/55.93/55.35 ms; io P/E/R 23.88/21.83/23.30; transfer R 6.16 ms; remote-path minus local E 7.05 (n=20), minus P 12.44 (n=20)
+  img_edges   kernel P/E/R 4.84/5.92/5.91 ms; io P/E/R 24.72/23.79/23.64; transfer R 10.14 ms; remote-path minus local E 10.24 (n=10), minus P 9.45 (n=10)
+
+== k=64 appdemo_20261003T214453  verification {'event_log_matches_runs_csv': 20, 'final_output_exact_vs_reference': 20, 'final_sha_matches_runs_csv': 20}
+  B4_greedy_eligible_R  makespan 1146.3 ± 39.9 [1117.7, 1174.8] ms; total kernel 3509.4 ± 65.8 [3462.3, 3556.5] ms; decision 12.4 ± 4.8 [9.0, 15.9] us; remote/run 2.4 (24 total)
+  EFT_E1_rc_R           makespan 1201.1 ± 52.8 [1163.3, 1238.8] ms; total kernel 3442.6 ± 70.4 [3392.2, 3492.9] ms; decision 81.9 ± 6.9 [76.9, 86.8] us; remote/run 2.0 (20 total)
+  EFT-B4 makespan 54.8 ± 74.0 [1.8, 107.7] ms (EFT higher in 9/10); +4.7% t-CI [+0.2, +9.5] boot [+1.0, +8.7]
+  img_denoise kernel P/E/R 166.08/183.34/186.14 ms; io P/E/R 21.92/18.16/16.31; transfer R 4.80 ms; remote-path minus local E 5.75 (n=20), minus P 19.24 (n=20)
+  img_edges   kernel P/E/R 4.46/4.03/4.28 ms; io P/E/R 16.09/14.17/15.85; transfer R 3.86 ms; remote-path minus local E 5.57 (n=4), minus P 2.99 (n=4)
+
+-> data\results\phaseB_appdemo_sweep_20261004\supplementary_summary.json, data\results\phaseB_appdemo_sweep_20261004\per_run.csv, data\results\phaseB_appdemo_sweep_20261004\paired.csv

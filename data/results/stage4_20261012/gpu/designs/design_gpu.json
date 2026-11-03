@@ -1,0 +1,172 @@
+{
+ "name": "stage4_gpu_workload",
+ "evidence_label": "real",
+ "seed": 20261040,
+ "n_blocks": 12,
+ "instances": [
+  null
+ ],
+ "warmup_blocks": 0,
+ "min_free_ram_gb": 2.5,
+ "reference": "B0_P_only",
+ "run_timeout_s": 900,
+ "gpu_stage_table": {
+  "img_denoise": true,
+  "img_edges": true,
+  "img_features": true
+ },
+ "conditions": [
+  {
+   "name": "B0_P_only",
+   "policy": "B0_P_only",
+   "estimator": null,
+   "workload": {
+    "kind": "gpu_image"
+   },
+   "kwargs": {
+    "tile": 1024,
+    "n_images": 16,
+    "seed": 0,
+    "denoise_iterations": 1,
+    "profile": "D:\\cao project\\data\\results\\stage4_20261012\\gpu\\profile_t1024\\20261013T025309_profile.json",
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    },
+    "no_gpu": true
+   }
+  },
+  {
+   "name": "B4_cpu",
+   "policy": "B4_greedy_eligible",
+   "estimator": null,
+   "workload": {
+    "kind": "gpu_image"
+   },
+   "kwargs": {
+    "tile": 1024,
+    "n_images": 16,
+    "seed": 0,
+    "denoise_iterations": 1,
+    "profile": "D:\\cao project\\data\\results\\stage4_20261012\\gpu\\profile_t1024\\20261013T025309_profile.json",
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    },
+    "no_gpu": true
+   }
+  },
+  {
+   "name": "B4_gpu",
+   "policy": "B4_greedy_eligible",
+   "estimator": null,
+   "workload": {
+    "kind": "gpu_image"
+   },
+   "kwargs": {
+    "tile": 1024,
+    "n_images": 16,
+    "seed": 0,
+    "denoise_iterations": 1,
+    "profile": "D:\\cao project\\data\\results\\stage4_20261012\\gpu\\profile_t1024\\20261013T025309_profile.json",
+    "policy_cfg": {
+     "B4_greedy_eligible": {
+      "priority": [
+       "G",
+       "P",
+       "E"
+      ]
+     }
+    },
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    }
+   }
+  },
+  {
+   "name": "random_gpu",
+   "policy": "random",
+   "estimator": null,
+   "workload": {
+    "kind": "gpu_image"
+   },
+   "kwargs": {
+    "tile": 1024,
+    "n_images": 16,
+    "seed": 0,
+    "denoise_iterations": 1,
+    "profile": "D:\\cao project\\data\\results\\stage4_20261012\\gpu\\profile_t1024\\20261013T025309_profile.json",
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    }
+   }
+  },
+  {
+   "name": "EFT_E1_cpu",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "gpu_image"
+   },
+   "kwargs": {
+    "tile": 1024,
+    "n_images": 16,
+    "seed": 0,
+    "denoise_iterations": 1,
+    "profile": "D:\\cao project\\data\\results\\stage4_20261012\\gpu\\profile_t1024\\20261013T025309_profile.json",
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    },
+    "no_gpu": true
+   }
+  },
+  {
+   "name": "EFT_E1_gpu",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "gpu_image"
+   },
+   "kwargs": {
+    "tile": 1024,
+    "n_images": 16,
+    "seed": 0,
+    "denoise_iterations": 1,
+    "profile": "D:\\cao project\\data\\results\\stage4_20261012\\gpu\\profile_t1024\\20261013T025309_profile.json",
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    }
+   }
+  },
+  {
+   "name": "HEFT_E1_gpu",
+   "policy": "HEFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "gpu_image"
+   },
+   "kwargs": {
+    "tile": 1024,
+    "n_images": 16,
+    "seed": 0,
+    "denoise_iterations": 1,
+    "profile": "D:\\cao project\\data\\results\\stage4_20261012\\gpu\\profile_t1024\\20261013T025309_profile.json",
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    }
+   }
+  }
+ ]
+}

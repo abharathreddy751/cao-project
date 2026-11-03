@@ -1,0 +1,13 @@
+{
+ "stop_reason": null,
+ "blocks_requested": 3,
+ "samples": 264,
+ "elapsed_s": 62.92544479994103,
+ "preflight_first": {
+  "free_ram_gb": 2.5198211669921875,
+  "cpu_pct": 12.9,
+  "cpu_wait_s": 0.0,
+  "power_plugged": true,
+  "gpu_temp_c": 57.0
+ }
+}

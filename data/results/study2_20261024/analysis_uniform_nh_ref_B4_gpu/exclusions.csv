@@ -1,0 +1,5 @@
+run_id,condition,block,reason
+20261025T003414__b0000_00_EFT_E1_noctx_gpu,EFT_E1_noctx_gpu,0,warm-up block (design rule)
+20261025T003414__b0000_01_B4_gpu,B4_gpu,0,warm-up block (design rule)
+20261025T003414__b0000_02_PRED_RANK_GREEDY_gpu,PRED_RANK_GREEDY_gpu,0,warm-up block (design rule)
+20261025T003414__b0000_03_B0_P_only,B0_P_only,0,warm-up block (design rule)

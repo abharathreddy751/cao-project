@@ -1,0 +1,31 @@
+{
+  "when_utc": "2026-10-23T20:44:51.586978+00:00",
+  "analysis_dir": "data\\results\\study2_20261024\\analysis_confirm_ref_B4_gpu",
+  "checks": [
+    {
+      "check": "evidence manifest data\\results\\study2_20261024\\confirm_sessions\\20261024T013322",
+      "ok": true,
+      "detail": {
+        "missing": [],
+        "changed": [],
+        "extra": []
+      }
+    },
+    {
+      "check": "event-log hashes vs run manifests",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "table summary reproduced from raw logs",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "table effects reproduced from raw logs",
+      "ok": true,
+      "detail": []
+    }
+  ],
+  "ok": true
+}

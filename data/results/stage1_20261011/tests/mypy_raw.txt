@@ -1,0 +1,103 @@
+src\caosched\core\task.py:107: error: Value of type "dict[Any, Any] | None" is not indexable  [index]
+src\caosched\core\runtime_config.py:99: error: Item "None" of "dict[Any, Any] | None" has no attribute "items"  [union-attr]
+src\caosched\schedulers\simple.py:236: error: List item 0 has incompatible type "None"; expected "str"  [list-item]
+src\caosched\schedulers\heft.py:75: note: By default the bodies of untyped functions are not checked, consider using --check-untyped-defs  [annotation-unchecked]
+src\caosched\schedulers\heft.py:76: note: By default the bodies of untyped functions are not checked, consider using --check-untyped-defs  [annotation-unchecked]
+src\caosched\schedulers\heft.py:86: note: By default the bodies of untyped functions are not checked, consider using --check-untyped-defs  [annotation-unchecked]
+src\caosched\schedulers\heft.py:149: error: Item "None" of "Plan | None" has no attribute "start"  [union-attr]
+src\caosched\schedulers\heft.py:149: error: Item "None" of "Plan | None" has no attribute "rank"  [union-attr]
+src\caosched\schedulers\heft.py:152: error: Item "None" of "Plan | None" has no attribute "assign"  [union-attr]
+src\caosched\schedulers\heft.py:157: error: Item "None" of "Plan | None" has no attribute "start"  [union-attr]
+src\caosched\schedulers\heft.py:157: error: Item "None" of "Plan | None" has no attribute "finish"  [union-attr]
+src\caosched\schedulers\heft.py:158: error: Item "None" of "Plan | None" has no attribute "makespan"  [union-attr]
+src\caosched\schedulers\eft.py:126: error: Incompatible types in assignment (expression has type "dict[Any, Any]", target has type "float")  [assignment]
+src\caosched\schedulers\eft.py:141: error: Argument 2 to "observe" of "ExecutionTimeEstimator" has incompatible type "str | None"; expected "str"  [arg-type]
+src\caosched\schedulers\eft.py:141: error: Argument 3 to "observe" of "ExecutionTimeEstimator" has incompatible type "float | None"; expected "float"  [arg-type]
+src\caosched\analysis\decisions.py:113: error: Argument "key" to "min" has incompatible type overloaded function; expected "Callable[[str], SupportsDunderLT[Any] | SupportsDunderGT[Any]]"  [arg-type]
+src\caosched\analysis\decisions.py:128: error: Argument "key" to "min" has incompatible type overloaded function; expected "Callable[[str], SupportsDunderLT[Any] | SupportsDunderGT[Any]]"  [arg-type]
+src\caosched\workflow\adapter.py:58: error: Need type annotation for "out" (hint: "out: dict[<type>, <type>] = ...")  [var-annotated]
+src\caosched\workflow\adapter.py:84: error: Need type annotation for "ins" (hint: "ins: list[<type>] = ...")  [var-annotated]
+src\caosched\workflow\adapter.py:84: error: Need type annotation for "outs" (hint: "outs: list[<type>] = ...")  [var-annotated]
+src\caosched\experiment\runner.py:244: error: Assignment to variable "exc" outside except: block  [misc]
+src\caosched\experiment\runner.py:245: error: Trying to read deleted variable "exc"  [misc]
+src\caosched\estimators\learned.py:92: error: Argument 1 to "from_file" of "StaticProfileEstimator" has incompatible type "str"; expected "Path"  [arg-type]
+src\caosched\estimators\learned.py:160: error: Dict entry 2 has incompatible type "str": "float"; expected "str": "int"  [dict-item]
+src\caosched\phase0\benchmarks\analysis.py:43: error: No overload variant of "int" matches argument type "Hashable"  [call-overload]
+src\caosched\phase0\benchmarks\analysis.py:43: note: Possible overload variants:
+src\caosched\phase0\benchmarks\analysis.py:43: note:     def int(str | Buffer | SupportsInt | SupportsIndex | SupportsTrunc = ..., /) -> int
+src\caosched\phase0\benchmarks\analysis.py:43: note:     def int(str | bytes | bytearray, /, base: SupportsIndex) -> int
+src\caosched\phase0\benchmarks\analysis.py:70: error: No overload variant of "int" matches argument type "Hashable"  [call-overload]
+src\caosched\phase0\benchmarks\analysis.py:70: note: Possible overload variants:
+src\caosched\phase0\benchmarks\analysis.py:70: note:     def int(str | Buffer | SupportsInt | SupportsIndex | SupportsTrunc = ..., /) -> int
+src\caosched\phase0\benchmarks\analysis.py:70: note:     def int(str | bytes | bytearray, /, base: SupportsIndex) -> int
+src\caosched\phase0\benchmarks\analysis.py:72: error: No overload variant of "int" matches argument type "Hashable"  [call-overload]
+src\caosched\phase0\benchmarks\analysis.py:72: note: Possible overload variants:
+src\caosched\phase0\benchmarks\analysis.py:72: note:     def int(str | Buffer | SupportsInt | SupportsIndex | SupportsTrunc = ..., /) -> int
+src\caosched\phase0\benchmarks\analysis.py:72: note:     def int(str | bytes | bytearray, /, base: SupportsIndex) -> int
+src\caosched\phase0\benchmarks\analysis.py:98: error: No overload variant of "int" matches argument type "Hashable"  [call-overload]
+src\caosched\phase0\benchmarks\analysis.py:98: note: Possible overload variants:
+src\caosched\phase0\benchmarks\analysis.py:98: note:     def int(str | Buffer | SupportsInt | SupportsIndex | SupportsTrunc = ..., /) -> int
+src\caosched\phase0\benchmarks\analysis.py:98: note:     def int(str | bytes | bytearray, /, base: SupportsIndex) -> int
+src\caosched\estimators\tabular.py:259: error: "type" has no attribute "from_dict"  [attr-defined]
+src\caosched\estimators\__init__.py:57: error: Argument 1 to "from_model" of "InterferenceRidgeFastEstimator" has incompatible type "ExecutionTimeEstimator"; expected "InterferenceRidgeEstimator"  [arg-type]
+src\caosched\analysis\stats_paired.py:54: error: Item "None" of "Any | None" has no attribute "get"  [union-attr]
+src\caosched\analysis\stats_paired.py:214: error: Value of type "dict[Any, Any] | None" is not indexable  [index]
+src\caosched\analysis\stats_paired.py:215: error: Value of type "dict[Any, Any] | None" is not indexable  [index]
+src\caosched\analysis\stats_paired.py:219: error: Value of type "dict[Any, Any] | None" is not indexable  [index]
+src\caosched\analysis\stats_paired.py:220: error: Value of type "dict[Any, Any] | None" is not indexable  [index]
+src\caosched\apps\image_pipeline.py:97: error: Unsupported operand types for >= ("int" and "None")  [operator]
+src\caosched\apps\image_pipeline.py:97: note: Left operand is of type "int | None"
+src\caosched\dataset\build.py:95: error: Item "None" of "Match[str] | None" has no attribute "group"  [union-attr]
+src\caosched\dataset\build.py:126: error: Item "None" of "Match[str] | None" has no attribute "group"  [union-attr]
+src\caosched\dataset\build.py:135: error: Need type annotation for "by" (hint: "by: dict[<type>, <type>] = ...")  [var-annotated]
+src\caosched\dataset\build.py:219: error: Incompatible types in assignment (expression has type "list[Any]", variable has type "set[Any]")  [assignment]
+src\caosched\dataset\build.py:265: error: Need type annotation for "per_kind" (hint: "per_kind: dict[<type>, <type>] = ...")  [var-annotated]
+src\caosched\dataset\build.py:266: error: Need type annotation for "sizes" (hint: "sizes: dict[<type>, <type>] = ...")  [var-annotated]
+src\caosched\dataset\build.py:266: error: Need type annotation for "instances" (hint: "instances: dict[<type>, <type>] = ...")  [var-annotated]
+src\caosched\dataset\build.py:266: error: Need type annotation for "session_runs" (hint: "session_runs: dict[<type>, <type>] = ...")  [var-annotated]
+src\caosched\dataset\build.py:282: error: Argument 3 to "rows_for_log" has incompatible type "str | None"; expected "str"  [arg-type]
+src\caosched\core\worker_pool.py:215: error: Incompatible default for parameter "p_core_slots" (default has type "tuple[()]", parameter has type "list[int]")  [assignment]
+src\caosched\core\worker_pool.py:216: error: Incompatible default for parameter "e_core_slots" (default has type "tuple[()]", parameter has type "list[int]")  [assignment]
+src\caosched\core\worker_pool.py:250: error: Incompatible types in assignment (expression has type "int", variable has type "RemoteSlot")  [assignment]
+src\caosched\core\worker_pool.py:253: error: Argument 4 to "_spawn_worker" of "WorkerPool" has incompatible type "RemoteSlot"; expected "int"  [arg-type]
+src\caosched\core\worker_pool.py:261: error: Item "None" of "WorkerReady | None" has no attribute "affinity_ok"  [union-attr]
+src\caosched\core\worker_pool.py:328: error: Item "None" of "WorkerReady | None" has no attribute "capabilities"  [union-attr]
+src\caosched\core\worker_pool.py:400: error: Argument 1 to "kill_tree" has incompatible type "int | None"; expected "int"  [arg-type]
+src\caosched\core\worker_pool.py:412: error: Argument 1 to "kill_tree" has incompatible type "int | None"; expected "int"  [arg-type]
+src\caosched\dashboard\data.py:342: error: Need type annotation for "out" (hint: "out: dict[<type>, <type>] = ...")  [var-annotated]
+src\caosched\dashboard\data.py:355: error: List comprehension has incompatible type List[dict[Any, Any] | None]; expected List[dict[Any, Any]]  [misc]
+src\caosched\dashboard\data.py:367: error: Need type annotation for "agg" (hint: "agg: dict[<type>, <type>] = ...")  [var-annotated]
+src\caosched\dashboard\data.py:367: error: Need type annotation for "edges" (hint: "edges: dict[<type>, <type>] = ...")  [var-annotated]
+src\caosched\schedulers\__init__.py:59: error: Incompatible return value type (got "dict[str, Callable[[Any, Any, Any], Any]]", expected "dict[str, Callable[[], SchedulerPolicy]]")  [return-value]
+src\caosched\schedulers\__init__.py:59: note: "dict" is invariant -- see https://mypy.readthedocs.io/en/stable/common_issues.html#variance
+src\caosched\schedulers\__init__.py:59: note: Consider using "Mapping" instead, which is covariant in the value type
+src\caosched\schedulers\__init__.py:59: note: Perhaps you need a type annotation for "out"? Suggestion: "dict[str, Callable[[], SchedulerPolicy]]"
+src\caosched\core\coordinator.py:217: error: Invalid index type "str | None" for "dict[str, Task]"; expected type "str"  [index]
+src\caosched\core\coordinator.py:219: error: Unsupported operand types for - ("float" and "None")  [operator]
+src\caosched\core\coordinator.py:219: note: Right operand is of type "float | None"
+src\caosched\core\coordinator.py:294: error: Incompatible types in assignment (expression has type "dict[Any, Any]", target has type "str | float | None")  [assignment]
+src\caosched\core\coordinator.py:316: error: Argument 1 to "artifact_path" has incompatible type "Path | None"; expected "Path"  [arg-type]
+src\caosched\core\coordinator.py:317: error: Argument 1 to "artifact_path" has incompatible type "Path | None"; expected "Path"  [arg-type]
+src\caosched\core\coordinator.py:360: error: No overload variant of "update" of "MutableMapping" matches argument types "int | None", "dict[Any, Any]", "int | None"  [call-overload]
+src\caosched\core\coordinator.py:360: note: Possible overload variants:
+src\caosched\core\coordinator.py:360: note:     def update(self, SupportsKeysAndGetItem[str, float | int | None], /) -> None
+src\caosched\core\coordinator.py:360: note:     def update(self, SupportsKeysAndGetItem[str, float | int | None], /, **kwargs: float | int | None) -> None
+src\caosched\core\coordinator.py:360: note:     def update(self, Iterable[tuple[str, float | int | None]], /) -> None
+src\caosched\core\coordinator.py:360: note:     def update(self, Iterable[tuple[str, float | int | None]], /, **kwargs: float | int | None) -> None
+src\caosched\core\coordinator.py:360: note:     def update(self, **kwargs: float | int | None) -> None
+src\caosched\core\coordinator.py:417: error: Value of type variable "SupportsRichComparisonT" of "max" cannot be "float | None"  [type-var]
+src\caosched\core\coordinator.py:417: error: Unsupported operand types for - ("None" and "float")  [operator]
+src\caosched\core\coordinator.py:417: note: Left operand is of type "float | None"
+src\caosched\core\coordinator.py:424: error: Generator has incompatible item type "str | None"; expected "str"  [misc]
+src\caosched\core\coordinator.py:426: error: Argument 1 to "sum" has incompatible type "list[float | None]"; expected "Iterable[bool]"  [arg-type]
+src\caosched\experiment\montage_adapter.py:70: error: Argument 2 to "rank_eft_factories" has incompatible type "Path | None"; expected "Path"  [arg-type]
+src\caosched\experiment\montage_adapter.py:70: error: Argument 2 to "eft_factories" has incompatible type "Path | None"; expected "Path"  [arg-type]
+src\caosched\experiment\montage_adapter.py:163: error: Unsupported operand types for / ("Path" and "None")  [operator]
+src\caosched\experiment\montage_adapter.py:163: note: Right operand is of type "str | None"
+src\caosched\dashboard\live.py:127: error: Unsupported operand types for * ("None" and "float")  [operator]
+src\caosched\dashboard\live.py:127: note: Left operand is of type "float | None"
+src\caosched\experiment\gpu_adapter.py:85: error: Unpacked dict entry 0 has incompatible type "dict[Any, Any] | None"; expected "SupportsKeysAndGetItem[Any, Any]"  [dict-item]
+src\caosched\experiment\gpu_adapter.py:146: error: Item "None" of "dict[Any, Any] | None" has no attribute "items"  [union-attr]
+src\caosched\dashboard\server.py:52: note: By default the bodies of untyped functions are not checked, consider using --check-untyped-defs  [annotation-unchecked]
+src\caosched\dashboard\server.py:53: note: By default the bodies of untyped functions are not checked, consider using --check-untyped-defs  [annotation-unchecked]
+src\caosched\dashboard\server.py:104: error: Value of type "tuple[Any, ...] | str | Buffer" is not indexable  [index]

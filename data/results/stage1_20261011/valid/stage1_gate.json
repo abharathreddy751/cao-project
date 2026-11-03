@@ -1,0 +1,176 @@
+{
+ "label": "real",
+ "instance": "d1.1_dss2b_c56.7_24.0",
+ "reps": {
+  "seq1": {
+   "status": "ok",
+   "n_tasks": 59,
+   "total_wall_s": 1459.3705968000013,
+   "all_tasks_timed": true,
+   "final_outputs": {
+    "1-mosaic.fits": "54c1c4b0c827970e7dc6cb2ba949b4123ea069d51eae608ef0c031cb4ecdd84b",
+    "1-mosaic_area.fits": "49f3b92a57451509f58994e6e784a71896239b709f9cf48fe7c875c3d6b4ea64",
+    "1-mosaic.png": "2c33f7ce8590b9bd83e35e8fb7696b32c9d3b35c699637fa66a274fb2c11d935"
+   }
+  },
+  "seq2": {
+   "status": "ok",
+   "n_tasks": 59,
+   "total_wall_s": 1467.102282599999,
+   "all_tasks_timed": true,
+   "final_outputs": {
+    "1-mosaic.fits": "54c1c4b0c827970e7dc6cb2ba949b4123ea069d51eae608ef0c031cb4ecdd84b",
+    "1-mosaic_area.fits": "49f3b92a57451509f58994e6e784a71896239b709f9cf48fe7c875c3d6b4ea64",
+    "1-mosaic.png": "2c33f7ce8590b9bd83e35e8fb7696b32c9d3b35c699637fa66a274fb2c11d935"
+   }
+  },
+  "seq3": {
+   "status": "ok",
+   "n_tasks": 59,
+   "total_wall_s": 1469.3257646000002,
+   "all_tasks_timed": true,
+   "final_outputs": {
+    "1-mosaic.fits": "54c1c4b0c827970e7dc6cb2ba949b4123ea069d51eae608ef0c031cb4ecdd84b",
+    "1-mosaic_area.fits": "49f3b92a57451509f58994e6e784a71896239b709f9cf48fe7c875c3d6b4ea64",
+    "1-mosaic.png": "2c33f7ce8590b9bd83e35e8fb7696b32c9d3b35c699637fa66a274fb2c11d935"
+   }
+  }
+ },
+ "completed_3_of_3": true,
+ "output_hashes_identical": true,
+ "mosaic_comparison": {
+  "reference": "data\\results\\stage1_20261011\\valid\\seq1\\work\\1-mosaic.fits",
+  "comparisons": [
+   {
+    "file": "data\\results\\stage1_20261011\\valid\\seq2\\work\\1-mosaic.fits",
+    "shape_equal": true,
+    "nan_pattern_equal": true,
+    "max_abs_diff": 0.0,
+    "max_rel_to_range": 0.0
+   },
+   {
+    "file": "data\\results\\stage1_20261011\\valid\\seq3\\work\\1-mosaic.fits",
+    "shape_equal": true,
+    "nan_pattern_equal": true,
+    "max_abs_diff": 0.0,
+    "max_rel_to_range": 0.0
+   }
+  ]
+ },
+ "wcs": {
+  "header_checks": {
+   "NAXIS1": {
+    "expected": 3960,
+    "got": 3960,
+    "ok": true
+   },
+   "NAXIS2": {
+    "expected": 3960,
+    "got": 3960,
+    "ok": true
+   },
+   "CRVAL1": {
+    "expected": 56.7,
+    "got": 56.7,
+    "ok": true
+   },
+   "CRVAL2": {
+    "expected": 24.0,
+    "got": 24.0,
+    "ok": true
+   },
+   "CDELT1": {
+    "expected": -0.000277778,
+    "got": -0.000277778,
+    "ok": true
+   },
+   "CDELT2": {
+    "expected": 0.000277778,
+    "got": 0.000277778,
+    "ok": true
+   },
+   "CRPIX1": {
+    "expected": 1980.5,
+    "got": 1980.5,
+    "ok": true
+   },
+   "CRPIX2": {
+    "expected": 1980.5,
+    "got": 1980.5,
+    "ok": true
+   },
+   "CTYPE1": {
+    "expected": "RA---TAN",
+    "got": "RA---TAN",
+    "ok": true
+   },
+   "CTYPE2": {
+    "expected": "DEC--TAN",
+    "got": "DEC--TAN",
+    "ok": true
+   }
+  },
+  "all_header_ok": true,
+  "finite_fraction": 0.9665820451994694,
+  "data_min": 40.79980338322775,
+  "data_max": 26572.417734626928,
+  "data_mean": 12362.132219699984
+ },
+ "dag": {
+  "n_jobs": 59,
+  "edges_jobDependencies": 147,
+  "edges_from_files": 147,
+  "only_in_jobDependencies": [],
+  "only_in_files": []
+ },
+ "per_transformation_wall_s": {
+  "mProject": {
+   "n": 27,
+   "min": 141.01890409999942,
+   "median": 160.57290140000077,
+   "max": 169.88915410000118
+  },
+  "mDiffFit": {
+   "n": 108,
+   "min": 0.04144160000032571,
+   "median": 0.2513741500015385,
+   "max": 1.0357868000010058
+  },
+  "mConcatFit": {
+   "n": 3,
+   "min": 0.20307160000083968,
+   "median": 0.20720369999980903,
+   "max": 0.29228800000055344
+  },
+  "mBgModel": {
+   "n": 3,
+   "min": 0.3758749999997235,
+   "median": 0.37861209999937273,
+   "max": 0.5556118000004062
+  },
+  "mBackground": {
+   "n": 27,
+   "min": 0.30287589999898046,
+   "median": 0.336269600000378,
+   "max": 0.6101868999994622
+  },
+  "mImgtbl": {
+   "n": 3,
+   "min": 0.08764989999872341,
+   "median": 0.0939859999998589,
+   "max": 0.09589470000173606
+  },
+  "mAdd": {
+   "n": 3,
+   "min": 0.8677757999994355,
+   "median": 0.8701153000001796,
+   "max": 1.542728200000056
+  },
+  "mViewer": {
+   "n": 3,
+   "min": 4.018565500000477,
+   "median": 4.157352599999285,
+   "max": 4.604003300000841
+  }
+ }
+}

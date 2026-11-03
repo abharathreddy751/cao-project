@@ -1,0 +1,179 @@
+{
+ "experiment_id": "phase2_20261003T115816",
+ "config_path": "config/phase2.yaml",
+ "config": {
+  "profile": {
+   "warmup_rounds": 3,
+   "repeat_rounds": 20,
+   "order_seed": 11,
+   "input_seed_base": 1000,
+   "workloads": {
+    "matmul": [
+     256,
+     512
+    ],
+    "image_filter": [
+     512,
+     1024
+    ],
+    "compression": [
+     1048576,
+     4194304
+    ]
+   }
+  },
+  "traces": [
+   {
+    "name": "layered_mixed",
+    "generator": "layered",
+    "seed": 1,
+    "n_layers": 8,
+    "width_min": 4,
+    "width_max": 14,
+    "max_parents": 3,
+    "workload_mix": {
+     "matmul": 1,
+     "image_filter": 1,
+     "compression": 1
+    },
+    "sizes": {
+     "matmul": [
+      256,
+      512
+     ],
+     "image_filter": [
+      512,
+      1024
+     ],
+     "compression": [
+      1048576,
+      4194304
+     ]
+    }
+   },
+   {
+    "name": "independent_mixed",
+    "generator": "independent",
+    "seed": 2,
+    "n_tasks": 60,
+    "workload_mix": {
+     "matmul": 1,
+     "image_filter": 1,
+     "compression": 1
+    },
+    "sizes": {
+     "matmul": [
+      256,
+      512
+     ],
+     "image_filter": [
+      512,
+      1024
+     ],
+     "compression": [
+      1048576,
+      4194304
+     ]
+    }
+   },
+   {
+    "name": "forkjoin_mixed",
+    "generator": "fork_join",
+    "seed": 3,
+    "width": 12,
+    "stages": 4,
+    "workload_mix": {
+     "matmul": 1,
+     "image_filter": 1,
+     "compression": 1
+    },
+    "sizes": {
+     "matmul": [
+      256,
+      512
+     ],
+     "image_filter": [
+      512,
+      1024
+     ],
+     "compression": [
+      1048576,
+      4194304
+     ]
+    }
+   }
+  ],
+  "policies": {
+   "B2_static_mapping": {
+    "mapping": {
+     "matmul": "P",
+     "image_filter": "E",
+     "compression": "E"
+    }
+   },
+   "B4_greedy_eligible": {
+    "priority": [
+     "P",
+     "E"
+    ],
+    "eligibility": {}
+   },
+   "B7_eft_history": {
+    "window": 8
+   }
+  },
+  "experiment": {
+   "repeats": 5,
+   "order_seed": 2026,
+   "run_timeout_s": 900,
+   "policies": "all"
+  }
+ },
+ "policies": [
+  "B0_P_only",
+  "B0_E_only",
+  "B1_round_robin",
+  "B2_static_mapping",
+  "B3_shortest_queue",
+  "B4_greedy_eligible",
+  "B5_criticality",
+  "B6_eft_static",
+  "B7_eft_history"
+ ],
+ "repeats": 5,
+ "profile": "D:\\cao project\\data\\profiles\\20261003T115606_profile.json",
+ "traces": {
+  "layered_mixed": {
+   "path": "D:\\cao project\\data\\traces\\layered_mixed_seed1.json",
+   "n_tasks": 80
+  },
+  "independent_mixed": {
+   "path": "D:\\cao project\\data\\traces\\independent_mixed_seed2.json",
+   "n_tasks": 60
+  },
+  "forkjoin_mixed": {
+   "path": "D:\\cao project\\data\\traces\\forkjoin_mixed_seed3.json",
+   "n_tasks": 53
+  }
+ },
+ "runtime_config": {
+  "p_core_slots": [
+   0,
+   2
+  ],
+  "e_core_slots": [
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ],
+  "coordinator_core": 4
+ },
+ "coordinator_core": 4,
+ "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+ "platform": "Windows-10-10.0.26100-SP0",
+ "execution_time_definition": "kernel-only (wall_time_seconds)"
+}

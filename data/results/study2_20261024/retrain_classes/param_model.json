@@ -1,0 +1,123 @@
+{
+ "groups": {
+  "img_aggregate|E": {
+   "features": [],
+   "coef": [
+    0.00017704998608678577
+   ],
+   "n": 10,
+   "mae_s": 2.741999458521604e-05
+  },
+  "img_aggregate|P": {
+   "features": [],
+   "coef": [
+    8.304999209940432e-05
+   ],
+   "n": 8,
+   "mae_s": 1.898748450912535e-05
+  },
+  "img_denoise|E": {
+   "features": [
+    "iterations",
+    "size",
+    "iterations*size"
+   ],
+   "coef": [
+    -0.022135944383197548,
+    -0.0010504728894941543,
+    3.2519805714074473e-08,
+    8.014730003527584e-08
+   ],
+   "n": 261,
+   "mae_s": 0.02945763736231951
+  },
+  "img_denoise|P": {
+   "features": [
+    "iterations",
+    "size",
+    "iterations*size"
+   ],
+   "coef": [
+    0.011213315048929695,
+    0.000501111103540149,
+    3.663160375433624e-08,
+    2.243427734619778e-08
+   ],
+   "n": 189,
+   "mae_s": 0.03097235435988719
+  },
+  "img_edges|E": {
+   "features": [
+    "size"
+   ],
+   "coef": [
+    -2.1989554331455774e-05,
+    9.400703617268234e-08
+   ],
+   "n": 226,
+   "mae_s": 0.0037423374728434242
+  },
+  "img_edges|P": {
+   "features": [
+    "size"
+   ],
+   "coef": [
+    0.0006033145362290427,
+    4.4085405712665054e-08
+   ],
+   "n": 224,
+   "mae_s": 0.0030469480899111873
+  },
+  "img_features|E": {
+   "features": [
+    "size"
+   ],
+   "coef": [
+    0.0003669842864099434,
+    2.4297761624889342e-08
+   ],
+   "n": 232,
+   "mae_s": 0.0007215893286656285
+  },
+  "img_features|P": {
+   "features": [
+    "size"
+   ],
+   "coef": [
+    0.00024366610529710396,
+    1.2066506071891411e-08
+   ],
+   "n": 218,
+   "mae_s": 0.0005528209825931634
+  },
+  "img_source|E": {
+   "features": [
+    "size"
+   ],
+   "coef": [
+    0.011930648220651263,
+    9.186977689604911e-07
+   ],
+   "n": 294,
+   "mae_s": 0.03396108146992418
+  },
+  "img_source|P": {
+   "features": [
+    "size"
+   ],
+   "coef": [
+    0.0009384784643833022,
+    5.960812486042639e-07
+   ],
+   "n": 156,
+   "mae_s": 0.02084807231870535
+  }
+ },
+ "sessions": [
+  "data\\results\\study2_20261024\\retrain_classes\\sessions\\retrain_random",
+  "data\\results\\study2_20261024\\retrain_classes\\sessions\\retrain_e_only"
+ ],
+ "holdout_sessions": [],
+ "holdout_report": {},
+ "rule": "ridge least squares per (workload, pool), warm-up block excluded"
+}

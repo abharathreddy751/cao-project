@@ -1,0 +1,136 @@
+{
+ "_note": "PLUMBING TEST ONLY: placeholder numbers, not scheduling results",
+ "models": [
+  {
+   "name": "E1",
+   "complexity": 0
+  },
+  {
+   "name": "E3",
+   "complexity": 1
+  },
+  {
+   "name": "E1+rc",
+   "complexity": 2
+  },
+  {
+   "name": "Ridge",
+   "complexity": 3
+  },
+  {
+   "name": "CatBoost",
+   "complexity": 4
+  },
+  {
+   "name": "MLP",
+   "complexity": 5
+  }
+ ],
+ "pairs": [
+  {
+   "simple": "E1",
+   "complex": "E3",
+   "diff_mean": 0.0,
+   "diff_lo": -1.0,
+   "diff_hi": 1.0
+  },
+  {
+   "simple": "E1",
+   "complex": "E1+rc",
+   "diff_mean": 0.0,
+   "diff_lo": -1.0,
+   "diff_hi": 1.0
+  },
+  {
+   "simple": "E1",
+   "complex": "Ridge",
+   "diff_mean": 0.0,
+   "diff_lo": -1.0,
+   "diff_hi": 1.0
+  },
+  {
+   "simple": "E1",
+   "complex": "CatBoost",
+   "diff_mean": 0.0,
+   "diff_lo": -1.0,
+   "diff_hi": 1.0
+  },
+  {
+   "simple": "E1",
+   "complex": "MLP",
+   "diff_mean": 0.0,
+   "diff_lo": -1.0,
+   "diff_hi": 1.0
+  },
+  {
+   "simple": "E3",
+   "complex": "E1+rc",
+   "diff_mean": 0.0,
+   "diff_lo": -1.0,
+   "diff_hi": 1.0
+  },
+  {
+   "simple": "E3",
+   "complex": "Ridge",
+   "diff_mean": 0.0,
+   "diff_lo": -1.0,
+   "diff_hi": 1.0
+  },
+  {
+   "simple": "E3",
+   "complex": "CatBoost",
+   "diff_mean": 0.0,
+   "diff_lo": -1.0,
+   "diff_hi": 1.0
+  },
+  {
+   "simple": "E3",
+   "complex": "MLP",
+   "diff_mean": 0.0,
+   "diff_lo": -1.0,
+   "diff_hi": 1.0
+  },
+  {
+   "simple": "E1+rc",
+   "complex": "Ridge",
+   "diff_mean": 0.0,
+   "diff_lo": -1.0,
+   "diff_hi": 1.0
+  },
+  {
+   "simple": "E1+rc",
+   "complex": "CatBoost",
+   "diff_mean": 0.0,
+   "diff_lo": -1.0,
+   "diff_hi": 1.0
+  },
+  {
+   "simple": "E1+rc",
+   "complex": "MLP",
+   "diff_mean": 0.0,
+   "diff_lo": -1.0,
+   "diff_hi": 1.0
+  },
+  {
+   "simple": "Ridge",
+   "complex": "CatBoost",
+   "diff_mean": 0.0,
+   "diff_lo": -1.0,
+   "diff_hi": 1.0
+  },
+  {
+   "simple": "Ridge",
+   "complex": "MLP",
+   "diff_mean": 0.0,
+   "diff_lo": -1.0,
+   "diff_hi": 1.0
+  },
+  {
+   "simple": "CatBoost",
+   "complex": "MLP",
+   "diff_mean": 0.0,
+   "diff_lo": -1.0,
+   "diff_hi": 1.0
+  }
+ ]
+}

@@ -1,0 +1,14 @@
+{
+  "session_id": "20261025T001319",
+  "design_name": "study2_iters_p2_pilot",
+  "design_sha256": "c234f225c5b88fe687397e278edd88d31fe644c4095eb912bf5cd6edae9e9617",
+  "evidence_label": "real",
+  "machine_id": "681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978",
+  "environment_hash": "bac0fdd048d7d4cd07d46a4ed4fc15a0d5b21cd94b71541be631229f3f1ed53b",
+  "started_utc": "2026-10-24T18:43:23.723344+00:00",
+  "status": "complete",
+  "reason": null,
+  "n_blocks": 9,
+  "blocks_completed": 9,
+  "finished_utc": "2026-10-24T18:47:59.290540+00:00"
+}

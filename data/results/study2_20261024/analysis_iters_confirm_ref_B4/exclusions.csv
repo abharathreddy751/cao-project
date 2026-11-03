@@ -1,0 +1,7 @@
+run_id,condition,block,reason
+20261024T211614__b0000_00_EFT_E1_noctx,EFT_E1_noctx,0,warm-up block (design rule)
+20261024T211614__b0000_01_EFT_iter_model_noctx,EFT_iter_model_noctx,0,warm-up block (design rule)
+20261024T211614__b0000_02_B4_param_first,B4_param_first,0,warm-up block (design rule)
+20261024T211614__b0000_03_B4,B4,0,warm-up block (design rule)
+20261024T211614__b0000_04_EFT_iter_model_rank_noctx,EFT_iter_model_rank_noctx,0,warm-up block (design rule)
+20261024T211614__b0000_05_B0_P_only,B0_P_only,0,warm-up block (design rule)

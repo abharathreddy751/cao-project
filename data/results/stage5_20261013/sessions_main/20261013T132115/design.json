@@ -1,0 +1,367 @@
+{
+ "name": "stage5_main_confirm",
+ "evidence_label": "real",
+ "seed": 20261101,
+ "n_blocks": 9,
+ "instances": [
+  "d1.1_dss2b_c56.7_24.0",
+  "d1.1_dss2b_c10.7_41.3"
+ ],
+ "warmup_blocks": 0,
+ "min_free_ram_gb": 2.5,
+ "reference": "B0_P_only",
+ "run_timeout_s": 2400,
+ "conditions": [
+  {
+   "name": "B0_P_only",
+   "policy": "B0_P_only",
+   "estimator": null,
+   "workload": {
+    "kind": "montage"
+   },
+   "kwargs": {
+    "profile": "D:\\cao project\\data\\results\\stage2_20261012\\profile_montage\\20261012T092355_profile.json",
+    "fits_atol": null,
+    "final_outputs": [
+     "1-mosaic.fits",
+     "1-mosaic_area.fits",
+     "1-mosaic.png"
+    ],
+    "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+    "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work",
+    "reference_by_instance": {
+     "d1.1_dss2b_c56.7_24.0": {
+      "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+      "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work"
+     },
+     "d1.1_dss2b_c10.7_41.3": {
+      "reference_hashes": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.1_dss2b_c10.7_41.3\\run.json",
+      "reference_dir": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.1_dss2b_c10.7_41.3\\work"
+     }
+    }
+   }
+  },
+  {
+   "name": "B0_P_early",
+   "policy": "B0_P_early",
+   "estimator": null,
+   "workload": {
+    "kind": "montage"
+   },
+   "kwargs": {
+    "profile": "D:\\cao project\\data\\results\\stage2_20261012\\profile_montage\\20261012T092355_profile.json",
+    "fits_atol": null,
+    "final_outputs": [
+     "1-mosaic.fits",
+     "1-mosaic_area.fits",
+     "1-mosaic.png"
+    ],
+    "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+    "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work",
+    "reference_by_instance": {
+     "d1.1_dss2b_c56.7_24.0": {
+      "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+      "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work"
+     },
+     "d1.1_dss2b_c10.7_41.3": {
+      "reference_hashes": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.1_dss2b_c10.7_41.3\\run.json",
+      "reference_dir": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.1_dss2b_c10.7_41.3\\work"
+     }
+    }
+   }
+  },
+  {
+   "name": "B4_greedy_eligible",
+   "policy": "B4_greedy_eligible",
+   "estimator": null,
+   "workload": {
+    "kind": "montage"
+   },
+   "kwargs": {
+    "profile": "D:\\cao project\\data\\results\\stage2_20261012\\profile_montage\\20261012T092355_profile.json",
+    "fits_atol": null,
+    "final_outputs": [
+     "1-mosaic.fits",
+     "1-mosaic_area.fits",
+     "1-mosaic.png"
+    ],
+    "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+    "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work",
+    "reference_by_instance": {
+     "d1.1_dss2b_c56.7_24.0": {
+      "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+      "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work"
+     },
+     "d1.1_dss2b_c10.7_41.3": {
+      "reference_hashes": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.1_dss2b_c10.7_41.3\\run.json",
+      "reference_dir": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.1_dss2b_c10.7_41.3\\work"
+     }
+    }
+   }
+  },
+  {
+   "name": "HEFT_E1",
+   "policy": "HEFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "montage"
+   },
+   "kwargs": {
+    "profile": "D:\\cao project\\data\\results\\stage2_20261012\\profile_montage\\20261012T092355_profile.json",
+    "fits_atol": null,
+    "final_outputs": [
+     "1-mosaic.fits",
+     "1-mosaic_area.fits",
+     "1-mosaic.png"
+    ],
+    "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+    "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work",
+    "reference_by_instance": {
+     "d1.1_dss2b_c56.7_24.0": {
+      "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+      "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work"
+     },
+     "d1.1_dss2b_c10.7_41.3": {
+      "reference_hashes": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.1_dss2b_c10.7_41.3\\run.json",
+      "reference_dir": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.1_dss2b_c10.7_41.3\\work"
+     }
+    }
+   }
+  },
+  {
+   "name": "PEFT_E1",
+   "policy": "PEFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "montage"
+   },
+   "kwargs": {
+    "profile": "D:\\cao project\\data\\results\\stage2_20261012\\profile_montage\\20261012T092355_profile.json",
+    "fits_atol": null,
+    "final_outputs": [
+     "1-mosaic.fits",
+     "1-mosaic_area.fits",
+     "1-mosaic.png"
+    ],
+    "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+    "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work",
+    "reference_by_instance": {
+     "d1.1_dss2b_c56.7_24.0": {
+      "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+      "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work"
+     },
+     "d1.1_dss2b_c10.7_41.3": {
+      "reference_hashes": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.1_dss2b_c10.7_41.3\\run.json",
+      "reference_dir": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.1_dss2b_c10.7_41.3\\work"
+     }
+    }
+   }
+  },
+  {
+   "name": "EFT_E1",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "montage"
+   },
+   "kwargs": {
+    "profile": "D:\\cao project\\data\\results\\stage2_20261012\\profile_montage\\20261012T092355_profile.json",
+    "fits_atol": null,
+    "final_outputs": [
+     "1-mosaic.fits",
+     "1-mosaic_area.fits",
+     "1-mosaic.png"
+    ],
+    "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+    "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work",
+    "reference_by_instance": {
+     "d1.1_dss2b_c56.7_24.0": {
+      "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+      "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work"
+     },
+     "d1.1_dss2b_c10.7_41.3": {
+      "reference_hashes": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.1_dss2b_c10.7_41.3\\run.json",
+      "reference_dir": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.1_dss2b_c10.7_41.3\\work"
+     }
+    }
+   }
+  },
+  {
+   "name": "EFT_E3",
+   "policy": "EFT_E3",
+   "estimator": null,
+   "workload": {
+    "kind": "montage"
+   },
+   "kwargs": {
+    "profile": "D:\\cao project\\data\\results\\stage2_20261012\\profile_montage\\20261012T092355_profile.json",
+    "fits_atol": null,
+    "final_outputs": [
+     "1-mosaic.fits",
+     "1-mosaic_area.fits",
+     "1-mosaic.png"
+    ],
+    "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+    "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work",
+    "reference_by_instance": {
+     "d1.1_dss2b_c56.7_24.0": {
+      "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+      "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work"
+     },
+     "d1.1_dss2b_c10.7_41.3": {
+      "reference_hashes": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.1_dss2b_c10.7_41.3\\run.json",
+      "reference_dir": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.1_dss2b_c10.7_41.3\\work"
+     }
+    }
+   }
+  },
+  {
+   "name": "EFT_E1_rc",
+   "policy": "EFT_E1_rc",
+   "estimator": null,
+   "workload": {
+    "kind": "montage"
+   },
+   "kwargs": {
+    "profile": "D:\\cao project\\data\\results\\stage2_20261012\\profile_montage\\20261012T092355_profile.json",
+    "fits_atol": null,
+    "final_outputs": [
+     "1-mosaic.fits",
+     "1-mosaic_area.fits",
+     "1-mosaic.png"
+    ],
+    "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+    "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work",
+    "reference_by_instance": {
+     "d1.1_dss2b_c56.7_24.0": {
+      "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+      "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work"
+     },
+     "d1.1_dss2b_c10.7_41.3": {
+      "reference_hashes": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.1_dss2b_c10.7_41.3\\run.json",
+      "reference_dir": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.1_dss2b_c10.7_41.3\\work"
+     }
+    }
+   }
+  },
+  {
+   "name": "EFT_Ridge",
+   "policy": "EFT_Ridge",
+   "estimator": null,
+   "workload": {
+    "kind": "montage"
+   },
+   "kwargs": {
+    "profile": "D:\\cao project\\data\\results\\stage2_20261012\\profile_montage\\20261012T092355_profile.json",
+    "fits_atol": null,
+    "final_outputs": [
+     "1-mosaic.fits",
+     "1-mosaic_area.fits",
+     "1-mosaic.png"
+    ],
+    "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+    "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work",
+    "reference_by_instance": {
+     "d1.1_dss2b_c56.7_24.0": {
+      "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+      "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work"
+     },
+     "d1.1_dss2b_c10.7_41.3": {
+      "reference_hashes": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.1_dss2b_c10.7_41.3\\run.json",
+      "reference_dir": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.1_dss2b_c10.7_41.3\\work"
+     }
+    },
+    "model_path": "D:\\cao project\\data\\results\\stage3_20261012\\eval\\final_test\\model_Ridge.json"
+   }
+  },
+  {
+   "name": "EFT_CatBoost",
+   "policy": "EFT_CatBoost",
+   "estimator": null,
+   "workload": {
+    "kind": "montage"
+   },
+   "kwargs": {
+    "profile": "D:\\cao project\\data\\results\\stage2_20261012\\profile_montage\\20261012T092355_profile.json",
+    "fits_atol": null,
+    "final_outputs": [
+     "1-mosaic.fits",
+     "1-mosaic_area.fits",
+     "1-mosaic.png"
+    ],
+    "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+    "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work",
+    "reference_by_instance": {
+     "d1.1_dss2b_c56.7_24.0": {
+      "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+      "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work"
+     },
+     "d1.1_dss2b_c10.7_41.3": {
+      "reference_hashes": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.1_dss2b_c10.7_41.3\\run.json",
+      "reference_dir": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.1_dss2b_c10.7_41.3\\work"
+     }
+    },
+    "model_path": "D:\\cao project\\data\\results\\stage3_20261012\\eval\\final_test\\model_CatBoost.json"
+   }
+  },
+  {
+   "name": "EFT_MLP",
+   "policy": "EFT_MLP",
+   "estimator": null,
+   "workload": {
+    "kind": "montage"
+   },
+   "kwargs": {
+    "profile": "D:\\cao project\\data\\results\\stage2_20261012\\profile_montage\\20261012T092355_profile.json",
+    "fits_atol": null,
+    "final_outputs": [
+     "1-mosaic.fits",
+     "1-mosaic_area.fits",
+     "1-mosaic.png"
+    ],
+    "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+    "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work",
+    "reference_by_instance": {
+     "d1.1_dss2b_c56.7_24.0": {
+      "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+      "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work"
+     },
+     "d1.1_dss2b_c10.7_41.3": {
+      "reference_hashes": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.1_dss2b_c10.7_41.3\\run.json",
+      "reference_dir": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.1_dss2b_c10.7_41.3\\work"
+     }
+    },
+    "model_path": "D:\\cao project\\data\\results\\stage3_20261012\\eval\\final_test\\model_MLP.json"
+   }
+  },
+  {
+   "name": "EFT_E1_rank",
+   "policy": "EFT_E1_rank",
+   "estimator": null,
+   "workload": {
+    "kind": "montage"
+   },
+   "kwargs": {
+    "profile": "D:\\cao project\\data\\results\\stage2_20261012\\profile_montage\\20261012T092355_profile.json",
+    "fits_atol": null,
+    "final_outputs": [
+     "1-mosaic.fits",
+     "1-mosaic_area.fits",
+     "1-mosaic.png"
+    ],
+    "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+    "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work",
+    "reference_by_instance": {
+     "d1.1_dss2b_c56.7_24.0": {
+      "reference_hashes": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\run.json",
+      "reference_dir": "D:\\cao project\\data\\results\\stage1_20261011\\valid\\seq1\\work"
+     },
+     "d1.1_dss2b_c10.7_41.3": {
+      "reference_hashes": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.1_dss2b_c10.7_41.3\\run.json",
+      "reference_dir": "D:\\cao project\\data\\results\\stage3_20261012\\refs\\d1.1_dss2b_c10.7_41.3\\work"
+     }
+    }
+   }
+  }
+ ]
+}

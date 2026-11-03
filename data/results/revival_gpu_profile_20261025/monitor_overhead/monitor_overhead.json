@@ -1,0 +1,186 @@
+{
+ "rows": [
+  {
+   "case": "img_denoise_n8",
+   "side": 256,
+   "device": "E",
+   "n_on": 21,
+   "n_off": 21,
+   "median_on_s": 0.03826249996200204,
+   "median_off_s": 0.03870699997060001,
+   "overhead_pct": -1.1483711187526557
+  },
+  {
+   "case": "img_denoise_n8",
+   "side": 256,
+   "device": "G",
+   "n_on": 21,
+   "n_off": 21,
+   "median_on_s": 0.039580099983140826,
+   "median_off_s": 0.03939490008633584,
+   "overhead_pct": 0.4701113504517407
+  },
+  {
+   "case": "img_denoise_n8",
+   "side": 256,
+   "device": "P",
+   "n_on": 21,
+   "n_off": 21,
+   "median_on_s": 0.01562779990490526,
+   "median_off_s": 0.015639499993994832,
+   "overhead_pct": -0.07481114545903056
+  },
+  {
+   "case": "img_denoise_n8",
+   "side": 512,
+   "device": "E",
+   "n_on": 21,
+   "n_off": 21,
+   "median_on_s": 0.15326259995345026,
+   "median_off_s": 0.15298520005308092,
+   "overhead_pct": 0.18132466426366012
+  },
+  {
+   "case": "img_denoise_n8",
+   "side": 512,
+   "device": "G",
+   "n_on": 21,
+   "n_off": 21,
+   "median_on_s": 0.08839769999030977,
+   "median_off_s": 0.08752790000289679,
+   "overhead_pct": 0.9937402672567375
+  },
+  {
+   "case": "img_denoise_n8",
+   "side": 512,
+   "device": "P",
+   "n_on": 21,
+   "n_off": 21,
+   "median_on_s": 0.056199499987997115,
+   "median_off_s": 0.05488499999046326,
+   "overhead_pct": 2.395007739386479
+  },
+  {
+   "case": "img_edges",
+   "side": 256,
+   "device": "E",
+   "n_on": 21,
+   "n_off": 21,
+   "median_on_s": 0.010489300009794533,
+   "median_off_s": 0.010105199995450675,
+   "overhead_pct": 3.8010134833232234
+  },
+  {
+   "case": "img_edges",
+   "side": 256,
+   "device": "G",
+   "n_on": 21,
+   "n_off": 21,
+   "median_on_s": 0.007771000033244491,
+   "median_off_s": 0.007374499924480915,
+   "overhead_pct": 5.376637234035697
+  },
+  {
+   "case": "img_edges",
+   "side": 256,
+   "device": "P",
+   "n_on": 21,
+   "n_off": 21,
+   "median_on_s": 0.005315499962307513,
+   "median_off_s": 0.004973100032657385,
+   "overhead_pct": 6.88504006357511
+  },
+  {
+   "case": "img_edges",
+   "side": 512,
+   "device": "E",
+   "n_on": 21,
+   "n_off": 21,
+   "median_on_s": 0.030091900029219687,
+   "median_off_s": 0.030099099967628717,
+   "overhead_pct": -0.023920776424457557
+  },
+  {
+   "case": "img_edges",
+   "side": 512,
+   "device": "G",
+   "n_on": 21,
+   "n_off": 21,
+   "median_on_s": 0.007573499926365912,
+   "median_off_s": 0.00797399994917214,
+   "overhead_pct": -5.022573681453402
+  },
+  {
+   "case": "img_edges",
+   "side": 512,
+   "device": "P",
+   "n_on": 21,
+   "n_off": 21,
+   "median_on_s": 0.014819199917837977,
+   "median_off_s": 0.014366699964739382,
+   "overhead_pct": 3.1496443456686674
+  },
+  {
+   "case": "img_features",
+   "side": 256,
+   "device": "E",
+   "n_on": 21,
+   "n_off": 21,
+   "median_on_s": 0.007047399994917214,
+   "median_off_s": 0.006399999954737723,
+   "overhead_pct": 10.115625699344587
+  },
+  {
+   "case": "img_features",
+   "side": 256,
+   "device": "G",
+   "n_on": 21,
+   "n_off": 21,
+   "median_on_s": 0.009799799998290837,
+   "median_off_s": 0.009767999988980591,
+   "overhead_pct": 0.3255529212338182
+  },
+  {
+   "case": "img_features",
+   "side": 256,
+   "device": "P",
+   "n_on": 21,
+   "n_off": 21,
+   "median_on_s": 0.003721000044606626,
+   "median_off_s": 0.0036154999397695065,
+   "overhead_pct": 2.917994927247758
+  },
+  {
+   "case": "img_features",
+   "side": 512,
+   "device": "E",
+   "n_on": 21,
+   "n_off": 21,
+   "median_on_s": 0.011309299967251718,
+   "median_off_s": 0.011397499940358102,
+   "overhead_pct": -0.773853683421144
+  },
+  {
+   "case": "img_features",
+   "side": 512,
+   "device": "G",
+   "n_on": 21,
+   "n_off": 21,
+   "median_on_s": 0.009034999995492399,
+   "median_off_s": 0.009401399991475046,
+   "overhead_pct": -3.897291853499363
+  },
+  {
+   "case": "img_features",
+   "side": 512,
+   "device": "P",
+   "n_on": 21,
+   "n_off": 21,
+   "median_on_s": 0.006087200017645955,
+   "median_off_s": 0.00612060003913939,
+   "overhead_pct": -0.5456984818457689
+  }
+ ],
+ "nvidia_smi_call_s_median": 0.15859400003682822,
+ "pooled_overhead_pct_median_of_cells": 0.39783213584277943
+}

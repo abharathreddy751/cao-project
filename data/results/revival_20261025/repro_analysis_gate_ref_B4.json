@@ -1,0 +1,31 @@
+{
+  "when_utc": "2026-10-25T03:33:15.538919+00:00",
+  "analysis_dir": "data\\results\\revival_20261025\\analysis_gate_ref_B4",
+  "checks": [
+    {
+      "check": "evidence manifest data\\results\\revival_20261025\\gate_sessions\\20261025T085649",
+      "ok": true,
+      "detail": {
+        "missing": [],
+        "changed": [],
+        "extra": []
+      }
+    },
+    {
+      "check": "event-log hashes vs run manifests",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "table summary reproduced from raw logs",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "table effects reproduced from raw logs",
+      "ok": true,
+      "detail": []
+    }
+  ],
+  "ok": true
+}

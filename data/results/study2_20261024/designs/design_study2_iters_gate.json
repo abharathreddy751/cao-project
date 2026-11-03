@@ -1,0 +1,269 @@
+{
+ "name": "study2_iters_gate",
+ "evidence_label": "real",
+ "seed": 20261603,
+ "n_blocks": 15,
+ "instances": [
+  "order_a",
+  "order_b"
+ ],
+ "warmup_blocks": 1,
+ "min_free_ram_gb": 0.8,
+ "reference": "B4",
+ "conditions": [
+  {
+   "name": "B0_P_only",
+   "policy": "B0_P_only",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "tile": 512,
+    "seed": 0,
+    "order_seeds": {
+     "order_a": 11,
+     "order_b": 22
+    },
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json"
+   }
+  },
+  {
+   "name": "B3",
+   "policy": "B3",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "tile": 512,
+    "seed": 0,
+    "order_seeds": {
+     "order_a": 11,
+     "order_b": 22
+    },
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json"
+   }
+  },
+  {
+   "name": "B4",
+   "policy": "B4",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "tile": 512,
+    "seed": 0,
+    "order_seeds": {
+     "order_a": 11,
+     "order_b": 22
+    },
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json"
+   }
+  },
+  {
+   "name": "B4_param_first",
+   "policy": "B4",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "tile": 512,
+    "seed": 0,
+    "order_seeds": {
+     "order_a": 11,
+     "order_b": 22
+    },
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "binding": "param_first"
+   }
+  },
+  {
+   "name": "EFT_E1_noctx",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "tile": 512,
+    "seed": 0,
+    "order_seeds": {
+     "order_a": 11,
+     "order_b": 22
+    },
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "binding": "early_noctx"
+   }
+  },
+  {
+   "name": "EFT_iter_model_noctx",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "tile": 512,
+    "seed": 0,
+    "order_seeds": {
+     "order_a": 11,
+     "order_b": 22
+    },
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "binding": "iter_model",
+    "iter_model": "D:\\cao project\\data\\results\\study2_20261024\\iter_model_cover12.json"
+   }
+  },
+  {
+   "name": "EFT_iter_model_rank_noctx",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "tile": 512,
+    "seed": 0,
+    "order_seeds": {
+     "order_a": 11,
+     "order_b": 22
+    },
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "binding": "iter_model_rank",
+    "iter_model": "D:\\cao project\\data\\results\\study2_20261024\\iter_model_cover12.json"
+   }
+  },
+  {
+   "name": "O_EFT_E5",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "tile": 512,
+    "seed": 0,
+    "order_seeds": {
+     "order_a": 11,
+     "order_b": 22
+    },
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "binding": "oracle",
+    "oracle_rows": "D:\\cao project\\data\\results\\study2_20261024\\oracle_rows_iters.json"
+   }
+  },
+  {
+   "name": "O_EFT_E5_rank",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "tile": 512,
+    "seed": 0,
+    "order_seeds": {
+     "order_a": 11,
+     "order_b": 22
+    },
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "binding": "oracle",
+    "oracle_rows": "D:\\cao project\\data\\results\\study2_20261024\\oracle_rows_iters.json",
+    "rank": true
+   }
+  }
+ ]
+}

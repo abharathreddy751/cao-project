@@ -1,0 +1,1 @@
+wrote data\results\revival_gpu_profile_20261025\profile_main3b stop_reason: preflight before block 0: stopping: free RAM 0.25 GB < 1.0

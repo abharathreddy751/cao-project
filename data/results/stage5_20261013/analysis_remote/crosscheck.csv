@@ -1,0 +1,8 @@
+test,cond,n_blocks,statistic,p_value,multiplicity
+friedman,all,12,49.96428571428572,4.779208776791249e-09,
+wilcoxon_vs_ref,B0_P_only,12,0.0,0.00048828125,unadjusted (cross-check only)
+wilcoxon_vs_ref,B4_no_remote,12,26.0,0.33935546875,unadjusted (cross-check only)
+wilcoxon_vs_ref,B4_remote_fast_lan,12,14.0,0.05224609375,unadjusted (cross-check only)
+wilcoxon_vs_ref,B4_remote_slow_wan,12,0.0,0.00048828125,unadjusted (cross-check only)
+wilcoxon_vs_ref,EFT_E1_remote_fast_lan,12,29.0,0.4697265625,unadjusted (cross-check only)
+wilcoxon_vs_ref,EFT_E1_remote_slow_wan,12,36.0,0.85009765625,unadjusted (cross-check only)

@@ -1,0 +1,7 @@
+295 dispatches; 18 had a real choice; 0 of those chose a worker other than B4's
+{"task": "source_3", "chosen": "P0", "b4": "P0", "fallback": "gain_below_cost", "n_idle": 13, "cost": {"compute": 0.673756, "total": 0.673756}, "runner_up": ["P1", 0.673756], "slowdown_seen": null, "decision_time_us": 946.7, "measured_s": 1.09359}
+{"task": "source_9", "chosen": "P1", "b4": "P1", "fallback": "gain_below_cost", "n_idle": 12, "cost": {"compute": 0.673756, "total": 0.673756}, "runner_up": ["P2", 0.673756], "slowdown_seen": null, "decision_time_us": 176.1, "measured_s": 1.01736}
+{"task": "source_26", "chosen": "P2", "b4": "P2", "fallback": "gain_below_cost", "n_idle": 11, "cost": {"compute": 0.673756, "total": 0.673756}, "runner_up": ["P3", 0.673756], "slowdown_seen": null, "decision_time_us": 164.4, "measured_s": 0.84675}
+{"task": "source_36", "chosen": "P3", "b4": "P3", "fallback": "gain_below_cost", "n_idle": 10, "cost": {"compute": 0.673756, "total": 0.673756}, "runner_up": ["P4", 0.673756], "slowdown_seen": null, "decision_time_us": 175.3, "measured_s": 0.76752}
+{"task": "source_48", "chosen": "P4", "b4": "P4", "fallback": "gain_below_cost", "n_idle": 9, "cost": {"compute": 0.673756, "total": 0.673756}, "runner_up": ["P5", 0.673756], "slowdown_seen": null, "decision_time_us": 156.5, "measured_s": 1.15276}
+{"task": "source_50", "chosen": "P5", "b4": "P5", "fallback": "gain_below_cost", "n_idle": 8, "cost": {"compute": 0.673756, "total": 0.673756}, "runner_up": ["E0", 1.039501], "slowdown_seen": null, "decision_time_us": 147.2, "measured_s": 1.18422}

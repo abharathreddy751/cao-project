@@ -1,0 +1,147 @@
+{
+ "schema_version": 1,
+ "estimator": "E4_interference_ridge",
+ "features": [
+  "intercept",
+  "busy_P",
+  "busy_E",
+  "corun_compression",
+  "corun_image_filter",
+  "corun_matmul",
+  "target_busy_frac"
+ ],
+ "base_profile": "data/results/stage2_20261012/profile_montage/20261012T092355_profile.json",
+ "weights": {
+  "mAdd|P": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mBackground|P": [
+   0.5222594707277844,
+   0.0013253529633910147,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0036071876217727734
+  ],
+  "mBgModel|P": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mConcatFit|P": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mDiffFit|E": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mDiffFit|P": [
+   -1.5957542100854738,
+   0.2986578005526128,
+   -0.030642759038783576,
+   0.0,
+   0.0,
+   0.0,
+   -0.0033756386445586376
+  ],
+  "mImgtbl|P": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mProject|P": [
+   0.2741534185315785,
+   -0.007086487775106038,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "mViewer|P": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ "meta": {
+  "ridge_lambda": 1.0,
+  "min_rows": 30,
+  "groups": {
+   "mAdd|P": {
+    "n": 18,
+    "fallback_to_E1": true
+   },
+   "mBackground|P": {
+    "n": 90,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.05777159004804112
+   },
+   "mBgModel|P": {
+    "n": 18,
+    "fallback_to_E1": true
+   },
+   "mConcatFit|P": {
+    "n": 18,
+    "fallback_to_E1": true
+   },
+   "mDiffFit|E": {
+    "n": 28,
+    "fallback_to_E1": true
+   },
+   "mDiffFit|P": {
+    "n": 300,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.7615761900814955
+   },
+   "mImgtbl|P": {
+    "n": 18,
+    "fallback_to_E1": true
+   },
+   "mProject|P": {
+    "n": 90,
+    "fallback_to_E1": false,
+    "train_rmse_log": 0.008265525892957195
+   },
+   "mViewer|P": {
+    "n": 18,
+    "fallback_to_E1": true
+   }
+  },
+  "impute": {
+   "target_busy_frac": 0.2921425180602303
+  },
+  "n_rows_busy_frac_unknown": 0,
+  "fitted_on_fold": "occupancy:>4"
+ }
+}

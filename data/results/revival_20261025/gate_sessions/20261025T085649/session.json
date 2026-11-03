@@ -1,0 +1,14 @@
+{
+  "session_id": "20261025T085649",
+  "design_name": "revival_gate",
+  "design_sha256": "f6661cb6acf04cc75f5add003bc1b4df74b2a3630ca02c86c76830305f0eba3c",
+  "evidence_label": "real",
+  "machine_id": "681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978",
+  "environment_hash": "bac0fdd048d7d4cd07d46a4ed4fc15a0d5b21cd94b71541be631229f3f1ed53b",
+  "started_utc": "2026-10-25T03:26:54.036418+00:00",
+  "status": "complete",
+  "reason": null,
+  "n_blocks": 13,
+  "blocks_completed": 13,
+  "finished_utc": "2026-10-25T03:32:16.970681+00:00"
+}

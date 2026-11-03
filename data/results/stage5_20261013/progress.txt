@@ -1,0 +1,4 @@
+gpu rc=0
+main rc=0
+regimeR rc=0
+ALLDONE

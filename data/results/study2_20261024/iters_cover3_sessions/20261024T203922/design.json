@@ -1,0 +1,42 @@
+{
+ "name": "study2_iters_cover3",
+ "evidence_label": "real",
+ "seed": 20261604,
+ "n_blocks": 31,
+ "instances": [
+  "order_a",
+  "order_b"
+ ],
+ "warmup_blocks": 1,
+ "min_free_ram_gb": 0.8,
+ "reference": "random",
+ "conditions": [
+  {
+   "name": "random",
+   "policy": "random",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "tile": 512,
+    "seed": 0,
+    "order_seeds": {
+     "order_a": 11,
+     "order_b": 22
+    },
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json"
+   }
+  }
+ ]
+}

@@ -1,0 +1,39 @@
+{
+ "name": "study2_oracle_cover",
+ "evidence_label": "real",
+ "seed": 20261402,
+ "n_blocks": 11,
+ "instances": [
+  null
+ ],
+ "warmup_blocks": 1,
+ "min_free_ram_gb": 0.8,
+ "reference": "random_gpu",
+ "gpu_stage_table": {
+  "img_denoise": true,
+  "img_edges": true,
+  "img_features": true
+ },
+ "conditions": [
+  {
+   "name": "random_gpu",
+   "policy": "random",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_batch"
+   },
+   "kwargs": {
+    "k": 64,
+    "tile": 512,
+    "seed": 0,
+    "denoise_iterations": 8,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    }
+   }
+  }
+ ]
+}

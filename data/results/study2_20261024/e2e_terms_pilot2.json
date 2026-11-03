@@ -1,0 +1,33 @@
+{
+ "schema_version": 1,
+ "setup_s": {
+  "img_aggregate|64|E": 0.008826449979096651,
+  "img_aggregate|64|P": 0.008826449979096651,
+  "img_denoise|262144|E": 0.008320600027218461,
+  "img_denoise|262144|G": 0.00600125000346452,
+  "img_denoise|262144|P": 0.004653399926610291,
+  "img_edges|262144|E": 0.007391500053927302,
+  "img_edges|262144|G": 0.0036361999809741974,
+  "img_edges|262144|P": 0.0043311999179422855,
+  "img_features|262144|E": 0.006508499966003001,
+  "img_features|262144|G": 0.0030972500098869205,
+  "img_features|262144|P": 0.003702100133523345,
+  "img_source|262144|E": 0.006762800156138837,
+  "img_source|262144|P": 0.0044169999891892076
+ },
+ "overhead_s": {
+  "E": 0.0030087000923231244,
+  "G": 0.0018547000363469124,
+  "P": 0.002723800018429756
+ },
+ "sources": {
+  "sessions": [
+   "data/results/study2_20261024/pilot2_sessions/20261024T003656"
+  ],
+  "n_logs": 110,
+  "filled_from_other_pools": [
+   "img_aggregate|64|E"
+  ],
+  "rule": "warm-up block excluded; medians over completed tasks"
+ }
+}

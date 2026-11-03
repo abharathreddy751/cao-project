@@ -1,0 +1,31 @@
+{
+  "when_utc": "2026-10-24T16:06:12.074145+00:00",
+  "analysis_dir": "data\\results\\study2_20261024\\analysis_iters_confirm_ref_EFT_iter_model_rank_noctx",
+  "checks": [
+    {
+      "check": "evidence manifest data\\results\\study2_20261024\\iters_confirm_sessions\\20261024T211614",
+      "ok": true,
+      "detail": {
+        "missing": [],
+        "changed": [],
+        "extra": []
+      }
+    },
+    {
+      "check": "event-log hashes vs run manifests",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "table summary reproduced from raw logs",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "table effects reproduced from raw logs",
+      "ok": true,
+      "detail": []
+    }
+  ],
+  "ok": true
+}

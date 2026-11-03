@@ -1,0 +1,31 @@
+{
+  "when_utc": "2026-10-24T19:03:06.277303+00:00",
+  "analysis_dir": "data\\results\\study2_20261024\\analysis_iters_p2_confirm_ref_PRED_RANK_GREEDY",
+  "checks": [
+    {
+      "check": "evidence manifest data\\results\\study2_20261024\\iters_p2_confirm_sessions\\20261025T001900",
+      "ok": true,
+      "detail": {
+        "missing": [],
+        "changed": [],
+        "extra": []
+      }
+    },
+    {
+      "check": "event-log hashes vs run manifests",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "table summary reproduced from raw logs",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "table effects reproduced from raw logs",
+      "ok": true,
+      "detail": []
+    }
+  ],
+  "ok": true
+}

@@ -1,0 +1,39 @@
+OK   tasks.csv header == TASK_FIELDS (60 columns)
+
+== tasks.csv
+OK   task rows 145378 == manifest 145378
+OK   row_id unique, contiguous 0..n-1, in file order
+OK   per-source row counts match manifest for all 2472 sources
+OK   rows per kind match manifest {'campaign': 12000, 'phase2': 8685, 'phase4': 11580, 'phase5': 20844, 'phase6b': 92269}
+OK   sessions in rows == manifest sessions (6)
+OK   no invalid values / duplicates / provenance mismatches
+   null counts (non-zero): {'scenario': 32265, 'repeat': 12000, 'order_index': 12000, 'estimator': 55512, 'eft_model': 55512, 'transfer_s': 144322, 'target_busy_frac': 14312, 'predicted_exec_s': 55512, 'predicted_wait_s': 55512, 'predicted_transfer_s': 55512, 'predicted_finish_s': 55512, 'pred_margin_s': 55512, 'n_candidates': 55512, 'link_name': 105446, 'memory_available_bytes': 53109}
+
+== candidates.csv
+OK   candidates.csv header == CAND_FIELDS (17 columns)
+OK   candidate rows 754141 == manifest 754141
+OK   every candidate links to a task row (orphans: 0)
+OK   pred_wait/exec/finish present, finite, >= 0 (bad: 0)
+OK   one decision per task
+OK   exactly one chosen candidate per decision (violations: 0; decisions 89866)
+OK   every decision belongs to a task with n_candidates set (missing: 0)
+OK   tasks with n_candidates (89866) == decisions (89866)
+OK   candidate count == task n_candidates (mismatches: 0)
+OK   chosen candidate == executing worker and its pred_finish == task predicted_finish_s (mismatches: 0)
+
+== splits.json
+OK   by_session: disjoint and covers all sessions (train ['campaign_20261003T121528', 'campaign_20261003T144004'])
+OK   by_run: disjoint runs, all in campaign_20261003T144004 (140/60)
+OK   by_size: train size != test size for every workload (same: [])
+   by_session rows: train 12000, test 133378
+   test rows whose exact (workload, size, seed) input also occurs in train sessions: 0/133378 (0.0%)
+   workloads train ['compression', 'image_filter', 'matmul']; test-only workloads []
+   sizes per workload: {'compression': [1048576, 4194304], 'image_filter': [512, 1024], 'matmul': [256, 512]}
+
+== decision-time availability of context features (rows with a dispatch time)
+   binding=early: rows 91796; co-runner count differs between dispatch and start: 74678 (81.4%); target_busy_frac includes an own task finished after dispatch: 46229
+   binding=late: rows 53582; co-runner count differs between dispatch and start: 22572 (42.1%); target_busy_frac includes an own task finished after dispatch: 0
+   binding=early: (co-runners at start - at dispatch) histogram {-8: 1, -7: 6, -6: 18, -5: 44, -4: 142, -3: 297, -2: 883, -1: 2655, 0: 17118, 1: 14647, 2: 10021, 3: 7617, 4: 5984, 5: 4902, 6: 8462, 7: 16996, 8: 2003}; dispatch->start gap median 7.616 ms, p90 133.922 ms
+   binding=late: (co-runners at start - at dispatch) histogram {-8: 23, -7: 3, -6: 8, -5: 10, -4: 21, -3: 44, -2: 306, -1: 2079, 0: 31010, 1: 9032, 2: 3840, 3: 2301, 4: 1531, 5: 1364, 6: 915, 7: 876, 8: 219}; dispatch->start gap median 0.522 ms, p90 1.056 ms
+
+RESULT: ALL CHECKS PASSED

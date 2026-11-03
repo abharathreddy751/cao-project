@@ -1,0 +1,30 @@
+{
+ "samples": 1678,
+ "warmup": 206,
+ "valid_measured": 928,
+ "failed_measured": 0,
+ "pair_valid": 544,
+ "pair_failed": 0,
+ "blocks": [
+  8
+ ],
+ "telemetry": {
+  "util_pct_at_samples": {
+   "quiet": {
+    "n": 529,
+    "median": 0.0,
+    "mean": 21.68431001890359
+   },
+   "contended": {
+    "n": 529,
+    "median": 100.0,
+    "mean": 97.51984877126654
+   }
+  },
+  "telemetry_samples": 919,
+  "telemetry_unavailable": 0,
+  "per_call_s_median": 0.13819189998321235,
+  "max_temp_c": 76.0,
+  "max_power_w": 60.53
+ }
+}

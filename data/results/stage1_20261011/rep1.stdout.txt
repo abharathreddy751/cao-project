@@ -1,0 +1,8 @@
+{
+ "label": "real",
+ "instance": "d1.1_dss2b_c56.7_24.0",
+ "status": "failed:ID0000011",
+ "total_wall_s": 3444.4792158,
+ "n_tasks": 11,
+ "final_outputs": {}
+}

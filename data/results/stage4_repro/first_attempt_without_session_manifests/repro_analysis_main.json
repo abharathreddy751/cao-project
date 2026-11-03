@@ -1,0 +1,27 @@
+{
+  "when_utc": "2026-10-12T21:58:51.219649+00:00",
+  "analysis_dir": "data\\results\\stage4_20261012\\analysis_main",
+  "checks": [
+    {
+      "check": "evidence manifest data\\results\\stage4_20261012\\sessions_main\\20261012T212448",
+      "ok": false,
+      "detail": "SHA256_MANIFEST.tsv missing"
+    },
+    {
+      "check": "event-log hashes vs run manifests",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "table summary reproduced from raw logs",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "table effects reproduced from raw logs",
+      "ok": true,
+      "detail": []
+    }
+  ],
+  "ok": false
+}

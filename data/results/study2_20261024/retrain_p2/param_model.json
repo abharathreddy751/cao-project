@@ -1,0 +1,97 @@
+{
+ "groups": {
+  "img_aggregate|E": {
+   "features": [],
+   "coef": [
+    0.0002257272664626891
+   ],
+   "n": 11,
+   "mae_s": 3.0671080866874745e-05
+  },
+  "img_aggregate|P": {
+   "features": [],
+   "coef": [
+    8.145714777388744e-05
+   ],
+   "n": 7,
+   "mae_s": 5.59591346097236e-06
+  },
+  "img_denoise|E": {
+   "features": [
+    "iterations"
+   ],
+   "coef": [
+    0.0021363232661257914,
+    0.018650121993605093
+   ],
+   "n": 823,
+   "mae_s": 0.008182114346647977
+  },
+  "img_denoise|P": {
+   "features": [
+    "iterations"
+   ],
+   "coef": [
+    0.0009836938817524594,
+    0.005865086253624327
+   ],
+   "n": 329,
+   "mae_s": 0.002884230558984011
+  },
+  "img_edges|E": {
+   "features": [],
+   "coef": [
+    0.02807838754072739
+   ],
+   "n": 963,
+   "mae_s": 0.002202409926121192
+  },
+  "img_edges|P": {
+   "features": [],
+   "coef": [
+    0.010458773018043271
+   ],
+   "n": 189,
+   "mae_s": 0.0009546317551341866
+  },
+  "img_features|E": {
+   "features": [],
+   "coef": [
+    0.007439424226496295
+   ],
+   "n": 904,
+   "mae_s": 0.0003542756199062509
+  },
+  "img_features|P": {
+   "features": [],
+   "coef": [
+    0.0029540846791801852
+   ],
+   "n": 248,
+   "mae_s": 0.0002389922061320343
+  },
+  "img_source|E": {
+   "features": [],
+   "coef": [
+    0.24516015638151095
+   ],
+   "n": 862,
+   "mae_s": 0.01996843655765525
+  },
+  "img_source|P": {
+   "features": [],
+   "coef": [
+    0.10634102724203519
+   ],
+   "n": 290,
+   "mae_s": 0.008472787428632883
+  }
+ },
+ "sessions": [
+  "data\\results\\study2_20261024\\retrain_p2\\sessions\\retrain_random",
+  "data\\results\\study2_20261024\\retrain_p2\\sessions\\retrain_e_only"
+ ],
+ "holdout_sessions": [],
+ "holdout_report": {},
+ "rule": "ridge least squares per (workload, pool), warm-up block excluded"
+}

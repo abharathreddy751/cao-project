@@ -1,0 +1,14 @@
+{
+  "session_id": "20261024T005426",
+  "design_name": "study2_pilot3b",
+  "design_sha256": "a6efc73bf290018207e8a496b9e7e949883ccd3f8c4fb90bed68f32f6e77da53",
+  "evidence_label": "real",
+  "machine_id": "681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978",
+  "environment_hash": "bac0fdd048d7d4cd07d46a4ed4fc15a0d5b21cd94b71541be631229f3f1ed53b",
+  "started_utc": "2026-10-23T19:24:31.006459+00:00",
+  "status": "aborted",
+  "reason": "free RAM below 1.2 GB before block 1",
+  "n_blocks": 8,
+  "blocks_completed": 1,
+  "finished_utc": "2026-10-23T19:25:26.223810+00:00"
+}

@@ -1,0 +1,31 @@
+{
+ "schema_version": 1,
+ "unit": "source_log (one run); sessions = experiment_id",
+ "by_session": {
+  "rule": "train = randomized profiling campaign sessions; test = scheduling-experiment sessions",
+  "train_sessions": [],
+  "test_sessions": []
+ },
+ "by_run_within_latest_campaign": {
+  "rule": "first 70% of runs (collection order) train, rest test",
+  "train_fraction": 0.7,
+  "session": null,
+  "train_runs": [],
+  "test_runs": []
+ },
+ "by_size": {
+  "rule": "per workload: smallest profiled size train, largest test (size extrapolation)",
+  "train": {},
+  "test": {}
+ },
+ "by_occupancy": {
+  "rule": "busy_total <= 4 train, >= 5 test (occupancy extrapolation)",
+  "threshold": 4,
+  "split_spec": {
+   "policy": "occupancy",
+   "threshold": 4
+  },
+  "note": "row-level axis: a run has rows on both sides, so folds() needs allow_straddle=true"
+ },
+ "forbidden": "random row-level splits (rows of one run share session state and co-runner context)"
+}

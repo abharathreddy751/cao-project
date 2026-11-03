@@ -1,0 +1,7 @@
+test,cond,n_blocks,statistic,p_value,multiplicity
+friedman,all,40,132.3142857142857,7.679907152933747e-27,
+wilcoxon_vs_ref,B0_P_only,40,0.0,1.8189894035458565e-12,unadjusted (cross-check only)
+wilcoxon_vs_ref,B4_cost_first,40,275.0,0.07033917775879672,unadjusted (cross-check only)
+wilcoxon_vs_ref,B4_largest_first,40,0.0,1.8189894035458565e-12,unadjusted (cross-check only)
+wilcoxon_vs_ref,B4_param_first,40,392.0,0.8160389817658142,unadjusted (cross-check only)
+wilcoxon_vs_ref,PRED_RANK_GREEDY,40,344.0,0.3826448613508546,unadjusted (cross-check only)
