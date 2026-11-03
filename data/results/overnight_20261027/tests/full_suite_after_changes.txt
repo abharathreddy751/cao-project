@@ -1,0 +1,15 @@
+﻿........................................................................ [ 15%]
+........................................................................ [ 30%]
+........................................................................ [ 45%]
+........................................................................ [ 60%]
+........................................................................ [ 75%]
+........................................................................ [ 90%]
+............................................                             [100%]
+============================= slowest 5 durations =============================
+13.24s call     tests/test_remote_adapter.py::test_external_loopback_node_runs_verifies_and_is_labelled_emulation
+10.23s call     tests/test_revival.py::test_revival_adapter_runs_a_contended_mixed_dag_and_verifies_the_output
+10.16s call     tests/test_dashboard.py::test_live_execution_uses_the_real_runtime
+8.88s call     tests/test_study2.py::test_scheduling_cost_guard_flags_a_run_dominated_by_the_policy
+8.87s call     tests/test_study2.py::test_g_pool_run_is_within_tolerance_and_confined
+476 passed in 250.45s (0:04:10)
+exit=0

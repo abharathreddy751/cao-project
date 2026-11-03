@@ -1,0 +1,215 @@
+{
+ "name": "overnight_heft_peft_unseen",
+ "evidence_label": "real",
+ "seed": 20261207,
+ "n_blocks": 25,
+ "instances": [
+  "order_h1",
+  "order_h2",
+  "order_h3",
+  "order_h4",
+  "order_h5",
+  "order_h6"
+ ],
+ "warmup_blocks": 1,
+ "min_free_ram_gb": 0.8,
+ "require_ac_power": true,
+ "reference": "B4",
+ "conditions": [
+  {
+   "name": "B4",
+   "policy": "B4",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "tile": 512,
+    "seed": 0,
+    "order_seeds": {
+     "order_h1": 7001,
+     "order_h2": 7002,
+     "order_h3": 7003,
+     "order_h4": 7004,
+     "order_h5": 7005,
+     "order_h6": 7006
+    },
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json"
+   }
+  },
+  {
+   "name": "B4_param_first",
+   "policy": "B4",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "tile": 512,
+    "seed": 0,
+    "order_seeds": {
+     "order_h1": 7001,
+     "order_h2": 7002,
+     "order_h3": 7003,
+     "order_h4": 7004,
+     "order_h5": 7005,
+     "order_h6": 7006
+    },
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "binding": "param_first"
+   }
+  },
+  {
+   "name": "EFT_param_model_rank_noctx",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "tile": 512,
+    "seed": 0,
+    "order_seeds": {
+     "order_h1": 7001,
+     "order_h2": 7002,
+     "order_h3": 7003,
+     "order_h4": 7004,
+     "order_h5": 7005,
+     "order_h6": 7006
+    },
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "binding": "param_model_rank",
+    "param_model": "D:\\cao project\\data\\results\\study2_20261024\\param_model_cover1234.json"
+   }
+  },
+  {
+   "name": "HEFT_param_model",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "tile": 512,
+    "seed": 0,
+    "order_seeds": {
+     "order_h1": 7001,
+     "order_h2": 7002,
+     "order_h3": 7003,
+     "order_h4": 7004,
+     "order_h5": 7005,
+     "order_h6": 7006
+    },
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "binding": "param_model_heft",
+    "param_model": "D:\\cao project\\data\\results\\study2_20261024\\param_model_cover1234.json"
+   }
+  },
+  {
+   "name": "PEFT_param_model",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "tile": 512,
+    "seed": 0,
+    "order_seeds": {
+     "order_h1": 7001,
+     "order_h2": 7002,
+     "order_h3": 7003,
+     "order_h4": 7004,
+     "order_h5": 7005,
+     "order_h6": 7006
+    },
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "binding": "param_model_peft",
+    "param_model": "D:\\cao project\\data\\results\\study2_20261024\\param_model_cover1234.json"
+   }
+  },
+  {
+   "name": "PRED_RANK_GREEDY",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "tile": 512,
+    "seed": 0,
+    "order_seeds": {
+     "order_h1": 7001,
+     "order_h2": 7002,
+     "order_h3": 7003,
+     "order_h4": 7004,
+     "order_h5": 7005,
+     "order_h6": 7006
+    },
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "binding": "pred_rank_greedy",
+    "param_model": "D:\\cao project\\data\\results\\study2_20261024\\param_model_cover1234.json"
+   }
+  }
+ ]
+}

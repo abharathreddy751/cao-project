@@ -1,0 +1,27 @@
+{
+  "machine_id": "681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978",
+  "environment_hash": "bac0fdd048d7d4cd07d46a4ed4fc15a0d5b21cd94b71541be631229f3f1ed53b",
+  "evidence_label": "real",
+  "design_sha256": "73f25274906eef5a123af4a7b4c495785849d56808cb49e1d6eac88b77fc9566",
+  "code_versions": [
+    "997415774bae"
+  ],
+  "allow_mixed_code": false,
+  "reference": "B4_param_first_ext",
+  "seed": 0,
+  "n_boot": 10000,
+  "paths": [
+    "data\\results\\final_20261101\\eval\\sessions\\eval_h16_l120"
+  ],
+  "primary_metric": "makespan_e2e_s",
+  "only_conditions": [
+    "B4_param_first_ext",
+    "PRED_RANK_GREEDY_E2E_ext",
+    "PRED_RANK_GREEDY_ext"
+  ],
+  "n_runs": 75,
+  "n_included_primary": 72,
+  "n_excluded": 3,
+  "not_measured_note": "metrics shown as 'not measured' are absent from the raw logs; sched_overhead includes estimator inference (not separable in the log)",
+  "multiplicity_note": "confirmatory family = primary variant, makespan_s, every condition vs the reference (Holm over sign-flip p-values: p_holm); all other rows are exploratory, unadjusted"
+}

@@ -1,0 +1,27 @@
+{
+  "when_utc": "2026-10-26T19:39:03.143258+00:00",
+  "analysis_dir": "data\\results\\overnight_20261027\\phase3e\\analysis_heft_peft_ref_PRED_RANK_GREEDY",
+  "checks": [
+    {
+      "check": "evidence manifest data\\results\\overnight_20261027\\phase3e\\sessions\\heft_peft",
+      "ok": false,
+      "detail": "SHA256_MANIFEST.tsv missing"
+    },
+    {
+      "check": "event-log hashes vs run manifests",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "table summary reproduced from raw logs",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "table effects reproduced from raw logs",
+      "ok": true,
+      "detail": []
+    }
+  ],
+  "ok": false
+}

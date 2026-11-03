@@ -1,0 +1,116 @@
+{
+ "demo_repro_20261026T220714": {
+  "session_dir": "D:\\cao project\\data\\results\\demo_20261027\\sessions\\20261026T220714",
+  "session": {
+   "session_id": "20261026T220714",
+   "design_name": "demo_iters_repro_from_confirm2",
+   "design_sha256": "182a47d2969c771e093c4162e28c8b08fc508ac4a2316742766b1b97e23c5c56",
+   "status": "complete",
+   "n_blocks": 11,
+   "blocks_completed": 11,
+   "started_utc": "2026-10-26T16:37:18.791370+00:00",
+   "finished_utc": "2026-10-26T16:42:46.724662+00:00"
+  },
+  "design_file_sha256": "182a47d2969c771e093c4162e28c8b08fc508ac4a2316742766b1b97e23c5c56",
+  "design_sha_matches_session": true,
+  "design_sha_file_matches": true,
+  "n_run_dirs": 55,
+  "code_versions": {
+   "('9d8ea221', True, '41a8f43b')": 55
+  },
+  "status_by_condition": {
+   "('B0_P_only', 'ok', True)": 11,
+   "('B4', 'ok', True)": 11,
+   "('B4_param_first', 'ok', True)": 11,
+   "('EFT_E1_noctx', 'ok', True)": 11,
+   "('PRED_RANK_GREEDY', 'ok', True)": 11
+  },
+  "event_logs_hash_ok": 55,
+  "event_logs_bad": [],
+  "runs_not_ok_or_unverified": [],
+  "mean_per_run_s": {
+   "B0_P_only": {
+    "makespan_event_log": 4.069912672720172,
+    "extra.decision_time_total_s (coordinator summary)": 0.13700487039221282,
+    "sum decision_time_s over task_dispatched events": 0.004726418198763647
+   },
+   "B4": {
+    "makespan_event_log": 4.031483154532245,
+    "extra.decision_time_total_s (coordinator summary)": 0.188575572387146,
+    "sum decision_time_s over task_dispatched events": 0.0067188820526511836
+   },
+   "B4_param_first": {
+    "makespan_event_log": 3.1751682181969625,
+    "extra.decision_time_total_s (coordinator summary)": 0.17121989131820473,
+    "sum decision_time_s over task_dispatched events": 0.006520408925346353
+   },
+   "EFT_E1_noctx": {
+    "makespan_event_log": 5.601772663638588,
+    "extra.decision_time_total_s (coordinator summary)": 0.05170201796995984,
+    "sum decision_time_s over task_dispatched events": 0.051293217883953315
+   },
+   "PRED_RANK_GREEDY": {
+    "makespan_event_log": 3.148297472719357,
+    "extra.decision_time_total_s (coordinator summary)": 0.09413707409773699,
+    "sum decision_time_s over task_dispatched events": 0.015444854655387726
+   }
+  }
+ },
+ "confirm2_20261024T235431": {
+  "session_dir": "D:\\cao project\\data\\results\\study2_20261024\\iters_confirm2_sessions\\20261024T235431",
+  "session": {
+   "session_id": "20261024T235431",
+   "design_name": "study2_iters_confirm2",
+   "design_sha256": "7aa921033b4bc827df02f00274edecce2bd60a212869e038569a9fdf5609bbd1",
+   "status": "complete",
+   "n_blocks": 31,
+   "blocks_completed": 31,
+   "started_utc": "2026-10-24T18:24:34.602013+00:00",
+   "finished_utc": "2026-10-24T18:36:32.519333+00:00"
+  },
+  "design_file_sha256": "7aa921033b4bc827df02f00274edecce2bd60a212869e038569a9fdf5609bbd1",
+  "design_sha_matches_session": true,
+  "design_sha_file_matches": true,
+  "n_run_dirs": 155,
+  "code_versions": {
+   "('ae5395fe', True, 'f27b56f3')": 155
+  },
+  "status_by_condition": {
+   "('B0_P_only', 'ok', True)": 31,
+   "('B4', 'ok', True)": 31,
+   "('B4_param_first', 'ok', True)": 31,
+   "('EFT_E1_noctx', 'ok', True)": 31,
+   "('PRED_RANK_GREEDY', 'ok', True)": 31
+  },
+  "event_logs_hash_ok": 155,
+  "event_logs_bad": [],
+  "runs_not_ok_or_unverified": [],
+  "mean_per_run_s": {
+   "B0_P_only": {
+    "makespan_event_log": 4.051410725809664,
+    "extra.decision_time_total_s (coordinator summary)": 0.1369808607193972,
+    "sum decision_time_s over task_dispatched events": 0.00472825140346803
+   },
+   "B4": {
+    "makespan_event_log": 3.9664798451534984,
+    "extra.decision_time_total_s (coordinator summary)": 0.18852752727651667,
+    "sum decision_time_s over task_dispatched events": 0.006821200108876632
+   },
+   "B4_param_first": {
+    "makespan_event_log": 3.110510548388946,
+    "extra.decision_time_total_s (coordinator summary)": 0.1718322259614304,
+    "sum decision_time_s over task_dispatched events": 0.0065236806478952206
+   },
+   "EFT_E1_noctx": {
+    "makespan_event_log": 5.675608270970594,
+    "extra.decision_time_total_s (coordinator summary)": 0.052125087090497534,
+    "sum decision_time_s over task_dispatched events": 0.051708787180212955
+   },
+   "PRED_RANK_GREEDY": {
+    "makespan_event_log": 3.161852645143236,
+    "extra.decision_time_total_s (coordinator summary)": 0.09450430388847787,
+    "sum decision_time_s over task_dispatched events": 0.014680264720452888
+   }
+  }
+ }
+}

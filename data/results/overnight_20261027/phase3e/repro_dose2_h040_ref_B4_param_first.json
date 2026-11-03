@@ -1,0 +1,27 @@
+{
+  "when_utc": "2026-10-26T19:39:21.589772+00:00",
+  "analysis_dir": "data\\results\\overnight_20261027\\phase3e\\analysis_dose2_h040_ref_B4_param_first",
+  "checks": [
+    {
+      "check": "evidence manifest data\\results\\overnight_20261027\\phase3e\\sessions\\dose2_h040",
+      "ok": false,
+      "detail": "SHA256_MANIFEST.tsv missing"
+    },
+    {
+      "check": "event-log hashes vs run manifests",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "table summary reproduced from raw logs",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "table effects reproduced from raw logs",
+      "ok": true,
+      "detail": []
+    }
+  ],
+  "ok": false
+}

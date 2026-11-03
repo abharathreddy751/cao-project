@@ -1,0 +1,155 @@
+﻿{
+  "session_id": "cal_l15",
+  "design_name": "final_cal_l15",
+  "design_sha256": "3f4b6820f8c4901d7ad4668c71bbf639c5d4319d30f52b2b1bbf1aac37e52a8b",
+  "evidence_label": "real",
+  "machine_id": "681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978",
+  "environment_hash": "bac0fdd048d7d4cd07d46a4ed4fc15a0d5b21cd94b71541be631229f3f1ed53b",
+  "started_utc": "2026-11-01T13:08:31.415604+00:00",
+  "status": "aborted",
+  "reason": "not on mains power (design field require_ac_power)",
+  "n_blocks": 9,
+  "blocks_completed": 0,
+  "finished_utc": "2026-11-01T13:08:31.415604+00:00"
+}
+exit=2
+{
+  "session_id": "cal_l15_r2",
+  "design_name": "final_cal_l15",
+  "design_sha256": "3f4b6820f8c4901d7ad4668c71bbf639c5d4319d30f52b2b1bbf1aac37e52a8b",
+  "evidence_label": "real",
+  "machine_id": "681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978",
+  "environment_hash": "bac0fdd048d7d4cd07d46a4ed4fc15a0d5b21cd94b71541be631229f3f1ed53b",
+  "started_utc": "2026-11-01T13:09:36.653921+00:00",
+  "status": "aborted",
+  "reason": "not on mains power (design field require_ac_power)",
+  "n_blocks": 9,
+  "blocks_completed": 0,
+  "finished_utc": "2026-11-01T13:09:36.653921+00:00"
+}
+exit=2
+{
+  "session_id": "cal_l15_r3",
+  "design_name": "final_cal_l15",
+  "design_sha256": "3f4b6820f8c4901d7ad4668c71bbf639c5d4319d30f52b2b1bbf1aac37e52a8b",
+  "evidence_label": "real",
+  "machine_id": "681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978",
+  "environment_hash": "bac0fdd048d7d4cd07d46a4ed4fc15a0d5b21cd94b71541be631229f3f1ed53b",
+  "started_utc": "2026-11-01T13:10:41.714871+00:00",
+  "status": "aborted",
+  "reason": "not on mains power (design field require_ac_power)",
+  "n_blocks": 9,
+  "blocks_completed": 0,
+  "finished_utc": "2026-11-01T13:10:41.714871+00:00"
+}
+exit=2
+{
+  "session_id": "cal_l15_r4",
+  "design_name": "final_cal_l15",
+  "design_sha256": "3f4b6820f8c4901d7ad4668c71bbf639c5d4319d30f52b2b1bbf1aac37e52a8b",
+  "evidence_label": "real",
+  "machine_id": "681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978",
+  "environment_hash": "bac0fdd048d7d4cd07d46a4ed4fc15a0d5b21cd94b71541be631229f3f1ed53b",
+  "started_utc": "2026-11-01T13:11:46.916904+00:00",
+  "status": "aborted",
+  "reason": "not on mains power (design field require_ac_power)",
+  "n_blocks": 9,
+  "blocks_completed": 0,
+  "finished_utc": "2026-11-01T13:11:46.916904+00:00"
+}
+exit=2
+python.exe : Traceback (most recent call last):
+At D:\cao project\scripts\final_run_sessions.ps1:34 char:9
++         & .\.venv\Scripts\python.exe scripts\run_experiment.py --desi ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "D:\cao project\scripts\run_experiment.py", line 43, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "D:\cao project\scripts\run_experiment.py", line 37, in main
+    s = run_session(a.design, a.out, adapter, session_id=a.session_id)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\cao project\src\caosched\experiment\runner.py", line 182, in run_session
+    sdir.mkdir(parents=True, exist_ok=False)
+  File "C:\Users\Venkatesh\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1116, in mkdir
+    os.mkdir(self, mode)
+FileExistsError: [WinError 183] Cannot create a file when that file already exists: 
+'data\\results\\final_20261101\\calibration\\sessions\\cal_l15'
+exit=1
+python.exe : Traceback (most recent call last):
+At D:\cao project\scripts\final_run_sessions.ps1:34 char:9
++         & .\.venv\Scripts\python.exe scripts\run_experiment.py --desi ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "D:\cao project\scripts\run_experiment.py", line 43, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "D:\cao project\scripts\run_experiment.py", line 37, in main
+    s = run_session(a.design, a.out, adapter, session_id=a.session_id)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\cao project\src\caosched\experiment\runner.py", line 182, in run_session
+    sdir.mkdir(parents=True, exist_ok=False)
+  File "C:\Users\Venkatesh\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1116, in mkdir
+    os.mkdir(self, mode)
+FileExistsError: [WinError 183] Cannot create a file when that file already exists: 
+'data\\results\\final_20261101\\calibration\\sessions\\cal_l15_r2'
+exit=1
+python.exe : Traceback (most recent call last):
+At D:\cao project\scripts\final_run_sessions.ps1:34 char:9
++         & .\.venv\Scripts\python.exe scripts\run_experiment.py --desi ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "D:\cao project\scripts\run_experiment.py", line 43, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "D:\cao project\scripts\run_experiment.py", line 37, in main
+    s = run_session(a.design, a.out, adapter, session_id=a.session_id)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\cao project\src\caosched\experiment\runner.py", line 182, in run_session
+    sdir.mkdir(parents=True, exist_ok=False)
+  File "C:\Users\Venkatesh\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1116, in mkdir
+    os.mkdir(self, mode)
+FileExistsError: [WinError 183] Cannot create a file when that file already exists: 
+'data\\results\\final_20261101\\calibration\\sessions\\cal_l15_r3'
+exit=1
+python.exe : Traceback (most recent call last):
+At D:\cao project\scripts\final_run_sessions.ps1:34 char:9
++         & .\.venv\Scripts\python.exe scripts\run_experiment.py --desi ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "D:\cao project\scripts\run_experiment.py", line 43, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "D:\cao project\scripts\run_experiment.py", line 37, in main
+    s = run_session(a.design, a.out, adapter, session_id=a.session_id)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\cao project\src\caosched\experiment\runner.py", line 182, in run_session
+    sdir.mkdir(parents=True, exist_ok=False)
+  File "C:\Users\Venkatesh\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1116, in mkdir
+    os.mkdir(self, mode)
+FileExistsError: [WinError 183] Cannot create a file when that file already exists: 
+'data\\results\\final_20261101\\calibration\\sessions\\cal_l15_r4'
+exit=1
+{
+  "session_id": "cal_l15_r5",
+  "design_name": "final_cal_l15",
+  "design_sha256": "3f4b6820f8c4901d7ad4668c71bbf639c5d4319d30f52b2b1bbf1aac37e52a8b",
+  "evidence_label": "real",
+  "machine_id": "681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978",
+  "environment_hash": "bac0fdd048d7d4cd07d46a4ed4fc15a0d5b21cd94b71541be631229f3f1ed53b",
+  "started_utc": "2026-11-01T15:43:00.799274+00:00",
+  "status": "complete",
+  "reason": null,
+  "n_blocks": 9,
+  "blocks_completed": 9,
+  "finished_utc": "2026-11-01T15:46:29.326682+00:00"
+}
+exit=0

@@ -1,0 +1,195 @@
+{
+ "groups": {
+  "img_aggregate|E": {
+   "features": [],
+   "coef": [
+    0.0002345109387533738
+   ],
+   "n": 64,
+   "mae_s": 2.5156731680908686e-05
+  },
+  "img_aggregate|P": {
+   "features": [],
+   "coef": [
+    9.566665782282753e-05
+   ],
+   "n": 24,
+   "mae_s": 1.3027763796142404e-05
+  },
+  "img_denoise|E": {
+   "features": [
+    "iterations"
+   ],
+   "coef": [
+    0.001829848392775224,
+    0.01983726130888866
+   ],
+   "n": 3344,
+   "mae_s": 0.012404647085691813
+  },
+  "img_denoise|G": {
+   "features": [
+    "iterations"
+   ],
+   "coef": [
+    0.016900247999392215,
+    0.005876286887272834
+   ],
+   "n": 280,
+   "mae_s": 0.055387066152544795
+  },
+  "img_denoise|P": {
+   "features": [
+    "iterations"
+   ],
+   "coef": [
+    0.0029064381682206986,
+    0.009149974893059559
+   ],
+   "n": 2008,
+   "mae_s": 0.012143597223009108
+  },
+  "img_edges|E": {
+   "features": [],
+   "coef": [
+    0.031063898917741806
+   ],
+   "n": 2772,
+   "mae_s": 0.00228748411470431
+  },
+  "img_edges|G": {
+   "features": [],
+   "coef": [
+    0.008148424338050042
+   ],
+   "n": 1134,
+   "mae_s": 0.00445573891714031
+  },
+  "img_edges|P": {
+   "features": [],
+   "coef": [
+    0.015970886442410997
+   ],
+   "n": 1726,
+   "mae_s": 0.0021081765082553217
+  },
+  "img_features|E": {
+   "features": [],
+   "coef": [
+    0.007799921425499803
+   ],
+   "n": 2927,
+   "mae_s": 0.00039090174433796033
+  },
+  "img_features|G": {
+   "features": [],
+   "coef": [
+    0.0052564052110157045
+   ],
+   "n": 807,
+   "mae_s": 0.0029856224679761204
+  },
+  "img_features|P": {
+   "features": [],
+   "coef": [
+    0.004400522866555233
+   ],
+   "n": 1898,
+   "mae_s": 0.0005566994465210211
+  },
+  "img_source|E": {
+   "features": [],
+   "coef": [
+    0.29002488353407213
+   ],
+   "n": 3565,
+   "mae_s": 0.035890138248312865
+  },
+  "img_source|P": {
+   "features": [],
+   "coef": [
+    0.1873504298503264
+   ],
+   "n": 2067,
+   "mae_s": 0.02028049222202439
+  }
+ },
+ "sessions": [
+  "D:\\cao project\\data\\results\\final_20261101\\calibration\\sessions\\cal_l15_r5",
+  "D:\\cao project\\data\\results\\final_20261101\\calibration\\sessions\\cal_l40_r8",
+  "D:\\cao project\\data\\results\\final_20261101\\calibration\\sessions\\cal_l120_r2",
+  "D:\\cao project\\data\\results\\final_20261101\\calibration\\sessions\\cal_uniform_r5"
+ ],
+ "holdout_sessions": [
+  "D:\\cao project\\data\\results\\final_20261101\\calibration\\sessions\\hold_l40_r5",
+  "D:\\cao project\\data\\results\\final_20261101\\calibration\\sessions\\hold_l120_r5"
+ ],
+ "holdout_report": {
+  "img_aggregate|E": {
+   "n": 11,
+   "mae_s": 1.8826266486113055e-05,
+   "median_ape": 0.07229435702803072
+  },
+  "img_aggregate|P": {
+   "n": 13,
+   "mae_s": 9.446180998705909e-06,
+   "median_ape": 0.07568630538621285
+  },
+  "img_denoise|E": {
+   "n": 641,
+   "mae_s": 0.019889739011831057,
+   "median_ape": 0.03969386426280835
+  },
+  "img_denoise|G": {
+   "n": 51,
+   "mae_s": 0.10039944195994839,
+   "median_ape": 0.228226960495517
+  },
+  "img_denoise|P": {
+   "n": 844,
+   "mae_s": 0.017731338644240938,
+   "median_ape": 0.10946597105051353
+  },
+  "img_edges|E": {
+   "n": 254,
+   "mae_s": 0.0019370769423475219,
+   "median_ape": 0.04574295141965798
+  },
+  "img_edges|G": {
+   "n": 607,
+   "mae_s": 0.004227685022187174,
+   "median_ape": 0.3038450315763143
+  },
+  "img_edges|P": {
+   "n": 675,
+   "mae_s": 0.0021661245531834693,
+   "median_ape": 0.11123739269218992
+  },
+  "img_features|E": {
+   "n": 224,
+   "mae_s": 0.00044054673686374075,
+   "median_ape": 0.04895458277439313
+  },
+  "img_features|G": {
+   "n": 417,
+   "mae_s": 0.0027871586742562243,
+   "median_ape": 0.31257368996834306
+  },
+  "img_features|P": {
+   "n": 895,
+   "mae_s": 0.0005337249189091503,
+   "median_ape": 0.10279473202095064
+  },
+  "img_source|E": {
+   "n": 661,
+   "mae_s": 0.03338701490496292,
+   "median_ape": 0.08935921635486706
+  },
+  "img_source|P": {
+   "n": 875,
+   "mae_s": 0.020364395158055642,
+   "median_ape": 0.08756475395141859
+  }
+ },
+ "rule": "ridge least squares per (workload, pool), warm-up block excluded"
+}

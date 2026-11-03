@@ -1,0 +1,63 @@
+{
+ "session_dir": "data\\results\\overnight_20261027\\phase3e\\sessions\\heft_peft",
+ "session": {
+  "session_id": "heft_peft",
+  "design_name": "overnight_heft_peft_unseen",
+  "design_sha256": "be90e90b3dc655e066a517fe95bc7d7ca0171dbd6ae405e42ec27cc46de8f7e9",
+  "status": "complete",
+  "n_blocks": 25,
+  "blocks_completed": 25,
+  "started_utc": "2026-10-26T19:10:58.529910+00:00",
+  "finished_utc": "2026-10-26T19:24:40.682952+00:00"
+ },
+ "design_file_sha256": "be90e90b3dc655e066a517fe95bc7d7ca0171dbd6ae405e42ec27cc46de8f7e9",
+ "design_sha_matches_session": true,
+ "design_sha_file_matches": true,
+ "n_run_dirs": 150,
+ "code_versions": {
+  "('9d8ea221', True, 'ed70c36d')": 150
+ },
+ "status_by_condition": {
+  "('B4', 'ok', True)": 25,
+  "('B4_param_first', 'ok', True)": 25,
+  "('EFT_param_model_rank_noctx', 'ok', True)": 25,
+  "('HEFT_param_model', 'ok', True)": 25,
+  "('PEFT_param_model', 'ok', True)": 25,
+  "('PRED_RANK_GREEDY', 'ok', True)": 25
+ },
+ "event_logs_hash_ok": 150,
+ "event_logs_bad": [],
+ "runs_not_ok_or_unverified": [],
+ "mean_per_run_s": {
+  "B4": {
+   "makespan_event_log": 3.9136251399759203,
+   "extra.decision_time_total_s (coordinator summary)": 0.18783398889936506,
+   "sum decision_time_s over task_dispatched events": 0.006718827607110143
+  },
+  "B4_param_first": {
+   "makespan_event_log": 3.1590880800038574,
+   "extra.decision_time_total_s (coordinator summary)": 0.1719583944696933,
+   "sum decision_time_s over task_dispatched events": 0.006533196084201336
+  },
+  "EFT_param_model_rank_noctx": {
+   "makespan_event_log": 3.4242573200073094,
+   "extra.decision_time_total_s (coordinator summary)": 0.21710858347825707,
+   "sum decision_time_s over task_dispatched events": 0.21499027215875685
+  },
+  "HEFT_param_model": {
+   "makespan_event_log": 3.2054482560325415,
+   "extra.decision_time_total_s (coordinator summary)": 0.032538767736405134,
+   "sum decision_time_s over task_dispatched events": 0.03029160391539335
+  },
+  "PEFT_param_model": {
+   "makespan_event_log": 3.812543232003227,
+   "extra.decision_time_total_s (coordinator summary)": 0.03518261588178575,
+   "sum decision_time_s over task_dispatched events": 0.032635099971666935
+  },
+  "PRED_RANK_GREEDY": {
+   "makespan_event_log": 3.1811307800002395,
+   "extra.decision_time_total_s (coordinator summary)": 0.09491853956133127,
+   "sum decision_time_s over task_dispatched events": 0.015592871988192201
+  }
+ }
+}

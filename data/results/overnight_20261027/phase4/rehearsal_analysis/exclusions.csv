@@ -1,0 +1,6 @@
+run_id,condition,block,reason
+rehearsal_loopback2__b0000_00_EFT_E1_remote,EFT_E1_remote,0,warm-up block (design rule)
+rehearsal_loopback2__b0000_01_EFT_E1_no_remote,EFT_E1_no_remote,0,warm-up block (design rule)
+rehearsal_loopback2__b0000_02_B0_P_only,B0_P_only,0,warm-up block (design rule)
+rehearsal_loopback2__b0000_03_B4_remote,B4_remote,0,warm-up block (design rule)
+rehearsal_loopback2__b0000_04_B4_no_remote,B4_no_remote,0,warm-up block (design rule)

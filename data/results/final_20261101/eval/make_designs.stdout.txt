@@ -1,0 +1,6 @@
+﻿wrote data\results\final_20261101\eval\designs\design_final_eval_h16_l120.json
+wrote data\results\final_20261101\eval\designs\design_final_eval_h04_l120.json
+wrote data\results\final_20261101\eval\designs\design_final_eval_h40_l120.json
+wrote data\results\final_20261101\eval\designs\design_final_eval_h16_l15.json
+wrote data\results\final_20261101\eval\designs\design_final_eval_h16_l40.json
+wrote data\results\final_20261101\eval\designs\design_final_eval_uniform.json

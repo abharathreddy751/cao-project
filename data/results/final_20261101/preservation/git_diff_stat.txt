@@ -1,0 +1,8 @@
+﻿ data/results/study2_20261024/progress.txt |  20 +++
+ docs/research_redesign/claims.json        | 200 ++++++++++++++++++++++++++++++
+ scripts/calibrate_link.py                 |  31 +++--
+ src/caosched/experiment/remote_adapter.py |  42 +++++--
+ src/caosched/remote/node.py               |  26 +++-
+ tests/test_remote.py                      |  42 +++++++
+ tests/test_remote_adapter.py              | 107 ++++++++++++++++
+ 7 files changed, 445 insertions(+), 23 deletions(-)

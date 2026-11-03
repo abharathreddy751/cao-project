@@ -1,0 +1,51 @@
+{
+ "session_dir": "data\\results\\overnight_20261027\\phase3g\\sessions\\heavy40",
+ "session": {
+  "session_id": "heavy40",
+  "design_name": "overnight_heavycount_h40",
+  "design_sha256": "8ebed8ac2ee6950e2e643e42033502fecf31cd7af268c4144d02f3c5f7c3aea4",
+  "status": "complete",
+  "n_blocks": 13,
+  "blocks_completed": 13,
+  "started_utc": "2026-10-26T19:52:22.922213+00:00",
+  "finished_utc": "2026-10-26T20:03:34.749705+00:00"
+ },
+ "design_file_sha256": "8ebed8ac2ee6950e2e643e42033502fecf31cd7af268c4144d02f3c5f7c3aea4",
+ "design_sha_matches_session": true,
+ "design_sha_file_matches": true,
+ "n_run_dirs": 52,
+ "code_versions": {
+  "('9d8ea221', True, 'ed70c36d')": 52
+ },
+ "status_by_condition": {
+  "('B0_P_only', 'ok', True)": 13,
+  "('B4', 'ok', True)": 13,
+  "('B4_param_first', 'ok', True)": 13,
+  "('PRED_RANK_GREEDY', 'ok', True)": 13
+ },
+ "event_logs_hash_ok": 52,
+ "event_logs_bad": [],
+ "runs_not_ok_or_unverified": [],
+ "mean_per_run_s": {
+  "B0_P_only": {
+   "makespan_event_log": 7.3344405692142365,
+   "extra.decision_time_total_s (coordinator summary)": 0.13657325332482848,
+   "sum decision_time_s over task_dispatched events": 0.004715223671295322
+  },
+  "B4": {
+   "makespan_event_log": 5.954925876952564,
+   "extra.decision_time_total_s (coordinator summary)": 0.1910948114326367,
+   "sum decision_time_s over task_dispatched events": 0.006750831040195548
+  },
+  "B4_param_first": {
+   "makespan_event_log": 5.65902080005393,
+   "extra.decision_time_total_s (coordinator summary)": 0.1515051847180495,
+   "sum decision_time_s over task_dispatched events": 0.00669484596269635
+  },
+  "PRED_RANK_GREEDY": {
+   "makespan_event_log": 5.721934638469695,
+   "extra.decision_time_total_s (coordinator summary)": 0.0956120292763584,
+   "sum decision_time_s over task_dispatched events": 0.01582816895097494
+  }
+ }
+}

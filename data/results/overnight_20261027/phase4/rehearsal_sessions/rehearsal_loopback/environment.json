@@ -1,0 +1,547 @@
+{
+  "generated_at_utc": "2026-10-26T18:01:11.059811+00:00",
+  "base": {
+    "schema_version": 1,
+    "generated_at_utc": "2026-10-26T18:01:09.410186+00:00",
+    "topology": {
+      "available": true,
+      "error": null,
+      "raw_logical_processor_count": 20,
+      "efficiency_classes_observed": [
+        0,
+        1
+      ],
+      "p_core_logical_processors": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "e_core_logical_processors": [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "core_groups": {
+        "0": [
+          0,
+          1
+        ],
+        "2": [
+          2,
+          3
+        ],
+        "4": [
+          4,
+          5
+        ],
+        "6": [
+          6,
+          7
+        ],
+        "8": [
+          8,
+          9
+        ],
+        "10": [
+          10,
+          11
+        ],
+        "12": [
+          12
+        ],
+        "13": [
+          13
+        ],
+        "14": [
+          14
+        ],
+        "15": [
+          15
+        ],
+        "16": [
+          16
+        ],
+        "17": [
+          17
+        ],
+        "18": [
+          18
+        ],
+        "19": [
+          19
+        ]
+      },
+      "processors": [
+        {
+          "logical_processor_index": 0,
+          "core_index": 0,
+          "efficiency_class": 1,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 1,
+          "core_index": 0,
+          "efficiency_class": 1,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 2,
+          "core_index": 2,
+          "efficiency_class": 1,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 3,
+          "core_index": 2,
+          "efficiency_class": 1,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 4,
+          "core_index": 4,
+          "efficiency_class": 1,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 5,
+          "core_index": 4,
+          "efficiency_class": 1,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 6,
+          "core_index": 6,
+          "efficiency_class": 1,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 7,
+          "core_index": 6,
+          "efficiency_class": 1,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 8,
+          "core_index": 8,
+          "efficiency_class": 1,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 9,
+          "core_index": 8,
+          "efficiency_class": 1,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 10,
+          "core_index": 10,
+          "efficiency_class": 1,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 11,
+          "core_index": 10,
+          "efficiency_class": 1,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 12,
+          "core_index": 12,
+          "efficiency_class": 0,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 13,
+          "core_index": 13,
+          "efficiency_class": 0,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 14,
+          "core_index": 14,
+          "efficiency_class": 0,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 15,
+          "core_index": 15,
+          "efficiency_class": 0,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 16,
+          "core_index": 16,
+          "efficiency_class": 0,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 17,
+          "core_index": 17,
+          "efficiency_class": 0,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 18,
+          "core_index": 18,
+          "efficiency_class": 0,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 19,
+          "core_index": 19,
+          "efficiency_class": 0,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        }
+      ]
+    },
+    "wmi_cross_check": {
+      "available": true,
+      "error": null,
+      "name": "13th Gen Intel(R) Core(TM) i5-13500HX",
+      "number_of_cores": 14,
+      "number_of_logical_processors": 20
+    },
+    "ram_bytes_total": 16858472448,
+    "os": {
+      "system": "Windows",
+      "release": "10",
+      "version": "10.0.26200",
+      "win32_edition": "CoreSingleLanguage"
+    },
+    "python": {
+      "version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+      "version_info": [
+        3,
+        11,
+        9,
+        "final",
+        0
+      ],
+      "executable": "D:\\cao project\\.venv\\Scripts\\python.exe",
+      "implementation": "CPython"
+    },
+    "cpu_affinity_support": {
+      "supported": true,
+      "error": null,
+      "tested_cpu": 0,
+      "readback": [
+        0
+      ]
+    },
+    "planned_worker_pool_config": {
+      "available": true,
+      "p_core_worker_slots": [
+        0,
+        2
+      ],
+      "e_core_worker_slots": [
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "coordinator_reserved_core": 12,
+      "note": "P-core slots use one logical processor per physical P-core (not both SMT threads); E-core slots use all remaining E-core logical processors after reserving one for the coordinator/OS."
+    },
+    "cpu_count_cross_check": {
+      "os_cpu_count": 20,
+      "topology_raw_logical_processor_count": 20,
+      "wmi_number_of_logical_processors": 20,
+      "consistent": true
+    }
+  },
+  "gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU, 6144 MiB, 581.83",
+  "packages": {
+    "numpy": "2.4.6",
+    "pandas": "3.0.6",
+    "psutil": "7.2.2",
+    "matplotlib": "3.11.2",
+    "scipy": "1.17.1",
+    "PyYAML": "6.0.3",
+    "torch": "2.11.0+cu128",
+    "catboost": "1.2.10"
+  },
+  "git": {
+    "commit": "9d8ea2211e6c30fcc7f8448dc14b9cb47ebfe76d",
+    "dirty": true
+  },
+  "software": {
+    "version": "0.1.0+489d34a518de",
+    "src_sha256": "489d34a518de0fc5f823a2ed0f4547bb5b5dcbeae89ccbf450514ec03fe56cec"
+  },
+  "machine": {
+    "cpu": "13th Gen Intel(R) Core(TM) i5-13500HX",
+    "topology": {
+      "available": true,
+      "error": null,
+      "raw_logical_processor_count": 20,
+      "efficiency_classes_observed": [
+        0,
+        1
+      ],
+      "p_core_logical_processors": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "e_core_logical_processors": [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "core_groups": {
+        "0": [
+          0,
+          1
+        ],
+        "2": [
+          2,
+          3
+        ],
+        "4": [
+          4,
+          5
+        ],
+        "6": [
+          6,
+          7
+        ],
+        "8": [
+          8,
+          9
+        ],
+        "10": [
+          10,
+          11
+        ],
+        "12": [
+          12
+        ],
+        "13": [
+          13
+        ],
+        "14": [
+          14
+        ],
+        "15": [
+          15
+        ],
+        "16": [
+          16
+        ],
+        "17": [
+          17
+        ],
+        "18": [
+          18
+        ],
+        "19": [
+          19
+        ]
+      },
+      "processors": [
+        {
+          "logical_processor_index": 0,
+          "core_index": 0,
+          "efficiency_class": 1,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 1,
+          "core_index": 0,
+          "efficiency_class": 1,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 2,
+          "core_index": 2,
+          "efficiency_class": 1,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 3,
+          "core_index": 2,
+          "efficiency_class": 1,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 4,
+          "core_index": 4,
+          "efficiency_class": 1,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 5,
+          "core_index": 4,
+          "efficiency_class": 1,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 6,
+          "core_index": 6,
+          "efficiency_class": 1,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 7,
+          "core_index": 6,
+          "efficiency_class": 1,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 8,
+          "core_index": 8,
+          "efficiency_class": 1,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 9,
+          "core_index": 8,
+          "efficiency_class": 1,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 10,
+          "core_index": 10,
+          "efficiency_class": 1,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 11,
+          "core_index": 10,
+          "efficiency_class": 1,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 12,
+          "core_index": 12,
+          "efficiency_class": 0,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 13,
+          "core_index": 13,
+          "efficiency_class": 0,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 14,
+          "core_index": 14,
+          "efficiency_class": 0,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 15,
+          "core_index": 15,
+          "efficiency_class": 0,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 16,
+          "core_index": 16,
+          "efficiency_class": 0,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 17,
+          "core_index": 17,
+          "efficiency_class": 0,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 18,
+          "core_index": 18,
+          "efficiency_class": 0,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        },
+        {
+          "logical_processor_index": 19,
+          "core_index": 19,
+          "efficiency_class": 0,
+          "numa_node_index": 0,
+          "last_level_cache_index": 0
+        }
+      ]
+    },
+    "ram_bytes_total": 16858472448,
+    "os": {
+      "system": "Windows",
+      "release": "10",
+      "version": "10.0.26200",
+      "win32_edition": "CoreSingleLanguage"
+    },
+    "gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU, 6144 MiB, 581.83"
+  },
+  "machine_id": "681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978",
+  "environment_hash": "bac0fdd048d7d4cd07d46a4ed4fc15a0d5b21cd94b71541be631229f3f1ed53b"
+}

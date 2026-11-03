@@ -1,0 +1,51 @@
+{
+ "session_dir": "data\\results\\overnight_20261027\\phase3c\\sessions\\dose_h006",
+ "session": {
+  "session_id": "dose_h006",
+  "design_name": "overnight_dose_h006",
+  "design_sha256": "93fd164cde05b8f9395c90cf2b26eaae2d16f26219216fe586707a9a067d99e8",
+  "status": "complete",
+  "n_blocks": 13,
+  "blocks_completed": 13,
+  "started_utc": "2026-10-26T18:29:45.881936+00:00",
+  "finished_utc": "2026-10-26T18:32:34.689687+00:00"
+ },
+ "design_file_sha256": "93fd164cde05b8f9395c90cf2b26eaae2d16f26219216fe586707a9a067d99e8",
+ "design_sha_matches_session": true,
+ "design_sha_file_matches": true,
+ "n_run_dirs": 52,
+ "code_versions": {
+  "('9d8ea221', True, 'ed70c36d')": 52
+ },
+ "status_by_condition": {
+  "('B0_P_only', 'ok', True)": 13,
+  "('B4', 'ok', True)": 13,
+  "('B4_param_first', 'ok', True)": 13,
+  "('PRED_RANK_GREEDY', 'ok', True)": 13
+ },
+ "event_logs_hash_ok": 52,
+ "event_logs_bad": [],
+ "runs_not_ok_or_unverified": [],
+ "mean_per_run_s": {
+  "B0_P_only": {
+   "makespan_event_log": 2.1083752077001217,
+   "extra.decision_time_total_s (coordinator summary)": 0.1417942329739722,
+   "sum decision_time_s over task_dispatched events": 0.004530354008938258
+  },
+  "B4": {
+   "makespan_event_log": 1.7854175384496698,
+   "extra.decision_time_total_s (coordinator summary)": 0.20733281412126067,
+   "sum decision_time_s over task_dispatched events": 0.006618038303433702
+  },
+  "B4_param_first": {
+   "makespan_event_log": 1.7719834692095622,
+   "extra.decision_time_total_s (coordinator summary)": 0.17138723176545823,
+   "sum decision_time_s over task_dispatched events": 0.006760146074856703
+  },
+  "PRED_RANK_GREEDY": {
+   "makespan_event_log": 1.7378152846537818,
+   "extra.decision_time_total_s (coordinator summary)": 0.09719596849754453,
+   "sum decision_time_s over task_dispatched events": 0.015968622630820252
+  }
+ }
+}

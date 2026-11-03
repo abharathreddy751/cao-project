@@ -1,0 +1,51 @@
+{
+ "session_dir": "data\\results\\overnight_20261027\\phase3c\\sessions\\dose_h040",
+ "session": {
+  "session_id": "dose_h040",
+  "design_name": "overnight_dose_h040",
+  "design_sha256": "4beb7283119799e3dbf0b45577b14ed414db5c986690586a310d8f15ebffa548",
+  "status": "complete",
+  "n_blocks": 13,
+  "blocks_completed": 13,
+  "started_utc": "2026-10-26T18:35:46.175198+00:00",
+  "finished_utc": "2026-10-26T18:39:31.701343+00:00"
+ },
+ "design_file_sha256": "4beb7283119799e3dbf0b45577b14ed414db5c986690586a310d8f15ebffa548",
+ "design_sha_matches_session": true,
+ "design_sha_file_matches": true,
+ "n_run_dirs": 52,
+ "code_versions": {
+  "('9d8ea221', True, 'ed70c36d')": 52
+ },
+ "status_by_condition": {
+  "('B0_P_only', 'ok', True)": 13,
+  "('B4', 'ok', True)": 13,
+  "('B4_param_first', 'ok', True)": 13,
+  "('PRED_RANK_GREEDY', 'ok', True)": 13
+ },
+ "event_logs_hash_ok": 52,
+ "event_logs_bad": [],
+ "runs_not_ok_or_unverified": [],
+ "mean_per_run_s": {
+  "B0_P_only": {
+   "makespan_event_log": 2.6390727846166837,
+   "extra.decision_time_total_s (coordinator summary)": 0.14094547505597943,
+   "sum decision_time_s over task_dispatched events": 0.004705515349856936
+  },
+  "B4": {
+   "makespan_event_log": 2.347082315397879,
+   "extra.decision_time_total_s (coordinator summary)": 0.19603500792828316,
+   "sum decision_time_s over task_dispatched events": 0.006804953911341727
+  },
+  "B4_param_first": {
+   "makespan_event_log": 2.130452553840139,
+   "extra.decision_time_total_s (coordinator summary)": 0.1721629293080276,
+   "sum decision_time_s over task_dispatched events": 0.006756292620243935
+  },
+  "PRED_RANK_GREEDY": {
+   "makespan_event_log": 2.1655462076708387,
+   "extra.decision_time_total_s (coordinator summary)": 0.0976499247794541,
+   "sum decision_time_s over task_dispatched events": 0.016079315244076915
+  }
+ }
+}

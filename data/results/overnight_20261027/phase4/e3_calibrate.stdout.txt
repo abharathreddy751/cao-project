@@ -1,0 +1,1 @@
+﻿link calibration (shim zero): transfer = 0.547 ms + 3.274 ns/byte (n=60, median |resid| 0.265 ms) -> data\profiles\overnight_remote_t512_it30\remote_profile.json

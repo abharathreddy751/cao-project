@@ -1,0 +1,6 @@
+test,cond,n_blocks,statistic,p_value,multiplicity
+friedman,all,12,22.133333333333326,0.00018853633019760764,
+wilcoxon_vs_ref,B4_remote_fast_lan,12,34.0,0.7333984375,unadjusted (cross-check only)
+wilcoxon_vs_ref,EFT_E1_no_remote,12,25.0,0.30126953125,unadjusted (cross-check only)
+wilcoxon_vs_ref,EFT_E1_remote_fast_lan,12,8.0,0.01220703125,unadjusted (cross-check only)
+wilcoxon_vs_ref,EFT_E1_remote_slow_wan,12,19.0,0.12939453125,unadjusted (cross-check only)

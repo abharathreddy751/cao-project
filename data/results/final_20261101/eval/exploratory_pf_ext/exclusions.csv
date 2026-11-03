@@ -1,0 +1,4 @@
+run_id,condition,block,reason
+eval_h16_l120__b0000_08_PRED_RANK_GREEDY_E2E_ext,PRED_RANK_GREEDY_E2E_ext,0,warm-up block (design rule)
+eval_h16_l120__b0000_09_B4_param_first_ext,B4_param_first_ext,0,warm-up block (design rule)
+eval_h16_l120__b0000_23_PRED_RANK_GREEDY_ext,PRED_RANK_GREEDY_ext,0,warm-up block (design rule)

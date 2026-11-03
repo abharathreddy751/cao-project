@@ -1,0 +1,16 @@
+﻿img_aggregate        64 E  setup  107.757 ms
+img_aggregate        64 P  setup   54.305 ms
+img_denoise      262144 E  setup   13.887 ms
+img_denoise      262144 G  setup   18.476 ms
+img_denoise      262144 P  setup   12.571 ms
+img_edges        262144 E  setup   12.911 ms
+img_edges        262144 G  setup   11.097 ms
+img_edges        262144 P  setup   11.584 ms
+img_features     262144 E  setup   14.252 ms
+img_features     262144 G  setup   11.771 ms
+img_features     262144 P  setup   13.739 ms
+img_source       262144 E  setup    4.801 ms
+img_source       262144 P  setup    3.186 ms
+overhead E: 2.085 ms
+overhead G: 0.992 ms
+overhead P: 1.384 ms

@@ -1,0 +1,7 @@
+run_id,condition,block,reason
+exit_fix__b0000_00_B4_param_first,B4_param_first,0,warm-up block (design rule)
+exit_fix__b0000_01_PRED_RANK_GREEDY_fix,PRED_RANK_GREEDY_fix,0,warm-up block (design rule)
+exit_fix__b0000_02_PRED_RANK_GREEDY,PRED_RANK_GREEDY,0,warm-up block (design rule)
+exit_fix__b0000_03_B4,B4,0,warm-up block (design rule)
+exit_fix__b0000_04_B4_param_first_fix,B4_param_first_fix,0,warm-up block (design rule)
+exit_fix__b0000_05_B4_fix,B4_fix,0,warm-up block (design rule)

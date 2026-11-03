@@ -1,0 +1,74 @@
+{
+ "name": "smoke_exit_fix",
+ "evidence_label": "real",
+ "seed": 20261201,
+ "n_blocks": 2,
+ "instances": [
+  "order_x1"
+ ],
+ "warmup_blocks": 1,
+ "min_free_ram_gb": 0.8,
+ "require_ac_power": true,
+ "reference": "B4",
+ "conditions": [
+  {
+   "name": "B4",
+   "policy": "B4",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "tile": 512,
+    "seed": 0,
+    "order_seeds": {
+     "order_x1": 4001,
+     "order_x2": 4002,
+     "order_x3": 4003,
+     "order_x4": 4004
+    },
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json"
+   }
+  },
+  {
+   "name": "B4_fix",
+   "policy": "B4",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "tile": 512,
+    "seed": 0,
+    "order_seeds": {
+     "order_x1": 4001,
+     "order_x2": 4002,
+     "order_x3": 4003,
+     "order_x4": 4004
+    },
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "early_exit_fix": true
+   }
+  }
+ ]
+}

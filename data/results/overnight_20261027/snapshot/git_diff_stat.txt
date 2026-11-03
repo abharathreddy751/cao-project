@@ -1,0 +1,2 @@
+﻿ data/results/study2_20261024/progress.txt | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)

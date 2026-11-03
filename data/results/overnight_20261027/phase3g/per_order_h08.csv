@@ -1,0 +1,7 @@
+order,n_blocks,mean_B4_s,mean_B4_param_first_s,mean_B0_P_only_s,mean_PRED_RANK_GREEDY_s,PRED_minus_B4_pct,PRED_minus_hand_pct,PRED_faster_than_B4,PRED_faster_than_hand
+order_k1,3,3.6849,2.7396,3.1588,2.7621,-25.04,0.82,True,False
+order_k2,3,3.6287,2.6934,3.0765,2.7181,-25.09,0.92,True,False
+order_k3,3,3.6886,2.6688,3.1022,2.6624,-27.82,-0.24,True,True
+order_k4,3,3.7479,2.6722,3.0822,2.6584,-29.07,-0.51,True,True
+TOTAL_orders_where_PRED_faster_than_B4,4,of,4
+TOTAL_orders_where_PRED_faster_than_hand_rule,2,of,4

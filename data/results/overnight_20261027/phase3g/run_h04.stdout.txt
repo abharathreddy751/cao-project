@@ -1,0 +1,16 @@
+﻿free RAM 3.87 GB, threshold 2.0 GB: OK
+{
+  "session_id": "heavy04",
+  "design_name": "overnight_heavycount_h04",
+  "design_sha256": "09d7329b3ca96c2409a513fbd89d50fec05f974aa9b6c2a05b390d5bc0dfacca",
+  "evidence_label": "real",
+  "machine_id": "681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978",
+  "environment_hash": "bac0fdd048d7d4cd07d46a4ed4fc15a0d5b21cd94b71541be631229f3f1ed53b",
+  "started_utc": "2026-10-26T19:43:50.286517+00:00",
+  "status": "complete",
+  "reason": null,
+  "n_blocks": 13,
+  "blocks_completed": 13,
+  "finished_utc": "2026-10-26T19:47:30.813224+00:00"
+}
+exit=0

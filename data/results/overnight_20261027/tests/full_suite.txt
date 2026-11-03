@@ -1,0 +1,20 @@
+﻿........................................................................ [ 15%]
+........................................................................ [ 30%]
+........................................................................ [ 45%]
+........................................................................ [ 61%]
+........................................................................ [ 76%]
+........................................................................ [ 91%]
+........................................                                 [100%]
+============================ slowest 10 durations =============================
+10.38s call     tests/test_revival.py::test_revival_adapter_runs_a_contended_mixed_dag_and_verifies_the_output
+10.34s call     tests/test_dashboard.py::test_live_execution_uses_the_real_runtime
+9.16s call     tests/test_study2.py::test_scheduling_cost_guard_flags_a_run_dominated_by_the_policy
+8.76s call     tests/test_study2.py::test_g_pool_run_is_within_tolerance_and_confined
+8.65s call     tests/test_remote_adapter.py::test_calibrate_link_writes_profile_with_R_rows_and_fit
+8.64s call     tests/test_study2.py::test_one_pool_serves_gpu_and_no_gpu_conditions
+8.58s call     tests/test_study2.py::test_static_map_policy_runs_without_gpu
+8.51s call     tests/test_study2.py::test_mixed_batch_run_is_verified
+8.33s call     tests/test_study2.py::test_cpu_run_is_exactly_the_reference
+8.31s call     tests/test_study2.py::test_a_wrong_output_is_not_verified
+472 passed in 235.99s (0:03:55)
+exit=0

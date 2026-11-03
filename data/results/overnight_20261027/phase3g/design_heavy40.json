@@ -1,0 +1,137 @@
+{
+ "name": "overnight_heavycount_h40",
+ "evidence_label": "real",
+ "seed": 20261440,
+ "n_blocks": 13,
+ "instances": [
+  "order_k1",
+  "order_k2",
+  "order_k3",
+  "order_k4"
+ ],
+ "warmup_blocks": 1,
+ "min_free_ram_gb": 0.8,
+ "require_ac_power": true,
+ "reference": "B4",
+ "conditions": [
+  {
+   "name": "B4",
+   "policy": "B4",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "iters": {
+     "small": [
+      24,
+      2
+     ],
+     "big": [
+      40,
+      120
+     ]
+    },
+    "tile": 512,
+    "seed": 0,
+    "order_seeds": {
+     "order_k1": 8001,
+     "order_k2": 8002,
+     "order_k3": 8003,
+     "order_k4": 8004
+    },
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json"
+   }
+  },
+  {
+   "name": "B4_param_first",
+   "policy": "B4",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "iters": {
+     "small": [
+      24,
+      2
+     ],
+     "big": [
+      40,
+      120
+     ]
+    },
+    "tile": 512,
+    "seed": 0,
+    "order_seeds": {
+     "order_k1": 8001,
+     "order_k2": 8002,
+     "order_k3": 8003,
+     "order_k4": 8004
+    },
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "binding": "param_first"
+   }
+  },
+  {
+   "name": "B0_P_only",
+   "policy": "B0_P_only",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "iters": {
+     "small": [
+      24,
+      2
+     ],
+     "big": [
+      40,
+      120
+     ]
+    },
+    "tile": 512,
+    "seed": 0,
+    "order_seeds": {
+     "order_k1": 8001,
+     "order_k2": 8002,
+     "order_k3": 8003,
+     "order_k4": 8004
+    },
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json"
+   }
+  },
+  {
+   "name": "PRED_RANK_GREEDY",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "iters": {
+     "small": [
+      24,
+      2
+     ],
+     "big": [
+      40,
+      120
+     ]
+    },
+    "tile": 512,
+    "seed": 0,
+    "order_seeds": {
+     "order_k1": 8001,
+     "order_k2": 8002,
+     "order_k3": 8003,
+     "order_k4": 8004
+    },
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "binding": "pred_rank_greedy",
+    "param_model": "D:\\cao project\\data\\results\\study2_20261024\\param_model_cover1234.json"
+   }
+  }
+ ]
+}

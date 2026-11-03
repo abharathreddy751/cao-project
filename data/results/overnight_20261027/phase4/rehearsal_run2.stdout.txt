@@ -1,0 +1,14 @@
+﻿{
+  "session_id": "rehearsal_loopback2",
+  "design_name": "rehearsal_loopback",
+  "design_sha256": "5559ae0c8e0cea78d11c6690bbac245897abc6cc333e017f3b1bcc9c6a85f089",
+  "evidence_label": "emulation",
+  "machine_id": "681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978",
+  "environment_hash": "bac0fdd048d7d4cd07d46a4ed4fc15a0d5b21cd94b71541be631229f3f1ed53b",
+  "started_utc": "2026-10-26T18:05:50.251363+00:00",
+  "status": "complete",
+  "reason": null,
+  "n_blocks": 5,
+  "blocks_completed": 5,
+  "finished_utc": "2026-10-26T18:08:05.133032+00:00"
+}

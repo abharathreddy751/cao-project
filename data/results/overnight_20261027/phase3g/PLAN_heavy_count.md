@@ -1,0 +1,5 @@
+# Phase 3g plan: dependence on the number of heavy chains (EXPLORATORY, written before any run)
+
+Question: the registered and unseen-order results use 16 heavy chains of 64. Is the gain over blind greedy B4 specific to that count? Sessions with H = 4, 8 and 40 heavy chains (heavy 120 denoise iterations, light 2; light chains 64 - H), 6 P + 7 E workers (13 workers), 4 new orders (seeds 8001 to 8004), 13 blocks each (block 0 warm-up, 12 analysed), conditions B4 (reference), B4_param_first, B0_P_only, PRED_RANK_GREEDY (unchanged model and profile).
+No direction is declared (reasoning allows both: with few heavy chains B4 can start one very late, with a majority of heavy chains there is little left to reorder). Report each effect with its 95% interval and per-order means; nothing is classified by a threshold. One run per session, same code hash (`ed70c36d`), no repeat.
+Limits: one family, one machine, 4 orders per session, exploratory; the model was fitted at 2 and 120 iterations, which these sessions use, so no interpolation is involved.

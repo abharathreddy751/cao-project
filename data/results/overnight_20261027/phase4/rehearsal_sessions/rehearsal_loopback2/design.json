@@ -1,0 +1,148 @@
+{
+ "name": "rehearsal_loopback",
+ "evidence_label": "real",
+ "seed": 20261201,
+ "n_blocks": 5,
+ "instances": [
+  null
+ ],
+ "warmup_blocks": 1,
+ "min_free_ram_gb": 2.0,
+ "reference": "EFT_E1_no_remote",
+ "run_timeout_s": 900,
+ "analysis_plan": {
+  "profile_check": {
+   "img_denoise": {
+    "modelled_transfer_s": 0.0031809596175840157,
+    "R_kernel_s": 0.018962200032547116,
+    "transfer_over_R_kernel": 0.16775266646929946
+   },
+   "img_edges": {
+    "modelled_transfer_s": 0.0023740640957975742,
+    "R_kernel_s": 0.01771679997909814,
+    "transfer_over_R_kernel": 0.13400072804335086
+   },
+   "img_features": {
+    "modelled_transfer_s": 0.0011641517418175971,
+    "R_kernel_s": 0.006339100073091686,
+    "transfer_over_R_kernel": 0.1836462160866031
+   }
+  },
+  "denoise_iterations": 1,
+  "decision_rule": "remote helps: 95% CI of EFT_E1_remote vs EFT_E1_no_remote entirely below 0 (Holm p < 0.05); no measurable advantage: interval includes 0; too costly: interval entirely above 0",
+  "note": "no threshold is derived from the data; the profile_check ratios are recorded, not used for exclusion"
+ },
+ "conditions": [
+  {
+   "name": "B0_P_only",
+   "policy": "B0_P_only",
+   "estimator": null,
+   "workload": {
+    "kind": "remote_image"
+   },
+   "kwargs": {
+    "tile": 512,
+    "n_images": 16,
+    "seed": 0,
+    "denoise_iterations": 1,
+    "profile": "D:\\cao project\\data\\profiles\\overnight_rehearsal_t512_it1\\pi_profile.json",
+    "remote_stages": [
+     "img_denoise",
+     "img_edges",
+     "img_features"
+    ],
+    "remote": false
+   }
+  },
+  {
+   "name": "B4_no_remote",
+   "policy": "B4_greedy_eligible",
+   "estimator": null,
+   "workload": {
+    "kind": "remote_image"
+   },
+   "kwargs": {
+    "tile": 512,
+    "n_images": 16,
+    "seed": 0,
+    "denoise_iterations": 1,
+    "profile": "D:\\cao project\\data\\profiles\\overnight_rehearsal_t512_it1\\pi_profile.json",
+    "remote_stages": [
+     "img_denoise",
+     "img_edges",
+     "img_features"
+    ],
+    "remote": false
+   }
+  },
+  {
+   "name": "EFT_E1_no_remote",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "remote_image"
+   },
+   "kwargs": {
+    "tile": 512,
+    "n_images": 16,
+    "seed": 0,
+    "denoise_iterations": 1,
+    "profile": "D:\\cao project\\data\\profiles\\overnight_rehearsal_t512_it1\\pi_profile.json",
+    "remote_stages": [
+     "img_denoise",
+     "img_edges",
+     "img_features"
+    ],
+    "remote": false
+   }
+  },
+  {
+   "name": "B4_remote",
+   "policy": "B4_greedy_eligible",
+   "estimator": null,
+   "workload": {
+    "kind": "remote_image"
+   },
+   "kwargs": {
+    "tile": 512,
+    "n_images": 16,
+    "seed": 0,
+    "denoise_iterations": 1,
+    "profile": "D:\\cao project\\data\\profiles\\overnight_rehearsal_t512_it1\\pi_profile.json",
+    "remote_stages": [
+     "img_denoise",
+     "img_edges",
+     "img_features"
+    ],
+    "remote": true,
+    "link": {
+     "name": "real"
+    }
+   }
+  },
+  {
+   "name": "EFT_E1_remote",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "remote_image"
+   },
+   "kwargs": {
+    "tile": 512,
+    "n_images": 16,
+    "seed": 0,
+    "denoise_iterations": 1,
+    "profile": "D:\\cao project\\data\\profiles\\overnight_rehearsal_t512_it1\\pi_profile.json",
+    "remote_stages": [
+     "img_denoise",
+     "img_edges",
+     "img_features"
+    ],
+    "remote": true,
+    "link": {
+     "name": "real"
+    }
+   }
+  }
+ ]
+}

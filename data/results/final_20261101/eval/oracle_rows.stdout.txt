@@ -1,0 +1,17 @@
+﻿wrote D:\cao project\data\results\final_20261101\eval\oracle\oracle_rows_h04_l120_cpu.json 2056 rows
+wrote D:\cao project\data\results\final_20261101\eval\oracle\oracle_rows_h04_l120_gpu.json 2568 rows
+wrote D:\cao project\data\results\final_20261101\eval\oracle\oracle_rows_h04_l120_ext.json 2584 rows
+wrote D:\cao project\data\results\final_20261101\eval\oracle\oracle_rows_h16_l120_cpu.json 2056 rows
+wrote D:\cao project\data\results\final_20261101\eval\oracle\oracle_rows_h16_l120_gpu.json 2568 rows
+wrote D:\cao project\data\results\final_20261101\eval\oracle\oracle_rows_h16_l120_ext.json 2632 rows
+wrote D:\cao project\data\results\final_20261101\eval\oracle\oracle_rows_h16_l15_cpu.json 2056 rows
+wrote D:\cao project\data\results\final_20261101\eval\oracle\oracle_rows_h16_l15_gpu.json 2568 rows
+wrote D:\cao project\data\results\final_20261101\eval\oracle\oracle_rows_h16_l15_ext.json 2632 rows
+wrote D:\cao project\data\results\final_20261101\eval\oracle\oracle_rows_h16_l40_cpu.json 2056 rows
+wrote D:\cao project\data\results\final_20261101\eval\oracle\oracle_rows_h16_l40_gpu.json 2568 rows
+wrote D:\cao project\data\results\final_20261101\eval\oracle\oracle_rows_h16_l40_ext.json 2632 rows
+wrote D:\cao project\data\results\final_20261101\eval\oracle\oracle_rows_h40_l120_cpu.json 2056 rows
+wrote D:\cao project\data\results\final_20261101\eval\oracle\oracle_rows_h40_l120_gpu.json 2568 rows
+wrote D:\cao project\data\results\final_20261101\eval\oracle\oracle_rows_h40_l120_ext.json 2728 rows
+wrote D:\cao project\data\results\final_20261101\eval\oracle\oracle_rows_uniform_cpu.json 514 rows
+wrote D:\cao project\data\results\final_20261101\eval\oracle\oracle_rows_uniform_gpu.json 706 rows

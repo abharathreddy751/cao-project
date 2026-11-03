@@ -1,0 +1,9 @@
+﻿python.exe : usage: final_analyze.py [-h] --session SESSION --out OUT [--confirmatory]
+At D:\cao project\scripts\final_stage2.ps1:25 char:9
++         & .\.venv\Scripts\python.exe scripts\final_analyze.py --sessi ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (usage: final_an...--confirmatory]:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+                        [--min-free-gb-sensitivity MIN_FREE_GB_SENSITIVITY]
+final_analyze.py: error: unrecognized arguments: - - c o n f i r m a t o r y

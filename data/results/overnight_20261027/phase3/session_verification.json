@@ -1,0 +1,51 @@
+{
+ "session_dir": "data/results/overnight_20261027/phase3/sessions/gen_unseen_orders",
+ "session": {
+  "session_id": "gen_unseen_orders",
+  "design_name": "overnight_unseen_orders_exploratory",
+  "design_sha256": "a9a8353d9893ae2b0c58cb0695db141640973368a9b6323464514598e765dff2",
+  "status": "complete",
+  "n_blocks": 37,
+  "blocks_completed": 37,
+  "started_utc": "2026-10-26T17:15:02.029246+00:00",
+  "finished_utc": "2026-10-26T17:34:08.757955+00:00"
+ },
+ "design_file_sha256": "a9a8353d9893ae2b0c58cb0695db141640973368a9b6323464514598e765dff2",
+ "design_sha_matches_session": true,
+ "design_sha_file_matches": true,
+ "n_run_dirs": 148,
+ "code_versions": {
+  "('9d8ea221', True, '41a8f43b')": 148
+ },
+ "status_by_condition": {
+  "('B0_P_only', 'ok', True)": 37,
+  "('B4', 'ok', True)": 37,
+  "('B4_param_first', 'ok', True)": 37,
+  "('PRED_RANK_GREEDY', 'ok', True)": 37
+ },
+ "event_logs_hash_ok": 148,
+ "event_logs_bad": [],
+ "runs_not_ok_or_unverified": [],
+ "mean_per_run_s": {
+  "B0_P_only": {
+   "makespan_event_log": 4.1181322378358125,
+   "extra.decision_time_total_s (coordinator summary)": 0.13838885171729065,
+   "sum decision_time_s over task_dispatched events": 0.004801275869328025
+  },
+  "B4": {
+   "makespan_event_log": 3.9697423459508934,
+   "extra.decision_time_total_s (coordinator summary)": 0.1877753218742893,
+   "sum decision_time_s over task_dispatched events": 0.00671194601376113
+  },
+  "B4_param_first": {
+   "makespan_event_log": 3.19690577569103,
+   "extra.decision_time_total_s (coordinator summary)": 0.17299644532928093,
+   "sum decision_time_s over task_dispatched events": 0.006614956734198573
+  },
+  "PRED_RANK_GREEDY": {
+   "makespan_event_log": 3.2009763594565763,
+   "extra.decision_time_total_s (coordinator summary)": 0.09583473747054971,
+   "sum decision_time_s over task_dispatched events": 0.015522646000357094
+  }
+ }
+}

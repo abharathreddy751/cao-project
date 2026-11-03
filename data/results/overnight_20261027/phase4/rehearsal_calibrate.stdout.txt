@@ -1,0 +1,1 @@
+﻿link calibration (shim zero): transfer = 0.760 ms + 1.539 ns/byte (n=60, median |resid| 0.066 ms) -> data\profiles\overnight_rehearsal_t512_it1\pi_profile.json

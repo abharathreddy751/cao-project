@@ -1,0 +1,15 @@
+﻿{
+  "session_id": "eval_uniform",
+  "design_name": "final_eval_uniform",
+  "design_sha256": "36b8f02ad08691e5a8030e8c6463d6201236a2bc66fc84c5a411c925c97a8ce3",
+  "evidence_label": "real",
+  "machine_id": "681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978",
+  "environment_hash": "bac0fdd048d7d4cd07d46a4ed4fc15a0d5b21cd94b71541be631229f3f1ed53b",
+  "started_utc": "2026-11-01T17:24:27.821877+00:00",
+  "status": "complete",
+  "reason": null,
+  "n_blocks": 13,
+  "blocks_completed": 13,
+  "finished_utc": "2026-11-01T17:41:41.952450+00:00"
+}
+exit=0

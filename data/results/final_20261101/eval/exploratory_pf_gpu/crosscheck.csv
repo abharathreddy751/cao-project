@@ -1,0 +1,4 @@
+test,cond,n_blocks,statistic,p_value,multiplicity
+friedman,all,24,4.0,0.1353352832366127,
+wilcoxon_vs_ref,PRED_RANK_GREEDY_E2E_gpu,24,110.0,0.26434290409088135,unadjusted (cross-check only)
+wilcoxon_vs_ref,PRED_RANK_GREEDY_gpu,24,91.0,0.09509599208831787,unadjusted (cross-check only)

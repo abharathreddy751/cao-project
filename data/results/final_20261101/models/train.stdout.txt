@@ -1,0 +1,26 @@
+﻿img_aggregate|E        n=   64 features=[] train_mae=   0.025 ms
+img_aggregate|P        n=   24 features=[] train_mae=   0.013 ms
+img_denoise|E          n= 3344 features=['iterations'] train_mae=  12.405 ms
+img_denoise|G          n=  280 features=['iterations'] train_mae=  55.387 ms
+img_denoise|P          n= 2008 features=['iterations'] train_mae=  12.144 ms
+img_edges|E            n= 2772 features=[] train_mae=   2.287 ms
+img_edges|G            n= 1134 features=[] train_mae=   4.456 ms
+img_edges|P            n= 1726 features=[] train_mae=   2.108 ms
+img_features|E         n= 2927 features=[] train_mae=   0.391 ms
+img_features|G         n=  807 features=[] train_mae=   2.986 ms
+img_features|P         n= 1898 features=[] train_mae=   0.557 ms
+img_source|E           n= 3565 features=[] train_mae=  35.890 ms
+img_source|P           n= 2067 features=[] train_mae=  20.280 ms
+holdout img_aggregate|E {'n': 11, 'mae_s': 1.8826266486113055e-05, 'median_ape': 0.07229435702803072}
+holdout img_aggregate|P {'n': 13, 'mae_s': 9.446180998705909e-06, 'median_ape': 0.07568630538621285}
+holdout img_denoise|E {'n': 641, 'mae_s': 0.019889739011831057, 'median_ape': 0.03969386426280835}
+holdout img_denoise|G {'n': 51, 'mae_s': 0.10039944195994839, 'median_ape': 0.228226960495517}
+holdout img_denoise|P {'n': 844, 'mae_s': 0.017731338644240938, 'median_ape': 0.10946597105051353}
+holdout img_edges|E {'n': 254, 'mae_s': 0.0019370769423475219, 'median_ape': 0.04574295141965798}
+holdout img_edges|G {'n': 607, 'mae_s': 0.004227685022187174, 'median_ape': 0.3038450315763143}
+holdout img_edges|P {'n': 675, 'mae_s': 0.0021661245531834693, 'median_ape': 0.11123739269218992}
+holdout img_features|E {'n': 224, 'mae_s': 0.00044054673686374075, 'median_ape': 0.04895458277439313}
+holdout img_features|G {'n': 417, 'mae_s': 0.0027871586742562243, 'median_ape': 0.31257368996834306}
+holdout img_features|P {'n': 895, 'mae_s': 0.0005337249189091503, 'median_ape': 0.10279473202095064}
+holdout img_source|E {'n': 661, 'mae_s': 0.03338701490496292, 'median_ape': 0.08935921635486706}
+holdout img_source|P {'n': 875, 'mae_s': 0.020364395158055642, 'median_ape': 0.08756475395141859}

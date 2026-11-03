@@ -1,0 +1,21 @@
+{
+  "machine_id": "681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978",
+  "environment_hash": "bac0fdd048d7d4cd07d46a4ed4fc15a0d5b21cd94b71541be631229f3f1ed53b",
+  "evidence_label": "emulation",
+  "design_sha256": "09b12ab0e5c2e376e55d1d8ae58a8831a31a182b22665c75b2d2970d5a9b949b",
+  "code_versions": [
+    "ed70c36d1b74"
+  ],
+  "allow_mixed_code": false,
+  "reference": "B4_no_remote",
+  "seed": 0,
+  "n_boot": 10000,
+  "paths": [
+    "data\\results\\overnight_20261027\\phase4\\e3_sessions\\e3_remote_it30"
+  ],
+  "n_runs": 65,
+  "n_included_primary": 60,
+  "n_excluded": 5,
+  "not_measured_note": "metrics shown as 'not measured' are absent from the raw logs; sched_overhead includes estimator inference (not separable in the log)",
+  "multiplicity_note": "confirmatory family = primary variant, makespan_s, every condition vs the reference (Holm over sign-flip p-values: p_holm); all other rows are exploratory, unadjusted"
+}

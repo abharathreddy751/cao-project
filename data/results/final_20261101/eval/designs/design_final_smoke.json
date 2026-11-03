@@ -1,0 +1,899 @@
+{
+ "name": "final_smoke",
+ "evidence_label": "real",
+ "seed": 20261199,
+ "n_blocks": 2,
+ "instances": [
+  "ord_a",
+  "ord_b",
+  "ord_c",
+  "ord_d"
+ ],
+ "warmup_blocks": 1,
+ "min_free_ram_gb": 0.8,
+ "require_ac_power": true,
+ "reference": "B4_cpu",
+ "conditions": [
+  {
+   "name": "HEFT_param_model_cpu",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "ord_a": 9301,
+     "ord_b": 9302,
+     "ord_c": 9303,
+     "ord_d": 9304
+    },
+    "binding": "param_model_heft",
+    "param_model": "D:\\cao project\\data\\results\\final_20261101\\models\\param_model_final.json"
+   }
+  },
+  {
+   "name": "PEFT_param_model_cpu",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "ord_a": 9301,
+     "ord_b": 9302,
+     "ord_c": 9303,
+     "ord_d": 9304
+    },
+    "binding": "param_model_peft",
+    "param_model": "D:\\cao project\\data\\results\\final_20261101\\models\\param_model_final.json"
+   }
+  },
+  {
+   "name": "HEFT_E2E_cpu",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "ord_a": 9301,
+     "ord_b": 9302,
+     "ord_c": 9303,
+     "ord_d": 9304
+    },
+    "binding": "heft_e2e",
+    "param_model": "D:\\cao project\\data\\results\\final_20261101\\models\\param_model_final.json",
+    "e2e_terms": "D:\\cao project\\data\\results\\final_20261101\\models\\e2e_terms_final.json"
+   }
+  },
+  {
+   "name": "HEFT_ORACLE_REF_cpu",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "ord_a": 9301,
+     "ord_b": 9302,
+     "ord_c": 9303,
+     "ord_d": 9304
+    },
+    "binding": "heft_oracle",
+    "oracle_rows": "D:\\cao project\\data\\results\\final_20261101\\eval\\oracle\\oracle_rows_h16_l120_cpu.json"
+   }
+  },
+  {
+   "name": "B4_cpu",
+   "policy": "B4",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "ord_a": 9301,
+     "ord_b": 9302,
+     "ord_c": 9303,
+     "ord_d": 9304
+    }
+   }
+  },
+  {
+   "name": "B4_param_first_cpu",
+   "policy": "B4",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "ord_a": 9301,
+     "ord_b": 9302,
+     "ord_c": 9303,
+     "ord_d": 9304
+    },
+    "binding": "param_first"
+   }
+  },
+  {
+   "name": "PRED_RANK_GREEDY_cpu",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "ord_a": 9301,
+     "ord_b": 9302,
+     "ord_c": 9303,
+     "ord_d": 9304
+    },
+    "binding": "pred_rank_greedy",
+    "param_model": "D:\\cao project\\data\\results\\final_20261101\\models\\param_model_final.json"
+   }
+  },
+  {
+   "name": "PRED_RANK_GREEDY_E2E_cpu",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "ord_a": 9301,
+     "ord_b": 9302,
+     "ord_c": 9303,
+     "ord_d": 9304
+    },
+    "binding": "pred_rank_greedy_e2e",
+    "param_model": "D:\\cao project\\data\\results\\final_20261101\\models\\param_model_final.json",
+    "e2e_terms": "D:\\cao project\\data\\results\\final_20261101\\models\\e2e_terms_final.json"
+   }
+  },
+  {
+   "name": "HEFT_param_model_gpu",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "ord_a": 9301,
+     "ord_b": 9302,
+     "ord_c": 9303,
+     "ord_d": 9304
+    },
+    "gpu_stage_table": {
+     "img_denoise": false,
+     "img_edges": true,
+     "img_features": true
+    },
+    "binding": "param_model_heft",
+    "param_model": "D:\\cao project\\data\\results\\final_20261101\\models\\param_model_final.json"
+   }
+  },
+  {
+   "name": "PEFT_param_model_gpu",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "ord_a": 9301,
+     "ord_b": 9302,
+     "ord_c": 9303,
+     "ord_d": 9304
+    },
+    "gpu_stage_table": {
+     "img_denoise": false,
+     "img_edges": true,
+     "img_features": true
+    },
+    "binding": "param_model_peft",
+    "param_model": "D:\\cao project\\data\\results\\final_20261101\\models\\param_model_final.json"
+   }
+  },
+  {
+   "name": "HEFT_E2E_gpu",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "ord_a": 9301,
+     "ord_b": 9302,
+     "ord_c": 9303,
+     "ord_d": 9304
+    },
+    "gpu_stage_table": {
+     "img_denoise": false,
+     "img_edges": true,
+     "img_features": true
+    },
+    "binding": "heft_e2e",
+    "param_model": "D:\\cao project\\data\\results\\final_20261101\\models\\param_model_final.json",
+    "e2e_terms": "D:\\cao project\\data\\results\\final_20261101\\models\\e2e_terms_final.json"
+   }
+  },
+  {
+   "name": "HEFT_ORACLE_REF_gpu",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "ord_a": 9301,
+     "ord_b": 9302,
+     "ord_c": 9303,
+     "ord_d": 9304
+    },
+    "gpu_stage_table": {
+     "img_denoise": false,
+     "img_edges": true,
+     "img_features": true
+    },
+    "binding": "heft_oracle",
+    "oracle_rows": "D:\\cao project\\data\\results\\final_20261101\\eval\\oracle\\oracle_rows_h16_l120_gpu.json"
+   }
+  },
+  {
+   "name": "B4_gpu",
+   "policy": "B4",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "ord_a": 9301,
+     "ord_b": 9302,
+     "ord_c": 9303,
+     "ord_d": 9304
+    },
+    "gpu_stage_table": {
+     "img_denoise": false,
+     "img_edges": true,
+     "img_features": true
+    },
+    "policy_cfg": {
+     "B4_greedy_eligible": {
+      "priority": [
+       "G",
+       "P",
+       "E"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "B4_param_first_gpu",
+   "policy": "B4",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "ord_a": 9301,
+     "ord_b": 9302,
+     "ord_c": 9303,
+     "ord_d": 9304
+    },
+    "gpu_stage_table": {
+     "img_denoise": false,
+     "img_edges": true,
+     "img_features": true
+    },
+    "binding": "param_first",
+    "priority": [
+     "G",
+     "P",
+     "E"
+    ]
+   }
+  },
+  {
+   "name": "PRED_RANK_GREEDY_gpu",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "ord_a": 9301,
+     "ord_b": 9302,
+     "ord_c": 9303,
+     "ord_d": 9304
+    },
+    "gpu_stage_table": {
+     "img_denoise": false,
+     "img_edges": true,
+     "img_features": true
+    },
+    "binding": "pred_rank_greedy",
+    "param_model": "D:\\cao project\\data\\results\\final_20261101\\models\\param_model_final.json"
+   }
+  },
+  {
+   "name": "PRED_RANK_GREEDY_E2E_gpu",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "ord_a": 9301,
+     "ord_b": 9302,
+     "ord_c": 9303,
+     "ord_d": 9304
+    },
+    "gpu_stage_table": {
+     "img_denoise": false,
+     "img_edges": true,
+     "img_features": true
+    },
+    "binding": "pred_rank_greedy_e2e",
+    "param_model": "D:\\cao project\\data\\results\\final_20261101\\models\\param_model_final.json",
+    "e2e_terms": "D:\\cao project\\data\\results\\final_20261101\\models\\e2e_terms_final.json"
+   }
+  },
+  {
+   "name": "HEFT_param_model_ext",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "ord_a": 9301,
+     "ord_b": 9302,
+     "ord_c": 9303,
+     "ord_d": 9304
+    },
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    },
+    "gpu_region": [
+     "D:\\cao project\\data\\results\\stage1_20261011\\gpu\\gpu_spike.json",
+     "D:\\cao project\\data\\results\\final_20261101\\gpu_spike_iters\\spike_20261101T144333\\gpu_spike.json"
+    ],
+    "binding": "param_model_heft",
+    "param_model": "D:\\cao project\\data\\results\\final_20261101\\models\\param_model_final.json"
+   }
+  },
+  {
+   "name": "PEFT_param_model_ext",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "ord_a": 9301,
+     "ord_b": 9302,
+     "ord_c": 9303,
+     "ord_d": 9304
+    },
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    },
+    "gpu_region": [
+     "D:\\cao project\\data\\results\\stage1_20261011\\gpu\\gpu_spike.json",
+     "D:\\cao project\\data\\results\\final_20261101\\gpu_spike_iters\\spike_20261101T144333\\gpu_spike.json"
+    ],
+    "binding": "param_model_peft",
+    "param_model": "D:\\cao project\\data\\results\\final_20261101\\models\\param_model_final.json"
+   }
+  },
+  {
+   "name": "HEFT_E2E_ext",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "ord_a": 9301,
+     "ord_b": 9302,
+     "ord_c": 9303,
+     "ord_d": 9304
+    },
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    },
+    "gpu_region": [
+     "D:\\cao project\\data\\results\\stage1_20261011\\gpu\\gpu_spike.json",
+     "D:\\cao project\\data\\results\\final_20261101\\gpu_spike_iters\\spike_20261101T144333\\gpu_spike.json"
+    ],
+    "binding": "heft_e2e",
+    "param_model": "D:\\cao project\\data\\results\\final_20261101\\models\\param_model_final.json",
+    "e2e_terms": "D:\\cao project\\data\\results\\final_20261101\\models\\e2e_terms_final.json"
+   }
+  },
+  {
+   "name": "HEFT_ORACLE_REF_ext",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "ord_a": 9301,
+     "ord_b": 9302,
+     "ord_c": 9303,
+     "ord_d": 9304
+    },
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    },
+    "gpu_region": [
+     "D:\\cao project\\data\\results\\stage1_20261011\\gpu\\gpu_spike.json",
+     "D:\\cao project\\data\\results\\final_20261101\\gpu_spike_iters\\spike_20261101T144333\\gpu_spike.json"
+    ],
+    "binding": "heft_oracle",
+    "oracle_rows": "D:\\cao project\\data\\results\\final_20261101\\eval\\oracle\\oracle_rows_h16_l120_ext.json"
+   }
+  },
+  {
+   "name": "B4_ext",
+   "policy": "B4",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "ord_a": 9301,
+     "ord_b": 9302,
+     "ord_c": 9303,
+     "ord_d": 9304
+    },
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    },
+    "gpu_region": [
+     "D:\\cao project\\data\\results\\stage1_20261011\\gpu\\gpu_spike.json",
+     "D:\\cao project\\data\\results\\final_20261101\\gpu_spike_iters\\spike_20261101T144333\\gpu_spike.json"
+    ],
+    "policy_cfg": {
+     "B4_greedy_eligible": {
+      "priority": [
+       "G",
+       "P",
+       "E"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "B4_param_first_ext",
+   "policy": "B4",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "ord_a": 9301,
+     "ord_b": 9302,
+     "ord_c": 9303,
+     "ord_d": 9304
+    },
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    },
+    "gpu_region": [
+     "D:\\cao project\\data\\results\\stage1_20261011\\gpu\\gpu_spike.json",
+     "D:\\cao project\\data\\results\\final_20261101\\gpu_spike_iters\\spike_20261101T144333\\gpu_spike.json"
+    ],
+    "binding": "param_first",
+    "priority": [
+     "G",
+     "P",
+     "E"
+    ]
+   }
+  },
+  {
+   "name": "PRED_RANK_GREEDY_ext",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "ord_a": 9301,
+     "ord_b": 9302,
+     "ord_c": 9303,
+     "ord_d": 9304
+    },
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    },
+    "gpu_region": [
+     "D:\\cao project\\data\\results\\stage1_20261011\\gpu\\gpu_spike.json",
+     "D:\\cao project\\data\\results\\final_20261101\\gpu_spike_iters\\spike_20261101T144333\\gpu_spike.json"
+    ],
+    "binding": "pred_rank_greedy",
+    "param_model": "D:\\cao project\\data\\results\\final_20261101\\models\\param_model_final.json"
+   }
+  },
+  {
+   "name": "PRED_RANK_GREEDY_E2E_ext",
+   "policy": "EFT_E1",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "ord_a": 9301,
+     "ord_b": 9302,
+     "ord_c": 9303,
+     "ord_d": 9304
+    },
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    },
+    "gpu_region": [
+     "D:\\cao project\\data\\results\\stage1_20261011\\gpu\\gpu_spike.json",
+     "D:\\cao project\\data\\results\\final_20261101\\gpu_spike_iters\\spike_20261101T144333\\gpu_spike.json"
+    ],
+    "binding": "pred_rank_greedy_e2e",
+    "param_model": "D:\\cao project\\data\\results\\final_20261101\\models\\param_model_final.json",
+    "e2e_terms": "D:\\cao project\\data\\results\\final_20261101\\models\\e2e_terms_final.json"
+   }
+  }
+ ]
+}

@@ -1,0 +1,6 @@
+run_id,condition,block,reason
+e3_remote_it30__b0000_00_EFT_E1_no_remote,EFT_E1_no_remote,0,warm-up block (design rule)
+e3_remote_it30__b0000_01_B4_remote_fast_lan,B4_remote_fast_lan,0,warm-up block (design rule)
+e3_remote_it30__b0000_02_EFT_E1_remote_slow_wan,EFT_E1_remote_slow_wan,0,warm-up block (design rule)
+e3_remote_it30__b0000_03_B4_no_remote,B4_no_remote,0,warm-up block (design rule)
+e3_remote_it30__b0000_04_EFT_E1_remote_fast_lan,EFT_E1_remote_fast_lan,0,warm-up block (design rule)

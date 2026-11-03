@@ -1,0 +1,133 @@
+cond,ref,kind,metric,tier,n_blocks,effect_pct,ci_lo_pct,ci_hi_pct,p_perm,classification
+B4_cpu,HEFT_param_model_cpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,61.011714152320586,52.99501491402945,69.65157814112355,0.0006999300069993001,slower
+B4_cpu,HEFT_param_model_cpu,within configuration,makespan_s,exploratory (unadjusted),12,64.19919213941844,55.69052867491911,73.33181160543829,0.0005999400059994001,slower
+B4_ext,HEFT_param_model_ext,within configuration,makespan_e2e_s,exploratory (unadjusted),12,36.725805376626575,22.083599443028955,53.38176149521503,0.00029997000299970003,slower
+B4_ext,HEFT_param_model_ext,within configuration,makespan_s,exploratory (unadjusted),12,39.343354542977835,24.184301393375108,56.33120994279839,0.0004999500049995,slower
+B4_ext,B4_cpu,configuration effect,makespan_e2e_s,exploratory (unadjusted),12,-20.240500122901082,-29.537732841553634,-9.622795499759306,0.0273972602739726,faster
+B4_ext,B4_cpu,configuration effect,makespan_s,exploratory (unadjusted),12,-20.365635257628355,-29.99571647241257,-9.820481229834543,0.024897510248975102,faster
+B4_ext,B4_gpu,extended vs strict GPU set,makespan_e2e_s,exploratory (unadjusted),12,-18.139246353770012,-30.139644952633905,-3.600739531926078,0.056694330566943306,faster
+B4_ext,B4_gpu,extended vs strict GPU set,makespan_s,exploratory (unadjusted),12,-18.245559018682233,-30.226397948051474,-3.6865943945556423,0.055094490550944904,faster
+B4_gpu,HEFT_param_model_gpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,45.42033597723565,34.5141784002835,56.79643639786156,0.0007999200079992001,slower
+B4_gpu,HEFT_param_model_gpu,within configuration,makespan_s,exploratory (unadjusted),12,47.751353410345686,36.42556196667985,59.4412780959793,0.0004999500049995,slower
+B4_gpu,B4_cpu,configuration effect,makespan_e2e_s,exploratory (unadjusted),12,-2.5668634547537317,-10.843493578236618,2.8697479166535533,0.9888011198880112,inconclusive
+B4_gpu,B4_cpu,configuration effect,makespan_s,exploratory (unadjusted),12,-2.593224555752993,-10.850941977576511,2.8773822540532956,0.988001199880012,inconclusive
+B4_param_first_cpu,HEFT_param_model_cpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-1.3783080942483816,-3.33905486167303,0.699731312473717,0.26447355264473554,inconclusive
+B4_param_first_cpu,HEFT_param_model_cpu,within configuration,makespan_s,exploratory (unadjusted),12,0.352481694567941,-1.6299936513264113,2.4716645949115046,0.7641235876412359,inconclusive
+B4_param_first_cpu,B4_cpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-38.74874730390526,-41.827697021363186,-35.449970549133894,0.0004999500049995,faster
+B4_param_first_cpu,B4_cpu,within configuration,makespan_s,exploratory (unadjusted),12,-38.88369340492216,-41.966345804461824,-35.56293646399874,0.0004999500049995,faster
+B4_param_first_ext,HEFT_param_model_ext,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-5.620091948005013,-6.703467028279874,-4.549126142416093,0.000999900009999,faster
+B4_param_first_ext,HEFT_param_model_ext,within configuration,makespan_s,exploratory (unadjusted),12,-4.040460292781223,-5.136282789133806,-2.8995453319361375,0.0007999200079992001,faster
+B4_param_first_ext,B4_ext,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-30.971400905619152,-38.36698504989907,-22.824512466995007,0.0007999200079992001,faster
+B4_param_first_ext,B4_ext,within configuration,makespan_s,exploratory (unadjusted),12,-31.13446994157022,-38.57524195001665,-22.81385109549524,0.0004999500049995,faster
+B4_param_first_ext,B4_param_first_cpu,configuration effect,makespan_e2e_s,exploratory (unadjusted),12,-10.113078530790409,-11.521539334417053,-8.939581420158804,0.00039996000399960006,faster
+B4_param_first_ext,B4_param_first_cpu,configuration effect,makespan_s,exploratory (unadjusted),12,-10.268420256739985,-11.623981796189998,-9.085031210922834,9.999000099990002e-05,faster
+B4_param_first_ext,B4_param_first_gpu,extended vs strict GPU set,makespan_e2e_s,exploratory (unadjusted),12,-4.329809865123879,-5.967061679158947,-2.8285922159511645,0.00019998000199980003,faster
+B4_param_first_ext,B4_param_first_gpu,extended vs strict GPU set,makespan_s,exploratory (unadjusted),12,-4.364638963644529,-6.028399980532706,-2.879230249270548,0.0007999200079992001,faster
+B4_param_first_gpu,HEFT_param_model_gpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-14.107883416297051,-15.308353997397939,-12.720013961781628,0.0004999500049995,faster
+B4_param_first_gpu,HEFT_param_model_gpu,within configuration,makespan_s,exploratory (unadjusted),12,-13.018635979561255,-14.27023458148896,-11.535852179390105,0.0005999400059994001,faster
+B4_param_first_gpu,B4_gpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-40.93527840758898,-45.31625367857844,-36.11934732073644,0.0004999500049995,faster
+B4_param_first_gpu,B4_gpu,within configuration,makespan_s,exploratory (unadjusted),12,-41.12990371136036,-45.580973407996886,-36.281353318025985,0.0004999500049995,faster
+B4_param_first_gpu,B4_param_first_cpu,configuration effect,makespan_e2e_s,exploratory (unadjusted),12,-6.045005928715375,-7.017016362034978,-5.094797664592077,0.0004999500049995,faster
+B4_param_first_gpu,B4_param_first_cpu,configuration effect,makespan_s,exploratory (unadjusted),12,-6.1732200611980375,-7.147415826481451,-5.205371423301763,0.00029997000299970003,faster
+HEFT_E2E_cpu,HEFT_param_model_cpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,1.2390252945045033,-0.44640427371154257,2.8891544509784595,0.33666633336666335,inconclusive
+HEFT_E2E_cpu,HEFT_param_model_cpu,within configuration,makespan_s,exploratory (unadjusted),12,1.4399070349134124,-0.36855314654609117,3.104328004391821,0.2990700929907009,inconclusive
+HEFT_E2E_cpu,B4_cpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-37.12319266489506,-40.25040317771259,-33.787072034659914,0.0005999400059994001,faster
+HEFT_E2E_cpu,B4_cpu,within configuration,makespan_s,exploratory (unadjusted),12,-38.221433544701796,-41.29060376242105,-34.95402899093809,0.0004999500049995,faster
+HEFT_E2E_ext,HEFT_param_model_ext,within configuration,makespan_e2e_s,exploratory (unadjusted),12,1.8601723570218942,0.22594282589862846,3.416971377191036,0.0932906709329067,slower
+HEFT_E2E_ext,HEFT_param_model_ext,within configuration,makespan_s,exploratory (unadjusted),12,1.9601002308770266,0.447854336075415,3.4618907228276097,0.06729327067293271,slower
+HEFT_E2E_ext,B4_ext,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-25.500404202091453,-33.294249229008685,-16.62367750229299,0.0007999200079992001,faster
+HEFT_E2E_ext,B4_ext,within configuration,makespan_s,exploratory (unadjusted),12,-26.828157277188737,-34.521408802596355,-18.195817346228914,0.0004999500049995,faster
+HEFT_E2E_ext,HEFT_E2E_cpu,configuration effect,makespan_e2e_s,exploratory (unadjusted),12,-5.496943090339112,-7.265467525391656,-3.786545068252123,0.00039996000399960006,faster
+HEFT_E2E_ext,HEFT_E2E_cpu,configuration effect,makespan_s,exploratory (unadjusted),12,-5.679371558805812,-7.351118681639868,-4.130985031554458,0.0005999400059994001,faster
+HEFT_E2E_ext,HEFT_E2E_gpu,extended vs strict GPU set,makespan_e2e_s,exploratory (unadjusted),12,-7.274476973578214,-9.246395400181084,-5.526354113073795,0.0007999200079992001,faster
+HEFT_E2E_ext,HEFT_E2E_gpu,extended vs strict GPU set,makespan_s,exploratory (unadjusted),12,-7.406923489215844,-9.247436117884833,-5.834799011769665,0.0005999400059994001,faster
+HEFT_E2E_gpu,HEFT_param_model_gpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-4.356489714066836,-5.69616393665039,-2.7531299176937085,0.0024997500249975004,faster
+HEFT_E2E_gpu,HEFT_param_model_gpu,within configuration,makespan_s,exploratory (unadjusted),12,-4.542886227384313,-5.876156317951898,-3.036767126343465,0.0023997600239976003,faster
+HEFT_E2E_gpu,B4_gpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-34.22961813201603,-38.94124680485199,-28.81927644715302,0.0006999300069993001,faster
+HEFT_E2E_gpu,B4_gpu,within configuration,makespan_s,exploratory (unadjusted),12,-35.39340820283026,-40.043876748199494,-30.14828328789273,0.0004999500049995,faster
+HEFT_E2E_gpu,HEFT_E2E_cpu,configuration effect,makespan_e2e_s,exploratory (unadjusted),12,1.9169844776530498,0.6146375401079318,3.1515572311442197,0.0418958104189581,slower
+HEFT_E2E_gpu,HEFT_E2E_cpu,configuration effect,makespan_s,exploratory (unadjusted),12,1.8657463338620506,0.669437551481189,2.9873948819306495,0.0327967203279672,slower
+HEFT_ORACLE_REF_cpu,HEFT_param_model_cpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,0.5846423926936906,-1.0080807882253628,2.3234266858379593,0.5999400059994,inconclusive
+HEFT_ORACLE_REF_cpu,HEFT_param_model_cpu,within configuration,makespan_s,exploratory (unadjusted),12,0.5598089257317529,-0.9734690248627276,2.2158158512216586,0.6024397560243976,inconclusive
+HEFT_ORACLE_REF_cpu,B4_cpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-37.529612101677,-40.54409350686128,-34.38764875871719,0.0007999200079992001,faster
+HEFT_ORACLE_REF_cpu,B4_cpu,within configuration,makespan_s,exploratory (unadjusted),12,-38.7574277220875,-41.827633093813745,-35.52117894367009,0.00039996000399960006,faster
+HEFT_ORACLE_REF_ext,HEFT_param_model_ext,within configuration,makespan_e2e_s,exploratory (unadjusted),12,3.070261247398398,0.3601029567736669,6.10219493733839,0.0932906709329067,slower
+HEFT_ORACLE_REF_ext,HEFT_param_model_ext,within configuration,makespan_s,exploratory (unadjusted),12,3.511004388182082,0.8828230959736949,6.537175663256489,0.05499450054994501,slower
+HEFT_ORACLE_REF_ext,B4_ext,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-24.615356286635283,-31.85602599269274,-16.548088876665503,0.0004999500049995,faster
+HEFT_ORACLE_REF_ext,B4_ext,within configuration,makespan_s,exploratory (unadjusted),12,-25.715148219532747,-32.90232700022641,-17.75811354792276,0.0004999500049995,faster
+HEFT_ORACLE_REF_ext,HEFT_ORACLE_REF_cpu,configuration effect,makespan_e2e_s,exploratory (unadjusted),12,-3.752134678954566,-6.022381069329274,-1.1112673091839165,0.0331966803319668,faster
+HEFT_ORACLE_REF_ext,HEFT_ORACLE_REF_cpu,configuration effect,makespan_s,exploratory (unadjusted),12,-3.4066212197254253,-5.6505658351759696,-0.75921302283537,0.044495550444955505,faster
+HEFT_ORACLE_REF_ext,HEFT_ORACLE_REF_gpu,extended vs strict GPU set,makespan_e2e_s,exploratory (unadjusted),12,-4.5476875394248495,-7.246288061953299,-1.3256042939545631,0.0316968303169683,faster
+HEFT_ORACLE_REF_ext,HEFT_ORACLE_REF_gpu,extended vs strict GPU set,makespan_s,exploratory (unadjusted),12,-4.644986278041429,-7.382543705688082,-1.5169185212141834,0.029097090290970903,faster
+HEFT_ORACLE_REF_gpu,HEFT_param_model_gpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-5.984964429692507,-6.711222210034206,-5.300272532391926,0.00039996000399960006,faster
+HEFT_ORACLE_REF_gpu,HEFT_param_model_gpu,within configuration,makespan_s,exploratory (unadjusted),12,-5.897849331243588,-6.52076863096741,-5.309872562552886,0.0006999300069993001,faster
+HEFT_ORACLE_REF_gpu,B4_gpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-35.34945787429292,-40.191374505129,-29.83366936705516,0.0004999500049995,faster
+HEFT_ORACLE_REF_gpu,B4_gpu,within configuration,makespan_s,exploratory (unadjusted),12,-36.31046450897194,-41.06434044860146,-30.879965737943238,0.00039996000399960006,faster
+HEFT_ORACLE_REF_gpu,HEFT_ORACLE_REF_cpu,configuration effect,makespan_e2e_s,exploratory (unadjusted),12,0.8334558272738102,-0.8516546456009744,2.678904527638326,0.4694530546945305,inconclusive
+HEFT_ORACLE_REF_gpu,HEFT_ORACLE_REF_cpu,configuration effect,makespan_s,exploratory (unadjusted),12,1.2986889833888515,-0.2139237798701621,2.9209313400128556,0.18088191180881913,inconclusive
+HEFT_param_model_cpu,B4_cpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-37.892717603516836,-41.05455474530033,-34.583386847700496,0.0005999400059994001,faster
+HEFT_param_model_cpu,B4_cpu,within configuration,makespan_s,exploratory (unadjusted),12,-39.0983605357255,-42.24963115048441,-35.76101157587177,0.0004999500049995,faster
+HEFT_param_model_ext,B4_ext,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-26.860917202470457,-34.76216057846001,-18.106960345291323,0.00029997000299970003,faster
+HEFT_param_model_ext,B4_ext,within configuration,makespan_s,exploratory (unadjusted),12,-28.2348266065628,-36.05377549321629,-19.50076889833292,0.0006999300069993001,faster
+HEFT_param_model_ext,HEFT_param_model_cpu,configuration effect,makespan_e2e_s,exploratory (unadjusted),12,-6.073226193342363,-7.614286390291514,-4.534197313554278,0.0008999100089991,faster
+HEFT_param_model_ext,HEFT_param_model_cpu,configuration effect,makespan_s,exploratory (unadjusted),12,-6.160588711819781,-7.571805320526359,-4.758440557946642,0.0005999400059994001,faster
+HEFT_param_model_ext,HEFT_param_model_gpu,extended vs strict GPU set,makespan_e2e_s,exploratory (unadjusted),12,-12.93363922199634,-13.806984919628684,-12.07318442824985,0.0005999400059994001,faster
+HEFT_param_model_ext,HEFT_param_model_gpu,extended vs strict GPU set,makespan_s,exploratory (unadjusted),12,-13.312483814430587,-14.215808379518702,-12.386500802124523,0.00039996000399960006,faster
+HEFT_param_model_gpu,B4_gpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-31.233826872980007,-36.218513550158825,-25.562491696099954,0.0004999500049995,faster
+HEFT_param_model_gpu,B4_gpu,within configuration,makespan_s,exploratory (unadjusted),12,-32.31872487673747,-37.248560071711424,-26.73397429741968,0.00019998000199980003,faster
+HEFT_param_model_gpu,HEFT_param_model_cpu,configuration effect,makespan_e2e_s,exploratory (unadjusted),12,7.879521973068604,6.736227504382497,9.085373612748327,0.0008999100089991,slower
+HEFT_param_model_gpu,HEFT_param_model_cpu,configuration effect,makespan_s,exploratory (unadjusted),12,8.250201894469967,6.999227467823754,9.551361643647894,0.00039996000399960006,slower
+PEFT_param_model_cpu,HEFT_param_model_cpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,15.382468200639043,13.519654226912081,17.305588584548204,0.00039996000399960006,slower
+PEFT_param_model_cpu,HEFT_param_model_cpu,within configuration,makespan_s,exploratory (unadjusted),12,13.73500842361799,11.722344670588104,15.718840185470606,0.0006999300069993001,slower
+PEFT_param_model_cpu,B4_cpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-28.339084638596724,-32.3737987137059,-24.150753046297226,0.0008999100089991,faster
+PEFT_param_model_cpu,B4_cpu,within configuration,makespan_s,exploratory (unadjusted),12,-30.733515225185926,-34.67612953817441,-26.651502125532677,0.0012998700129987,faster
+PEFT_param_model_ext,HEFT_param_model_ext,within configuration,makespan_e2e_s,exploratory (unadjusted),12,19.976464770167436,17.37241884928531,22.84273547494258,0.00039996000399960006,slower
+PEFT_param_model_ext,HEFT_param_model_ext,within configuration,makespan_s,exploratory (unadjusted),12,16.816799642243254,14.764943907051853,18.935439776128817,0.0005999400059994001,slower
+PEFT_param_model_ext,B4_ext,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-12.250314094198389,-21.746685014159773,-1.8241926828534538,0.0680931906809319,faster
+PEFT_param_model_ext,B4_ext,within configuration,makespan_s,exploratory (unadjusted),12,-16.166221184079998,-25.26023702819904,-6.116286591501552,0.0537946205379462,faster
+PEFT_param_model_ext,PEFT_param_model_cpu,configuration effect,makespan_e2e_s,exploratory (unadjusted),12,-2.33349620330332,-4.9004711471517854,0.2977539124712436,0.20667933206679331,inconclusive
+PEFT_param_model_ext,PEFT_param_model_cpu,configuration effect,makespan_s,exploratory (unadjusted),12,-3.6178933915561484,-5.8665304253827655,-1.4884605452880173,0.0326967303269673,faster
+PEFT_param_model_ext,PEFT_param_model_gpu,extended vs strict GPU set,makespan_e2e_s,exploratory (unadjusted),12,-2.372321119281362,-3.974276451851011,-0.2784824187249013,0.0775922407759224,faster
+PEFT_param_model_ext,PEFT_param_model_gpu,extended vs strict GPU set,makespan_s,exploratory (unadjusted),12,-3.4737516762078813,-4.581679806215789,-2.220162057085273,0.0108989101089891,faster
+PEFT_param_model_gpu,HEFT_param_model_gpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,6.997465127811209,5.649265464910025,8.321317848505206,0.0007999200079992001,slower
+PEFT_param_model_gpu,HEFT_param_model_gpu,within configuration,makespan_s,exploratory (unadjusted),12,4.909891201452132,3.766640963083767,6.051663557527798,0.0005999400059994001,slower
+PEFT_param_model_gpu,B4_gpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-26.421937888686497,-31.9124651685216,-19.78880454695303,0.0012998700129987,faster
+PEFT_param_model_gpu,B4_gpu,within configuration,makespan_s,exploratory (unadjusted),12,-28.995647904429788,-34.29708274901198,-22.805693330947474,0.0011998800119988001,faster
+PEFT_param_model_gpu,PEFT_param_model_cpu,configuration effect,makespan_e2e_s,exploratory (unadjusted),12,0.039768348918212126,-1.7921313112184478,1.9068916160534854,0.9726027397260274,equivalent (CI inside +-2%)
+PEFT_param_model_gpu,PEFT_param_model_cpu,configuration effect,makespan_s,exploratory (unadjusted),12,-0.14932903521202023,-1.766616354916417,1.3772020483750147,0.8885111488851115,equivalent (CI inside +-2%)
+PRED_RANK_GREEDY_E2E_cpu,HEFT_param_model_cpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-2.6699219933585816,-4.379130531488073,-0.9879494023517288,0.012898710128987101,faster
+PRED_RANK_GREEDY_E2E_cpu,HEFT_param_model_cpu,within configuration,makespan_s,exploratory (unadjusted),12,-1.883515904906763,-3.617992633075817,-0.24877556042426363,0.06969303069693031,faster
+PRED_RANK_GREEDY_E2E_cpu,B4_cpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-39.550933595697856,-42.82468862609633,-36.193914206755636,0.0004999500049995,faster
+PRED_RANK_GREEDY_E2E_cpu,B4_cpu,within configuration,makespan_s,exploratory (unadjusted),12,-40.245452601384066,-43.44455506601847,-36.89433737356536,0.0007999200079992001,faster
+PRED_RANK_GREEDY_E2E_ext,HEFT_param_model_ext,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-4.645430058385824,-5.640370653387938,-3.7429777499737082,0.0006999300069993001,faster
+PRED_RANK_GREEDY_E2E_ext,HEFT_param_model_ext,within configuration,makespan_s,exploratory (unadjusted),12,-4.335140674399939,-5.286340772594467,-3.3871058046838876,0.0004999500049995,faster
+PRED_RANK_GREEDY_E2E_ext,B4_ext,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-30.258542139174594,-37.82419620866584,-21.738226373865675,0.0007999200079992001,faster
+PRED_RANK_GREEDY_E2E_ext,B4_ext,within configuration,makespan_s,exploratory (unadjusted),12,-31.34594782839535,-38.87374632870556,-22.954786620940848,0.0005999400059994001,faster
+PRED_RANK_GREEDY_E2E_ext,PRED_RANK_GREEDY_E2E_cpu,configuration effect,makespan_e2e_s,exploratory (unadjusted),12,-7.979657411494479,-9.684805381860084,-6.409897586363789,0.0005999400059994001,faster
+PRED_RANK_GREEDY_E2E_ext,PRED_RANK_GREEDY_E2E_cpu,configuration effect,makespan_s,exploratory (unadjusted),12,-8.505342778280124,-10.176882911017648,-6.926065334663756,0.0004999500049995,faster
+PRED_RANK_GREEDY_E2E_ext,PRED_RANK_GREEDY_E2E_gpu,extended vs strict GPU set,makespan_e2e_s,exploratory (unadjusted),12,-4.349686695238509,-5.649709255742463,-3.375416716537294,0.0004999500049995,faster
+PRED_RANK_GREEDY_E2E_ext,PRED_RANK_GREEDY_E2E_gpu,extended vs strict GPU set,makespan_s,exploratory (unadjusted),12,-4.60769072658902,-5.908546875166076,-3.486975972321771,0.0006999300069993001,faster
+PRED_RANK_GREEDY_E2E_gpu,HEFT_param_model_gpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-13.202841668531374,-14.048429976191311,-12.309853256862002,0.0004999500049995,faster
+PRED_RANK_GREEDY_E2E_gpu,HEFT_param_model_gpu,within configuration,makespan_s,exploratory (unadjusted),12,-13.064804654124263,-13.933999261545448,-12.141115610708574,0.0006999300069993001,faster
+PRED_RANK_GREEDY_E2E_gpu,B4_gpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-40.312915832448624,-44.97082413501984,-34.88518187508694,0.0004999500049995,faster
+PRED_RANK_GREEDY_E2E_gpu,B4_gpu,within configuration,makespan_s,exploratory (unadjusted),12,-41.161151259012115,-45.76737454962162,-35.84071065626636,0.0006999300069993001,faster
+PRED_RANK_GREEDY_E2E_gpu,PRED_RANK_GREEDY_E2E_cpu,configuration effect,makespan_e2e_s,exploratory (unadjusted),12,-3.7950432056507055,-5.808590222003107,-1.9183620334873197,0.009299070092990702,faster
+PRED_RANK_GREEDY_E2E_gpu,PRED_RANK_GREEDY_E2E_cpu,configuration effect,makespan_s,exploratory (unadjusted),12,-4.085918541420086,-6.119439233047174,-2.2492249259377983,0.005099490050994901,faster
+PRED_RANK_GREEDY_cpu,HEFT_param_model_cpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-2.350500069331829,-3.92077589452956,-0.5986617716769116,0.0484951504849515,faster
+PRED_RANK_GREEDY_cpu,HEFT_param_model_cpu,within configuration,makespan_s,exploratory (unadjusted),12,-1.6354855152799774,-3.0825645509158783,-0.03622728761224492,0.15628437156284372,faster
+PRED_RANK_GREEDY_cpu,B4_cpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-39.35254931930628,-42.27416262647865,-36.26348887516508,0.0004999500049995,faster
+PRED_RANK_GREEDY_cpu,B4_cpu,within configuration,makespan_s,exploratory (unadjusted),12,-40.094398027731735,-42.9906866265325,-37.061572812156676,0.00029997000299970003,faster
+PRED_RANK_GREEDY_ext,HEFT_param_model_ext,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-4.3070223150694975,-5.5279862033496,-3.043100354131145,0.0006999300069993001,faster
+PRED_RANK_GREEDY_ext,HEFT_param_model_ext,within configuration,makespan_s,exploratory (unadjusted),12,-3.859820145345283,-5.050890669168617,-2.632891972952933,0.00039996000399960006,faster
+PRED_RANK_GREEDY_ext,B4_ext,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-30.01103381959721,-37.67068682988527,-21.482503059684987,0.0004999500049995,faster
+PRED_RANK_GREEDY_ext,B4_ext,within configuration,makespan_s,exploratory (unadjusted),12,-31.00483322654467,-38.58118160407648,-22.462935165176965,0.0007999200079992001,faster
+PRED_RANK_GREEDY_ext,PRED_RANK_GREEDY_cpu,configuration effect,makespan_e2e_s,exploratory (unadjusted),12,-7.955159255504207,-9.088185702736107,-6.771779591683924,0.0008999100089991,faster
+PRED_RANK_GREEDY_ext,PRED_RANK_GREEDY_cpu,configuration effect,makespan_s,exploratory (unadjusted),12,-8.282596361495775,-9.362109250308226,-7.135067282094198,0.00029997000299970003,faster
+PRED_RANK_GREEDY_ext,PRED_RANK_GREEDY_gpu,extended vs strict GPU set,makespan_e2e_s,exploratory (unadjusted),12,-4.401188010925128,-5.430998412297072,-3.608961126247301,0.0006999300069993001,faster
+PRED_RANK_GREEDY_ext,PRED_RANK_GREEDY_gpu,extended vs strict GPU set,makespan_s,exploratory (unadjusted),12,-4.600951800292807,-5.460046713877576,-3.939418686517071,0.0007999200079992001,faster
+PRED_RANK_GREEDY_gpu,HEFT_param_model_gpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-12.84787806788058,-13.565283443119636,-12.203424624517057,0.00029997000299970003,faster
+PRED_RANK_GREEDY_gpu,HEFT_param_model_gpu,within configuration,makespan_s,exploratory (unadjusted),12,-12.639029901144083,-13.321029033001786,-12.0066215645666,0.0005999400059994001,faster
+PRED_RANK_GREEDY_gpu,B4_gpu,within configuration,makespan_e2e_s,exploratory (unadjusted),12,-40.0688209482872,-44.50592352339749,-35.003806800857376,0.00019998000199980003,faster
+PRED_RANK_GREEDY_gpu,B4_gpu,within configuration,makespan_s,exploratory (unadjusted),12,-40.87298147704222,-45.236528780325,-35.90653534487222,0.0004999500049995,faster
+PRED_RANK_GREEDY_gpu,PRED_RANK_GREEDY_cpu,configuration effect,makespan_e2e_s,exploratory (unadjusted),12,-3.717589340948324,-4.608359664961603,-2.8199874582628293,0.0008999100089991,faster
+PRED_RANK_GREEDY_gpu,PRED_RANK_GREEDY_cpu,configuration effect,makespan_s,exploratory (unadjusted),12,-3.859204709774322,-4.765268701151026,-2.9754259946622508,0.0008999100089991,faster

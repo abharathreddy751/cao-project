@@ -1,0 +1,26 @@
+{
+ "B4": {
+  "status": "failed",
+  "output_ok": null,
+  "makespan_s": null,
+  "coordinator_scheduling_time_s": null,
+  "order_ready_calls": 0,
+  "order_ready_s": 0.0,
+  "select_calls": 0,
+  "select_none": 0,
+  "select_s": 0.0,
+  "select_s_none": 0.0
+ },
+ "PRED_RANK_GREEDY": {
+  "status": "failed",
+  "output_ok": null,
+  "makespan_s": null,
+  "coordinator_scheduling_time_s": null,
+  "order_ready_calls": 0,
+  "order_ready_s": 0.0,
+  "select_calls": 0,
+  "select_none": 0,
+  "select_s": 0.0,
+  "select_s_none": 0.0
+ }
+}

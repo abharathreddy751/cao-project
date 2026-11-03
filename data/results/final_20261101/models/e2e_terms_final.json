@@ -1,0 +1,34 @@
+{
+ "schema_version": 1,
+ "setup_s": {
+  "img_aggregate|64|E": 0.10775725007988513,
+  "img_aggregate|64|P": 0.05430495005566627,
+  "img_denoise|262144|E": 0.013887000153772533,
+  "img_denoise|262144|G": 0.018476250115782022,
+  "img_denoise|262144|P": 0.012571149971336126,
+  "img_edges|262144|E": 0.01291059993673116,
+  "img_edges|262144|G": 0.011097150039859116,
+  "img_edges|262144|P": 0.011584450025111437,
+  "img_features|262144|E": 0.01425160001963377,
+  "img_features|262144|G": 0.01177119999192655,
+  "img_features|262144|P": 0.013739150017499924,
+  "img_source|262144|E": 0.004801300121471286,
+  "img_source|262144|P": 0.003185899695381522
+ },
+ "overhead_s": {
+  "E": 0.0020846499828621745,
+  "G": 0.000992499990388751,
+  "P": 0.0013837998267263174
+ },
+ "sources": {
+  "sessions": [
+   "D:\\cao project\\data\\results\\final_20261101\\calibration\\sessions\\cal_l15_r5",
+   "D:\\cao project\\data\\results\\final_20261101\\calibration\\sessions\\cal_l40_r8",
+   "D:\\cao project\\data\\results\\final_20261101\\calibration\\sessions\\cal_l120_r2",
+   "D:\\cao project\\data\\results\\final_20261101\\calibration\\sessions\\cal_uniform_r5"
+  ],
+  "n_logs": 88,
+  "filled_from_other_pools": [],
+  "rule": "warm-up block excluded; medians over completed tasks"
+ }
+}

@@ -1,0 +1,84 @@
+{
+ "name": "final_hold_l120",
+ "evidence_label": "real",
+ "seed": 20261121,
+ "n_blocks": 7,
+ "instances": [
+  "hold_a",
+  "hold_b"
+ ],
+ "warmup_blocks": 1,
+ "min_free_ram_gb": 0.8,
+ "require_ac_power": true,
+ "reference": "random_gpu",
+ "conditions": [
+  {
+   "name": "random_gpu",
+   "policy": "random",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "hold_a": 9201,
+     "hold_b": 9202
+    },
+    "gpu_stage_table": {
+     "img_denoise": false,
+     "img_edges": true,
+     "img_features": true
+    }
+   }
+  },
+  {
+   "name": "random_ext",
+   "policy": "random",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "hold_a": 9201,
+     "hold_b": 9202
+    },
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    },
+    "gpu_region": [
+     "D:\\cao project\\data\\results\\stage1_20261011\\gpu\\gpu_spike.json",
+     "D:\\cao project\\data\\results\\final_20261101\\gpu_spike_iters\\spike_20261101T144333\\gpu_spike.json"
+    ]
+   }
+  }
+ ]
+}

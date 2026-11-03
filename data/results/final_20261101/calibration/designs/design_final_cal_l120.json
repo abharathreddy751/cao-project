@@ -1,0 +1,111 @@
+{
+ "name": "final_cal_l120",
+ "evidence_label": "real",
+ "seed": 20261111,
+ "n_blocks": 9,
+ "instances": [
+  "cal_a",
+  "cal_b"
+ ],
+ "warmup_blocks": 1,
+ "min_free_ram_gb": 0.8,
+ "require_ac_power": true,
+ "reference": "random_gpu",
+ "conditions": [
+  {
+   "name": "random_gpu",
+   "policy": "random",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "cal_a": 9101,
+     "cal_b": 9102
+    },
+    "gpu_stage_table": {
+     "img_denoise": false,
+     "img_edges": true,
+     "img_features": true
+    }
+   }
+  },
+  {
+   "name": "random_ext",
+   "policy": "random",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "cal_a": 9101,
+     "cal_b": 9102
+    },
+    "gpu_stage_table": {
+     "img_denoise": true,
+     "img_edges": true,
+     "img_features": true
+    },
+    "gpu_region": [
+     "D:\\cao project\\data\\results\\stage1_20261011\\gpu\\gpu_spike.json",
+     "D:\\cao project\\data\\results\\final_20261101\\gpu_spike_iters\\spike_20261101T144333\\gpu_spike.json"
+    ]
+   }
+  },
+  {
+   "name": "B0_E_only_cpu",
+   "policy": "B0_E_only",
+   "estimator": null,
+   "workload": {
+    "kind": "study2_iters"
+   },
+   "kwargs": {
+    "tile": 512,
+    "seed": 0,
+    "profile": "D:\\cao project\\data\\results\\study2_20261024\\profile_t512\\20261024T001156_profile.json",
+    "iters": {
+     "small": [
+      48,
+      2
+     ],
+     "big": [
+      16,
+      120
+     ]
+    },
+    "order_seeds": {
+     "cal_a": 9101,
+     "cal_b": 9102
+    }
+   }
+  }
+ ]
+}

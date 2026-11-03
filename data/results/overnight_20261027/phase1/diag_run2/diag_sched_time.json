@@ -1,0 +1,30 @@
+{
+ "B4": {
+  "status": "ok",
+  "error": null,
+  "output_ok": true,
+  "makespan_s": 4.162956999964081,
+  "coordinator_scheduling_time_s": 0.20915440213866532,
+  "order_ready_calls": 257,
+  "order_ready_s": 0.00041179941035807133,
+  "select_calls": 10299,
+  "select_none": 10042,
+  "select_s": 0.190469105145894,
+  "select_s_none": 0.18364250578451902,
+  "passes": 257
+ },
+ "PRED_RANK_GREEDY": {
+  "status": "ok",
+  "error": null,
+  "output_ok": true,
+  "makespan_s": 3.820005999994464,
+  "coordinator_scheduling_time_s": 0.11098149779718369,
+  "order_ready_calls": 257,
+  "order_ready_s": 0.005761500680819154,
+  "select_calls": 11329,
+  "select_none": 11072,
+  "select_s": 0.08730079687666148,
+  "select_s_none": 0.07258549600373954,
+  "passes": 257
+ }
+}

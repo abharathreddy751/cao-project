@@ -1,0 +1,15 @@
+﻿9d8ea22 PROJECT_BACKBONE.md: full chronological record of requests, studies, results, errors and status
+fd573e8 Add PROJECT_BACKBONE.md: single-file project story, results, status and next options
+673c700 Phase 1: tidy markdown escapes in amendment A5
+d4c53dd Phase 1: GPU/CPU opportunity audit results, report, simulation, manifests (opportunity not established)
+f753fd9 Phase 1: amendment A4 (transfer micro-profile in a child process to cut memory), preflight in overhead run
+3eda64b Phase 1: amendment A3 (two DAG reference workloads), parametrized DAG reference
+23a44bc Phase 1: main sweep attempt 2 (partial, 8 repetitions, RAM stop) and amendment A2
+f1d957f Phase 1: amendment A1 (RAM stop of first attempt), record preflight stops
+c2f0424 Phase 1: smoke run of the profiler (machinery check, 3 blocks, 256/512 px)
+4032b72 Phase 1: GPU/CPU profiling protocol, profiling helpers, script and tests
+b84e489 Revival: final status, implementation report, related work, claims V1-V7, typing fixes, docs index
+6171393 Revival: engineering check v2 analysis, demo script, implementation report draft
+6da8ee7 Revival: lazy per-pass snapshot and forced-choice fast path (A1 completed)
+4487dee Revival: engineering check v1 (2% harm from decision overhead), lean hot path and minimal logging (A1)
+ccd5b18 Revival: gate failed (insufficient headroom), engineering check design frozen

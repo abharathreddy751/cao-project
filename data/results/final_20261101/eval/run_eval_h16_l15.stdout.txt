@@ -1,0 +1,15 @@
+﻿{
+  "session_id": "eval_h16_l15",
+  "design_name": "final_eval_h16_l15",
+  "design_sha256": "26f6e69ab9e019700cff6a865696dac003a474ba9c3132fa3a412e2aae5e4226",
+  "evidence_label": "real",
+  "machine_id": "681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978",
+  "environment_hash": "bac0fdd048d7d4cd07d46a4ed4fc15a0d5b21cd94b71541be631229f3f1ed53b",
+  "started_utc": "2026-11-01T20:04:46.316492+00:00",
+  "status": "complete",
+  "reason": null,
+  "n_blocks": 13,
+  "blocks_completed": 13,
+  "finished_utc": "2026-11-01T20:27:06.961232+00:00"
+}
+exit=0

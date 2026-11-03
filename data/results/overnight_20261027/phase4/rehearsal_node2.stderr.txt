@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\cao project\src\caosched\remote\node.py", line 217, in <module>
+    main()
+  File "D:\cao project\src\caosched\remote\node.py", line 213, in main
+    serve(args.host, args.port, args.affinity, token=args.token, max_payload=args.max_payload)
+  File "D:\cao project\src\caosched\remote\node.py", line 139, in serve
+    header, _payload = (first, b"") if first else recv_frame(conn, max_payload=max_payload)
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\cao project\src\caosched\remote\protocol.py", line 71, in recv_frame
+    (hlen,) = _LEN.unpack(_recv_exact(sock, _LEN.size))
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\cao project\src\caosched\remote\protocol.py", line 63, in _recv_exact
+    k = sock.recv_into(view[got:], n - got)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host

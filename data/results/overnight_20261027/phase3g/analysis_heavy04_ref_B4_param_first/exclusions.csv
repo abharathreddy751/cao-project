@@ -1,0 +1,5 @@
+run_id,condition,block,reason
+heavy04__b0000_00_PRED_RANK_GREEDY,PRED_RANK_GREEDY,0,warm-up block (design rule)
+heavy04__b0000_01_B4,B4,0,warm-up block (design rule)
+heavy04__b0000_02_B0_P_only,B0_P_only,0,warm-up block (design rule)
+heavy04__b0000_03_B4_param_first,B4_param_first,0,warm-up block (design rule)

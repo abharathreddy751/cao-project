@@ -1,0 +1,42 @@
+........................................................................ [ 14%]
+..............................................................s......... [ 28%]
+........................................................................ [ 43%]
+........................................................................ [ 57%]
+...........................................F............................ [ 72%]
+........................................................................ [ 86%]
+.................................................................        [100%]
+================================== FAILURES ===================================
+___________________ test_profile_format_csv_fit_and_cleanup ___________________
+
+run_dir = WindowsPath('C:/Users/Venkatesh/AppData/Local/Temp/pytest-of-Venkatesh/pytest-50/test_profile_format_csv_fit_an0/ref')
+tmp_path = WindowsPath('C:/Users/Venkatesh/AppData/Local/Temp/pytest-of-Venkatesh/pytest-50/test_profile_format_csv_fit_an0')
+
+    def test_profile_format_csv_fit_and_cleanup(run_dir, tmp_path):
+        before = sorted(p.name for p in (run_dir / "work").iterdir())
+        out = tmp_path / "prof"
+>       prof = pm.profile(run_dir, out, {"P": 0, "E": 1}, tmp_path / "bin", reps=2, mproject_max=2)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_profile_montage.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+run_dir = WindowsPath('C:/Users/Venkatesh/AppData/Local/Temp/pytest-of-Venkatesh/pytest-50/test_profile_format_csv_fit_an0/ref')
+out = WindowsPath('C:/Users/Venkatesh/AppData/Local/Temp/pytest-of-Venkatesh/pytest-50/test_profile_format_csv_fit_an0/prof')
+pools = {'P': 0, 'E': 1}
+bin_dir = WindowsPath('C:/Users/Venkatesh/AppData/Local/Temp/pytest-of-Venkatesh/pytest-50/test_profile_format_csv_fit_an0/bin')
+reps = 2, max_per = None, mproject_max = 2, min_free_gb = 2.0
+timeout_s = 3600.0, free_fn = <function free_ram_gb at 0x000002146D94A020>
+
+    def profile(run_dir: Path, out: Path, pools: dict[str, int], bin_dir: Path, reps: int = 2, max_per: int | None = None,
+                mproject_max: int | None = 2, min_free_gb: float = 2.0, timeout_s: float = 3600.0, free_fn=free_ram_gb) -> dict:
+        """``pools``: pool name -> the logical processor to pin to. Returns the profile dict that was written."""
+        import psutil
+    
+        if free_fn() < min_free_gb:
+>           raise SystemExit(f"refusing to start: free RAM {free_fn():.2f} GB < {min_free_gb} GB")
+E           SystemExit: refusing to start: free RAM 1.06 GB < 2.0 GB
+
+scripts\profile_montage.py:100: SystemExit
+=========================== short test summary info ===========================
+FAILED tests/test_profile_montage.py::test_profile_format_csv_fit_and_cleanup
+1 failed, 495 passed, 1 skipped in 370.16s (0:06:10)

@@ -1,0 +1,14 @@
+﻿dashboard live check 2026-10-27T00:17:24.9422980+05:30
+server pid 41908
+GET / -> 200 bytes=11365
+GET /static/app.js -> ERROR The remote server returned an error: (404) Not Found.
+GET /api/system -> 200 bytes=665
+{"topology": {"p_core_slots": [0, 2], "e_core_slots": [13, 14, 15, 16, 17, 18, 19], "coordinator_core": 12, "pools": {"P": {"slots": [0, 2], "kind": "cpu", "memory_limit_bytes": null, "task_types": null}, "E": {"slots": [13, 14, 15, 16, 17, 18, 19], "kind": "cpu", "memory_limit_bytes": null, "task_types": null}}}, "topology_error": null, "cpu_percent": [100.0, 0.0, 50.0, 0.0, 0.0, 0.0, 0.0, 0.0, 5
+GET /api/sessions -> 200 bytes=21319
+GET /api/comparison -> 200 bytes=10503
+GET /api/hardware -> 200 bytes=2092
+GET /api/live -> 200 bytes=935
+GET /api/montage/runs -> 200 bytes=75575
+   montage runs listed: 203
+GET /api/gpu -> 200 bytes=10611
+server stopped

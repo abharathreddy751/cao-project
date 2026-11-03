@@ -1,0 +1,17 @@
+{
+ "machine_id": "681ed3fc5b86e3a599bf1386d1411297ba7a4c3fb0f69f5b35bda6eee3824978",
+ "environment_hash": "bac0fdd048d7d4cd07d46a4ed4fc15a0d5b21cd94b71541be631229f3f1ed53b",
+ "evidence_label": "real",
+ "design_sha256": "dcc84364b9e6d74ef232f501b059d96c8536b9245b40fb83e606eff404808e11",
+ "code_versions": [
+  "997415774bae"
+ ],
+ "allow_mixed_code": false,
+ "session": "D:\\cao project\\data\\results\\final_20261101\\eval\\sessions\\eval_h40_l120",
+ "primary_metric": "makespan_e2e_s",
+ "margin_pct": 2.0,
+ "n_runs": 312,
+ "n_included": 288,
+ "runs_started_with_low_free_ram": 0,
+ "low_ram_threshold_gb": 1.2
+}

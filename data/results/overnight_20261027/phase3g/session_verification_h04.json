@@ -1,0 +1,51 @@
+{
+ "session_dir": "data\\results\\overnight_20261027\\phase3g\\sessions\\heavy04",
+ "session": {
+  "session_id": "heavy04",
+  "design_name": "overnight_heavycount_h04",
+  "design_sha256": "09d7329b3ca96c2409a513fbd89d50fec05f974aa9b6c2a05b390d5bc0dfacca",
+  "status": "complete",
+  "n_blocks": 13,
+  "blocks_completed": 13,
+  "started_utc": "2026-10-26T19:43:50.286517+00:00",
+  "finished_utc": "2026-10-26T19:47:30.813224+00:00"
+ },
+ "design_file_sha256": "09d7329b3ca96c2409a513fbd89d50fec05f974aa9b6c2a05b390d5bc0dfacca",
+ "design_sha_matches_session": true,
+ "design_sha_file_matches": true,
+ "n_run_dirs": 52,
+ "code_versions": {
+  "('9d8ea221', True, 'ed70c36d')": 52
+ },
+ "status_by_condition": {
+  "('B0_P_only', 'ok', True)": 13,
+  "('B4', 'ok', True)": 13,
+  "('B4_param_first', 'ok', True)": 13,
+  "('PRED_RANK_GREEDY', 'ok', True)": 13
+ },
+ "event_logs_hash_ok": 52,
+ "event_logs_bad": [],
+ "runs_not_ok_or_unverified": [],
+ "mean_per_run_s": {
+  "B0_P_only": {
+   "makespan_event_log": 2.463690576931605,
+   "extra.decision_time_total_s (coordinator summary)": 0.13703150635298628,
+   "sum decision_time_s over task_dispatched events": 0.004531738008014285
+  },
+  "B4": {
+   "makespan_event_log": 2.9092655076931875,
+   "extra.decision_time_total_s (coordinator summary)": 0.20098944201778907,
+   "sum decision_time_s over task_dispatched events": 0.006890992884739087
+  },
+  "B4_param_first": {
+   "makespan_event_log": 2.030471138477039,
+   "extra.decision_time_total_s (coordinator summary)": 0.20605429095359376,
+   "sum decision_time_s over task_dispatched events": 0.006634915086369102
+  },
+  "PRED_RANK_GREEDY": {
+   "makespan_event_log": 2.0565659615139547,
+   "extra.decision_time_total_s (coordinator summary)": 0.09697514156309459,
+   "sum decision_time_s over task_dispatched events": 0.016052276325913575
+  }
+ }
+}

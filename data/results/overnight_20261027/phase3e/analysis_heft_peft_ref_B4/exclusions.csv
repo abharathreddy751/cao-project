@@ -1,0 +1,7 @@
+run_id,condition,block,reason
+heft_peft__b0000_00_EFT_param_model_rank_noctx,EFT_param_model_rank_noctx,0,warm-up block (design rule)
+heft_peft__b0000_01_HEFT_param_model,HEFT_param_model,0,warm-up block (design rule)
+heft_peft__b0000_02_B4_param_first,B4_param_first,0,warm-up block (design rule)
+heft_peft__b0000_03_B4,B4,0,warm-up block (design rule)
+heft_peft__b0000_04_PRED_RANK_GREEDY,PRED_RANK_GREEDY,0,warm-up block (design rule)
+heft_peft__b0000_05_PEFT_param_model,PEFT_param_model,0,warm-up block (design rule)

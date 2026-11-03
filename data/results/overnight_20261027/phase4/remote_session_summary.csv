@@ -1,0 +1,8 @@
+condition,n,all_ok_verified,evidence_label,makespan_mean_s,tasks_on_R,tasks_on_P,tasks_on_E,transfer_total_s,sched_overhead_total_s,decision_time_total_s_coord,link
+B0_P_only,12,True,emulation,2.07703,0.0,68.0,0.0,not measured,0.00106,0.00814,"{""name"": ""none"", ""latency_s"": 0.0, ""bandwidth_Bps"": null, ""per_message_s"": 0.0}"
+B4_no_remote,12,True,emulation,2.22709,0.0,57.33333,10.66667,not measured,0.00158,0.006,"{""name"": ""none"", ""latency_s"": 0.0, ""bandwidth_Bps"": null, ""per_message_s"": 0.0}"
+B4_remote_fast_lan,12,True,emulation,2.2505,1.0,56.08333,10.91667,0.01807,0.00161,0.002,"{""name"": ""fast_lan"", ""latency_ms"": 0.2, ""bandwidth_mbps"": 1000.0, ""per_message_ms"": 0.05, ""jitter_ms"": 0.0}"
+B4_remote_slow_wan,12,True,emulation,2.91082,1.0,56.66667,10.33333,0.69469,0.00161,0.002,"{""name"": ""slow_wan"", ""latency_ms"": 30.0, ""bandwidth_mbps"": 20.0, ""per_message_ms"": 0.1, ""jitter_ms"": 0.0}"
+EFT_E1_no_remote,12,True,emulation,2.21885,0.0,47.41667,20.58333,not measured,0.01833,0.01843,"{""name"": ""none"", ""latency_s"": 0.0, ""bandwidth_Bps"": null, ""per_message_s"": 0.0}"
+EFT_E1_remote_fast_lan,12,True,emulation,2.22196,0.0,47.91667,20.08333,not measured,0.02128,0.02138,"{""name"": ""fast_lan"", ""latency_ms"": 0.2, ""bandwidth_mbps"": 1000.0, ""per_message_ms"": 0.05, ""jitter_ms"": 0.0}"
+EFT_E1_remote_slow_wan,12,True,emulation,2.22603,0.0,47.83333,20.16667,not measured,0.02124,0.02133,"{""name"": ""slow_wan"", ""latency_ms"": 30.0, ""bandwidth_mbps"": 20.0, ""per_message_ms"": 0.1, ""jitter_ms"": 0.0}"

@@ -1,0 +1,63 @@
+{
+ "session_dir": "data\\results\\overnight_20261027\\phase3d\\sessions\\exit_fix",
+ "session": {
+  "session_id": "exit_fix",
+  "design_name": "overnight_early_exit_fix",
+  "design_sha256": "7d31bca0d7d89c4c510a80b7e31c604b6aa35ecbe586ab0df4be96b64b8eafea",
+  "status": "complete",
+  "n_blocks": 13,
+  "blocks_completed": 13,
+  "started_utc": "2026-10-26T18:51:41.731557+00:00",
+  "finished_utc": "2026-10-26T18:59:21.949768+00:00"
+ },
+ "design_file_sha256": "7d31bca0d7d89c4c510a80b7e31c604b6aa35ecbe586ab0df4be96b64b8eafea",
+ "design_sha_matches_session": true,
+ "design_sha_file_matches": true,
+ "n_run_dirs": 78,
+ "code_versions": {
+  "('9d8ea221', True, 'ed70c36d')": 78
+ },
+ "status_by_condition": {
+  "('B4', 'ok', True)": 13,
+  "('B4_fix', 'ok', True)": 13,
+  "('B4_param_first', 'ok', True)": 13,
+  "('B4_param_first_fix', 'ok', True)": 13,
+  "('PRED_RANK_GREEDY', 'ok', True)": 13,
+  "('PRED_RANK_GREEDY_fix', 'ok', True)": 13
+ },
+ "event_logs_hash_ok": 78,
+ "event_logs_bad": [],
+ "runs_not_ok_or_unverified": [],
+ "mean_per_run_s": {
+  "B4": {
+   "makespan_event_log": 4.040807823077417,
+   "extra.decision_time_total_s (coordinator summary)": 0.19666272124203926,
+   "sum decision_time_s over task_dispatched events": 0.007209261825594764
+  },
+  "B4_fix": {
+   "makespan_event_log": 3.9145658461269566,
+   "extra.decision_time_total_s (coordinator summary)": 0.007978745789911885,
+   "sum decision_time_s over task_dispatched events": 0.007498938393277617
+  },
+  "B4_param_first": {
+   "makespan_event_log": 3.256011746179026,
+   "extra.decision_time_total_s (coordinator summary)": 0.18064192526687223,
+   "sum decision_time_s over task_dispatched events": 0.006864169057315359
+  },
+  "B4_param_first_fix": {
+   "makespan_event_log": 3.1421004307563773,
+   "extra.decision_time_total_s (coordinator summary)": 0.015345707052172376,
+   "sum decision_time_s over task_dispatched events": 0.00738856101480241
+  },
+  "PRED_RANK_GREEDY": {
+   "makespan_event_log": 3.1757216692293206,
+   "extra.decision_time_total_s (coordinator summary)": 0.09988092837067178,
+   "sum decision_time_s over task_dispatched events": 0.01643033836108561
+  },
+  "PRED_RANK_GREEDY_fix": {
+   "makespan_event_log": 3.1008834307655118,
+   "extra.decision_time_total_s (coordinator summary)": 0.02375133102759719,
+   "sum decision_time_s over task_dispatched events": 0.01638325362896117
+  }
+ }
+}
