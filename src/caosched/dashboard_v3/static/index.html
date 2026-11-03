@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>v3 - CAO Scheduler Demo</title>
+<meta name="cao-token" content="__CAO_TOKEN__">
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-row">
+    <div class="brand">
+      <h1>CAO &middot; Prediction-aware DAG scheduling on heterogeneous cores</h1>
+      <p>Dashboard v3 (v2 plus tab 6: live runs of the final benchmark with the RTX 3050). Tab 3 (top) and the GPU table in tab 5 show the FINAL benchmark (static vs dynamic scheduling, P/E cores + RTX 3050 CUDA worker, Intel Core i5-13500HX). Tab 2 replays accepted runs from an earlier laptop (i5-1235U) and its Run Live button uses the earlier demo setup (B4 or EFT_E1_rc, P/E cores + a simulated remote worker). Every number on these screens is read from event logs, artifacts or verified result files.</p>
+    </div>
+    <div class="spacer"></div>
+    <span id="mode-badge" class="badge replay"><span class="dot"></span><span>HISTORICAL REPLAY</span></span>
+    <button class="btn" id="theme-btn" type="button" aria-label="Toggle light/dark theme">Theme</button>
+  </div>
+  <nav class="tabs" role="tablist" aria-label="Screens">
+    <button role="tab" aria-selected="true" data-tab="overview">1 &middot; System overview</button>
+    <button role="tab" aria-selected="false" data-tab="workflow">2 &middot; Application workflow</button>
+    <button role="tab" aria-selected="false" data-tab="compare">3 &middot; Scheduling comparison</button>
+    <button role="tab" aria-selected="false" data-tab="hardware">4 &middot; Hardware expansion</button>
+    <button role="tab" aria-selected="false" data-tab="montage">5 &middot; Montage &amp; GPU</button>
+    <button role="tab" aria-selected="false" data-tab="live3">6 &middot; Live: final benchmark</button>
+  </nav>
+</header>
+
+<main>
+  <!-- 1. SYSTEM OVERVIEW -->
+  <section class="screen active" id="screen-overview" role="tabpanel">
+    <p class="lede">The runtime places a coordinator, local P-core and E-core worker pools and one remote worker on this machine.
+      The remote worker is <strong>simulated</strong>: a node process on a local E-core behind a configurable link shim.
+      No Raspberry Pi is connected. The laptop's own RTX 3050 is connected as a local CUDA worker (used in the final benchmark; the live demo on screen 2 uses P, E and the simulated remote worker).</p>
+    <div class="grid g6" id="ov-tiles"></div>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="card">
+        <h2>Logical processors &mdash; live CPU load</h2>
+        <p class="sub">Roles come from the runtime's topology discovery (<code>RuntimeConfig.from_topology()</code>); load is sampled live with psutil every 2 s.</p>
+        <div class="lp-grid" id="ov-lps"></div>
+      </div>
+      <div class="card">
+        <h2>Scheduler &amp; application status</h2>
+        <p class="sub">Live-run state of this dashboard and the verified record it replays.</p>
+        <dl class="kv" id="ov-status"></dl>
+      </div>
+    </div>
+    <div class="grid g3" style="margin-top:16px">
+      <div class="card">
+        <h2>Remote worker R0 <span class="badge sim" style="margin-left:6px"><span class="dot"></span>SIMULATED</span></h2>
+        <p class="sub">A local node process pinned to an E-core, reached through the <code>lan_1g</code> link shim (software-injected latency and bandwidth). It exercises the real remote code path but is the same silicon as the local E-cores.</p>
+        <dl class="kv" id="ov-remote"></dl>
+      </div>
+      <div class="card">
+        <h2>Raspberry Pi <span class="badge off" style="margin-left:6px"><span class="dot"></span>NOT CONNECTED</span></h2>
+        <p class="sub">Planned remote pool <code>R_PI</code>. Node code is portable and the connect-to-host path is implemented, but it has <strong>not been run or validated on a Pi</strong>.</p>
+        <p class="empty">No device metrics: nothing is attached, so none are shown.</p>
+      </div>
+      <div class="card">
+        <h2>Local NVIDIA GPU &middot; CUDA worker G <span id="ov-gpu-badge" class="badge live" style="margin-left:6px"><span class="dot"></span>CONNECTED</span></h2>
+        <p class="sub">The laptop's own GPU. In the final benchmark it runs as one CUDA worker <code>G</code> (configurations cpu / gpu / ext). Live runs of the final benchmark on screen 6 use it; the older live demo on screen 2 runs P, E and the simulated remote worker only. GPU results are on screen 3 (stored measurements) and screen 5.</p>
+        <dl class="kv" id="ov-gpu"><dt>Status</dt><dd>loading...</dd></dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. APPLICATION WORKFLOW -->
+  <section class="screen" id="screen-workflow" role="tabpanel">
+    <div class="card">
+      <div class="controls">
+        <div class="seg" role="group" aria-label="Source">
+          <button type="button" id="src-replay" aria-pressed="true">Replay accepted run</button>
+          <button type="button" id="src-live" aria-pressed="false">Live execution</button>
+        </div>
+        <span id="replay-controls" class="controls">
+          <label>Workload level <select id="rp-k"></select></label>
+          <label>Run <select id="rp-run"></select></label>
+        </span>
+        <span id="live-controls" class="controls" hidden>
+          <label>Workload level <select id="lv-k"><option>1</option><option>4</option><option selected>16</option><option>64</option></select></label>
+          <label>Policy <select id="lv-pol"><option value="EFT">EFT_E1_rc (transfer-aware)</option><option value="B4">B4 (greedy)</option></select></label>
+          <button class="btn primary" id="lv-start" type="button">Run live on this laptop</button>
+          <label>or reopen <select id="lv-prev"><option value="">previous live run…</option></select></label>
+          <span id="lv-msg" class="sub" style="margin:0"></span>
+        </span>
+      </div>
+      <p class="sub" style="margin:10px 0 0"><strong>Scope of this screen:</strong> replay of accepted runs from the earlier image-pipeline demo, and Run Live with B4 or EFT_E1_rc on P/E cores plus a simulated remote worker (no GPU worker, no PRED/HEFT here). The final benchmark with the RTX 3050 is on tab 3 (results), tab 5 (DAG, worker timeline and task table of any final run: type <strong>PRED_RANK_GREEDY</strong> in the Filter box) and tab 6 (run one live).</p>
+      <div id="wf-banner" class="banner" style="margin:14px 0 0"></div>
+    </div>
+
+    <div class="wf-layout">
+      <div>
+        <div class="card">
+          <h2>Image-analysis DAG &mdash; 68 tasks, 8 stages</h2>
+          <p class="sub">source &rarr; 16 &times; (tile &rarr; denoise &rarr; edges &rarr; features) &rarr; mosaic / aggregate &rarr; package. Only <em>denoise</em> and <em>edges</em> may run on the remote worker. Click a task for its timings and the scheduler's decision.</p>
+          <div class="svg-wrap" id="dag"></div>
+          <div class="legend" id="dag-legend"></div>
+          <div class="scrub">
+            <button class="btn" id="play" type="button">Play</button>
+            <input type="range" id="t-slider" min="0" max="1000" value="1000" aria-label="Replay time">
+            <span class="num mono" id="t-label">&ndash;</span>
+          </div>
+        </div>
+        <div class="card" style="margin-top:16px">
+          <h2>Worker timeline</h2>
+          <p class="sub">One row per worker (logical processor in brackets). Local bars are the worker's busy span (artifact I/O + kernel). The remote row shows the node's execution (solid) inside the span from hand-off to the remote proxy until the result is back (light: queueing at the proxy + link shim + artifact I/O). The vertical line marks the replay time.</p>
+          <div class="svg-wrap" id="gantt"></div>
+        </div>
+      </div>
+      <div>
+        <div class="card"><h2>Run summary</h2><dl class="kv" id="wf-summary"></dl></div>
+        <div class="card" style="margin-top:16px">
+          <h2>Real application output</h2>
+          <p class="sub">Decoded from the run's own artifact files.</p>
+          <div class="out-imgs" id="wf-out"></div>
+          <div id="wf-verify" style="margin-top:10px"></div>
+        </div>
+        <div class="card" style="margin-top:16px"><h2>Selected task</h2><div id="wf-task" class="empty">Click a task in the DAG or timeline.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. SCHEDULING COMPARISON -->
+  <section class="screen" id="screen-compare" role="tabpanel">
+    <div class="banner"><span class="badge sim"><span class="dot"></span>REAL &middot; FINAL BENCHMARK</span>
+      <span>Stored results of the final static-vs-dynamic study (RTX 3050 CUDA worker G + P/E cores). The older B4-vs-EFT comparison is kept below, collapsed.</span></div>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="card chart-card"><h2>End-to-end makespan by policy (primary workload)</h2><p class="sub">Lower is better; bars = geometric mean over 24 blocks, whiskers = 95% CI. Static plans: HEFT, PEFT, HEFT_E2E, HEFT_oracle (reference only).</p><div id="fc-make"></div></div>
+      <div class="card chart-card"><h2>Confirmatory contrasts C1&ndash;C10</h2><p class="sub">Effect on makespan, % (left of 0 = first policy faster), 95% CI; shaded band = the &plusmn;2% equivalence margin.</p><div id="fc-forest"></div></div>
+      <div class="card chart-card"><h2>PRED_RANK_GREEDY vs static HEFT, all six workloads</h2><p class="sub">Paired effect %, 95% CI (negative = dynamic faster). Only the primary workload is confirmatory; the others are exploratory.</p><div id="fc-wl-static"></div></div>
+      <div class="card chart-card"><h2>PRED_RANK_GREEDY vs blind B4, all six workloads</h2><p class="sub">Paired effect %, 95% CI (negative = PRED faster). The gain disappears when task cost does not vary (uniform, light workloads).</p><div id="fc-wl-b4"></div></div>
+      <div class="card chart-card"><h2>Where the tasks ran (primary workload, extended GPU set)</h2><p class="sub">Tasks on CPU (P+E) vs the RTX 3050; the number is the GPU busy fraction.</p><div id="fc-place"></div></div>
+    </div>
+    <div class="card" id="final-card" style="margin-bottom:16px"><h2>Final benchmark: static vs dynamic scheduling (CPU and GPU) <span class="badge sim" style="margin-left:6px"><span class="dot"></span>REAL &middot; STORED</span></h2>
+      <p class="sub" id="final-src">loading...</p><div class="table-wrap" id="final-conf"></div><div class="table-wrap" id="final-prim" style="margin-top:12px"></div></div>
+    <details style="margin-top:16px"><summary><strong>Historical comparison: B4 vs EFT_E1_rc (earlier machine, Phase B sweep)</strong></summary>
+    <div class="banner"><span class="badge replay"><span class="dot"></span>HISTORICAL</span>
+      <span id="cmp-source"></span></div>
+    <div class="takeaways" id="cmp-take"></div>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="card chart-card"><h2>Application makespan by workload level</h2><p class="sub">Mean of 10 runs per policy with 95% Student-t CI. Levels are separate sessions: compare B4 vs EFT <em>within</em> a level.</p><div id="ch-makespan"></div></div>
+      <div class="card chart-card"><h2>EFT_E1_rc vs B4 &mdash; paired makespan change</h2><p class="sub">Paired over the 10 repeats of each level (t-interval on log ratios). Above zero = EFT slower.</p><div id="ch-pct"></div></div>
+      <div class="card chart-card"><h2>When does transfer dominate? (denoise stage)</h2><p class="sub">Denoise compute on a local E-core divided by the measured link transfer of the same task. Below 1, moving the data costs more than computing it.</p><div id="ch-ratio"></div></div>
+      <div class="card chart-card"><h2>Remote path vs computing locally (denoise, per task)</h2><p class="sub">(remote kernel + I/O + transfer) &minus; (local E-core kernel + I/O), measured in the same run. Above zero = remote is slower for that task.</p><div id="ch-remote"></div></div>
+      <div class="card chart-card"><h2>Remote placements per run</h2><p class="sub">How often each policy used the remote worker (mean per run, 68 tasks per run).</p><div id="ch-place"></div></div>
+      <div class="card"><h2>Reading these results</h2><div id="cmp-explain"></div></div>
+    </div>
+    <div class="card" style="margin-top:16px"><h2>All values (table view)</h2><p class="sub" id="cmp-methods"></p><div class="table-wrap" id="cmp-table"></div></div>
+    </details>
+  </section>
+
+  <!-- 4. HARDWARE EXPANSION -->
+  <section class="screen" id="screen-hardware" role="tabpanel">
+    <p class="lede">The target system adds a Raspberry Pi (slow ARM CPU over a real network) as an additional remote pool, through the existing proxy/node interface and without changing the scheduler. The laptop's own RTX 3050 is already connected as a local CUDA worker. This screen separates what runs today from what is only implemented in code.</p>
+    <div class="card arch"><h2>Intended architecture</h2><div id="arch"></div><div class="legend" id="arch-legend"></div></div>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="card"><h2>Why physical hardware is needed</h2><div id="hw-why"></div></div>
+      <div class="card"><h2>Implementation status</h2><p class="sub" id="hw-src"></p><div class="table-wrap" id="hw-table"></div></div>
+    </div>
+  </section>
+
+  <!-- 5. MONTAGE & GPU WORKLOADS (read-only: event logs + run manifests + gpu_spike.json) -->
+  <section class="screen" id="screen-montage" role="tabpanel">
+    <div class="card">
+      <div class="controls">
+        <label>Workload <select id="mg-kind"><option value="montage">Montage (external commands)</option><option value="gpu">GPU / study runs (incl. final benchmark sessions)</option></select></label>
+        <label>Filter <input id="mg-filter" placeholder="e.g. PRED_RANK_GREEDY_E2E_ext" size="30"></label>
+        <label>Run <select id="mg-a"></select></label>
+        <label>Compare with <select id="mg-b"><option value="">none</option></select></label>
+        <span id="mg-msg" class="sub" style="margin:0"></span>
+      </div>
+    </div>
+    <div class="grid g2" id="mg-runs" style="margin-top:16px"></div>
+    <div class="card" id="mg-gpu" style="margin-top:16px" hidden></div>
+  </section>
+
+  <!-- 6. LIVE RUN OF THE FINAL BENCHMARK -->
+  <section class="screen" id="screen-live3" role="tabpanel">
+    <div class="banner"><span class="badge live"><span class="dot"></span>LIVE</span>
+      <span>Runs <strong>one block</strong> of the final benchmark on this laptop now: the real <code>WorkerPool</code> + <code>Coordinator</code> with P cores, E cores and (if chosen) the RTX 3050 CUDA worker G, the final workload (16 heavy chains of 64, 512 px) and the policy you pick. A demonstration run, not an experiment record: one repeat, no warm-up, so its makespan is not comparable with the confirmatory numbers on tab 3.</span></div>
+    <div class="card">
+      <div class="controls">
+        <label>Policy <select id="l3-pol"></select></label>
+        <label>Resources <select id="l3-cfg"></select></label>
+        <button class="btn primary" id="l3-start" type="button">Run live (final benchmark)</button>
+        <label>or reopen <select id="l3-prev"><option value="">previous live run&hellip;</option></select></label>
+        <span id="l3-msg" class="sub" style="margin:0"></span>
+      </div>
+      <p class="sub">Takes about one to two minutes: worker start-up (and CUDA start-up for the GPU options), one run, then output verification (GPU tasks are re-run on the CPU and compared). Needs 2.4 GB of free RAM; close other programs first. Dynamic = decides while running; static = a fixed plan made before the run.</p>
+    </div>
+    <div class="grid g3" id="l3-tiles" style="margin-top:16px"></div>
+    <div class="card" id="l3-detail" style="margin-top:16px" hidden></div>
+  </section>
+</main>
+<footer class="foot" id="foot"></footer>
+<div id="tip" role="tooltip"></div>
+<script src="/app.js"></script>
+<script src="/final_charts.js"></script>
+<script src="/live3.js"></script>
+</body>
+</html>

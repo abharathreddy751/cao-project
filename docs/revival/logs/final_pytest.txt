@@ -1,0 +1,569 @@
+........................................................................ [ 15%]
+........................................................................ [ 31%]
+........................................................................ [ 47%]
+........................................................................ [ 62%]
+........................................................................ [ 78%]
+........................................................................ [ 94%]
+..........................                                               [100%]
+=================================== PASSES ====================================
+_____________________ test_evaluate_models_cli_end_to_end _____________________
+---------------------------- Captured stdout call -----------------------------
+E1        n=    80 MAE=0.009882s RMSE=0.01406s medAPE=0.330 bias=-0.00988s p50=1us
+E3        n=    80 MAE=0.008402s RMSE=0.01099s medAPE=0.349 bias=-0.000144s p50=1us
+E1+rc     n=    80 MAE=0.007732s RMSE=0.01036s medAPE=0.293 bias=-0.00129s p50=1us
+Ridge     n=    80 MAE=7.082e-05s RMSE=9.811e-05s medAPE=0.003 bias=-2.6e-05s p50=6us
+CatBoost  n=    80 MAE=0.0003281s RMSE=0.0004777s medAPE=0.010 bias=+6e-05s p50=530us
+selected: CatBoost
+NON-DECISION CONTEXT ALLOWED (allow_non_decision_context=true): rows with start-time features were used; rows_per_ctx_source={'decision': 80}
+E1        n=    80 MAE=0.009882s RMSE=0.01406s medAPE=0.330 bias=-0.00988s p50=2us
+E3        n=    80 MAE=0.008402s RMSE=0.01099s medAPE=0.349 bias=-0.000144s p50=1us
+E1+rc     n=    80 MAE=0.007732s RMSE=0.01036s medAPE=0.293 bias=-0.00129s p50=1us
+Ridge     n=    80 MAE=7.082e-05s RMSE=9.811e-05s medAPE=0.003 bias=-2.6e-05s p50=6us
+CatBoost  n=    80 MAE=0.0003281s RMSE=0.0004777s medAPE=0.010 bias=+6e-05s p50=650us
+selected: CatBoost
+___________________ test_profile_format_csv_fit_and_cleanup ___________________
+---------------------------- Captured stdout call -----------------------------
+skipping 1 task(s) that failed or lack inputs in the reference work dir: ['BAD']
+skipping 1 task(s) that failed or lack inputs in the reference work dir: ['BAD']
+__________________________ test_refuses_low_free_ram __________________________
+---------------------------- Captured stdout call -----------------------------
+skipping 1 task(s) that failed or lack inputs in the reference work dir: ['BAD']
+__________________ test_design_loads_plans_and_holm_numbers ___________________
+---------------------------- Captured stdout call -----------------------------
+7 conditions x 12 blocks; Holm threshold 0.00833, min p 0.000488, n_min 8
+___________ test_calibrate_link_writes_profile_with_R_rows_and_fit ____________
+---------------------------- Captured stdout call -----------------------------
+link calibration (shim zero): transfer = 0.904 ms + 2.507 ns/byte (n=6, median |resid| 0.008 ms) -> C:\Users\Venkatesh\AppData\Local\Temp\pytest-of-Venkatesh\pytest-36\test_calibrate_link_writes_pro0\cal\prof.json
+_________________________ test_parse_args_validation __________________________
+---------------------------- Captured stderr call -----------------------------
+usage: __main__.py [-h] --dest DEST [--source SOURCE] [--branch BRANCH]
+                   [--tests TESTS [TESTS ...]] [--with-gpu]
+                   [--torch-index TORCH_INDEX] [--montage-subset]
+                   [--data-dir DATA_DIR] [--instance INSTANCE]
+                   [--timeout-s TIMEOUT_S]
+                   [--install-timeout-s INSTALL_TIMEOUT_S]
+__main__.py: error: timeouts must be > 0
+usage: __main__.py [-h] --dest DEST [--source SOURCE] [--branch BRANCH]
+                   [--tests TESTS [TESTS ...]] [--with-gpu]
+                   [--torch-index TORCH_INDEX] [--montage-subset]
+                   [--data-dir DATA_DIR] [--instance INSTANCE]
+                   [--timeout-s TIMEOUT_S]
+                   [--install-timeout-s INSTALL_TIMEOUT_S]
+__main__.py: error: timeouts must be > 0
+usage: __main__.py [-h] --dest DEST [--source SOURCE] [--branch BRANCH]
+                   [--tests TESTS [TESTS ...]] [--with-gpu]
+                   [--torch-index TORCH_INDEX] [--montage-subset]
+                   [--data-dir DATA_DIR] [--instance INSTANCE]
+                   [--timeout-s TIMEOUT_S]
+                   [--install-timeout-s INSTALL_TIMEOUT_S]
+__main__.py: error: --montage-subset needs --data-dir pointing at an existing directory
+usage: __main__.py [-h] --dest DEST [--source SOURCE] [--branch BRANCH]
+                   [--tests TESTS [TESTS ...]] [--with-gpu]
+                   [--torch-index TORCH_INDEX] [--montage-subset]
+                   [--data-dir DATA_DIR] [--instance INSTANCE]
+                   [--timeout-s TIMEOUT_S]
+                   [--install-timeout-s INSTALL_TIMEOUT_S]
+__main__.py: error: --data-dir/--instance only make sense with --montage-subset
+usage: __main__.py [-h] --dest DEST [--source SOURCE] [--branch BRANCH]
+                   [--tests TESTS [TESTS ...]] [--with-gpu]
+                   [--torch-index TORCH_INDEX] [--montage-subset]
+                   [--data-dir DATA_DIR] [--instance INSTANCE]
+                   [--timeout-s TIMEOUT_S]
+                   [--install-timeout-s INSTALL_TIMEOUT_S]
+__main__.py: error: bad test path '../x.py': must be relative to the repo, no '..', no leading '-'
+usage: __main__.py [-h] --dest DEST [--source SOURCE] [--branch BRANCH]
+                   [--tests TESTS [TESTS ...]] [--with-gpu]
+                   [--torch-index TORCH_INDEX] [--montage-subset]
+                   [--data-dir DATA_DIR] [--instance INSTANCE]
+                   [--timeout-s TIMEOUT_S]
+                   [--install-timeout-s INSTALL_TIMEOUT_S]
+__main__.py: error: argument --tests: expected at least one argument
+usage: __main__.py [-h] --dest DEST [--source SOURCE] [--branch BRANCH]
+                   [--tests TESTS [TESTS ...]] [--with-gpu]
+                   [--torch-index TORCH_INDEX] [--montage-subset]
+                   [--data-dir DATA_DIR] [--instance INSTANCE]
+                   [--timeout-s TIMEOUT_S]
+                   [--install-timeout-s INSTALL_TIMEOUT_S]
+__main__.py: error: bad test path 'C:\\Users\\Venkatesh\\AppData\\Local\\Temp\\pytest-of-Venkatesh\\pytest-36\\test_parse_args_validation0\\t.py': must be relative to the repo, no '..', no leading '-'
+usage: __main__.py [-h] --dest DEST [--source SOURCE] [--branch BRANCH]
+                   [--tests TESTS [TESTS ...]] [--with-gpu]
+                   [--torch-index TORCH_INDEX] [--montage-subset]
+                   [--data-dir DATA_DIR] [--instance INSTANCE]
+                   [--timeout-s TIMEOUT_S]
+                   [--install-timeout-s INSTALL_TIMEOUT_S]
+__main__.py: error: bad --instance name '../evil'
+usage: __main__.py [-h] --dest DEST [--source SOURCE] [--branch BRANCH]
+                   [--tests TESTS [TESTS ...]] [--with-gpu]
+                   [--torch-index TORCH_INDEX] [--montage-subset]
+                   [--data-dir DATA_DIR] [--instance INSTANCE]
+                   [--timeout-s TIMEOUT_S]
+                   [--install-timeout-s INSTALL_TIMEOUT_S]
+__main__.py: error: argument --branch: expected one argument
+usage: __main__.py [-h] --dest DEST [--source SOURCE] [--branch BRANCH]
+                   [--tests TESTS [TESTS ...]] [--with-gpu]
+                   [--torch-index TORCH_INDEX] [--montage-subset]
+                   [--data-dir DATA_DIR] [--instance INSTANCE]
+                   [--timeout-s TIMEOUT_S]
+                   [--install-timeout-s INSTALL_TIMEOUT_S]
+__main__.py: error: --source C:\Users\Venkatesh\AppData\Local\Temp\pytest-of-Venkatesh\pytest-36\test_parse_args_validation0 is not a git checkout
+=========================== short test summary info ===========================
+PASSED tests/test_analysis_extra.py::test_run_subset_whole_runs_stratified_and_seeded
+PASSED tests/test_analysis_extra.py::test_still_falling_rule
+PASSED tests/test_analysis_extra.py::test_drift_early_late_split_orders_runs_within_session
+PASSED tests/test_analysis_extra.py::test_regret_summary_and_pool_differences
+PASSED tests/test_analysis_paired.py::test_known_ten_percent_speedup_recovered
+PASSED tests/test_analysis_paired.py::test_null_case_interval_includes_zero
+PASSED tests/test_analysis_paired.py::test_exclusions_sensitivity_and_crosscheck
+PASSED tests/test_analysis_paired.py::test_failed_and_unverified_runs_flagged_not_dropped
+PASSED tests/test_analysis_paired.py::test_refuses_to_pool_across_environments_and_labels
+PASSED tests/test_analysis_paired.py::test_refuses_mixed_code_unless_flagged
+PASSED tests/test_analysis_paired.py::test_incomplete_sessions_are_excluded_with_a_reason
+PASSED tests/test_analysis_paired.py::test_same_session_twice_or_copied_is_not_double_counted
+PASSED tests/test_analysis_paired.py::test_tampered_log_is_excluded
+PASSED tests/test_analysis_paired.py::test_tables_figures_and_reproduction
+PASSED tests/test_analysis_paired.py::test_figures_tagged
+PASSED tests/test_analysis_paired.py::test_posthoc_block_exclusion_is_recorded_and_changes_n
+PASSED tests/test_apps.py::test_pipeline_shape_and_reference_is_deterministic
+PASSED tests/test_apps.py::test_local_pipeline_output_matches_reference
+PASSED tests/test_apps.py::test_remote_stages_move_real_data_and_output_matches
+PASSED tests/test_apps.py::test_ineligible_placement_is_a_contract_violation
+PASSED tests/test_apps.py::test_named_device_pool_and_foreign_clock
+PASSED tests/test_apps.py::test_oracle_incremental_add_equals_from_rows
+PASSED tests/test_apps.py::test_stage_payload_model_matches_real_artifacts
+PASSED tests/test_apps.py::test_transfer_aware_eft_runs_application_dag
+PASSED tests/test_apps.py::test_denoise_iterations_knob
+PASSED tests/test_claims.py::test_registry_is_well_formed
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[U1]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[U2]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[H1]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[H2]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[H3]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[H4]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[H5]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[G1]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[G2]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[G3]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[G4]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[R1]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[R2]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[R3]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[R4]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[N1]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[N2]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[N3]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[C1]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[C2]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[C3]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[C4]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[C5]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[V1]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[V2]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[V3]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[V4]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[V5]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[V6]
+PASSED tests/test_claims.py::test_claim_matches_its_stored_table[V7]
+PASSED tests/test_clock.py::test_clock_has_sub_microsecond_steps
+PASSED tests/test_clock.py::test_clock_is_shared_across_spawned_processes
+PASSED tests/test_clock.py::test_anchor_maps_perf_to_epoch
+PASSED tests/test_coordinator.py::test_independent_dag_all_tasks_complete
+PASSED tests/test_coordinator.py::test_chain_dag_completes_in_dependency_order
+PASSED tests/test_coordinator.py::test_fork_join_dag_join_waits_for_both_branches
+PASSED tests/test_coordinator.py::test_event_log_contains_lifecycle_events_for_every_task
+PASSED tests/test_coordinator.py::test_scheduler_choice_is_honoured_and_feedback_hook_called
+PASSED tests/test_coordinator.py::test_event_log_is_complete_ordered_and_reconstructs_the_schedule
+PASSED tests/test_coordinator.py::test_failing_task_fails_fast_and_is_logged
+PASSED tests/test_coordinator.py::test_scheduler_returning_non_idle_worker_violates_contract
+PASSED tests/test_coordinator.py::test_scheduler_that_never_dispatches_is_a_detected_deadlock
+PASSED tests/test_coordinator.py::test_dag_cannot_be_run_twice
+PASSED tests/test_coordinator.py::test_worker_death_mid_task_is_detected_not_hung
+PASSED tests/test_coordinator.py::test_run_timeout_is_enforced
+PASSED tests/test_coordinator.py::test_event_logger_refuses_to_clobber_existing_log
+PASSED tests/test_coordinator.py::test_lifecycle_intervals_are_causally_consistent_at_high_resolution
+PASSED tests/test_coordinator.py::test_every_baseline_policy_runs_a_real_dag_correctly[B0_P_only]
+PASSED tests/test_coordinator.py::test_every_baseline_policy_runs_a_real_dag_correctly[B0_E_only]
+PASSED tests/test_coordinator.py::test_every_baseline_policy_runs_a_real_dag_correctly[B1_round_robin]
+PASSED tests/test_coordinator.py::test_every_baseline_policy_runs_a_real_dag_correctly[B2_static_mapping]
+PASSED tests/test_coordinator.py::test_every_baseline_policy_runs_a_real_dag_correctly[B3_shortest_queue]
+PASSED tests/test_coordinator.py::test_every_baseline_policy_runs_a_real_dag_correctly[B4_greedy_eligible]
+PASSED tests/test_coordinator.py::test_every_baseline_policy_runs_a_real_dag_correctly[B5_criticality]
+PASSED tests/test_coordinator.py::test_every_baseline_policy_runs_a_real_dag_correctly[B6_eft_static]
+PASSED tests/test_coordinator.py::test_every_baseline_policy_runs_a_real_dag_correctly[B7_eft_history]
+PASSED tests/test_cuda_stages.py::test_imports_and_degrades_without_torch
+PASSED tests/test_cuda_stages.py::test_cuda_stage_matches_cpu_reference[img_denoise-params0]
+PASSED tests/test_cuda_stages.py::test_cuda_stage_matches_cpu_reference[img_denoise-params1]
+PASSED tests/test_cuda_stages.py::test_cuda_stage_matches_cpu_reference[img_edges-params2]
+PASSED tests/test_cuda_stages.py::test_cuda_stage_matches_cpu_reference[img_features-params3]
+PASSED tests/test_dag.py::test_independent_dag_all_tasks_initially_ready
+PASSED tests/test_dag.py::test_chain_dag_only_first_task_initially_ready
+PASSED tests/test_dag.py::test_chain_dag_completion_unlocks_next_task_in_order
+PASSED tests/test_dag.py::test_fork_join_dag_join_task_waits_for_all_branches
+PASSED tests/test_dag.py::test_mixed_dag_is_well_formed_and_eventually_completes
+PASSED tests/test_dag.py::test_dag_rejects_unknown_dependency
+PASSED tests/test_dag.py::test_dag_rejects_two_node_cycle_at_construction
+PASSED tests/test_dag.py::test_dag_rejects_cycle_hidden_behind_valid_prefix
+PASSED tests/test_dag.py::test_dag_rejects_key_task_id_mismatch
+PASSED tests/test_dag.py::test_dag_rejects_empty
+PASSED tests/test_dag.py::test_mark_completed_rejects_double_completion_and_unknown_id
+PASSED tests/test_dag.py::test_mark_completed_rejects_task_whose_deps_are_unmet
+PASSED tests/test_dag.py::test_topological_order_respects_every_edge_on_all_patterns
+PASSED tests/test_dag.py::test_critical_path_length_matches_known_shapes
+PASSED tests/test_dag.py::test_every_task_unlocked_exactly_once_under_any_completion_order
+PASSED tests/test_dashboard.py::test_accepted_sessions_come_from_the_verified_summary
+PASSED tests/test_dashboard.py::test_run_view_matches_the_saved_log_and_runs_csv
+PASSED tests/test_dashboard.py::test_run_view_handles_a_log_still_being_written
+PASSED tests/test_dashboard.py::test_unsafe_or_unaccepted_paths_are_rejected[../events-x]
+PASSED tests/test_dashboard.py::test_unsafe_or_unaccepted_paths_are_rejected[a/b-x]
+PASSED tests/test_dashboard.py::test_unsafe_or_unaccepted_paths_are_rejected[appdemo_20261004T185801-..\\x]
+PASSED tests/test_dashboard.py::test_unsafe_or_unaccepted_paths_are_rejected[appdemo_20261003T212905-demo_B4_greedy_eligible_R_r00]
+PASSED tests/test_dashboard.py::test_artifacts_are_real_pngs
+PASSED tests/test_dashboard.py::test_comparison_values_equal_the_saved_summary
+PASSED tests/test_dashboard.py::test_hardware_status_is_parsed_from_the_doc
+PASSED tests/test_dashboard.py::test_live_configuration_matches_the_accepted_sessions
+PASSED tests/test_dashboard.py::test_server_endpoints
+PASSED tests/test_dashboard.py::test_live_execution_uses_the_real_runtime
+PASSED tests/test_dashboard.py::test_montage_run_is_read_from_manifest_and_extcmd_log
+PASSED tests/test_dashboard.py::test_montage_run_flags_a_modified_event_log
+PASSED tests/test_dashboard.py::test_gpu_spike_rows_come_from_the_json
+PASSED tests/test_dashboard.py::test_montage_endpoints
+PASSED tests/test_dataset.py::test_context_reconstructed_at_task_start
+PASSED tests/test_dataset.py::test_failed_runs_are_excluded
+PASSED tests/test_dataset.py::test_campaign_policy_only_uses_allowed_idle_workers
+PASSED tests/test_dataset.py::test_campaign_policy_respects_task_eligibility
+PASSED tests/test_dataset.py::test_target_busy_frac_uses_logged_history_else_unknown
+PASSED tests/test_dataset.py::test_campaign_idle_gap_is_enforced_by_retry_after
+PASSED tests/test_dataset.py::test_campaign_policy_resolves_pools_and_concurrency_at_run_start
+PASSED tests/test_dataset_build.py::test_classify_exclusions
+PASSED tests/test_dataset_build.py::test_build_schema_provenance_and_validation
+PASSED tests/test_dataset_build.py::test_validation_detects_modified_raw_log
+PASSED tests/test_dataset_build.py::test_default_context_source_is_decision_and_time_splits_follow_collection_order
+PASSED tests/test_dataset_build.py::test_stamp_of_names_the_offending_file
+PASSED tests/test_dataset_build.py::test_experiment_runner_session_layout_is_a_source_kind
+PASSED tests/test_dataset_build.py::test_unverified_or_failed_session_runs_are_excluded
+PASSED tests/test_e2e.py::test_e2e_terms_roundtrip_and_strictness
+PASSED tests/test_e2e.py::test_eft_e2e_adds_setup_and_overhead_and_is_labelled
+PASSED tests/test_e2e.py::test_eft_e2e_wait_of_busy_worker_includes_setup_and_overhead
+PASSED tests/test_e2e.py::test_transfer_hook_applies_only_where_estimated
+PASSED tests/test_e2e.py::test_registry_e2e_suffix
+PASSED tests/test_e2e.py::test_e4f_matches_e4_exactly[occupancy]
+PASSED tests/test_e2e.py::test_e4f_matches_e4_exactly[occupancy+history]
+PASSED tests/test_eligibility.py::test_every_policy_places_only_on_eligible_workers_or_fails_before_running[B0_X1-True]
+PASSED tests/test_eligibility.py::test_every_policy_places_only_on_eligible_workers_or_fails_before_running[B0_X1-False]
+PASSED tests/test_eligibility.py::test_every_policy_places_only_on_eligible_workers_or_fails_before_running[B0_X2-True]
+PASSED tests/test_eligibility.py::test_every_policy_places_only_on_eligible_workers_or_fails_before_running[B0_X2-False]
+PASSED tests/test_eligibility.py::test_every_policy_places_only_on_eligible_workers_or_fails_before_running[B1-True]
+PASSED tests/test_eligibility.py::test_every_policy_places_only_on_eligible_workers_or_fails_before_running[B1-False]
+PASSED tests/test_eligibility.py::test_every_policy_places_only_on_eligible_workers_or_fails_before_running[B2-True]
+PASSED tests/test_eligibility.py::test_every_policy_places_only_on_eligible_workers_or_fails_before_running[B2-False]
+PASSED tests/test_eligibility.py::test_every_policy_places_only_on_eligible_workers_or_fails_before_running[B3-True]
+PASSED tests/test_eligibility.py::test_every_policy_places_only_on_eligible_workers_or_fails_before_running[B3-False]
+PASSED tests/test_eligibility.py::test_every_policy_places_only_on_eligible_workers_or_fails_before_running[B4-True]
+PASSED tests/test_eligibility.py::test_every_policy_places_only_on_eligible_workers_or_fails_before_running[B4-False]
+PASSED tests/test_eligibility.py::test_every_policy_places_only_on_eligible_workers_or_fails_before_running[B5-True]
+PASSED tests/test_eligibility.py::test_every_policy_places_only_on_eligible_workers_or_fails_before_running[B5-False]
+PASSED tests/test_eligibility.py::test_every_policy_places_only_on_eligible_workers_or_fails_before_running[random-True]
+PASSED tests/test_eligibility.py::test_every_policy_places_only_on_eligible_workers_or_fails_before_running[random-False]
+PASSED tests/test_eligibility.py::test_every_policy_places_only_on_eligible_workers_or_fails_before_running[first_idle-True]
+PASSED tests/test_eligibility.py::test_every_policy_places_only_on_eligible_workers_or_fails_before_running[first_idle-False]
+PASSED tests/test_eligibility.py::test_every_policy_places_only_on_eligible_workers_or_fails_before_running[EFT-True]
+PASSED tests/test_eligibility.py::test_every_policy_places_only_on_eligible_workers_or_fails_before_running[EFT-False]
+PASSED tests/test_eligibility.py::test_runtime_config_declares_arbitrary_pools_and_stays_backward_compatible
+PASSED tests/test_eligibility.py::test_from_topology_names_detected_classes_p_and_e
+PASSED tests/test_eligibility.py::test_build_time_errors_name_the_task
+PASSED tests/test_eligibility.py::test_resolve_eligibility_changes_nothing_when_it_fails
+PASSED tests/test_eligibility.py::test_coordinator_narrows_eligibility_for_the_run_only_so_one_dag_can_meet_other_pools
+PASSED tests/test_eligibility.py::test_criticality_picks_pools_named_p_and_e_not_dict_order
+PASSED tests/test_eligibility.py::test_remote_slot_cannot_reuse_the_name_of_a_cpu_pool
+PASSED tests/test_eligibility.py::test_coordinator_raises_eligibility_error_before_logging_anything
+PASSED tests/test_eligibility.py::test_cuda_only_variants_are_never_eligible_for_a_pool_without_cuda
+PASSED tests/test_eligibility.py::test_cuda_pool_refuses_cleanly_when_cuda_is_unavailable
+PASSED tests/test_eligibility.py::test_cuda_flag_baked_into_tasks_no_longer_breaks_cpu_pools
+PASSED tests/test_eligibility.py::test_real_cuda_worker_runs_cuda_variants_selected_by_pool
+PASSED tests/test_est_identity.py::test_properties_extcmd_and_plain
+PASSED tests/test_est_identity.py::test_e0_e1_e3_tell_transformations_apart
+PASSED tests/test_est_identity.py::test_learned_models_see_transformation_and_bytes[CatBoostEstimator-params0]
+PASSED tests/test_est_identity.py::test_learned_models_see_transformation_and_bytes[MlpEstimator-params1]
+PASSED tests/test_est_identity.py::test_parity_extcmd_run_rows_equal_online_identity
+PASSED tests/test_estimators.py::test_profile_rows_exclude_warmups
+PASSED tests/test_estimators.py::test_e0_is_size_blind
+PASSED tests/test_estimators.py::test_e2_recovers_exact_power_law_and_extrapolates
+PASSED tests/test_estimators.py::test_e2_fit_exponent_needs_two_sizes
+PASSED tests/test_estimators.py::test_context_from_state_excludes_candidate_and_counts_types
+PASSED tests/test_estimators.py::test_e4_learns_known_interference_slopes
+PASSED tests/test_estimators.py::test_e4_small_group_falls_back_and_is_reported
+PASSED tests/test_estimators.py::test_e4_correction_is_clamped
+PASSED tests/test_estimators.py::test_feature_vector_layout
+PASSED tests/test_estimators.py::test_e5_leave_run_out_and_strictness
+PASSED tests/test_estimators.py::test_registry_builds_online_rungs_and_refuses_e5
+PASSED tests/test_estimators.py::test_busy_fraction_and_candidate_context
+PASSED tests/test_estimators.py::test_e4_learns_recent_activity_effect
+PASSED tests/test_estimators.py::test_e4_load_defaults_to_recorded_profile
+PASSED tests/test_estimators.py::test_e4_load_accepts_matching_explicit_profile
+PASSED tests/test_estimators.py::test_e4_load_rejects_mismatched_explicit_profile
+PASSED tests/test_estimators.py::test_registry_e4_ignores_session_profile_and_keeps_predictions
+PASSED tests/test_estimators.py::test_e4_load_refuses_missing_or_invalid_base_profile[KeyError]
+PASSED tests/test_estimators.py::test_e4_load_refuses_missing_or_invalid_base_profile[None]
+PASSED tests/test_estimators.py::test_e4_load_refuses_missing_or_invalid_base_profile[]
+PASSED tests/test_estimators.py::test_e4_load_refuses_missing_or_invalid_base_profile[   ]
+PASSED tests/test_estimators.py::test_e4_load_refuses_missing_or_invalid_base_profile[42]
+PASSED tests/test_estimators.py::test_e4_load_when_recorded_profile_was_moved
+PASSED tests/test_estimators.py::test_e4_save_refuses_base_without_source
+PASSED tests/test_estimators.py::test_saved_phase_models_bind_to_their_training_profile
+PASSED tests/test_experiment_design.py::test_plan_deterministic_and_seed_dependent
+PASSED tests/test_experiment_design.py::test_interleaving_each_block_has_each_condition_once
+PASSED tests/test_experiment_design.py::test_warmup_flags_and_validation
+PASSED tests/test_experiment_runner.py::test_session_layout_manifests_and_readonly_log
+PASSED tests/test_experiment_runner.py::test_refuses_to_overwrite_session_and_logs
+PASSED tests/test_experiment_runner.py::test_failures_kept_and_flagged
+PASSED tests/test_experiment_runner.py::test_crash_leaves_session_json_crashed
+PASSED tests/test_experiment_runner.py::test_run_timeout_kills_the_run_and_is_recorded
+PASSED tests/test_experiment_runner.py::test_run_timeout_validation
+PASSED tests/test_experiment_runner.py::test_git_unavailable_is_recorded_not_faked
+PASSED tests/test_experiment_runner.py::test_manifest_refuses_to_overwrite_without_force
+PASSED tests/test_experiment_runner.py::test_preflight_abort_at_start_and_between_blocks
+PASSED tests/test_experiment_runner.py::test_manifest_verify_detects_changed_byte
+PASSED tests/test_extcmd.py::test_success_records_size_and_sha256
+PASSED tests/test_extcmd.py::test_nonzero_exit_is_an_error_with_stderr_tail
+PASSED tests/test_extcmd.py::test_missing_declared_output_fails_even_with_exit_zero
+PASSED tests/test_extcmd.py::test_missing_declared_input_fails_before_starting
+PASSED tests/test_extcmd.py::test_unstartable_program_and_stdout_redirect
+PASSED tests/test_extcmd.py::test_timeout_kills_the_whole_process_tree
+PASSED tests/test_extcmd.py::test_kill_tree_never_raises_when_a_process_cannot_be_killed
+PASSED tests/test_extcmd.py::test_make_extcmd_task_requires_a_positive_timeout[None]
+PASSED tests/test_extcmd.py::test_make_extcmd_task_requires_a_positive_timeout[0]
+PASSED tests/test_extcmd.py::test_make_extcmd_task_requires_a_positive_timeout[-1.0]
+PASSED tests/test_extcmd.py::test_make_extcmd_task_sizes_and_defaults
+PASSED tests/test_extcmd.py::test_prepare_workdir_cleans_only_its_own_directories
+PASSED tests/test_extcmd.py::test_chain_through_coordinator_logs_hashes_and_input_sizes
+PASSED tests/test_extcmd.py::test_nonzero_exit_through_coordinator_fails_the_run_with_a_defined_status
+PASSED tests/test_figures.py::test_figures_axes_and_labels
+PASSED tests/test_figures.py::test_load_result_roundtrip
+PASSED tests/test_gpu_adapter.py::test_stage_table_from_spike
+PASSED tests/test_gpu_adapter.py::test_only_table_stages_are_eligible_for_g
+PASSED tests/test_gpu_adapter.py::test_cpu_run_is_verified_and_no_gpu_ignores_the_table
+PASSED tests/test_gpu_adapter.py::test_g_pool_run_is_within_tolerance_and_confined
+PASSED tests/test_heft_peft.py::test_earliest_slot_insertion
+PASSED tests/test_heft_peft.py::test_heft_diamond_two_speeds
+PASSED tests/test_heft_peft.py::test_heft_insertion_fills_idle_gap
+PASSED tests/test_heft_peft.py::test_heft_with_edge_communication
+PASSED tests/test_heft_peft.py::test_peft_optimistic_cost_table_and_plan
+PASSED tests/test_heft_peft.py::test_peft_lookahead_differs_from_heft
+PASSED tests/test_heft_peft.py::test_plan_schedulers_follow_plan_and_stay_eligible
+PASSED tests/test_heft_peft.py::test_factories_register_plan_and_rank_policies
+PASSED tests/test_heft_peft.py::test_rank_eft_orders_by_upward_rank_and_counts_transfer
+PASSED tests/test_heft_peft_papers.py::test_heft_paper_example_fig3
+PASSED tests/test_heft_peft_papers.py::test_peft_sample_oct_rank_and_schedule
+PASSED tests/test_heft_peft_papers.py::test_heft_on_peft_sample_133_and_rank_u
+PASSED tests/test_models.py::test_accuracy_metrics_known_values
+PASSED tests/test_models.py::test_calibration_deciles_and_latency_distribution
+PASSED tests/test_models.py::test_replay_online_uses_only_completions_before_the_decision
+PASSED tests/test_models.py::test_measured_times_the_untraced_call_and_traces_a_second_call_only_on_request
+PASSED tests/test_models.py::test_select_model_rule
+PASSED tests/test_models.py::test_models_learn_interference_and_beat_the_profile[CatBoostEstimator-params0]
+PASSED tests/test_models.py::test_models_learn_interference_and_beat_the_profile[MlpEstimator-params1]
+PASSED tests/test_models.py::test_models_are_deterministic_and_roundtrip_with_profile_binding[CatBoostEstimator-params0]
+PASSED tests/test_models.py::test_models_are_deterministic_and_roundtrip_with_profile_binding[MlpEstimator-params1]
+PASSED tests/test_models.py::test_unseen_pool_or_workload_is_an_error_and_pool_counts_are_kept
+PASSED tests/test_models.py::test_catboost_params_may_not_override_the_fixed_reproducibility_settings
+PASSED tests/test_models.py::test_unprofiled_base_has_no_source_cannot_be_saved
+PASSED tests/test_models.py::test_split_policies_hold_out_whole_groups
+PASSED tests/test_models.py::test_time_split_orders_runs_by_collection_order_not_file_name
+PASSED tests/test_models.py::test_split_refuses_rows_without_group_key_and_supports_occupancy
+PASSED tests/test_models.py::test_make_splits_adds_leave_instance_out_and_time_ordered
+PASSED tests/test_models.py::test_load_rows_requires_decision_context_and_evaluate_scores_held_out_only
+PASSED tests/test_models.py::test_load_rows_drops_non_decision_rows
+PASSED tests/test_models.py::test_evaluate_models_cli_end_to_end
+PASSED tests/test_montage_adapter.py::test_b4_run_verifies_and_reuses_the_pool
+PASSED tests/test_montage_adapter.py::test_restricted_eligibility_is_enforced
+PASSED tests/test_montage_adapter.py::test_failed_run_is_kept_and_the_pool_rebuilt
+PASSED tests/test_montage_adapter.py::test_compare_outputs_bytes_then_tolerance
+PASSED tests/test_montage_adapter.py::test_build_policy_names_and_factory
+PASSED tests/test_montage_adapter.py::test_run_one_without_an_assigned_instance_is_a_clear_error
+PASSED tests/test_montage_adapter.py::test_cleanup_work_only_after_verified_runs
+PASSED tests/test_montage_adapter.py::test_random_occupancy_logs_decision_context_and_respects_eligibility
+PASSED tests/test_montage_adapter.py::test_random_occupancy_policy_kwargs
+PASSED tests/test_montage_adapter.py::test_max_p_slots_limits_the_p_pool
+PASSED tests/test_montage_adapter.py::test_reference_by_instance_overrides_the_default
+PASSED tests/test_parity_leakage.py::test_parity_offline_features_equal_online_features
+PASSED tests/test_parity_leakage.py::test_parity_data_collection_and_plan_policies[random_occupancy]
+PASSED tests/test_parity_leakage.py::test_parity_data_collection_and_plan_policies[heft]
+PASSED tests/test_parity_leakage.py::test_leakage_features_unchanged_when_post_decision_events_removed
+PASSED tests/test_parity_leakage.py::test_start_time_reconstruction_leaks_but_decision_context_does_not
+PASSED tests/test_parity_leakage.py::test_decision_mode_drops_rows_without_logged_context
+PASSED tests/test_parity_leakage.py::test_calibration_only_from_profiles_that_predate_the_session
+PASSED tests/test_parity_leakage.py::test_build_dataset_counts_rows_dropped_for_missing_decision_context
+PASSED tests/test_parity_leakage.py::test_eft_estimates_queued_tasks_under_their_own_decision_context
+PASSED tests/test_parity_leakage.py::test_eft_logs_context_for_every_candidate_and_only_eligible_workers
+PASSED tests/test_phase4.py::test_recalibration_converges_per_pool_and_resets
+PASSED tests/test_phase4.py::test_recalibration_min_obs_and_clamp
+PASSED tests/test_phase4.py::test_rc_registry_rules
+PASSED tests/test_phase4.py::test_eft_feeds_back_the_decision_time_context
+PASSED tests/test_phase4.py::test_oracle_factory_builds_fresh_e5_policy
+PASSED tests/test_phase4.py::test_regret_zero_when_idle_slow_worker_beats_busy_fast_one
+PASSED tests/test_phase4.py::test_regret_positive_when_queueing_behind_busy_worker_was_worse
+PASSED tests/test_phase4.py::test_completed_tasks_no_longer_block_and_missing_oracle_pool_is_dropped
+PASSED tests/test_phase4.py::test_eft_rc_runs_end_to_end_with_real_workers
+PASSED tests/test_phase4.py::test_waiting_is_bind_delay_and_ready_regret_not_placement_regret
+PASSED tests/test_profile_montage.py::test_profile_format_csv_fit_and_cleanup
+PASSED tests/test_profile_montage.py::test_refuses_low_free_ram
+PASSED tests/test_ready_queue.py::test_fifo_order_and_removal_from_middle
+PASSED tests/test_ready_queue.py::test_duplicate_push_rejected
+PASSED tests/test_ready_queue.py::test_remove_missing_raises_and_returns_enqueue_time
+PASSED tests/test_ready_queue.py::test_ordered_is_a_snapshot_safe_to_mutate_during_iteration
+PASSED tests/test_ready_queue.py::test_ordering_is_overridable_by_subclass
+PASSED tests/test_remote.py::test_payload_sizes_follow_workload_data
+PASSED tests/test_remote.py::test_link_config_delay_and_validation
+PASSED tests/test_remote.py::test_precise_wait_is_not_short_and_close
+PASSED tests/test_remote.py::test_transfer_model_local_zero_remote_shim_plus_socket
+PASSED tests/test_remote.py::test_protocol_roundtrip_large_payload
+PASSED tests/test_remote.py::test_link_calibration_fit_recovers_line
+PASSED tests/test_remote.py::test_remote_slot_handshake_and_task_through_the_shim
+PASSED tests/test_remote.py::test_coordinator_logs_transfer_for_remote_tasks_only
+PASSED tests/test_remote.py::test_recv_frame_rejects_oversized_before_allocating
+PASSED tests/test_remote.py::test_node_handshake_valid_wrong_missing_and_oversized
+PASSED tests/test_remote.py::test_node_survives_bad_messages_and_caps_reply_len
+PASSED tests/test_remote.py::test_proxy_authenticates_the_node_and_token_length_for_public_bind
+PASSED tests/test_remote.py::test_node_valid_token_roundtrip_and_no_token_dev_default
+PASSED tests/test_remote.py::test_node_refuses_public_bind_without_token
+PASSED tests/test_remote_adapter.py::test_link_kwargs_conversion_and_jitter_refused
+PASSED tests/test_remote_adapter.py::test_remote_run_places_on_R_verifies_and_stamps_emulation
+PASSED tests/test_remote_adapter.py::test_design_loads_plans_and_holm_numbers
+PASSED tests/test_remote_adapter.py::test_calibrate_link_writes_profile_with_R_rows_and_fit
+PASSED tests/test_reproduce_clean_checkout.py::test_parse_args_validation
+PASSED tests/test_reproduce_clean_checkout.py::test_prepare_dest_refuses_non_empty_and_overlap
+PASSED tests/test_reproduce_clean_checkout.py::test_main_refuses_non_empty_dest_without_doing_anything
+PASSED tests/test_reproduce_clean_checkout.py::test_write_log_is_exclusive
+PASSED tests/test_reproduce_clean_checkout.py::test_design_is_valid_stub_design
+PASSED tests/test_reproduce_clean_checkout.py::test_run_step_records_failure_exit_code
+PASSED tests/test_reproduce_clean_checkout.py::test_run_step_timeout_and_missing_executable
+PASSED tests/test_reproduce_clean_checkout.py::test_steps_skip_dependants_and_fail_overall
+PASSED tests/test_reproduce_clean_checkout.py::test_filter_requirements_drops_torch_only
+PASSED tests/test_reproduce_clean_checkout.py::test_montage_subset_hash_check
+PASSED tests/test_revival.py::test_snapshot_without_any_telemetry_is_safe_and_says_what_is_missing
+PASSED tests/test_revival.py::test_task_only_ablation_decides_like_predicted_rank_greedy
+PASSED tests/test_revival.py::test_work_conserving_idle_only_and_eligibility_with_a_gpu_worker
+PASSED tests/test_revival.py::test_residual_signal_steers_away_from_a_slow_worker_and_is_logged
+PASSED tests/test_revival.py::test_fallbacks_are_logged_with_a_reason
+PASSED tests/test_revival.py::test_decision_never_reads_outcome_fields_of_the_task_being_scheduled
+PASSED tests/test_revival.py::test_decision_record_is_versioned_and_complete
+PASSED tests/test_revival.py::test_hot_path_total_equals_the_component_breakdown
+PASSED tests/test_revival.py::test_decision_latency_at_the_maximum_pool_size
+PASSED tests/test_revival.py::test_contention_schedule_is_deterministic_disjoint_and_exact
+PASSED tests/test_revival.py::test_oracle_avoids_a_contended_worker_but_stays_work_conserving
+PASSED tests/test_revival.py::test_dyn_workload_is_a_two_level_fan_in_on_p_and_e_only
+PASSED tests/test_revival.py::test_revival_adapter_runs_a_contended_mixed_dag_and_verifies_the_output
+PASSED tests/test_runtime_hardening.py::test_injected_failure_marks_dependents_not_run
+PASSED tests/test_runtime_hardening.py::test_missing_output_fails_and_dependents_not_run
+PASSED tests/test_runtime_hardening.py::test_hanging_command_is_killed_and_reported_as_timeout
+PASSED tests/test_runtime_hardening.py::test_coordinator_kills_a_worker_whose_task_ignores_its_timeout
+PASSED tests/test_runtime_hardening.py::test_run_after_a_killed_worker_says_worker_dead_not_tasks_in_flight
+PASSED tests/test_runtime_hardening.py::test_early_binding_policy_accounts_for_tasks_waiting_in_the_local_queue
+PASSED tests/test_runtime_hardening.py::test_deadlock_accounts_for_all_tasks
+PASSED tests/test_runtime_hardening.py::test_worker_death_is_noticed_while_results_keep_arriving
+PASSED tests/test_runtime_hardening.py::test_rerun_starts_from_a_clean_work_directory
+PASSED tests/test_runtime_hardening.py::test_dead_worker_check_does_not_fire_for_a_clean_run
+PASSED tests/test_runtime_state.py::test_bind_submit_finish_local_queue_fifo
+PASSED tests/test_runtime_state.py::test_finish_wrong_task_and_double_submit_rejected
+PASSED tests/test_schedulers.py::test_b0_uses_only_its_pool_and_waits_when_pool_busy
+PASSED tests/test_schedulers.py::test_b1_cycles_over_all_workers_including_busy
+PASSED tests/test_schedulers.py::test_b2_respects_mapping_and_rejects_unmapped_workloads
+PASSED tests/test_schedulers.py::test_b3_picks_least_loaded_with_p_first_tiebreak
+PASSED tests/test_schedulers.py::test_b4_greedy_priority_and_eligibility
+PASSED tests/test_schedulers.py::test_b5_identifies_critical_path_and_orders_by_bottom_level
+PASSED tests/test_schedulers.py::test_b5_keeps_p_free_for_waiting_critical_task
+PASSED tests/test_schedulers.py::test_eft_prefers_fast_idle_pool_and_logs_all_candidates
+PASSED tests/test_schedulers.py::test_eft_queues_behind_busy_p_only_when_that_finishes_earlier
+PASSED tests/test_schedulers.py::test_eft_rejects_unprofiled_task_before_run
+PASSED tests/test_schedulers.py::test_history_estimator_overrides_prior_and_resets
+PASSED tests/test_schedulers.py::test_b7_learns_from_completions
+PASSED tests/test_schedulers.py::test_profile_file_roundtrip_and_metric_check
+PASSED tests/test_schedulers.py::test_registry_builds_every_policy_fresh
+PASSED tests/test_schedulers.py::test_pool_only_early_binds_to_the_least_loaded_worker_of_its_pool
+PASSED tests/test_stage2_gate.py::test_clean_run_passes
+PASSED tests/test_stage2_gate.py::test_violations_are_reported
+PASSED tests/test_stage3_designs.py::test_designs_load_plan_and_are_not_overwritten
+PASSED tests/test_stats.py::test_bootstrap_ci_covers_mean_and_is_reproducible
+PASSED tests/test_stats.py::test_stratified_bootstrap_keeps_strata_sizes
+PASSED tests/test_stats.py::test_paired_effect_recovers_known_ratio_and_cancels_block_drift
+PASSED tests/test_stats.py::test_paired_effect_needs_blocks_and_skips_missing
+PASSED tests/test_stats.py::test_min_detectable_effect
+PASSED tests/test_stats.py::test_holm_adjustment_and_sign_flip_p
+PASSED tests/test_stats.py::test_decision_time_and_scheduling_time_are_logged
+PASSED tests/test_stats.py::test_set_link_switches_shim_between_runs
+PASSED tests/test_stats.py::test_eft_allowed_pools_restricts_candidates
+PASSED tests/test_study2.py::test_batch_shape_and_eligibility
+PASSED tests/test_study2.py::test_cpu_run_is_exactly_the_reference
+PASSED tests/test_study2.py::test_a_wrong_output_is_not_verified
+PASSED tests/test_study2.py::test_static_map_policy_runs_without_gpu
+PASSED tests/test_study2.py::test_e2e_policy_is_built_from_a_terms_file
+PASSED tests/test_study2.py::test_one_pool_serves_gpu_and_no_gpu_conditions
+PASSED tests/test_study2.py::test_g_pool_run_is_within_tolerance_and_confined
+PASSED tests/test_study2.py::test_late_eft_takes_an_idle_best_worker
+PASSED tests/test_study2.py::test_late_eft_holds_for_a_busy_fast_worker_but_not_for_a_far_better_idle_one
+PASSED tests/test_study2.py::test_no_context_eft_decides_like_eft
+PASSED tests/test_study2.py::test_oracle_policy_uses_the_logged_task_times
+PASSED tests/test_study2.py::test_cached_oracle_gives_the_same_numbers_as_the_replay_oracle
+PASSED tests/test_study2.py::test_mixed_batch_shape_order_and_largest_first
+PASSED tests/test_study2.py::test_mixed_batch_run_is_verified
+PASSED tests/test_study2.py::test_iters_batch_hidden_cost_and_model
+PASSED tests/test_study2.py::test_param_model_finds_its_own_features_and_never_guesses
+PASSED tests/test_study2.py::test_policy_decision_time_stays_inside_the_budget
+PASSED tests/test_study2.py::test_scheduling_cost_guard_flags_a_run_dominated_by_the_policy
+PASSED tests/test_study2.py::test_session_aborts_on_battery_when_the_design_requires_mains
+PASSED tests/test_study2.py::test_hold_policy_waits_for_a_much_faster_busy_worker_only
+PASSED tests/test_study2.py::test_classes_batch_and_two_factor_model
+PASSED tests/test_task.py::test_happy_path_lifecycle_transitions
+PASSED tests/test_task.py::test_illegal_transitions_are_rejected[path0]
+PASSED tests/test_task.py::test_illegal_transitions_are_rejected[path1]
+PASSED tests/test_task.py::test_illegal_transitions_are_rejected[path2]
+PASSED tests/test_task.py::test_invalid_task_construction_rejected[kw0]
+PASSED tests/test_task.py::test_invalid_task_construction_rejected[kw1]
+PASSED tests/test_task.py::test_invalid_task_construction_rejected[kw2]
+PASSED tests/test_task.py::test_invalid_task_construction_rejected[kw3]
+PASSED tests/test_task.py::test_dependencies_list_is_normalised_to_tuple
+PASSED tests/test_task.py::test_derived_durations
+PASSED tests/test_task.py::test_messages_survive_pickling_for_spawn_ipc
+PASSED tests/test_topology.py::test_parse_cpu_set_buffer_matches_real_32_byte_entry_size
+PASSED tests/test_topology.py::test_parse_cpu_set_buffer_empty_returns_empty_list
+PASSED tests/test_topology.py::test_parse_cpu_set_buffer_truncated_entry_is_skipped_not_crashed
+PASSED tests/test_topology.py::test_discover_topology_on_this_machine_is_internally_consistent
+PASSED tests/test_trace.py::test_generation_is_deterministic_and_yields_valid_dag[layered]
+PASSED tests/test_trace.py::test_generation_is_deterministic_and_yields_valid_dag[independent]
+PASSED tests/test_trace.py::test_generation_is_deterministic_and_yields_valid_dag[fork_join]
+PASSED tests/test_trace.py::test_different_seed_gives_different_trace
+PASSED tests/test_trace.py::test_layered_edges_only_point_to_previous_layer
+PASSED tests/test_trace.py::test_fork_join_shape
+PASSED tests/test_trace.py::test_replay_builds_independent_fresh_dags
+PASSED tests/test_trace.py::test_load_or_create_persists_and_detects_stale_trace
+PASSED tests/test_worker_pool.py::test_handshake_reports_verified_affinity_and_measured_warmup
+PASSED tests/test_worker_pool.py::test_pools_are_partitioned
+PASSED tests/test_worker_pool.py::test_submit_and_poll_roundtrip_marks_busy_then_idle
+PASSED tests/test_worker_pool.py::test_submit_to_busy_or_unknown_worker_rejected
+PASSED tests/test_worker_pool.py::test_workload_exception_is_reported_not_crashing_worker
+PASSED tests/test_worker_pool.py::test_poll_timeout_returns_none
+PASSED tests/test_worker_pool.py::test_impossible_affinity_is_detected_not_silently_accepted
+PASSED tests/test_worker_pool.py::test_dead_worker_is_detectable
+PASSED tests/test_worker_pool.py::test_runtime_config_rejects_overlapping_or_empty_slots[kw0]
+PASSED tests/test_worker_pool.py::test_runtime_config_rejects_overlapping_or_empty_slots[kw1]
+PASSED tests/test_worker_pool.py::test_runtime_config_rejects_overlapping_or_empty_slots[kw2]
+PASSED tests/test_worker_pool.py::test_runtime_config_from_phase0_topology_is_consistent
+PASSED tests/test_workflow_adapter.py::test_round_trip_counts_commands_files_and_edges
+PASSED tests/test_workflow_adapter.py::test_edge_disagreement_is_reported_and_union_is_used
+PASSED tests/test_workflow_adapter.py::test_adapted_workflow_runs_under_every_policy_with_identical_output[FirstIdleScheduler]
+PASSED tests/test_workflow_adapter.py::test_adapted_workflow_runs_under_every_policy_with_identical_output[RoundRobinScheduler]
+PASSED tests/test_workflow_adapter.py::test_adapted_workflow_runs_under_every_policy_with_identical_output[ShortestQueueScheduler]
+PASSED tests/test_workflow_adapter.py::test_adapted_workflow_runs_under_every_policy_with_identical_output[GreedyEligibleScheduler]
+PASSED tests/test_workflow_adapter.py::test_adapted_workflow_runs_under_every_policy_with_identical_output[CriticalityScheduler]
+PASSED tests/test_workflow_adapter.py::test_adapted_workflow_runs_under_every_policy_with_identical_output[RandomScheduler]
+PASSED tests/test_workflow_adapter.py::test_stdout_redirect_job_and_undeclared_raw_input_report
+PASSED tests/test_workflow_adapter.py::test_unsupported_or_malformed_workflows_fail_loudly
+PASSED tests/test_workflow_adapter.py::test_montage_shaped_workflow_counts_and_kinds
+PASSED tests/test_workflow_adapter.py::test_real_generated_workflow_loads_without_edits
+PASSED tests/test_workloads.py::test_matmul_prepare_is_deterministic_given_seed
+PASSED tests/test_workloads.py::test_matmul_run_does_not_raise
+PASSED tests/test_workloads.py::test_compression_prepare_is_deterministic_given_seed
+PASSED tests/test_workloads.py::test_compression_run_does_not_raise
+PASSED tests/test_workloads.py::test_image_filter_prepare_is_deterministic_given_seed
+PASSED tests/test_workloads.py::test_image_filter_run_does_not_raise
+458 passed in 208.84s (0:03:28)
+exit=0

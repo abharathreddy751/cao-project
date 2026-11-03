@@ -1,0 +1,25 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+
+# Generated data (raw results are regenerable evidence, not source — but keep
+# small summary/gate reports tracked; raw CSV/JSON dumps can get large)
+data/benchmarks/*.csv
+data/environment/*.json
+data/reports/*.json
+!data/**/.gitkeep
+
+# Stage 1+ large/generated data (recorded by SHA-256 manifests instead)
+data/montage/
+data/results/stage*/**/work/
+data/experiments/
+
+# archives (the release bundle is attached to a GitHub Release, not committed)
+*.zip
+*.bundle
+SUBMISSION_FINAL/GITHUB_RELEASE_PACKAGE/DRIVE_UPLOAD/

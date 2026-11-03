@@ -1,0 +1,27 @@
+# Phase 4 configuration: predictive scheduling (EFT ladder, P, O) + decision regret.
+# Settings only, no measured values. Execution time = kernel-only.
+
+traces_from: config/phase2.yaml      # identical, already-saved traces (verified against data/traces/)
+baseline_policy_config: config/phase2.yaml
+estimator_config: config/phase3.yaml # E2 exponents, E3 window
+
+policies:
+  # Reference baselines. B0_P_only / B0_E_only also guarantee every trace task
+  # is observed on both pools in this session, which the E5 oracle needs.
+  baselines: [B0_P_only, B0_E_only, B4_greedy_eligible]
+  # EFT with each estimator rung. EFT_E1 == B6, EFT_E3 == B7, EFT_E4 == P.
+  # '+rc' = online recalibration (project decision 2026-10-03).
+  eft_estimators: [E0, E1, E2, E3, E4, E1+rc, E2+rc, E4+rc]
+  oracle: true                       # O = EFT with E5, built from stage-A runs of THIS session
+
+rc:
+  alpha: 0.2                         # EWMA weight of each new log-ratio observation
+  min_obs: 1
+  clamp: [0.5, 3.0]
+
+e4_model: data/models/e4_20261003T144301_occupancy_history.json
+
+experiment:
+  repeats: 5
+  order_seed: 4040                   # policy order shuffled per (repeat, trace)
+  run_timeout_s: 900

@@ -1,0 +1,31 @@
+# Phase 5 configuration: remote offloading through the local link shim, plus
+# the kernel-only vs end-to-end EFT ablation. Settings only, no measured values.
+
+profile: data/profiles/20261003T152700_profile.json     # Phase 5 session profile (P, E, R + link calibration)
+e2e_terms: data/models/e2e_terms_20261003T152812.json   # setup + solo overhead from that profile
+e4_model: data/models/e4_20261003T144301_occupancy_history.json
+estimator_config: config/phase3.yaml
+traces_from: config/phase2.yaml
+rc: {alpha: 0.2, min_obs: 1, clamp: [0.5, 3.0]}
+
+remote:
+  node_core: 11            # taken out of the E pool for every configuration except local_2P7E
+  proxy_core: 4            # proxies share the coordinator's reserved core (they mostly wait)
+
+links:                     # one remote configuration per link
+  loopback: {latency_s: 0.0,    bandwidth_Bps: null,      per_message_s: 0.0}      # mechanism only
+  lan_1g:   {latency_s: 0.0002, bandwidth_Bps: 125000000, per_message_s: 0.00005}
+  lan_100m: {latency_s: 0.0005, bandwidth_Bps: 12500000,  per_message_s: 0.00005}
+  wifi_50m: {latency_s: 0.003,  bandwidth_Bps: 6250000,   per_message_s: 0.0001}
+
+policies:
+  # EFT specs: '+rc' online recalibration; '@e2e' end-to-end ablation (kernel-only otherwise)
+  eft: [E1+rc, E1+rc@e2e, E4f+rc, E4f+rc@e2e]
+  local_only_baselines: [B4_greedy_eligible]
+  coverage_baselines: [B0_P_only, B0_E_only]     # local_2P7E only: oracle coverage for regret
+  remote_greedy: true                             # B4 variant with priority P > E > R
+
+experiment:
+  repeats: 3
+  order_seed: 5050
+  run_timeout_s: 1200

@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CAO Scheduler Demo</title>
+<meta name="cao-token" content="__CAO_TOKEN__">
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-row">
+    <div class="brand">
+      <h1>CAO &middot; Prediction-aware DAG scheduling on heterogeneous cores</h1>
+      <p>Base framework demonstration. Tabs 1-4 replay historical data from an earlier laptop (Intel Core i5-1235U, 2 P-cores + 8 E-cores); tab 5 shows the Stage 4 Montage and GPU runs recorded on an Intel Core i5-13500HX with an RTX 3050. Every number on these screens is read from event logs, artifacts or verified result files.</p>
+    </div>
+    <div class="spacer"></div>
+    <span id="mode-badge" class="badge replay"><span class="dot"></span><span>HISTORICAL REPLAY</span></span>
+    <button class="btn" id="theme-btn" type="button" aria-label="Toggle light/dark theme">Theme</button>
+  </div>
+  <nav class="tabs" role="tablist" aria-label="Screens">
+    <button role="tab" aria-selected="true" data-tab="overview">1 &middot; System overview</button>
+    <button role="tab" aria-selected="false" data-tab="workflow">2 &middot; Application workflow</button>
+    <button role="tab" aria-selected="false" data-tab="compare">3 &middot; Scheduling comparison</button>
+    <button role="tab" aria-selected="false" data-tab="hardware">4 &middot; Hardware expansion</button>
+    <button role="tab" aria-selected="false" data-tab="montage">5 &middot; Montage &amp; GPU</button>
+  </nav>
+</header>
+
+<main>
+  <!-- 1. SYSTEM OVERVIEW -->
+  <section class="screen active" id="screen-overview" role="tabpanel">
+    <p class="lede">The runtime places a coordinator, local P-core and E-core worker pools and one remote worker on this machine.
+      The remote worker is <strong>simulated</strong>: a node process on a local E-core behind a configurable link shim.
+      No Raspberry Pi or NVIDIA T4 is connected.</p>
+    <div class="grid g6" id="ov-tiles"></div>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="card">
+        <h2>Logical processors &mdash; live CPU load</h2>
+        <p class="sub">Roles come from the runtime's topology discovery (<code>RuntimeConfig.from_topology()</code>); load is sampled live with psutil every 2 s.</p>
+        <div class="lp-grid" id="ov-lps"></div>
+      </div>
+      <div class="card">
+        <h2>Scheduler &amp; application status</h2>
+        <p class="sub">Live-run state of this dashboard and the verified record it replays.</p>
+        <dl class="kv" id="ov-status"></dl>
+      </div>
+    </div>
+    <div class="grid g3" style="margin-top:16px">
+      <div class="card">
+        <h2>Remote worker R0 <span class="badge sim" style="margin-left:6px"><span class="dot"></span>SIMULATED</span></h2>
+        <p class="sub">A local node process pinned to an E-core, reached through the <code>lan_1g</code> link shim (software-injected latency and bandwidth). It exercises the real remote code path but is the same silicon as the local E-cores.</p>
+        <dl class="kv" id="ov-remote"></dl>
+      </div>
+      <div class="card">
+        <h2>Raspberry Pi <span class="badge off" style="margin-left:6px"><span class="dot"></span>NOT CONNECTED</span></h2>
+        <p class="sub">Planned remote pool <code>R_PI</code>. Node code is portable and the connect-to-host path is implemented, but it has <strong>not been run or validated on a Pi</strong>.</p>
+        <p class="empty">No device metrics: nothing is attached, so none are shown.</p>
+      </div>
+      <div class="card">
+        <h2>NVIDIA T4 <span class="badge off" style="margin-left:6px"><span class="dot"></span>NOT CONNECTED</span></h2>
+        <p class="sub">Planned remote pool <code>R_T4</code> with the CUDA <code>img_edges</code> variant. The variant is implemented but <strong>never executed</strong>: there is no GPU or PyTorch on this machine.</p>
+        <p class="empty">No GPU utilisation or device metrics: nothing is attached, so none are shown.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. APPLICATION WORKFLOW -->
+  <section class="screen" id="screen-workflow" role="tabpanel">
+    <div class="card">
+      <div class="controls">
+        <div class="seg" role="group" aria-label="Source">
+          <button type="button" id="src-replay" aria-pressed="true">Replay accepted run</button>
+          <button type="button" id="src-live" aria-pressed="false">Live execution</button>
+        </div>
+        <span id="replay-controls" class="controls">
+          <label>Workload level <select id="rp-k"></select></label>
+          <label>Run <select id="rp-run"></select></label>
+        </span>
+        <span id="live-controls" class="controls" hidden>
+          <label>Workload level <select id="lv-k"><option>1</option><option>4</option><option selected>16</option><option>64</option></select></label>
+          <label>Policy <select id="lv-pol"><option value="EFT">EFT_E1_rc (transfer-aware)</option><option value="B4">B4 (greedy)</option></select></label>
+          <button class="btn primary" id="lv-start" type="button">Run live on this laptop</button>
+          <label>or reopen <select id="lv-prev"><option value="">previous live run…</option></select></label>
+          <span id="lv-msg" class="sub" style="margin:0"></span>
+        </span>
+      </div>
+      <div id="wf-banner" class="banner" style="margin:14px 0 0"></div>
+    </div>
+
+    <div class="wf-layout">
+      <div>
+        <div class="card">
+          <h2>Image-analysis DAG &mdash; 68 tasks, 8 stages</h2>
+          <p class="sub">source &rarr; 16 &times; (tile &rarr; denoise &rarr; edges &rarr; features) &rarr; mosaic / aggregate &rarr; package. Only <em>denoise</em> and <em>edges</em> may run on the remote worker. Click a task for its timings and the scheduler's decision.</p>
+          <div class="svg-wrap" id="dag"></div>
+          <div class="legend" id="dag-legend"></div>
+          <div class="scrub">
+            <button class="btn" id="play" type="button">Play</button>
+            <input type="range" id="t-slider" min="0" max="1000" value="1000" aria-label="Replay time">
+            <span class="num mono" id="t-label">&ndash;</span>
+          </div>
+        </div>
+        <div class="card" style="margin-top:16px">
+          <h2>Worker timeline</h2>
+          <p class="sub">One row per worker (logical processor in brackets). Local bars are the worker's busy span (artifact I/O + kernel). The remote row shows the node's execution (solid) inside the span from hand-off to the remote proxy until the result is back (light: queueing at the proxy + link shim + artifact I/O). The vertical line marks the replay time.</p>
+          <div class="svg-wrap" id="gantt"></div>
+        </div>
+      </div>
+      <div>
+        <div class="card"><h2>Run summary</h2><dl class="kv" id="wf-summary"></dl></div>
+        <div class="card" style="margin-top:16px">
+          <h2>Real application output</h2>
+          <p class="sub">Decoded from the run's own artifact files.</p>
+          <div class="out-imgs" id="wf-out"></div>
+          <div id="wf-verify" style="margin-top:10px"></div>
+        </div>
+        <div class="card" style="margin-top:16px"><h2>Selected task</h2><div id="wf-task" class="empty">Click a task in the DAG or timeline.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. SCHEDULING COMPARISON -->
+  <section class="screen" id="screen-compare" role="tabpanel">
+    <div class="banner"><span class="badge replay"><span class="dot"></span>HISTORICAL</span>
+      <span id="cmp-source"></span></div>
+    <div class="takeaways" id="cmp-take"></div>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="card chart-card"><h2>Application makespan by workload level</h2><p class="sub">Mean of 10 runs per policy with 95% Student-t CI. Levels are separate sessions: compare B4 vs EFT <em>within</em> a level.</p><div id="ch-makespan"></div></div>
+      <div class="card chart-card"><h2>EFT_E1_rc vs B4 &mdash; paired makespan change</h2><p class="sub">Paired over the 10 repeats of each level (t-interval on log ratios). Above zero = EFT slower.</p><div id="ch-pct"></div></div>
+      <div class="card chart-card"><h2>When does transfer dominate? (denoise stage)</h2><p class="sub">Denoise compute on a local E-core divided by the measured link transfer of the same task. Below 1, moving the data costs more than computing it.</p><div id="ch-ratio"></div></div>
+      <div class="card chart-card"><h2>Remote path vs computing locally (denoise, per task)</h2><p class="sub">(remote kernel + I/O + transfer) &minus; (local E-core kernel + I/O), measured in the same run. Above zero = remote is slower for that task.</p><div id="ch-remote"></div></div>
+      <div class="card chart-card"><h2>Remote placements per run</h2><p class="sub">How often each policy used the remote worker (mean per run, 68 tasks per run).</p><div id="ch-place"></div></div>
+      <div class="card"><h2>Reading these results</h2><div id="cmp-explain"></div></div>
+    </div>
+    <div class="card" style="margin-top:16px"><h2>All values (table view)</h2><p class="sub" id="cmp-methods"></p><div class="table-wrap" id="cmp-table"></div></div>
+  </section>
+
+  <!-- 4. HARDWARE EXPANSION -->
+  <section class="screen" id="screen-hardware" role="tabpanel">
+    <p class="lede">The target system adds a Raspberry Pi (slow ARM CPU over a real network) and an NVIDIA T4 (fast CUDA stage) as additional remote pools, through the existing proxy/node interface and without changing the scheduler. This screen separates what runs today from what is only implemented in code.</p>
+    <div class="card arch"><h2>Intended architecture</h2><div id="arch"></div><div class="legend" id="arch-legend"></div></div>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="card"><h2>Why physical hardware is needed</h2><div id="hw-why"></div></div>
+      <div class="card"><h2>Implementation status</h2><p class="sub" id="hw-src"></p><div class="table-wrap" id="hw-table"></div></div>
+    </div>
+  </section>
+
+  <!-- 5. MONTAGE & GPU WORKLOADS (read-only: event logs + run manifests + gpu_spike.json) -->
+  <section class="screen" id="screen-montage" role="tabpanel">
+    <div class="card">
+      <div class="controls">
+        <label>Workload <select id="mg-kind"><option value="montage">Montage (external commands)</option><option value="gpu">GPU workload</option></select></label>
+        <label>Run <select id="mg-a"></select></label>
+        <label>Compare with <select id="mg-b"><option value="">none</option></select></label>
+        <span id="mg-msg" class="sub" style="margin:0"></span>
+      </div>
+      <p class="sub">Read-only: runs are found through their <code>run_manifest.json</code> (<code>data/experiments</code>, <code>data/results</code>, <code>--events-dir</code>) and drawn from their event logs. Nothing is executed here. Compare two runs of the same instance to see policies side by side.</p>
+    </div>
+    <div class="grid g2" id="mg-runs" style="margin-top:16px"></div>
+    <div class="card" id="mg-gpu" style="margin-top:16px" hidden></div>
+  </section>
+</main>
+<footer class="foot" id="foot"></footer>
+<div id="tip" role="tooltip"></div>
+<script src="/app.js"></script>
+</body>
+</html>

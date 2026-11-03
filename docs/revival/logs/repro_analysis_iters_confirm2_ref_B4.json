@@ -1,0 +1,31 @@
+{
+  "when_utc": "2026-10-25T03:09:23.205771+00:00",
+  "analysis_dir": "data\\results\\study2_20261024\\analysis_iters_confirm2_ref_B4",
+  "checks": [
+    {
+      "check": "evidence manifest data\\results\\study2_20261024\\iters_confirm2_sessions\\20261024T235431",
+      "ok": true,
+      "detail": {
+        "missing": [],
+        "changed": [],
+        "extra": []
+      }
+    },
+    {
+      "check": "event-log hashes vs run manifests",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "table summary reproduced from raw logs",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "table effects reproduced from raw logs",
+      "ok": true,
+      "detail": []
+    }
+  ],
+  "ok": true
+}

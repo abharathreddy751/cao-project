@@ -1,0 +1,10 @@
+scripts\revival_model_eval.py:67: note: By default the bodies of untyped functions are not checked, consider using --check-untyped-defs  [annotation-unchecked]
+scripts\revival_model_eval.py:81: note: By default the bodies of untyped functions are not checked, consider using --check-untyped-defs  [annotation-unchecked]
+scripts\revival_model_eval.py:94: note: By default the bodies of untyped functions are not checked, consider using --check-untyped-defs  [annotation-unchecked]
+src\caosched\revival\adapter.py:64: note: By default the bodies of untyped functions are not checked, consider using --check-untyped-defs  [annotation-unchecked]
+src\caosched\revival\adapter.py:65: note: By default the bodies of untyped functions are not checked, consider using --check-untyped-defs  [annotation-unchecked]
+src\caosched\revival\adapter.py:66: note: By default the bodies of untyped functions are not checked, consider using --check-untyped-defs  [annotation-unchecked]
+scripts\revival_profile_cpu_gpu.py:790: error: Argument 2 to "lp_lower_bound" has incompatible type "dict[tuple[str, str], Any | None]"; expected "dict[tuple[str, str], float]"  [arg-type]
+scripts\revival_profile_cpu_gpu.py:793: error: Argument 2 to "lp_lower_bound" has incompatible type "dict[tuple[str, str], Any | None]"; expected "dict[tuple[str, str], float]"  [arg-type]
+Found 2 errors in 1 file (checked 102 source files)
+exit=1

@@ -1,0 +1,59 @@
+# Phase 2 configuration: static profiling + baseline-scheduler experiments.
+# Settings only -- no measured values are ever written into this file.
+# Execution time everywhere = kernel-only (wall_time_seconds), per the
+# Phase 1 -> Phase 2 project decision.
+
+profile:
+  # Solo measurements (one task in flight machine-wide) on every worker slot.
+  warmup_rounds: 3        # rounds discarded from the profile (still in raw CSV)
+  repeat_rounds: 20       # rounds used for the profile
+  order_seed: 11          # shuffles measurement order within each round
+  input_seed_base: 1000   # task input seeds vary per round (seed = base + round)
+  workloads:              # workload -> sizes (matmul: N; image_filter: px side; compression: bytes)
+    matmul: [256, 512]
+    image_filter: [512, 1024]
+    compression: [1048576, 4194304]
+
+traces:
+  # Replayable workload traces, generated once and saved to data/traces/.
+  - name: layered_mixed
+    generator: layered
+    seed: 1
+    n_layers: 8
+    width_min: 4
+    width_max: 14
+    max_parents: 3
+    workload_mix: {matmul: 1, image_filter: 1, compression: 1}
+    sizes: {matmul: [256, 512], image_filter: [512, 1024], compression: [1048576, 4194304]}
+  - name: independent_mixed
+    generator: independent
+    seed: 2
+    n_tasks: 60
+    workload_mix: {matmul: 1, image_filter: 1, compression: 1}
+    sizes: {matmul: [256, 512], image_filter: [512, 1024], compression: [1048576, 4194304]}
+  - name: forkjoin_mixed
+    generator: fork_join
+    seed: 3
+    width: 12
+    stages: 4
+    workload_mix: {matmul: 1, image_filter: 1, compression: 1}
+    sizes: {matmul: [256, 512], image_filter: [512, 1024], compression: [1048576, 4194304]}
+
+policies:
+  B2_static_mapping:
+    # Rationale: Phase 0 K1 ranked matmul as the workload gaining most from a
+    # P-core (48-53% faster vs 28-36% for the others); with only 2 P slots the
+    # static map sends just that type to P. Re-check against the Phase 2
+    # profile's P/E ratios (PROJECT_STATUS.md).
+    mapping: {matmul: P, image_filter: E, compression: E}
+  B4_greedy_eligible:
+    priority: [P, E]
+    eligibility: {}       # empty = every workload eligible on every pool
+  B7_eft_history:
+    window: 8
+
+experiment:
+  repeats: 5              # full passes over (trace x policy)
+  order_seed: 2026        # policy order is shuffled independently in every (repeat, trace)
+  run_timeout_s: 900
+  policies: all           # or an explicit list of names from caosched.schedulers.ALL_POLICIES

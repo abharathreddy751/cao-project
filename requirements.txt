@@ -1,0 +1,12 @@
+# Core
+numpy>=1.26
+pillow>=10.0
+psutil>=5.9
+PyYAML>=6.0
+pandas>=2.1
+
+# Testing
+pytest>=7.4
+
+# Phase 3+ (learned estimator) — not required for Phase 0
+# scikit-learn>=1.3

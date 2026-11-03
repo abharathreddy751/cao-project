@@ -1,0 +1,506 @@
+{
+  "_about": "Every claim the project makes, with its status and the stored number that backs it. tests/test_claims.py re-reads each effects.csv and fails if the stored number differs from the one written here, so a claim cannot drift away from its evidence. status: supported | not_supported | not_resolved | descriptive. effect_pct = paired percent change of cond against ref (positive = cond slower), as in effects.csv.",
+  "root": "data/results/study2_20261024",
+  "claims": [
+    {
+      "id": "U1",
+      "text": "Uniform batch: predictive EFT (no context logging) is faster than the strongest static rule P-only.",
+      "status": "supported",
+      "analysis": "analysis_confirm_ref_B0_P_only",
+      "cond": "EFT_E1_noctx_gpu",
+      "effect_pct": -27.56,
+      "tol": 0.05,
+      "protocol": "EVALUATION_PROTOCOL_study2.md section 13, P1"
+    },
+    {
+      "id": "U2",
+      "text": "Uniform batch: predictive EFT is equivalent to greedy B4 within +-2% (no gain from prediction there).",
+      "status": "supported",
+      "analysis": "analysis_confirm_ref_B4_gpu",
+      "cond": "EFT_E1_noctx_gpu",
+      "effect_pct": 0.25,
+      "tol": 0.05,
+      "protocol": "EVALUATION_PROTOCOL_study2.md section 13, P3"
+    },
+    {
+      "id": "H1",
+      "text": "Hidden-cost batch: the learned rank-ordered EFT is faster than blind greedy B4.",
+      "status": "supported",
+      "analysis": "analysis_iters_confirm_ref_B4",
+      "cond": "EFT_iter_model_rank_noctx",
+      "effect_pct": -13.78,
+      "tol": 0.05,
+      "protocol": "EVALUATION_PROTOCOL_study2.md section 20, P1"
+    },
+    {
+      "id": "H2",
+      "text": "Hidden-cost batch: the table predictor that cannot see the parameter is slower than the learned rank-ordered EFT.",
+      "status": "supported",
+      "analysis": "analysis_iters_confirm_ref_EFT_iter_model_rank_noctx",
+      "cond": "EFT_E1_noctx",
+      "effect_pct": 58.14,
+      "tol": 0.05,
+      "protocol": "EVALUATION_PROTOCOL_study2.md section 20, P2"
+    },
+    {
+      "id": "H3",
+      "text": "Hidden-cost batch: static P-only is slower than the learned rank-ordered EFT.",
+      "status": "supported",
+      "analysis": "analysis_iters_confirm_ref_EFT_iter_model_rank_noctx",
+      "cond": "B0_P_only",
+      "effect_pct": 29.02,
+      "tol": 0.05,
+      "protocol": "EVALUATION_PROTOCOL_study2.md section 20, P3"
+    },
+    {
+      "id": "H4",
+      "text": "Hidden-cost batch: the learned rank-ordered EFT matches the informed hand rule within +-5%.",
+      "status": "not_resolved",
+      "analysis": "analysis_iters_confirm_ref_EFT_iter_model_rank_noctx",
+      "cond": "B4_param_first",
+      "effect_pct": -5.91,
+      "tol": 0.05,
+      "protocol": "EVALUATION_PROTOCOL_study2.md section 20, P4 (the hand rule is faster)"
+    },
+    {
+      "id": "H5",
+      "text": "Hidden-cost batch: rank ordering helps the learned EFT.",
+      "status": "supported",
+      "analysis": "analysis_iters_confirm_ref_EFT_iter_model_rank_noctx",
+      "cond": "EFT_iter_model_noctx",
+      "effect_pct": 9.37,
+      "tol": 0.05,
+      "protocol": "EVALUATION_PROTOCOL_study2.md section 20, P5"
+    },
+    {
+      "id": "G1",
+      "text": "Hidden-cost batch, generic learned model with predicted-rank ordering and work-conserving placement (PRED_RANK_GREEDY): faster than blind greedy B4 (fresh chain orders).",
+      "status": "supported",
+      "analysis": "analysis_iters_confirm2_ref_B4",
+      "cond": "PRED_RANK_GREEDY",
+      "effect_pct": -20.39,
+      "tol": 0.05,
+      "protocol": "EVALUATION_PROTOCOL_study2.md section 24, P1"
+    },
+    {
+      "id": "G2",
+      "text": "Hidden-cost batch: static P-only is slower than PRED_RANK_GREEDY (fresh chain orders).",
+      "status": "supported",
+      "analysis": "analysis_iters_confirm2_ref_PRED_RANK_GREEDY",
+      "cond": "B0_P_only",
+      "effect_pct": 28.08,
+      "tol": 0.05,
+      "protocol": "EVALUATION_PROTOCOL_study2.md section 24, P2"
+    },
+    {
+      "id": "G3",
+      "text": "Hidden-cost batch: the table predictor that cannot see the parameter is slower than PRED_RANK_GREEDY (fresh chain orders).",
+      "status": "supported",
+      "analysis": "analysis_iters_confirm2_ref_PRED_RANK_GREEDY",
+      "cond": "EFT_E1_noctx",
+      "effect_pct": 75.19,
+      "tol": 0.05,
+      "protocol": "EVALUATION_PROTOCOL_study2.md section 24, P3"
+    },
+    {
+      "id": "G4",
+      "text": "Hidden-cost batch: PRED_RANK_GREEDY is equivalent to the informed hand rule within +-2%; the hand rule is about 1.5% faster, so the equivalence is not resolved.",
+      "status": "not_resolved",
+      "analysis": "analysis_iters_confirm2_ref_PRED_RANK_GREEDY",
+      "cond": "B4_param_first",
+      "effect_pct": -1.54,
+      "tol": 0.05,
+      "protocol": "EVALUATION_PROTOCOL_study2.md section 24, P4"
+    },
+    {
+      "id": "R1",
+      "text": "2-P-core configuration, model retrained by one command: PRED_RANK_GREEDY is faster than blind greedy B4.",
+      "status": "supported",
+      "analysis": "analysis_iters_p2_confirm_ref_B4",
+      "cond": "PRED_RANK_GREEDY",
+      "effect_pct": -21.1,
+      "tol": 0.05,
+      "protocol": "EVALUATION_PROTOCOL_study2.md section 27, P1"
+    },
+    {
+      "id": "R2",
+      "text": "2-P-core configuration: static P-only is slower than PRED_RANK_GREEDY.",
+      "status": "supported",
+      "analysis": "analysis_iters_p2_confirm_ref_PRED_RANK_GREEDY",
+      "cond": "B0_P_only",
+      "effect_pct": 82.17,
+      "tol": 0.05,
+      "protocol": "EVALUATION_PROTOCOL_study2.md section 27, P2"
+    },
+    {
+      "id": "R3",
+      "text": "2-P-core configuration: the blind table predictor is slower than PRED_RANK_GREEDY.",
+      "status": "supported",
+      "analysis": "analysis_iters_p2_confirm_ref_PRED_RANK_GREEDY",
+      "cond": "EFT_E1_noctx",
+      "effect_pct": 57.65,
+      "tol": 0.05,
+      "protocol": "EVALUATION_PROTOCOL_study2.md section 27, P3"
+    },
+    {
+      "id": "R4",
+      "text": "2-P-core configuration: PRED_RANK_GREEDY is equivalent to the informed hand rule within +-2% (interval -0.8 to +0.0).",
+      "status": "supported",
+      "analysis": "analysis_iters_p2_confirm_ref_PRED_RANK_GREEDY",
+      "cond": "B4_param_first",
+      "effect_pct": 0.38,
+      "tol": 0.05,
+      "protocol": "EVALUATION_PROTOCOL_study2.md section 27, P4"
+    },
+    {
+      "id": "N1",
+      "text": "Uniform batch (nothing hidden): PRED_RANK_GREEDY with the generic model is equivalent to blind greedy B4 within +-2% (does no harm).",
+      "status": "supported",
+      "analysis": "analysis_uniform_nh_ref_PRED_RANK_GREEDY_gpu",
+      "cond": "B4_gpu",
+      "effect_pct": -0.45,
+      "tol": 0.05,
+      "protocol": "EVALUATION_PROTOCOL_study2.md section 29, P1"
+    },
+    {
+      "id": "N2",
+      "text": "Uniform batch: static P-only is slower than PRED_RANK_GREEDY.",
+      "status": "supported",
+      "analysis": "analysis_uniform_nh_ref_PRED_RANK_GREEDY_gpu",
+      "cond": "B0_P_only",
+      "effect_pct": 35.26,
+      "tol": 0.05,
+      "protocol": "EVALUATION_PROTOCOL_study2.md section 29, P2"
+    },
+    {
+      "id": "N3",
+      "text": "Uniform batch: PRED_RANK_GREEDY is equivalent to the section 13 predictive rule within +-2%.",
+      "status": "supported",
+      "analysis": "analysis_uniform_nh_ref_PRED_RANK_GREEDY_gpu",
+      "cond": "EFT_E1_noctx_gpu",
+      "effect_pct": -0.89,
+      "tol": 0.05,
+      "protocol": "EVALUATION_PROTOCOL_study2.md section 29, P3"
+    },
+    {
+      "id": "C1",
+      "text": "Two-factor workload: sorting by image size alone (B4_largest_first) is slower than PRED_RANK_GREEDY by 10% to 22%.",
+      "status": "supported",
+      "analysis": "analysis_classes_confirm_ref_PRED_RANK_GREEDY",
+      "cond": "B4_largest_first",
+      "effect_pct": 17.44,
+      "tol": 0.05,
+      "protocol": "EVALUATION_PROTOCOL_study2.md section 32, P1"
+    },
+    {
+      "id": "C2",
+      "text": "Two-factor workload: static P-only is slower than PRED_RANK_GREEDY by 8% to 20%.",
+      "status": "supported",
+      "analysis": "analysis_classes_confirm_ref_PRED_RANK_GREEDY",
+      "cond": "B0_P_only",
+      "effect_pct": 17.13,
+      "tol": 0.05,
+      "protocol": "EVALUATION_PROTOCOL_study2.md section 32, P2"
+    },
+    {
+      "id": "C3",
+      "text": "Two-factor workload: PRED_RANK_GREEDY is at least 2% faster than blind greedy B4 (observed 0.9% slower, interval -0.9 to +2.8).",
+      "status": "not_supported",
+      "analysis": "analysis_classes_confirm_ref_B4",
+      "cond": "PRED_RANK_GREEDY",
+      "effect_pct": 0.95,
+      "tol": 0.05,
+      "protocol": "EVALUATION_PROTOCOL_study2.md section 32, P3"
+    },
+    {
+      "id": "C4",
+      "text": "Two-factor workload: PRED_RANK_GREEDY is equivalent to the pixels x repeats formula within +-2% (interval -1.3 to +3.4, not shown).",
+      "status": "not_resolved",
+      "analysis": "analysis_classes_confirm_ref_PRED_RANK_GREEDY",
+      "cond": "B4_cost_first",
+      "effect_pct": 1.02,
+      "tol": 0.05,
+      "protocol": "EVALUATION_PROTOCOL_study2.md section 32, P4"
+    },
+    {
+      "id": "C5",
+      "text": "Two-factor workload: PRED_RANK_GREEDY is equivalent to the repeats-only rule within +-3% (interval -3.8 to +1.1, not shown).",
+      "status": "not_resolved",
+      "analysis": "analysis_classes_confirm_ref_PRED_RANK_GREEDY",
+      "cond": "B4_param_first",
+      "effect_pct": -1.41,
+      "tol": 0.05,
+      "protocol": "EVALUATION_PROTOCOL_study2.md section 32, P5"
+    },
+    {
+      "id": "V1",
+      "text": "Dynamic-contention mixed DAG, oracle gate: blind greedy B4 is at least 5% slower than the schedule-aware work-conserving oracle (observed: 1.2% faster; interval -3.0 to +0.5).",
+      "status": "not_supported",
+      "analysis": "../revival_20261025/analysis_gate_ref_ORACLE_STATE",
+      "cond": "B4",
+      "effect_pct": -1.24,
+      "tol": 0.05,
+      "protocol": "docs/revival/PROTOCOL_revival.md section 5 and 12"
+    },
+    {
+      "id": "V2",
+      "text": "Uniform batch with the CUDA worker, engineering check v2: RSA_COMBINED_gpu is equivalent to B4_gpu within +-2% (interval -0.4 to +1.8).",
+      "status": "supported",
+      "analysis": "../revival_20261025/analysis_uniform2_ref_B4_gpu",
+      "cond": "RSA_COMBINED_gpu",
+      "effect_pct": 0.77,
+      "tol": 0.05,
+      "protocol": "docs/revival/PROTOCOL_revival.md section 12.1, P1"
+    },
+    {
+      "id": "V3",
+      "text": "Uniform batch, v2: RSA_TASK_ONLY_gpu is equivalent to B4_gpu within +-2% (interval 0.05 to 1.9).",
+      "status": "supported",
+      "analysis": "../revival_20261025/analysis_uniform2_ref_B4_gpu",
+      "cond": "RSA_TASK_ONLY_gpu",
+      "effect_pct": 0.98,
+      "tol": 0.05,
+      "protocol": "docs/revival/PROTOCOL_revival.md section 12.1, P1"
+    },
+    {
+      "id": "V4",
+      "text": "Uniform batch, v2: RSA_STATE_ONLY_gpu is equivalent to B4_gpu within +-2% (interval -0.3 to +1.5).",
+      "status": "supported",
+      "analysis": "../revival_20261025/analysis_uniform2_ref_B4_gpu",
+      "cond": "RSA_STATE_ONLY_gpu",
+      "effect_pct": 0.7,
+      "tol": 0.05,
+      "protocol": "docs/revival/PROTOCOL_revival.md section 12.1, P1"
+    },
+    {
+      "id": "V5",
+      "text": "Uniform batch, v2: static P-only is more than 20% slower than B4_gpu.",
+      "status": "supported",
+      "analysis": "../revival_20261025/analysis_uniform2_ref_B4_gpu",
+      "cond": "B0_P_only",
+      "effect_pct": 37.27,
+      "tol": 0.05,
+      "protocol": "docs/revival/PROTOCOL_revival.md section 12.1, P2"
+    },
+    {
+      "id": "V6",
+      "text": "Uniform batch, v1 (before the lean hot path, amendment A1): RSA_COMBINED_gpu is equivalent to B4_gpu within +-2% (observed +2.3%, interval +1.2 to +3.6: it was not).",
+      "status": "not_supported",
+      "analysis": "../revival_20261025/analysis_uniform_ref_B4_gpu",
+      "cond": "RSA_COMBINED_gpu",
+      "effect_pct": 2.3,
+      "tol": 0.05,
+      "protocol": "docs/revival/PROTOCOL_revival.md section 12.1"
+    },
+    {
+      "id": "V7",
+      "text": "Uniform batch, v2: the existing PRED_RANK_GREEDY_gpu is equivalent to B4_gpu within +-2% (observed +1.3%, interval -0.2 to +2.7: equivalence not shown).",
+      "status": "not_resolved",
+      "analysis": "../revival_20261025/analysis_uniform2_ref_B4_gpu",
+      "cond": "PRED_RANK_GREEDY_gpu",
+      "effect_pct": 1.29,
+      "tol": 0.05,
+      "protocol": "docs/revival/PROTOCOL_revival.md section 12.1"
+    },
+    {
+      "id": "O1",
+      "text": "EXPLORATORY (overnight): hidden-cost batch, 6P+7E, 12 chain orders never used before: PRED_RANK_GREEDY makespan versus blind B4 (faster in 12 of 12 orders).",
+      "status": "descriptive",
+      "analysis": "../overnight_20261027/phase3/analysis_ref_B4",
+      "cond": "PRED_RANK_GREEDY",
+      "effect_pct": -19.32,
+      "tol": 0.05,
+      "protocol": "data/results/overnight_20261027/phase3/PLAN_unseen_orders.md"
+    },
+    {
+      "id": "O2",
+      "text": "EXPLORATORY (overnight): same session: informed hand rule B4_param_first versus B4.",
+      "status": "descriptive",
+      "analysis": "../overnight_20261027/phase3/analysis_ref_B4",
+      "cond": "B4_param_first",
+      "effect_pct": -19.85,
+      "tol": 0.05,
+      "protocol": "data/results/overnight_20261027/phase3/PLAN_unseen_orders.md"
+    },
+    {
+      "id": "O3",
+      "text": "EXPLORATORY (overnight): same session: PRED_RANK_GREEDY versus the hand rule (interval inside +-2%; not distinguishable).",
+      "status": "descriptive",
+      "analysis": "../overnight_20261027/phase3/analysis_ref_B4_param_first",
+      "cond": "PRED_RANK_GREEDY",
+      "effect_pct": 0.66,
+      "tol": 0.05,
+      "protocol": "data/results/overnight_20261027/phase3/PLAN_unseen_orders.md"
+    },
+    {
+      "id": "O4",
+      "text": "EXPLORATORY (overnight): hidden-cost batch, 2P+7E, 8 new orders: PRED_RANK_GREEDY versus B4 (faster in 8 of 8 orders).",
+      "status": "descriptive",
+      "analysis": "../overnight_20261027/phase3b/analysis_ref_B4",
+      "cond": "PRED_RANK_GREEDY",
+      "effect_pct": -20.45,
+      "tol": 0.05,
+      "protocol": "data/results/overnight_20261027/phase3b/PLAN_unseen_orders_p2.md"
+    },
+    {
+      "id": "O5",
+      "text": "EXPLORATORY (overnight): same session: PRED_RANK_GREEDY versus the hand rule.",
+      "status": "descriptive",
+      "analysis": "../overnight_20261027/phase3b/analysis_ref_B4_param_first",
+      "cond": "PRED_RANK_GREEDY",
+      "effect_pct": 0.27,
+      "tol": 0.05,
+      "protocol": "data/results/overnight_20261027/phase3b/PLAN_unseen_orders_p2.md"
+    },
+    {
+      "id": "O6",
+      "text": "EXPLORATORY (overnight dose-response, heavy chains 6 iterations vs 2): PRED_RANK_GREEDY versus B4.",
+      "status": "descriptive",
+      "analysis": "../overnight_20261027/phase3c/analysis_h006_ref_B4",
+      "cond": "PRED_RANK_GREEDY",
+      "effect_pct": -2.6,
+      "tol": 0.05,
+      "protocol": "data/results/overnight_20261027/phase3c/PLAN_dose_response.md"
+    },
+    {
+      "id": "O7",
+      "text": "EXPLORATORY (overnight dose-response, heavy chains 15 iterations vs 2): PRED_RANK_GREEDY versus B4 (no gain; interval includes zero).",
+      "status": "descriptive",
+      "analysis": "../overnight_20261027/phase3c/analysis_h015_ref_B4",
+      "cond": "PRED_RANK_GREEDY",
+      "effect_pct": 0.57,
+      "tol": 0.05,
+      "protocol": "data/results/overnight_20261027/phase3c/PLAN_dose_response.md"
+    },
+    {
+      "id": "O8",
+      "text": "EXPLORATORY (overnight dose-response, heavy chains 40 iterations vs 2): PRED_RANK_GREEDY versus B4.",
+      "status": "descriptive",
+      "analysis": "../overnight_20261027/phase3c/analysis_h040_ref_B4",
+      "cond": "PRED_RANK_GREEDY",
+      "effect_pct": -6.1,
+      "tol": 0.05,
+      "protocol": "data/results/overnight_20261027/phase3c/PLAN_dose_response.md"
+    },
+    {
+      "id": "O9",
+      "text": "EXPLORATORY (overnight dose-response, heavy chains 120 iterations vs 2): PRED_RANK_GREEDY versus B4.",
+      "status": "descriptive",
+      "analysis": "../overnight_20261027/phase3c/analysis_h120_ref_B4",
+      "cond": "PRED_RANK_GREEDY",
+      "effect_pct": -19.86,
+      "tol": 0.05,
+      "protocol": "data/results/overnight_20261027/phase3c/PLAN_dose_response.md"
+    },
+    {
+      "id": "O10",
+      "text": "EXPLORATORY (overnight, decision-preserving dispatch fix in a separate adapter): PRED_RANK_GREEDY_fix versus B4_fix, scheduling overhead of both reduced (coordinator time 0.024 s and 0.008 s per run).",
+      "status": "descriptive",
+      "analysis": "../overnight_20261027/phase3d/analysis_ref_B4_fix",
+      "cond": "PRED_RANK_GREEDY_fix",
+      "effect_pct": -20.28,
+      "tol": 0.05,
+      "protocol": "data/results/overnight_20261027/phase3d/PLAN_early_exit_fix.md"
+    },
+    {
+      "id": "O11",
+      "text": "EXPLORATORY (overnight, EMULATED remote pool, denoise level 30, fast link): EFT_E1 with the remote worker allowed versus without it; the remote worker did not help (slower).",
+      "status": "descriptive",
+      "analysis": "../overnight_20261027/phase4/e3_analysis_ref_EFT_no_remote",
+      "cond": "EFT_E1_remote_fast_lan",
+      "effect_pct": 3.78,
+      "tol": 0.05,
+      "protocol": "data/results/overnight_20261027/phase4/PLAN_remote_emulation_it30.md"
+    },
+    {
+      "id": "O12",
+      "text": "EXPLORATORY (overnight, 6 unseen orders, same session as O13-O15): PRED_RANK_GREEDY versus B4.",
+      "status": "descriptive",
+      "analysis": "../overnight_20261027/phase3e/analysis_heft_peft_ref_B4",
+      "cond": "PRED_RANK_GREEDY",
+      "effect_pct": -18.97,
+      "tol": 0.05,
+      "protocol": "data/results/overnight_20261027/phase3e/PLAN_phase3e.md"
+    },
+    {
+      "id": "O13",
+      "text": "EXPLORATORY (overnight): HEFT driven by the same learned model versus PRED_RANK_GREEDY (interval includes zero; not distinguishable).",
+      "status": "descriptive",
+      "analysis": "../overnight_20261027/phase3e/analysis_heft_peft_ref_PRED_RANK_GREEDY",
+      "cond": "HEFT_param_model",
+      "effect_pct": 1.1,
+      "tol": 0.05,
+      "protocol": "data/results/overnight_20261027/phase3e/PLAN_phase3e.md"
+    },
+    {
+      "id": "O14",
+      "text": "EXPLORATORY (overnight): PEFT driven by the same learned model versus PRED_RANK_GREEDY (slower).",
+      "status": "descriptive",
+      "analysis": "../overnight_20261027/phase3e/analysis_heft_peft_ref_PRED_RANK_GREEDY",
+      "cond": "PEFT_param_model",
+      "effect_pct": 20.23,
+      "tol": 0.05,
+      "protocol": "data/results/overnight_20261027/phase3e/PLAN_phase3e.md"
+    },
+    {
+      "id": "O15",
+      "text": "EXPLORATORY (overnight): rank-ordered EFT with early binding (same model) versus PRED_RANK_GREEDY (slower).",
+      "status": "descriptive",
+      "analysis": "../overnight_20261027/phase3e/analysis_heft_peft_ref_PRED_RANK_GREEDY",
+      "cond": "EFT_param_model_rank_noctx",
+      "effect_pct": 7.11,
+      "tol": 0.05,
+      "protocol": "data/results/overnight_20261027/phase3e/PLAN_phase3e.md"
+    },
+    {
+      "id": "O16",
+      "text": "EXPLORATORY (overnight dose follow-up, 8 new orders, heavy chains 15 iterations): PRED_RANK_GREEDY versus B4 (small gain; Holm-adjusted p 0.09).",
+      "status": "descriptive",
+      "analysis": "../overnight_20261027/phase3e/analysis_dose2_h015_ref_B4",
+      "cond": "PRED_RANK_GREEDY",
+      "effect_pct": -1.31,
+      "tol": 0.05,
+      "protocol": "data/results/overnight_20261027/phase3e/PLAN_phase3e.md"
+    },
+    {
+      "id": "O17",
+      "text": "EXPLORATORY (overnight dose follow-up, 8 new orders, heavy chains 40 iterations): PRED_RANK_GREEDY versus B4.",
+      "status": "descriptive",
+      "analysis": "../overnight_20261027/phase3e/analysis_dose2_h040_ref_B4",
+      "cond": "PRED_RANK_GREEDY",
+      "effect_pct": -2.89,
+      "tol": 0.05,
+      "protocol": "data/results/overnight_20261027/phase3e/PLAN_phase3e.md"
+    },
+    {
+      "id": "O18",
+      "text": "EXPLORATORY (overnight, 4 of 64 chains heavy, 4 new orders): PRED_RANK_GREEDY versus B4 (very large spread between orders).",
+      "status": "descriptive",
+      "analysis": "../overnight_20261027/phase3g/analysis_heavy04_ref_B4",
+      "cond": "PRED_RANK_GREEDY",
+      "effect_pct": -27.65,
+      "tol": 0.05,
+      "protocol": "data/results/overnight_20261027/phase3g/PLAN_heavy_count.md"
+    },
+    {
+      "id": "O19",
+      "text": "EXPLORATORY (overnight, 8 of 64 chains heavy, 4 new orders): PRED_RANK_GREEDY versus B4.",
+      "status": "descriptive",
+      "analysis": "../overnight_20261027/phase3g/analysis_heavy08_ref_B4",
+      "cond": "PRED_RANK_GREEDY",
+      "effect_pct": -26.76,
+      "tol": 0.05,
+      "protocol": "data/results/overnight_20261027/phase3g/PLAN_heavy_count.md"
+    },
+    {
+      "id": "O20",
+      "text": "EXPLORATORY (overnight, 40 of 64 chains heavy, 4 new orders): PRED_RANK_GREEDY versus B4 (small gain).",
+      "status": "descriptive",
+      "analysis": "../overnight_20261027/phase3g/analysis_heavy40_ref_B4",
+      "cond": "PRED_RANK_GREEDY",
+      "effect_pct": -3.81,
+      "tol": 0.05,
+      "protocol": "data/results/overnight_20261027/phase3g/PLAN_heavy_count.md"
+    }
+  ]
+}
