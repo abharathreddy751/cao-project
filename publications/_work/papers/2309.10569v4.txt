@@ -1,0 +1,1838 @@
+Task Graph offloading via Deep Reinforcement Learning in Mobile Edge Computing
+Jiagang Liua, Yun Mia,∗, Xinyu Zhangb,∗, Xiaocui Lib
+aSchool of Computer Science and Engineering, Hunan Institute of Technology, Hengyang, Hunan
+bSchool of Computer Science, Hunan University of Technology and Business, Changsha, China
+Abstract
+Various mobile applications that comprise dependent tasks are gaining widespread popularity and are increasingly complex. These
+applications often have low-latency requirements, resulting in a significant surge in demand for computing resources. With the
+emergence of mobile edge computing (MEC), it becomes the most significant issue to offload the application tasks onto small-scale
+devices deployed at the edge of the mobile network for obtaining a high-quality user experience. However, since the environment
+of MEC is dynamic, most existing works focusing on task graph offloading, which rely heavily on expert knowledge or accurate
+analytical models, fail to fully adapt to such environmental changes, resulting in the reduction of user experience. This paper
+investigates the task graph offloading in MEC, considering the time-varying computation capabilities of edge computing devices.
+To adapt to environmental changes, we model the task graph scheduling for computation offloading as a Markov Decision Process
+(MDP). Then, we design a deep reinforcement learning algorithm (SATA-DRL) to learn the task scheduling strategy from the
+interaction with the environment, to improve user experience. Extensive simulations validate that SATA-DRL is superior to existing
+strategies in terms of reducing average makespan and deadline violation.
+Keywords: Mobile edge computing; Task graph; Computation offloading; Reinforcement learning
+1. Introduction
+With the rapid advance of wireless communication technolo-
+gies and the proliferation of smart mobile devices, such as
+smartphones, tablets, and wearable devices, these lightweight
+smart devices have become significant terminals for mobile
+users (MUs) to access the Internet. Various mobile applica-
+tions are gaining widespread popularity and are increasingly
+complex [1]. Moreover, they are often composed of dependent
+tasks[2] that form the construct of a task graph, such as ges-
+ture recognition, mobile healthcare, and augment reality[3, 4].
+These applications often have low-latency requirements, result-
+ing in a significant surge in demand for computing resources.
+Nevertheless, it is difficult for smart devices to effectually sup-
+port the local execution of these computation-intensive appli-
+cations due to the naturally lightweight and limited computing
+resources[5]. The tension between computation-intensive ap-
+plications and resource-limited smart devices generates a bot-
+tleneck for obtaining a high-quality user experience.
+The emergent mobile edge computing (MEC) is proposed to
+deploy many small-scale devices, such as micro base stations,
+edge routers, and roadside units, at the edge of the mobile net-
+work in close proximity to users, instead of the remote cloud.
+Edge computing devices (ECDs) can provide richer computa-
+tion resources for MUs through wireless access service with
+reliable low-latency communications[6, 7]. With computation
+∗Corresponding authors
+Email addresses: jiagliu@hnit.edu.cn (Jiagang Liu),
+15111572562@163.com (Yun Mi ), zhangxinyu@whu.edu.cn
+(Xinyu Zhang)
+offloading technology, the tasks of computation-intensive appli-
+cations may be migrated to ECDs, not via the core network, so
+that the processing of these applications can be expedited, re-
+sulting in a high-quality user experience. As different tasks in
+mobile applications require different workloads and the amount
+of transfer data, the task scheduling strategy for computation of-
+floading needs to determine which tasks are processed on which
+ECDs and which tasks are executed locally. As a result, the
+task offloading strategy becomes the most significant issue in
+MEC[8].
+Most works have focused on optimal task scheduling strate-
+gies for task graph offloading in terms of the application com-
+pletion time[9], energy consumption[10], and communication
+service[11]. Due to the NP-hardness of task scheduling opti-
+mization, most studies on task graph offloading in MEC are
+based mainly on heuristic or approximation methods[10, 12,
+13, 14].
+In real-world scenarios, ECDs in the network are
+mainly responsible for some specialized functions[15, 16], such
+as routing, relaying, forwarding, and so on. In this case, ECDs
+only generally share their idle computing resources with the ap-
+plications offloaded from MUs. Considering that ECDs are still
+relatively resource-constrained devices compared to the remote
+cloud, their idle computing resources are incapable of main-
+taining persistent performance. The computing capabilities of
+ECDs may vary with time making the MEC environment dy-
+namic. However, these aforementioned works rely heavily on
+expert knowledge or accurate analytical models so they fail to
+fully adapt to the dynamic environment, resulting in the dead-
+line violation for the mobile applications since the actual task
+execution may fluctuate frequently[17, 13, 12, 18].
+Conse-
+Preprint submitted to **
+March 22, 2024
+arXiv:2309.10569v4  [cs.DC]  21 Mar 2024
+
+2
+RELATED WORK
+quently, a few works have been attracted to research the compu-
+tation offloading in MEC by utilizing the novelty technologies
+that can adapt to the dynamic environment.
+Deep reinforcement learning (DRL), which combines re-
+inforcement learning (RL) with a deep neural network, is a
+promising method that adaptively and flexibly makes sequen-
+tial decisions in a dynamic environment, without the need for
+expert knowledge. As a result, some researchers have begun to
+focus on how to solve the problem of computational offloading
+in dynamic MEC with DRL.
+A few works investigate the task offloading in MEC by utiliz-
+ing DRL to adapt to the environment variation[19, 20, 21, 22].
+These works consider the dynamic variation of the edge com-
+puting network to improve the performance of computation of-
+floading. However, these works focus the coarse-grained task
+offloading rather than fine-grained task graph offloading[23].
+Coarse-grained task offloading regards an application as an in-
+divisible whole and designs the offloading scheme based on ap-
+plications’ requirements on computing resources. This scheme
+does not divide the mobile application into tasks from its func-
+tional point of view and may result in unexpected computation
+delay by unreasonable processing compositor of tasks with de-
+pendency constraints.
+Recently, some works apply DRL to investigate the fine-
+grained offloading in MEC[24, 18]. Song et al. [24] took into
+account the different dynamic preferences between MEC and
+users to solve the multi-objective optimization problem of task
+graph offloading in MEC. Wang [18] focused on the variation
+of dependent constraints between tasks to improve the Quality-
+of-Service (QoS) of task graphs. Although these works have
+proposed various task graph offloading strategies, they did not
+consider the variation of computing capabilities of ECDs. The
+dynamic variation will lead to task execution delays. Moreover,
+the effect will continuously accumulate until task graph appli-
+cations are complete if the offloading strategy can not adapt to
+the dynamic variation, which leads to the deadline violation.
+This consequently motivates us to investigate DRL-based task
+graph offloading to improve user experience, considering the
+time-varying computing capabilities of ECDs.
+In this paper, we propose a task graph offloading strategy
+based on DRL in the MEC system. The proposed strategy can
+adapt to the dynamic environment when the computing capa-
+bilities of ECDs are time-varying, to satisfy application dead-
+lines and improve user experience as much as possible. We first
+formulate the task graph offloading in MEC as an optimiza-
+tion problem of minimizing the average application completion.
+Based on the topological ordering of applications, we decom-
+pose the ready tasks of the arrival applications into a prioritized
+list. Then, we model innovatively the scheduling processing of
+the ready tasks as a Markov Decision Process (MDP). In this
+MDP, the characterization of the environment is formulated as
+the state space, and the scheduling decision for each ready task
+is abstracted into the action space. The reward with respect to
+MDP is defined as the benefit for the agent. To overcome the
+difficulties caused by the large number of state spaces, we de-
+signed a DRL algorithm based on DQN to learn the scheduling
+decision from the interaction with the environment. Particu-
+larly, the major contributions of this paper are summarized as
+follows.
+• The task graph offloading is decomposed into making the
+scheduling decision for the ready tasks of the arrival appli-
+cations in a sequence of discrete time steps. The schedul-
+ing processing of the ready tasks is modeled as an MDP
+innovatively.
+• The environmental factors to be considered when schedul-
+ing each task schedule are formulated as the state space,
+and the scheduling decision for each task is abstracted into
+the action space. A reward value is formulated with nov-
+elty, consisting of a utility function, a duration factor, and
+a penalty factor.
+• A DRL algorithm based on DQN is designed to learn the
+scheduling decision from the interaction with the envi-
+ronment. By conducting extensive simulations, the pro-
+posed task graph offloading algorithm is superior to exist-
+ing strategies, in terms of reducing average makespan and
+deadline violation.
+The remainder of this paper is organized as follows. Sec-
+tion 2 briefly surveys the related work. Section 3 presents the
+system model and Section 4 formulates the optimization prob-
+lem of the task graph offloading in MEC. Section 5 gives the
+RL-based scheduling mechanism, and Section 6 describes the
+resource allocation based on RL. Then, the simulation evalua-
+tion and conclusions are provided in Section 7 and Section 8,
+respectively.
+2. Related work
+With advance of the Internet of Things (IoT) and Big data,
+smart mobile applications and IoT applications have prolifer-
+ated rapidly [25, 26]. Increasing researchers pay attention to
+the computing offloading in the edge computing. We briefly
+survey the related work in this section.
+Task graph scheduling has always been an important issue in
+the heterogeneous computing systems [27, 28]. Some works
+extended the traditional task scheduling techniques in cloud
+computing to the edge computing. Zhang et al. [9] extended
+the partial critical path (PCP) to allocate computing resources
+for the task graph application. Our previous work [7] regarded
+the computing resource allocation based on PCP for the task
+graph application as a trade. Then, we proposed an auction-
+based game to scheduling task graph applications when satis-
+fying deadline constraints. Nevertheless, these works did not
+consider the MEC environment dynamic.
+To adapt to the dynamic environment, many researchers have
+applied DRL to the computation offloading in dynamic MEC.
+He et al. [19] improved the performance of computation of-
+floading for vehicular networks by dynamic orchestration of
+network, caching, and computing resources. Ning et al. [20]
+considered the variation of the channel state and the computa-
+tion capability and proposed a DRL scheme to optimize traffic
+scheduling and resource allocation in vehicular networks. Chen
+2
+
+3
+SYSTEM MOBEL
+et al. [21] took into account the time-varying network dynam-
+ics to investigate an optimal computation offloading policy in
+a sliced radio access network. They proposed a DRL-based
+offloading decision to maximize the long-term utility perfor-
+mance. However, these works did not take into account the
+dependency among tasks, that is, they focused on the coarse-
+grained task offloading.
+There are also a few advances in utilizing DRL to further op-
+timize the computing resource allocation of task graphs in the
+MEC system. Lu et al. [29] focused on the scenarios of the
+multi-service nodes and task graph applications in heteroge-
+neous MEC. They proposed a fine-grained offloading scheme
+based on DRL to achieve the reduction of execution latency,
+monetary cost, energy consumption, as well as network usage.
+Song et al. [24] considered the different dynamic preferences
+between MEC and users to investigate the offloading decision.
+They proposed a multi-objective optimization strategy based
+on DRL for task graph applications in MEC. Wang et al.[18]
+proposed a DRL-based task graph offloading scheme to make
+the task offloading plan, considering the variation of dependent
+constraints between tasks. These above-mentioned works did
+not take into account the variational computing capabilities of
+ECDs, though they improved the performance of task graphs.
+Different from all the existing works above, this work inves-
+tigates the fine-grained task graph offloading and proposes an
+offloading strategy based on DRL to adapt to the variational
+computing capabilities of ECDs.
+Service Area
+Service Area
+Service Area
+MUs
+MUs
+ECD
+ECD
+MU
+Result data
+n
+PE
+ECD
+n
+m
+PE
+'
+m
+ni
+v
+nj
+v
+Decision controller
+r
+Q
+Agent
+Wired link
+Cellular link
+Transmit data
+Ready tasks
+Extract ready tasks
+Assign ready tasks
+Observe MEC
+Scheduling decision
+Figure 1: Components of MEC system.
+3. System Mobel
+A MEC system, as shown in Fig. 1, is comprised of many het-
+erogeneous ECDs deployed at the edge of the mobile network.
+There exists a decision controller that resides in some ECDs in
+the system [30]. It can periodically collect the real-time sta-
+tus information broadcasted from all ECDs. In the decision
+controller, we design an intelligent agent of the reinforcement
+learning, unlike traditional task schedulers (e.g., YARN). The
+agent makes the decision intelligently for the task scheduling
+by observing changes in the MEC system.
+Let M express the set of ECDs in the MEC system and
+M = |M| denote the total number of ECDs. Then, we use
+m (∀m ∈{1, . . . , M}) to index the m-th ECD. These ECDs in
+M communicate with each other via wired links [30]. We in-
+dicate the transmission rate between any two ECDs as Bm,m′,
+where m , m′ and ∀m, m′ ∈{1, . . . , M}. Based on the liter-
+ature [31], Bm,m′ can be estimated generally. Due to physical
+constraints, the computing resources of ECDs are limited. We
+assume that each ECD has only one processing element (PE)
+which provides the computing service for the task execution
+of the application following First Come First Service manner
+(FCFS). In practice, the processing capabilities of PEs are fi-
+nite continuous values varying with time [20]. Moreover, the
+processing capability state at the next moment is related to the
+previous moment. We assume that the processing capabilities
+of PEs are stabilized over a short period when they are within
+a level. Therefore, the processing capabilities of PEs can be
+discretized and quantized into several levels, similar to the lit-
+erature [20]. Then, let δm express the processing capability of
+ECD m at a state, which can be measured in millions of instruc-
+tions per second (MIPS). Each ECD can periodically broadcast
+the current status information, such as its own workload and
+the transmission rate with other ECDs. Since the work mainly
+focuses designing an intelligent algorithm to allocate the de-
+pendent tasks among different connected ECDs, we did not pay
+a special focus on the task scheduling over parallel processing
+elements. This simple model can also be easily extended to
+a more general case in which each ECD has multiple PEs with
+parallel computing capability by adding more virtual ECDs and
+neglecting the data transmission cost among them.
+In the MEC system shown in Fig. 1 each ECD can provide
+cellular communication services to many MUs in a specified
+area. We use N to indicate the set of all MUs that the MEC
+system can serve, and N = |N| denotes the total number of
+MUs. Thus, n (∀n ∈{1, . . . , N}) can index the n-th MU. Each
+MU needs to process an application composed of multiple de-
+pendent tasks. This proposal can also be easily extended to the
+scenarios in which a MU can process multiple applications by
+adding some new MUs that can only process one application to
+the system. As a result, N also represents the set of all appli-
+cations and n can index the n-th application1. We can model
+the application as a direct acyclic graph (DAG) [10]. Then,
+Gn(Vn, En) indicates a DAG corresponding to application n.
+Vn denotes the set of tasks. En is the set of data dependen-
+cies, called directed edges, among these tasks. For any task in
+Vn, it is an atomic and indivisible component.
+MU n expects to expedite the execution of its application be-
+fore the deadline, so it needs to offload application data to the
+MEC system. To achieve this, MU n must first send the of-
+floading request to the ECD whose cellular communication ser-
+vice covers MU n. Let mn indicate the ECD that covers MU n,
+as shown in Fig. 1. Bm
+n denotes the transmission rate between
+ECD mn and MU n. After ECD mn accepts this request and
+receives the application data sent by MU n, the decision con-
+1In this paper, we will interchangeably use three terms, i.e., MU n, n-th MU
+and application n, to represent a user application
+3
+
+3
+SYSTEM MOBEL
+ECD 3
+ECD 1
+PE
+PE
+ECD 2
+PE
+Application data
+Result data
+Mobile 
+user
+Transmit data
+Transmit data
+(MU  )
+(ECD    )
+Task
+Computing 
+queue
+PE PE in ECD
+ni
+v
+nj
+v
+n
+2n
+Figure 2: Network Topology.
+troller will extract the tasks ready for execution from ECD mn
+and push them into a ready queue Qr. Whereafter, the decision
+controller can make the assignment for the tasks in Qr accord-
+ing to a scheduling strategy. Moreover, any task can only be
+executed on one ECD. The result data must send back to MU n
+after all tasks of application n are completed in the MEC sys-
+tem. As MU n is located within the cellular signal coverage
+area of ECD mn, the result data needs to be transmitted to MU
+n via ECD mn. For any MU n, it has the same network topol-
+ogy for task execution as all ECDs in this system can execute
+tasks offloaded from MU n. Hence, we only focus on the topol-
+ogy with one MU for simplicity, which is shown in Fig. 2. More
+MUs connected to the MEC system only increase the number of
+applications offloaded to this system, which does not affect this
+study. Built upon this topology with one MU, we can assume
+MU n as the fictitious ECD which is the 0-th edge computing
+device in M. To model the application data sent by MU n and
+the result data received by MU n, we add two dummy tasks to
+each application in N. Moreover, the two dummy tasks must
+be on this fictitious ECD corresponding to MU n. As a result,
+all tasks in application n can be offloaded to the MEC system.
+Considering the above characteristics of the computing of-
+floading, we use the triple elements {rn, dn, Gn} to indicate the
+application that MU n offloads to the MEC system. Here, rn
+denotes the time of the offloading request sent by MU n and dn
+is the deadline of application n. In the task graph Gn, In = |Vn|
+expresses the number of tasks in application n. We indicate
+each task in Vn as vni (i ∈{0, . . . , In}). Here, i indexes the i-th
+task. For ease of expression, meanwhile, we use vn0 and vnI to
+denote the two dummy tasks, respectively. For task vni, it has
+a workload ρni, which is the number of instructions needed by
+the PE to process vni. Generally, ρni can be acquired by profile
+analytics [32]. Accordingly, ρn0 and ρnI are set to zero since vn0
+and vnI are the dummy tasks added to application n. Due to the
+dependency constraints among tasks, the output data from task
+vni needs to be transferred to another task vnj. Notice that, the
+dummy vnI has no the output data and the dummy vn0 has no
+the input data. The data transfer between vni and vnj forms a
+directed edge, denoted as εnij ∈En. If there exists the directed
+edge from vni to vn j, we call vni the parent of vnj. Accordingly,
+vn j is the child of vni. We use p(vni) and c(vni) to define the sets
+of vni’s parents and children, respectively. For the two dummy
+vn0 and vnI, especially, p(vn0) and c(vnI) are empty sets. Un-
+der the scheduling strategy made by the decision controller, the
+output data from a completed task need to be transferred to the
+ECD where the child tasks are located, due to the data depen-
+dencies between tasks. For example, task vni is on ECD 2n and
+vni’s child vn j is on ECD 3 in Fig. 2. After ECD 2n completes
+task vni, ECD 2n needs to transmit the all output data to ECD
+3 via the communication link since vni’s child vn j is on ECD
+3. Let eni j denote the size of data transfer from vni to vn j. Es-
+pecially, if both vni and its child vn j on the same ECD m, the
+transmit data eni j from vni can be delivered directly to vn j with-
+out going through the communication link. To help understand,
+the common symbols used throughout this paper are listed in
+Table 1.
+Table 1: Frequently Used Symbols
+Symbol
+Definition
+M, n
+The total number of ECDs and the number of
+MUs
+Bm,m′
+The transmission rate between m and m′
+mn
+The ECD covering MU n
+Bm
+n
+The transmission rate between ECD mn and
+MU n
+ˆB
+The maximum value of all Bm,m′
+δm
+The processing capability of ECD m
+ˆδ
+The maximum value of all δm
+Vn, En
+The sets of tasks and directed edges in DAG Gn
+In
+The number of tasks in application n
+vni
+The i-th task in application n
+vn0 and vnI
+Two dummy tasks in application n
+ρni
+A workload of task vni
+εni j
+The directed edge between vni and vn j
+p(vni)
+The set of vni’s parents
+c(vni)
+The set of vni’s children
+xni
+A strategy for task vni
+xm
+ni
+A binary variable denoting the scheduling plan
+E(xni)
+The execution time of vni
+eni j
+The transmit data between vni to vn j
+T(xni, xn j)
+The data transfer time from vni to vn j via the
+communication link
+F(xni)
+The completion time of vni
+A(xn j)
+The arrival time of input data to vni
+Flct
+ni
+The latest completion time of vni
+ξn
+The list of tasks in application n in ascending
+order
+sτ
+The state space in MDP at time step τ
+aτ
+The action space in MDP at time step τ
+r
+The reward in MDP
+To ease the understanding, Fig. 3 shows an example of the
+task graph model with eight tasks. This task graph for an appli-
+cation contains eight tasks, where the dotted red circles indicate
+dummy tasks and the gray circles denote real tasks. The dotted
+arrows express the application data to be offloaded and the re-
+sult data to be sent back to MU, respectively. Specifically, the
+former are the outgoing arcs attached to v0 and the latter corre-
+4
+
+4
+PROBLEM FORMULATION
+1
+2
+1
+2
+1
+2
+1
+1
+1
+1
+1v
+2v
+3v
+4v
+5v
+6v
+7v
+0v
+Figure 3: Task Graph Model.
+spond to the incoming arcs attached to v7. Moreover, the num-
+bers attached to the directed arcs, i.e., solid arrows and dotted
+arrows, denote the size of transfer data.
+4. Problem Formulation
+We define a strategy xni = (x0
+ni, . . . , xM
+ni ) for task vni in ap-
+plication n. Peculiarly, the item xm
+ni (∀m ∈{0, . . . , M}) in xni
+is the binary variable that denotes the scheduling plan. Since
+each real task vni (i < {0, I}) can be executed on any real ECD
+m (m , 0), we can define xm
+ni as follows.
+xm
+ni =
+
+1,
+if ECD m can execute vni,
+0,
+otherwise.
+(1)
+For the dummy tasks vn0 and vnI, they must be on the ECD 0
+corresponding to MU n. Hence, we have
+x0
+n0 = 1,
+x0
+nI = 1.
+(2)
+For the other real tasks vni, i.e., i , {0, I}, they need to be of-
+floaded to the MEC system rather than executed locally. Thus,
+we have
+x0
+ni = 0,
+i , {0, I}.
+(3)
+As any task can only be scheduled to one ECD for execution,
+we have
+M
+X
+m=0
+xm
+ni = 1,
+∀i ∈{0, . . . , I}.
+(4)
+If task vni is scheduled to ECD m under the strategy xni, we can
+define the execution time E(xni) of vni on ECD m as follows.
+E(xni) =
+
+0,
+if i ∈{0, I},
+MP
+m=1
+ρni
+δm · xm
+ni,
+otherwise.
+(5)
+Since there exists transmit data enij between two tasks vni and
+vn j with the dependency constraints, we use T(xni, xnj) to indi-
+cate the data transfer time via the communication link. Con-
+sidering that enij from vni can be delivered to vnj without going
+through the communication link when vni and vnj are scheduled
+to the same ECD, we define T(xni, xnj) = 0 when xni = xn j. If
+vni is the task to which the application data offloaded from MU
+m is to be transferred, i.e., vn0 ∈p(vni), there are two cases of
+ECD m that vni can be scheduled to. In one case, m = mn, that
+is, MU n is in the cellular signal area of ECD m. Thus, MU n
+can connect to ECD m directly. Hence, we have
+T(xn0, xni) = en0i
+Bmn
+,
+vni ∈c(vn0), and m = mn,
+(6)
+where Bm
+n is the transmission rate between MU n and ECD mn,
+and en0i is the size of data transfer from vn0 to vni. In the other,
+m , mn. The application data offloaded from MU n must be
+transferred to ECD m via ECD mn. Therefore, we calculate
+T(xn0, xni) by
+en0i
+Bmn
++
+M
+X
+m=1
+en0i
+Bmn,m
+xm
+ni, vni ∈c(vn0) and m , mn.
+(7)
+Furthermore, if vni is the task that outputs the result data to MU
+n, i.e., vnI ∈c(vni), there are also two cases of ECD m. For the
+first case, m = mn, so that the result output by vni on ECD m
+can be transferred directly to MU n. Thus, we have
+T(xni, xnI) = eniI
+Bmn
+,
+vni ∈p(vnI), and m = mn.
+(8)
+In the second case, the result output by vni on ECD m must be
+transferred to MU n via the ECD mn such that T(xni, xnI) can be
+defined as
+eniI
+Bmn
++
+M
+X
+m=1
+eniI
+Bm,mn
+xm
+ni, vni ∈p(vnI) and m , mn.
+(9)
+Except for the aforementioned cases, vni and vn j are respectively
+scheduled to real ECDs m and m′ (m , m′) which can commu-
+nicate directly with each other. We have
+T(xni, xn j) =
+M
+X
+m=1
+M
+X
+m′=1
+eni j
+Bm,m′ · xm
+ni · xm′
+n j,
+m , m′.
+(10)
+The decision controller can detect the completion time of
+task vni, after ECD m completes vni. We use F(xni) to indicate
+vni’s completion time. If vni is the dummy task vn0, i.e., i = 0,
+the time when MU n sends the application data can be seen as
+the completion time of vni. If vni is the dummy task vnI, i.e.,
+i = I, moreover, the time when MU n receives the result data
+can be regarded as the completion time of vni. Therefore, we
+calculate F(xni) by
+
+rn,
+if i = 0,
+max
+vnj∈p(vni){F(xn j) + T(xn j, xni)} + E(xni),
+if i = I.
+(11)
+For any real task vni, it can be offloaded to ECD m (∀m ∈
+{1, . . . , M}) for execution. As ECD n processes vni following
+FCFS, we must take into account the queue delay on the ECD
+n and the arrival of input data to vni. As a result, we can define
+F(xni) as follows.
+F(xni) = max
+(
+Q(xni), max
+vnj∈p(tni) A(xn j)
+)
++ E(xni).
+(12)
+5
+
+5
+REINFORCEMENT LEARNING-BASED SCHEDULING MECHANISM FOR TASK GRAPH
+5.1
+Preparation for MDP
+In Eq. (12), Q(xni) expresses the time when ECD n is ready to
+execute vni under the scheduling plan xni. Specifically, Q(xni) =
+PM
+m=1 Qmxm
+ni. Here Qm is the queue delay of ECD m, to which
+vni will be scheduled. Moreover, A(xnj) is the arrival time of
+input data to vni. We can define A(xnj) as follows.
+A(xn j) = F(xnj) + T(xnj, xni),
+∀vnj ∈p(vni).
+(13)
+After all of MU n’s tasks are completed in the MEC system,
+the decision controller can obtain the completion time Ψn of
+application n, i.e., the makespan. Therefore, we can calculate
+Ψn based on the maximum completion time among all tasks.
+Hence, we have
+Ψn = max
+vni∈Vn F(xni) −rn.
+(14)
+All MUs in the MEC system expect to expedite the process-
+ing of applications. Therefore, the objective of this paper is to
+design a scheduling strategy to minimize the average makespan
+of applications for all MUs. We can formulate the optimization
+problem as follows.
+P :
+min
+{xni}
+1
+N
+N
+X
+n=1
+Ψn
+(15)
+s.t.
+(1), (2), (3), (4)
+xm
+ni ∈{0, 1},
+∀n ∈N
+∀m ∈M
+∀i ∈1, . . . , I.
+(16)
+Constraint (1) denotes that the decision variable. Constraint (2)
+claims that the dummy tasks must be located in MU n, i.e., ECD
+0. Constraint (3) indicates that all real tasks are offloaded to the
+MEC system. Constraint (4) expresses that task vni can only be
+scheduled to one ECD.
+We can reduce Problem P to the multiprocessor scheduling
+problem which is a well-know NP-hard problem [33]. More-
+over, it is more difficult to obtain the optimal solution as a re-
+sult of the dynamic and variable nature of the network envi-
+ronment. Therefore, obtaining the optimal solution to Problem
+P will consume high time complexity. For any MU, it needs
+an efficient strategy with polynomial time rather than the opti-
+mal solution, due to the low latency requirement. The heuristic
+or approximation methods can find a feasible solution to task
+offloading rapidly, but they rely heavily on expert knowledge
+or accurate analytical models [18]. It is also more difficult to
+formulate an accurate analytical model in a dynamic environ-
+ment, which is time-consuming due to the increasing complex-
+ity of applications [18]. DRL can make sequential decisions by
+self-learning in a dynamic environment, without the need for
+expert knowledge. In this work, we change the optimal con-
+trol of Problem P into a Markov Decision Process (MDP) and
+introduce deep reinforcement learning to solve it.
+5. Reinforcement Learning-based Scheduling Mechanism
+for Task Graph
+Reinforcement learning is one of the methodologies that can
+make an optimal decision by self-learning in a specific environ-
+ment. It can abstract an optimization problem into an interactive
+process between an agent and the environment. Reinforcement
+learning is suitable to make the optimal decision based on the
+reward signals received continuously from the state of the en-
+vironment. In recent years, reinforcement learning has been
+widely applied to resource allocation and optimal control. Gen-
+erally, the method of reinforcement learning can be modeled as
+a MDP. In this section, we consider the MEC system as an envi-
+ronment and model the task scheduling for applications of MUs
+as MDP.
+5.1. Preparation for MDP
+To model a MDP, we must abstract the scheduling of the task
+graph into a sequence of discrete time steps. At each time step,
+the representation of the environment can be received by the
+proposed scheduling mechanism. In the following we present
+the modeling of discrete time steps for the task graph schedul-
+ing.
+The agent to implement the reinforcement learning is resided
+in the decision controller. We define the operation of the agent
+as an event-driven mechanism. It will be motivated on receipt
+of two events: one is the arrival event, and the other is the com-
+pletion event. Recall that MU n needs to offload application
+data to the ECD, i.e., mn, whose cellular communication ser-
+vice covers MU n. When the application data are offloaded to
+ECD mn, the arrival event appears. After any task is completed
+by any ECD, the completion event triggers. Such two events
+will motivate the agent to work continuously.
+For each arrival application, the agent will confirm the task
+priorities. To achieve this, the list scheduling heuristic is used
+for the calculation of task priorities. Since the decision con-
+troller in the MEC system is a centralized control unit, the agent
+can gather the processing capabilities of all ECDs in the system.
+Moreover, it can perceive the range of processing capability of
+each ECD. Built upon this, we can estimate the latest comple-
+tion time of all tasks in an application and take it as the task
+priority by assuming that they are scheduled to the ECD with
+the maximum processing capability for parallel execution [34].
+The latest completion time Flct
+ni of task vni is estimated by
+Flct
+ni =
+
+dn −eniI/Bm
+n ,
+if vni ∈p(vnI),
+min
+vnj∈c(vni)
+n
+Flct
+n j −ρnj
+ˆδ −enij
+ˆB
+o
+, otherwise,
+(17)
+where ˆδ and ˆB are the maximum processing capability in all
+ECDs and the maximum transmission rate among all ECDs, re-
+spectively. The calculation of ˆδ and ˆB does not take into account
+the devices of mobile uses. As the MEC system can serve mul-
+tiple MUs, each arrived application needs to be calculated by
+the agent based on Eq. (17). Therefore, we construct a list ξn
+for each application n arriving at different ECDs, in which the
+application tasks are sorted by the ascending order of the task
+priority. Obviously, the number of lists is equal to the number
+of applications to be processed concurrently by the system. We
+denote the set of the lists as H = {ξn} (∀n ∈N).
+As the execution of the task graph is constrained by the de-
+pendencies among tasks, the scheduling plan of a task can be
+made after its parents have been made. We call such a task the
+6
+
+5
+REINFORCEMENT LEARNING-BASED SCHEDULING MECHANISM FOR TASK GRAPH
+5.3
+Deep Reinforcement Learning
+ready task. When the agent receives the arrival event or the
+completion event, it will pick out the ready tasks from ξn and
+arrange them into the queue Qr in an ascending order of their
+priorities. Subsequently, the agent will fetch the first ready task
+from Qr, in turn, and make the scheduling plan for it. Built
+upon such a mechanism, we think of the time when the agent
+gets each task out of Qr at a time step. The agent will interact
+with the environment to plan for task scheduling via a reinforce-
+ment learning algorithm at each time step.
+5.2. MDP Mode of Agent
+The MDP mode requires that the agent can receive reward
+signals by observing the state of the environment. The decision
+controller can periodically collect real-time status information
+about the system so that the agent can receive reward signals
+from the state of the environment. The reward signals are used
+to evaluate the quality of actions available to the agent. Then,
+the agent selects an action based on the evaluation. Afterward,
+at the next time step the environment changes into a new state.
+The agent can receive new reward signals according to the feed-
+back of the environment. The agent chooses actions with the
+goal of maximizing the sum of the expected reward obtained at
+each time step. Next, we represent the state space, the action
+space and the reward function in our MDP as follows.
+1) State Space: In a MDP the environment can be abstracted
+into a state space, which will change from one state to another
+after an action is selected by the agent. We define the state
+of MDP corresponding to the MEC system at time step τ as a
+vector sτ = ( ˆˆB, Bm
+n , ˆˆδ, wr, wm), which contains five parameters
+about computing delay and transmission delay. Specifically, ˆˆB
+denotes the sum of transmission rates between different ECDs
+in the network, i.e., ˆˆB = PM
+m=1
+PM
+m′=1 Bm,m′; ˆˆδ expresses the
+sum of processing capacities of all ECDs in the network, i.e.,
+ˆˆδ = PM
+m=1 δm; wr indicates the total workloads of the tasks in the
+ready queue Qr; wm is the total workloads of the tasks in com-
+puting queues of all ECDs. Note that, all parameters in sτ can
+be observed by the agent from the real-time status information.
+2) Action Space: The MDP uses the action to describe the
+behavior of an agent. Specifically, the action is the decision
+made by the agent after watching the state at a certain time step
+τ. We use aτ to denote the action space available to the agent
+when making scheduling decisions for each task. As each task
+except for the two dummy tasks can be scheduled to one of the
+ECDs in the network, aτ = (a0, a1, . . . , aM) expresses the strat-
+egy space to schedule task vni. The item am (∀m ∈{0, 1, . . . , M})
+is the binary variable so that aτ corresponds to the strategy xni
+defined in Section 4.
+3) Reward: The MDP utilizes the reward to express the feed-
+back from the environment to the agent. Specifically, the agent
+takes an action based on a decision, and then the environment
+provides feedback in the form of a reward value to the agent. In
+this work, the reward is the value that the agent calculates based
+on the state of the environment after it chooses an action for the
+ready task. The reward is defined as r = U −D −P. Here U
+is a utility function, and D is a duration factor, and P expresses
+the penalty factor. We define U as follows.
+U = β · log2 ρni,
+(18)
+where β is a weight factor. D can be calculated by
+D = ψ · ( max
+tnj∈p(tni) A(xn j) + Q(xni) + E(xni))/ρni,
+(19)
+where ψ is a weight factor. Here, A(xn j) can be obtained after
+vni’s each parent vn j is completed, as vni is the ready task fetched
+from Qr. Moreover, P can be defined as follows.
+P = η · (F(xni) −Flct
+ni )/ρni,
+(20)
+where η is a weight factor.
+5.3. Deep Reinforcement Learning
+The reinforcement learning algorithm makes the decision
+based on the quality of actions, i.e., Q-value, when the agent
+interacts with the environment. However, in this work, the num-
+ber of state spaces is so large that it is difficult to express them
+in the traditional Q-Table. Therefore, we introduce the DQN
+algorithm to solve the optimal scheduling decision. DQN uses
+the deep neural network to estimate the Q-value of the optimal
+decision, which can change Q-Table updating problem into the
+calculation of an approximation function. DQN can get simi-
+lar output actions by the approximate value function after the
+agent observes the current state. Thus, the shortcoming of tra-
+ditional Q-Table updating in high-dimensional and continuous
+problem can be overcome by a function fitting. Particularly, the
+approximate value function is represented as a parameterized
+functional form with parameters, as shown in the following for-
+mula.
+Q(sτ, aτ, θ) ←Q(sτ, aτ, θ)
++ α(rτ+1 + γ max
+ˆa
+Q(sτ+1, ˆa, θ−)
+−Q(sτ, aτ, θ)),
+(21)
+where sτ+1 denotes the next state after the agent takes the action
+aτ at time step τ, rτ+1 is the reward that the agent receives at
+the next time step after taking action aτ, ˆa is the action that
+maximizes the value at state sτ+1, γ is the discount coefficient
+in the process of accumulating values, and α is the learning rate.
+Besides, θ and θ−are parameter vectors at time step τ and τ+1,
+respectively.
+DQN algorithm can improve the search speed of the tra-
+ditional Q-Learning by introducing the deep neural network,
+called the prediction network. The prediction network is re-
+sponsible for estimating the Q-value at state sτ. The algorithm
+selects an action to make a scheduling decision. To improve
+the algorithm’s stability and diversity, DQN sets the experience
+pool and adds the target network. The structure of the target
+network is consistent with that of the prediction network. The
+experience pool is the memory space that stores the records
+of the transition samples captured by the agent from the en-
+vironment at each time step. Each record consists of four items
+(sτ, aτ, rτ+1, sτ+1), i.e., the state, the selected action, the received
+7
+
+6
+RESOURCE ALLOCATION BASED ON REINFORCEMENT LEARNING
+6.1
+Reinforcement Learning Framework for Task Graph Scheduling
+reward and the subsequent state. DQN extracts a batch of sam-
+ples randomly from the experience pool to improve the data
+correlation and non-static distribution. Specifically, a batch of
+elements sτ in the transition records is used as the input to the
+prediction network. Meanwhile, a batch of elements sτ+1 in the
+transition records is transmitted to the target network. During
+the training process, the parameters of the prediction network
+are copied to the target network after a certain number of round
+iterations. In DQN, the Q-value of the training process gen-
+erated by the prediction network is called the current Q-value,
+and that of the training process generated by the target network
+is called the target Q-value. DQN maintains the difference be-
+tween the parameters of the two neural networks to calculate
+the loss function. Whereafter, the parameters of the prediction
+network are inversely updated by leveraging the stochastic gra-
+dient descent (SGD). We define the loss function as follows.
+L(θ) = E[(Qtar −Qcur)2],
+(22)
+where Qcur = Q(sτ, aτ, θ) is the current Q-value of the state-
+action pair outputted by the prediction network according to a
+batch of elements sτ in the samples. Qtar is the target Q-value
+defined as follows.
+Qtar = rτ+1 + γ max
+ˆa
+Q(sτ+1, ˆa, θ−),
+(23)
+where Q(sτ+1, ˆa, θ−) is the output of the target network accord-
+ing to a batch of elements sτ+1 in the samples.
+The MEC system
+     State
+Experience
+buffer
+buffer size 
+> 
+batch size
+Loss calculation
+Agent
+       
+  Next state 
+and Reward
+Prepare to 
+receive Reward
+Observe MEC
+Satisfying 
+synchronization 
+condition
+Update the 
+prediction network
+Schedule a ready task
+Synchronize
+Parameters
+Sample batches
+ Store
+  transitions
+Yes
+Yes
+No
+.
+.
+.
+..
+.
+..
+.
+.
+.
+.
+..
+.
+Prediction
+network
+.
+.
+.
+..
+.
+..
+.
+.
+.
+.
+..
+.
+Prediction
+network
+.
+.
+.
+..
+.
+..
+.
+.
+.
+.
+..
+.
+Target
+network
+1
+
+s
+s
+s
+1
+
+s
+s
+1
+
+s
+1
+
+r
+1
+
+r
+1
+
+r
+a
+a
+a
+Update the
+target Q-value
+Yes
+No
+Satisfying 
+prob. 
+1
+(
+)
+argmax
+,
+Q
+
+a
+s
+a
+Choose an 
+action randomly
+Action
+1
+1
+max
+)
+,
+(
+Q
+
+
+
+
+
+
+a
+r
+s
+a
+Max Q-Value
+Figure 4: Framework of SATA-DRL.
+6. Resource Allocation Based on Reinforcement Learning
+We proposed a Scheduling strAtegy for the Task grAph
+based on the Deep Reinforcement Learning, named as SATA-
+DRL, in order to solve the problem for computing resource al-
+location in the MEC system. To ease the understanding, we
+first present the reinforcement learning framework of schedul-
+ing strategy, and then introduce the scheduling algorithm for
+computing resource allocation.
+6.1. Reinforcement Learning Framework for Task Graph
+Scheduling
+The framework of SATA-DRL is shown in Fig. 4. In this fig-
+ure the agent is responsible for scheduling the ready tasks in
+the queue Qr by interacting with the environment of the MEC
+system. The agent has to be trained iteratively in the environ-
+ment to determine optimized scheduling decisions. In training
+the agent first observes state sτ from the environment at the time
+step τ, and inputs sτ into the prediction network. According to
+the Q-value output from the prediction network, an action aτ
+is chosen for the task scheduling by using the ε-greedy explo-
+ration. The chosen action aτ is defined as
+aτ =
+
+an action chosen randomly,
+with probability ε,
+arg max
+ˆa
+Q(sτ, ˆa),
+with probability 1 −ε.
+(24)
+Whereafter, the environment evolves to the next state sτ+1 and
+outputs the reward rτ+1. The agent observes sτ+1 and receives
+rτ+1 from the MEC system. The subsequent action is chosen
+based on the new Q-value after state sτ+1 is passed to the pre-
+diction network. At the same time, a transition record consist-
+ing of the state sτ+1, the reward rτ+1, the previous sτ and the
+chosen aτ is deposited into the experience pool. This process
+works repeatedly. After a few rounds of training, the agent
+randomly samples a batch of transitions from the experience
+pool. A batch of elements sτ in these transitions is again trans-
+mitted to the prediction network as its inputs. Simultaneously,
+a batch of elements sτ+1 is used as the input to the target net-
+work. The agent chooses the maximum Q-value from the output
+from the target network, which is calculated as maxˆa Q(sτ+1, ˆa).
+For example, the red value 6 in the output table from the tar-
+get network in Fig 4 is the maximum Q-value. Then, based
+on Eq. (22), the agent calculates the loss function using the
+Q-value output from the prediction network and the Q-value
+output from the target network. Finally, the agent performs gra-
+dient descent with the goal of minimizing the variance-error for
+the parameter updating of the prediction network.
+6.2. Resource Allocation Algorithm for Task Graph
+We design a resource scheduling algorithm, named SATA,
+for the task graph based on an event-driven mechanism. It can
+transform the information received from the environment into
+the state and reward in the MDP model. Then, the state and
+reward will be passed to the deep reinforcement learning algo-
+rithm, called DRL. SATA takes charge of fetching out all the
+ready tasks from H and pushing them into queue Qr to invoke
+DRL.
+Algorithm 1 shows the processing of the task graph schedul-
+ing. This algorithm is launched on receipt of the arrival and
+completion events. In Lines 2-7 the tasks of an arrived ap-
+plication n are sorted in list ξn by an ascending order of Flct
+ni ,
+meanwhile, and list ξn is appended to H when the arrival event
+triggers. This algorithm’s Lines 8-19 will be launched when
+either the arrival event or the completion event triggers. Specif-
+ically, Lines 8-11 express that all ready tasks in the set H are
+mapped into Qr by an ascending order of the latest completion
+8
+
+6
+RESOURCE ALLOCATION BASED ON REINFORCEMENT LEARNING
+6.3
+Intelligent Agent Training and Working
+time. In Lines 12-19 SATA generates the sequence of discrete
+time steps for the task graph scheduling by iteratively fetching
+out a ready task vni from Qr. SATA obtains the current state sτ
+from the environment at each time step τ. Notice that, if the
+fetched task is the first of all application tasks, the reward is a
+null value. Otherwise, SATA will calculate the current reward
+rτ based on Eqs. (18),(19),(20) according to the environment
+information. In Line 17 SATA passes sτ and rτ to the deep re-
+inforcement learning algorithm, and subsequently receives the
+action space aτ from it. Thus, the task vni can be scheduled to
+the target ECD in the light of aτ. The SATA algorithm will end
+when no new applications arrive or no tasks are completed.
+Algorithm 1 SATA (receipt of two events)
+1: O ←∅; Qr ←∅; τ ←1; r ←∅;
+2: if A new application n arrives at the MEC system then
+3:
+Add application n into O;
+4:
+for each application n ∈O do
+5:
+Estimate Flct
+ni for each vni based on Eq. (17);
+6:
+Rank all tasks in list ξn by an ascending order of Flct
+ni ;
+7:
+Append ξn to H;
+8: for each ξn ∈H do
+9:
+if vni in the head of ξn is the ready task then
+10:
+Map vni into Qr;
+11: Rank Qr by an ascending order of Flct
+ni ;
+12: for each vni in Qr do
+13:
+Obtain state sτ from the environment at step τ;
+14:
+if τ > 1 then
+15:
+Calculate U, D and P based on Eqs. (18),(19),(20);
+16:
+r ←U −D −P;
+17:
+Pass sτ and r to the DRL algorithm, and then receive aτ
+from the DRL algorithm;
+18:
+Schedule vni to the target ECD based on aτ;
+19:
+τ ←τ + 1;
+For the DRL algorithm, it is to implement deep reinforce-
+ment learning. Algorithm 2 shows the processing that SATA
+makes the scheduling decision based on deep reinforcement
+learning. This algorithm first constructs two neural networks
+with stochastic parameters θ and θ−, respectively. Then, it will
+receive state S and reward R from the SATA algorithm at each
+time step. The prediction network outputs the Q-value by in-
+putting state S. Based on the ε-greedy exploration, action A is
+chosen out. The above processes are described in lines 4-7 of
+this algorithm. Notice that, if the current time step is process-
+ing the first task of all applications to be scheduled, i.e., τ = 1,
+the algorithm will skip the storage of the experience pool and
+the computation of the target network, and it will prepare the
+state and action for storing the experience transition in the next
+time step. So, Lines 8-16 are skipped and Line 17 is run di-
+rectly when τ = 1. When τ > 1, the transition consisting of the
+last state sτ and action aτ as well as the current rτ+1 and sτ+1 is
+stored into the experience pool D, as shown in Line 10. Then,
+the DRL algorithm will sample a batch B of transitions from
+D when the number of time steps is more than the predefined
+batch size, as shown in Lines 11-12. For each transition in B,
+the DRL algorithm needs to calculate the loss function based on
+the output from the prediction network and target network, re-
+spectively, and it finally performs SGD to update the prediction
+network. These pseudo-codes are shown in Lines 13-16.
+Algorithm 2 DRL algorithm
+Input: The step size K for updating the target network; The
+batch size batch for sampling transitions;
+1: Initialize the prediction network and target network with
+stochastic parameters θ and θ−, respectively;
+2: D ←∅;
+3: for k = 1, 2, · · · , K do
+4:
+Receive state S and reward R from the SATA algorithm
+at step τ;
+5:
+Get the Q-value in the prediction network using S;
+6:
+Choose action A by utilizing Eq. (24);
+7:
+Pass A to the SATA algorithm;
+8:
+if τ > 1 then
+9:
+sτ+1 ←S; rτ+1 ←R;
+10:
+Store transition (sτ, aτ, rτ+1, sτ+1) into D;
+11:
+if k > batch then
+12:
+Sample a mini-batch B of transitions from D;
+13:
+for Each transition (si, ai, ri+1, si+1) in B do
+14:
+Get Qcur in the prediction network using si;
+15:
+Get Q(si+1, ˆa, θ−) in the target network using si+1,
+and then calculate Qtar according to Eq. (23);
+16:
+Perform SGD to update the prediction network;
+17:
+sτ ←S; aτ ←A;
+18: θ−←θ;
+6.3. Intelligent Agent Training and Working
+Once a reinforcement learning algorithm has been designed,
+the agent needs to be trained to learn the intelligence. Algo-
+rithm 3 represents the process of agent training. Ωis the num-
+ber of episodes for agent training. We will preset a value of Ω
+to try to achieve network convergence.
+Algorithm 3 Agent training
+Input: The maximum number Ωof episodes
+1: for e = 1, 2, · · · , Ωdo
+2:
+Invoke the DRL algorithm;
+The agent can work alone for the task graph applications in
+the MEC system after deep neural networks converge. At this
+moment, the agent can obtain the optimized scheduling deci-
+sion by the output from the prediction network according to
+state sτ in each time step. Algorithm 4 shows that the agent
+makes the task scheduling decision by the output from the pre-
+diction network. This algorithm is similar to Algorithm 1 in
+that it also starts working based on the arrival and completion
+events. Since the neural network for reinforcement learning has
+converged, the prediction network can directly output Q(sτ, ˆa)
+according to the state sτ obtained from the environment, as
+shown in Lines 13-14. Then, Algorithm 4 chooses the action
+aτ that maximizes Q(sτ, ˆa) for the task scheduling.
+9
+
+7
+PERFORMANCE EVALUATION
+7.1
+Simulation Setup
+Algorithm 4 SATA-Work (recept of two events)
+Input: the set N of all applications to offload
+1: O ←∅; Qr ←∅;
+2: if A new application n arrives at the MEC system then
+3:
+Add application n into O;
+4:
+for each application n ∈O do
+5:
+Estimate Flct
+ni for each vni based on Eq. (17);
+6:
+Rank all tasks in list ξn by an ascending order of Flct
+ni ;
+7:
+Append ξn to H;
+8: for each ξn ∈H do
+9:
+if vni in the head of ξn is the ready task then
+10:
+Map vni into Qr;
+11: Rank Qr by an ascending order of Flct
+ni ;
+12: for each vni in Qr do
+13:
+Obtain state sτ from the environment;
+14:
+Get aτ = arg maxˆa Q(sτ, ˆa) in the prediction network us-
+ing sτ;
+15:
+Schedule vni to the target ECD based on aτ;
+7. Performance evaluation
+To evaluate SATA-DRL, we extend CloudSim [35] according
+to two simulators, i.e., EdgeCloudSim [36] and ElasticSim [37].
+Specifically, we tailor CloudSim to the problem of dependent
+task offloading by combining two approaches as follows. The
+one is the simulation of edge service devices supported by the
+EdgeCloudSim simulator. The other is the generation of work-
+flows supported by the ElasticSim simulator. Moreover, we
+compare SATA-DRL with several competing algorithms for the
+evaluation of task graph scheduling in the MEC system.
+7.1. Simulation Setup
+There are four ECDs in our simulator, and the processing ca-
+pability of each MU, i.e., the 0-th edge computing device, is
+set to 1000 MIPS. In practice, the processing capability of each
+ECD’s PE may change over time. Similar to the literature [20],
+we divide the processing capability of each ECD’s PE into dis-
+crete levels: {6000, 5500, 5000, 4500, 4000} (MIPS). Each level
+corresponds to one processing capability state. Thus, the tran-
+sition of the processing capability level of each ECD can be
+modeled as a Markov chain, whose state transition probability
+matrix can be derived as follows [20].
+
+0.5
+0.25
+0.125
+0.0625
+0.0625
+0.0625
+0.5
+0.25
+0.125
+0.0625
+0.0625
+0.0625
+0.5
+0.25
+0.125
+0.125
+0.0625
+0.0625
+0.5
+0.25
+0.25
+0.125
+0.0625
+0.0625
+0.5
+
+(25)
+In our experiments, we let the processing capabilities of four
+ECDs transition from one state to another according to this
+probability matrix after a task is completed on any computing
+device. Besides, the transmission rate between ECDs is set to
+440 Mbps, and that between each MU and ECD mn, i.e., the
+ECD covering the MU, is set to 103 Mbps. These two transmis-
+sion rates are similar to the literature [10]. In addition, ˆδ and ˆB
+are set to 6000 MIPS and 103 Mbps, respectively.
+The scientific workflow datasets [38] contain the workflow
+characterizations corresponding to task graph applications. It
+can provide a community resource to evaluate workflow algo-
+rithms. As Montage workflow has been used extensively to
+evaluate workflow algorithms and systems, the literature [9] uti-
+lized the Montage workflow to evaluate its task graph offload-
+ing algorithm. Similar to [9], We choose the Montage type of
+workflow datasets, which contains 25 nodes, to simulate the
+task graph of each UT’s application. The workload of a task in
+an application is set to 500 if the original value of the element
+runtime recorded in the DAX file is greater than 500. Other-
+wise, that of a task is set to 100 if the original runtime is less
+than 100. To set the size of transfer data, we need to calculate
+the average transmission rate B as (440 × 6 + 103)/7 = 520
+(Mbps) in the MEC system. Then, based on the element size
+recorded in the DAX file, we can calculate a base communica-
+tion time, named bc. We set bc to size/B, if bc = size/B does
+not exceed the range of [10−3, 10−2]. Otherwise, let bc equal to
+10−3 and 10−2, respectively. Based on this, we set the size of
+the data transfer between tasks in an application to bc · B. The
+size of the data transfer associated with the dummy tasks is set
+to bc · B.
+Since the offloading request of MUs can randomly gener-
+ate, we fetch some applications from Montage workflows with
+0
+100
+200
+300
+400
+500
+Epochs
+300
+400
+500
+600
+700
+Rewards
+Lambda 5
+SATA-DRL
+(a) λ = 5
+0
+100
+200
+300
+400
+500
+Epochs
+400
+450
+500
+550
+600
+650
+700
+Rewards
+Lambda 7
+SATA-DRL
+(b) λ = 7
+0
+100
+200
+300
+400
+500
+600
+Epochs
+300
+400
+500
+600
+700
+Rewards
+Lambda 9
+SATA-DRL
+(c) λ = 9
+Figure 5: Cumulative rewards with different λ
+10
+
+7
+PERFORMANCE EVALUATION
+7.4
+Evaluation for Optimization Objective
+5
+10
+15
+20
+25
+30
+35
+Application
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+Makespan
+Lambda 5
+OnDoc
+Zhang's PCP
+SATA-DRL
+DuelingDQN
+DTO-CEO
+(a) λ = 5
+5
+10
+15
+20
+25
+30
+35
+Application
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+Makespan
+Lambda 7
+OnDoc
+Zhang's PCP
+SATA-DRL
+DuelingDQN
+DTO-CEO
+(b) λ = 7
+5
+10
+15
+20
+25
+30
+35
+Application
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+Makespan
+Lambda 9
+OnDoc
+Zhang's PCP
+SATA-DRL
+DuelingDQN
+DTO-CEO
+(c) λ = 9
+Figure 6: Average Makespan Comparison
+a stochastic time interval, following the Poisson distribution
+with λ. Furthermore, to simulate the stochastic arrival of ap-
+plications in the MEC system, we let MUs randomly gener-
+ate the offloading request in the celluar communication service
+area of four ECDs, following a uniform distribution. In addi-
+tion, to set the deadline of each application, we assume that
+each task in a fetched application n is scheduled to the dif-
+ferent ECD with the maximum average processing capability,
+i.e., 5000 = (6000 × 4 + 1000)/6, among the MEC system,
+and all transfer data among tasks in application n are ignored.
+Thus, we can calculate a basic makespan MS n for each appli-
+cation n. Whereafter, we set the deadline of application n to
+dn = rn + 6 · MS n.
+7.2. Setup for Intelligent Agent
+There are two neural networks with the same structure in
+SATA-DRL. In our experiments, these neural networks are fully
+connected networks consisting of five layers. The number of
+nodes in these networks are set to 128, 64, 32, 16, 5, respec-
+tively. The activation function is linear in the first four layers,
+and that is so ftmax in the last layers. We use Adam as the op-
+timization method for the gradient descent and set the learning
+rate of the agent to 0.0006.
+Moreover, we set the size of the experience pool for DQN to
+200000. In Algorithm 2 the batch size batch is set to 64. β of
+Eq. (18) is set to 0.6 and ψ of Eq. (19) is set to 5. Meanwhile, η
+of Eq. (20) is set to 40. Besides, in Eq. (23), we set the discount
+factor γ for the calculation of the target Q-value to 0.95.
+7.3. Evaluation for Reinforcement Learning
+In this section, we use cumulative rewards to evaluate the
+performance of our reinforcement learning. Considering that
+MUs can randomly send offloading requests of applications,
+we evaluate cumulative rewards of the reinforcement learning
+with different arrival rates, i.e., λ = {5, 7, 9}, when it handles
+10 applications. In the experiments, we let 10 applications per
+episode reach the simulator with different arrival rates, and then
+launch Algorithm 3 to train the agent and observe the reward
+values. From Figs. 5, we can observe that the total rewards ob-
+tained by the agent are not large at the beginning of the learning
+process. The total rewards increase as we augment the number
+of episodes for training. Moreover, the total rewards show rel-
+atively stable trends when agent is trained for more than 600
+episodes, which is shown in Fig. 5(c). This can be interpreted
+that the agent can make a relatively optimized decision in ev-
+ery scheduling for the task. As a result, the cumulative rewards
+can converge. The above results demonstrate the convergence
+performance of SATA-DRL.
+7.4. Evaluation for Optimization Objective
+STATA-DRL is a task graph offloading strategy for multi-
+ple applications in the MEC system to minimize the average
+makespan of applications. There is no fine-grained task graph
+offloading that utilize DRL to learn the time-varying computing
+capabilities of ECDs. To evaluate the optimization performance
+of SATA-DRL, we compare it with three competitors based
+on heuristic or approximation methods, i.e., Zhang’s PCP[9],
+OnDoc[39], and DTO-CED [40], which are also to minimize
+the makespan of task graph applications MEC system. More-
+over, we compare SATA-DRL with a new reinforcement algo-
+rithm, named Dueling DQN, to advantages of SATA-DRL. In
+the experiments that evaluate Dueling DQN, we still utilize the
+MDP model presented in Section 5.2, that is, the state space, the
+action space, and the reward are the same as SATA-DRL. The
+Dueling DQN receives the input of the state space and reward
+and then outputs the action.
+In these group experiments, let the three algorithms handle
+many applications with different arrival rates. We randomly
+fetch many applications following Possion distribution with λ
+to store them into a file. Each of four algorithms loads the
+fetched applications from the file for performance evaluation.
+To alleviate the randomness of the experimental results, the four
+algorithms handle the same applications for 30 times, respec-
+tively. Then, we utilize the averages of results to plot. In exper-
+iments, we evaluate the average makespan and the deadline vio-
+lation rate for all applications, respectively. The deadline viola-
+tion rate can reveal how many applications will lose their dead-
+lines. We express the total number of applications as |N| and
+indicate the total number of applications violating deadlines as
+|−→
+N|. Thus, the deadline violation is defined as |−→
+N|/|N| × 100%.
+11
+
+REFERENCES
+REFERENCES
+(a) λ = 5
+(b) λ = 7
+(c) λ = 9
+Figure 7: Deadline Violation Comparison
+Fig. 6 shows the makespan comparison for handling various
+applications with λ = {5, 7, 9}, respectively. We can observe
+that SATA-DRL achieves the lowest makespan among the five
+algorithms. Particularly, the makespans generated by Zhang’s
+PCP increase along with the increase of application arrival rates
+but the other algorithms are hardly affected by arrival rates.
+This is because that Zhang’s PCP only make scheduling deci-
+sion for the task among a single application every time without
+considering the arrvial of multiple applications. Therefore, the
+application tasks newly sent from other MUs may still be sched-
+uled to the busy ECDs, resulting in backlogs in the computing
+queues of ECDs. In addition, the gap among SATA-DRL, DTO-
+CEO, and OnDoc is relatively small but the makespan achieved
+by SATA-DRL is less than DTO-CEO and OnDoc. The rea-
+son is that SATA-DRL can learn from the variation of environ-
+ments and adaptively make more appropriate scheduling deci-
+sions for task graph scheduling. Furthermore, we can observe
+from Fig. 7 that the deadline violation rate of SATA-DRL is
+much lower than the other algorithms. This further illustrates
+that SATA-DRL can fully orchestrate the computing resources
+of the system to make scheduling decisions with careful con-
+sideration of the variation of environments.
+From Figs. 6 and 7, we can also observe that SATA-DRL
+is superior to Dueling DQN in terms of reducing average
+makespan and deadline violation.
+The comparison with the
+other reinforcement algorithm confirms that the classic DQN
+method achieves better performance of task graph offloading
+compared to Dueling DQN.
+8. Conclusions
+This paper has investigated the problem of the task graph of-
+floading in MEC, where the computation capabilities of edge
+computing devices are time-varying. To adapt to environmental
+changes, we have modeled the task graph scheduling for com-
+putation offloading as a MDP. According to the characterization
+of the environment, we have formulated it as the state space and
+abstracted the task scheduling decisions into the action space.
+Moreover, we have defined the reward with respect to MDP as
+the benefit for the agent. Built upon the task graph schedul-
+ing mechanism, we have designed the SATA-DRL algorithm
+to learn the task scheduling strategy from the interaction with
+the environment, improving user experience. Extensive experi-
+ment results have also validated the superiority of SATA-DRL,
+by comparing it with existing algorithms, in terms of reducing
+average makespan and deadline violation.
+Acknowledgments
+This work is supported in part by Hunan Provincial Natural
+Science Foundation of China under Grant 2022JJ50147, in part
+by the 14-th Five-Year-Plan Project of Hunan Provincial Edu-
+cation Science under Grant ND228128.
+References
+[1] J. Zhang, S. Zhong, T. Wang, H.-C. Chao, J. Wang, Blockchain-based
+systems and applications: A survey, Journal of Internet Technology 21 (1)
+(2020) 1–14.
+[2] Y. Geng, Y. Yang, G. Cao, Energy-efficient computation offloading for
+multicore-based mobile devices, in: IEEE INFOCOM 2018 - IEEE Con-
+ference on Computer Communications, IEEE, 2018, pp. 46–54.
+[3] E. Novak, Z. Tang, Q. Li, Ultrasound proximity networking on smart mo-
+bile devices for iot applications, IEEE Internet of Things Journal 6 (1)
+(2019) 399–409.
+[4] M. Goudarzi, H. Wu, M. Palaniswami, R. Buyya, An application place-
+ment technique for concurrent iot applications in edge and fog computing
+environments, IEEE Transactions on Mobile Computing 20 (4) (2020)
+1298–1311.
+[5] J. Ren, D. Zhang, S. He, Y. Zhang, T. Li, A survey on end-edge-cloud
+orchestrated network computing paradigms: Transparent computing, mo-
+bile edge computing, fog computing, and cloudlet, ACM Computing Sur-
+veys (CSUR) 52 (6) (2019) 1–36.
+[6] J. Liu, X. Zhang, Truthful resource trading for dependent task offloading
+in heterogeneous edge computing, Future Generation Computer Systems
+133 (2022) 228–239.
+[7] J. Liu, Y. Zhang, J. Ren, Y. Zhang, Auction-based dependent task offload-
+ing for iot users in edge clouds, IEEE Internet of Things Journal 10 (6)
+(2022) 4907–4921.
+[8] S. Duan, D. Wang, J. Ren, F. Lyu, Y. Zhang, H. Wu, X. Shen, Distributed
+artificial intelligence empowered by end-edge-cloud computing: A sur-
+vey, IEEE Communications Surveys & Tutorials 25 (1) (2023) 591–624.
+[9] Y. Zhang, Resource scheduling and delay analysis for workflow in wire-
+less small cloud, IEEE Transactions on mobile computing 17 (3) (2018)
+675–687.
+[10] S. Sundar, B. Liang, Offloading dependent tasks with communication de-
+lay and deadline constraint, in: IEEE INFOCOM 2018 - IEEE Conference
+on Computer Communications, IEEE, 2018, pp. 37–45.
+[11] A. Naouri, H. Wu, N. A. Nouri, S. Dhelim, H. Ning, A novel framework
+for mobile-edge computing by optimizing task offloading, IEEE Internet
+of Things Journal 8 (16) (2021) 13065–13076.
+12
+
+REFERENCES
+REFERENCES
+[12] G. Zhao, H. Xu, Y. Zhao, C. Qiao, L. Huang, Offloading dependent tasks
+in mobile edge computing with service caching, in: IEEE INFOCOM
+2020-IEEE Conference on Computer Communications, IEEE, 2020, pp.
+1997–2006.
+[13] A. A. Al-Habob, O. A. Dobre, A. G. Armada, S. Muhaidat, Task schedul-
+ing for mobile edge computing using genetic algorithm and conflict
+graphs, IEEE Transactions on Vehicular Technology 69 (8) (2020) 8805–
+8819.
+[14] F.-Y. Meng, Q.-X. An, C.-Q. Tan, X.-H. Chen, An approach for group
+decision making with interval fuzzy preference relations based on additive
+consistency and consensus analysis, IEEE Transactions on Systems, Man,
+and Cybernetics: Systems 47 (8) (2016) 2069–2082.
+[15] L. Dong, Z. Yang, X. Cai, Y. Zhao, Q. Ma, X. Miao, Wave: Edge-
+device cooperated real-time object detection for open-air applications,
+IEEE Transactions on Mobile Computing 22 (7) (2023) 4347–4357.
+[16] Z. Liao, Y. Ma, J. Huang, J. Wang, J. Wang, Hotspot: A uav-assisted dy-
+namic mobility-aware offloading for mobile-edge computing in 3-d space,
+IEEE Internet of Things Journal 8 (13) (2021) 10940–10952.
+[17] J. Liu, J. Ren, W. Dai, D. Zhang, P. Zhou, Y. Zhang, G. Min, N. Najjari,
+Online multi-workflow scheduling under uncertain task execution time in
+iaas clouds, IEEE Transactions on Cloud Computing 9 (3) (2019) 1180–
+1194.
+[18] J. Wang, J. Hu, G. Min, W. Zhan, A. Y. Zomaya, N. Georgalas, Dependent
+task offloading for edge computing based on deep reinforcement learning,
+IEEE Transactions on Computers 71 (10) (2021) 2449–2461.
+[19] Y. He, N. Zhao, H. Yin, Integrated networking, caching, and computing
+for connected vehicles: A deep reinforcement learning approach, IEEE
+transactions on vehicular technology 67 (1) (2017) 44–55.
+[20] Z. Ning, P. Dong, X. Wang, J. J. Rodrigues, F. Xia, Deep reinforcement
+learning for vehicular edge computing: An intelligent offloading system,
+ACM Transactions on Intelligent Systems and Technology (TIST) 10 (6)
+(2019) 1–24.
+[21] X. Chen, H. Zhang, C. Wu, S. Mao, Y. Ji, M. Bennis, Optimized com-
+putation offloading performance in virtual edge computing systems via
+deep reinforcement learning, IEEE Internet of Things Journal 6 (3) (2018)
+4005–4018.
+[22] X.-h. Xu, Z.-j. Du, X.-h. Chen, C.-g. Cai, Confidence consensus-based
+model for large-scale group decision making: A novel approach to man-
+aging non-cooperative behaviors, Information Sciences 477 (2019) 410–
+427.
+[23] T. Q. Dinh, J. Tang, Q. D. La, T. Q. Quek, Offloading in mobile edge
+computing: Task allocation and computational frequency scaling, IEEE
+Transactions on Communications 65 (8) (2017) 3571–3584.
+[24] F. Song, H. Xing, X. Wang, S. Luo, P. Dai, K. Li, Offloading dependent
+tasks in multi-access edge computing: A multi-objective reinforcement
+learning approach, Future Generation Computer Systems 128 (2022)
+333–348.
+[25] Q. Tang, K. Wang, Y. Song, F. Li, J. H. Park, Waiting time minimized
+charging and discharging strategy based on mobile edge computing sup-
+ported by software-defined network, IEEE Internet of Things Journal 7 (7)
+(2020) 6088–6101.
+[26] J. Wang, W. Wu, Z. Liao, Y.-W. Jung, J.-U. Kim, An enhanced promot
+algorithm with d2d and robust for mobile edge computing, Journal of
+Internet Technology 21 (5) (2020) 1437–1445.
+[27] K. Li, X. Tang, K. Li, Energy-efficient stochastic task scheduling on het-
+erogeneous computing systems, IEEE Transactions on Parallel and Dis-
+tributed Systems 25 (11) (2013) 2867–2876.
+[28] Y. Xu, K. Li, J. Hu, K. Li, A genetic algorithm for task scheduling on
+heterogeneous computing systems using multiple priority queues, Infor-
+mation Sciences 270 (2014) 255–287.
+[29] H. Lu, C. Gu, F. Luo, W. Ding, X. Liu, Optimization of lightweight task
+offloading strategy for mobile edge computing based on deep reinforce-
+ment learning, Future Generation Computer Systems 102 (2020) 847–
+861.
+[30] Y. Zhang, Resource scheduling and delay analysis for workflow in wire-
+less small cloud, IEEE Transactions on mobile computing 17 (3) (2017)
+675–687.
+[31] W. Zhang, Y. Wen, Energy-efficient task execution for application as a
+general topology in mobile cloud computing, IEEE Transactions on cloud
+Computing 6 (3) (2015) 708–719.
+[32] S. Venkataraman, Z. Yang, M. Franklin, B. Recht, I. Stoica, Ernest: Effi-
+cient performance prediction for Large-Scale advanced analytics, in: 13th
+USENIX Symposium on Networked Systems Design and Implementation
+(NSDI 16), USENIX Association, Santa Clara, CA, 2016, pp. 363–378.
+[33] H. R. Lewis, Michael r. πgarey and david s. johnson. computers and in-
+tractability: A guide to the theory of np-completeness. wh freeman and
+company, san francisco1979, x+ 338 pp., The Journal of Symbolic Logic
+48 (2) (1983) 498–500.
+[34] Y.-K. Kwok, I. Ahmad, Static scheduling algorithms for allocating di-
+rected task graphs to multiprocessors, ACM Computing Surveys (CSUR)
+31 (4) (1999) 406–471.
+[35] R. N. Calheiros, R. Ranjan, A. Beloglazov, C. A. De Rose, R. Buyya,
+Cloudsim: a toolkit for modeling and simulation of cloud computing en-
+vironments and evaluation of resource provisioning algorithms, Software:
+Practice and experience 41 (1) (2011) 23–50.
+[36] C. Sonmez, A. Ozgovde, C. Ersoy, Edgecloudsim: An environment
+for performance evaluation of edge computing systems, Transactions on
+Emerging Telecommunications Technologies 29 (11) (2018) e3493.
+[37] Z. Cai, Q. Li, X. Li, Elasticsim: A toolkit for simulating workflows with
+cloud resource runtime auto-scaling and stochastic task execution times,
+Journal of Grid Computing 15 (2017) 257–272.
+[38] G. Juve, A. Chervenak, E. Deelman, S. Bharathi, G. Mehta, K. Vahi,
+Characterizing and profiling scientific workflows, Future generation com-
+puter systems 29 (3) (2013) 682–692.
+[39] L. Liu, H. Huang, H. Tan, W. Cao, P. Yang, X.-Y. Li, Online dag schedul-
+ing with on-demand function configuration in edge computing, in: E. S.
+Biagioni, Y. Zheng, S. Cheng (Eds.), Wireless Algorithms, Systems, and
+Applications, Springer International Publishing, Cham, 2019, pp. 213–
+224.
+[40] J. Zhang, J. Chen, X. Bao, C. Liu, P. Yuan, X. Zhang, S. Wang, Dependent
+task offloading mechanism for cloud–edge-device collaboration, Journal
+of Network and Computer Applications 216 (2023) 103656.
+13

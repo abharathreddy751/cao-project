@@ -1,0 +1,2157 @@
+1
+Dependent Task Ofﬂoading for Edge Computing
+based on Deep Reinforcement Learning
+Jin Wang, Jia Hu, Geyong Min, Wenhan Zhan, Albert Y. Zomaya, Fellow, IEEE, and Nektarios Georgalas
+Abstract—Edge computing is an emerging promising computing paradigm that brings computation and storage resources to the
+network edge, hence signiﬁcantly reducing the service latency and network trafﬁc. In edge computing, many applications are composed
+of dependent tasks where the outputs of some are the inputs of others. How to ofﬂoad these tasks to the network edge is a vital
+and challenging problem which aims to determine the placement of each running task in order to maximize the Quality-of-Service
+(QoS). Most of the existing studies either design heuristic algorithms that lack strong adaptivity or learning-based methods but without
+considering the intrinsic task dependency. Different from the existing work, we propose an intelligent task ofﬂoading scheme leveraging
+off-policy reinforcement learning empowered by a Sequence-to-Sequence (S2S) neural network, where the dependent tasks are
+represented by a Directed Acyclic Graph (DAG). To improve the training efﬁciency, we combine a speciﬁc off-policy policy gradient
+algorithm with a clipped surrogate objective. We then conduct extensive simulation experiments using heterogeneous applications
+modelled by synthetic DAGs. The results demonstrate that: 1) our method converges fast and steadily in training; 2) it outperforms the
+existing methods and approximates the optimal solution in latency and energy consumption under various scenarios.
+Index Terms—Multi-access edge computing, task ofﬂoading, deep reinforcement learning, sequence to sequence neural networks.
+!
+1
+INTRODUCTION
+The rapid proliferation of smart user equipment (UE) like
+smart home appliances and wearable devices has spurred
+numerous innovative applications, such as augmented re-
+ality (AR), virtual reality (VR), face recognition, and digital
+healthcare. The increasing diversity and complexity of these
+applications demand intensive computing resources. Al-
+though new generations of UE possess intensive computing
+power, they still suffer from high energy and time costs
+when processing the resource-intensive applications. One
+solution is to run these applications on the cloud. However,
+it imposes huge trafﬁc on the backhaul of mobile networks
+and hinders real-time applications due to the long distance
+between UE and cloud. To address these issues, Multi-access
+Edge Computing (MEC) [1] was proposed to shift certain
+computing and storage resources from the cloud to the
+MEC hosts at the network edge (e.g., base stations, access
+points, and edge routers) that is close to users. Hence, MEC
+can effectively alleviate network congestion and reduce the
+service latency for mobile users.
+•
+Jin Wang, Jia Hu, and Geyong Min are with the Department of Computer
+Science, University of Exeter, United Kingdom.
+E-mail: {jw855, j.hu, g.min}@exeter.ac.uk
+•
+Wenhan Zhan is with the School of Computer Science and Engeeneering,
+University of Electronic Science and Technology of China, China.
+E-mail: zhanwenhan@uestc.edu.cn
+•
+Albert Y. Zomaya is with the School of Information Technologies, The
+University of Sydney, Australia.
+E-mail: albert.zomaya@sydney.edu.au
+•
+Nektarios Georgalas is with Applied Research Department, British Tele-
+com, United Kingdom.
+E-mail: nektarios.georgalas@bt.com
+•
+Code is available at https://github.com/linkpark/RLTaskOfﬂoading
+(Corresponding authors: Jia Hu and Geyong Min.)
+One key technology in MEC is task ofﬂoading, which
+enables UE to ofﬂoad computation-intensive tasks of user
+applications to MEC hosts, thus reducing latency and en-
+ergy consumption at UE during the processing of the appli-
+cation. In task ofﬂoading, we must decide whether a task
+should be ofﬂoaded to an MEC host, depending on the task
+proﬁle (i.e., the required CPU cycles and input/output data
+size) and the MEC environment. Many existing studies [2,
+3, 4, 5, 6] developed heuristic or approximation algorithms,
+since the above ofﬂoading problem is NP-hard. However,
+they rely heavily on expert knowledge or accurate analytical
+models. As a consequence, considerable human efforts and
+expertise are required to tune these heuristics or analytical
+models to adapt to new scenarios, which is time-consuming
+and even unrealistic due to the increasing complexity of
+applications and system architecture of MEC.
+Deep Reinforcement Learning (DRL), which combines
+Reinforcement Learning (RL) with Deep Neural Networks
+(DNN), is a promising approach to achieve ﬂexible and
+adaptive task ofﬂoading without expert knowledge. DRL
+learns an effective policy (i.e., a mapping from environment
+states to actions) through interacting with the environment
+so as to maximize numerical rewards. With the help of the
+powerful representation ability of DNNs, DRL can effec-
+tively solve complex decision-making problems with large
+and high-dimensional state/action spaces. Recent break-
+throughs in DRL have led to many successful applications
+in a wide range of areas including gaming [7], robotics
+[8], networking [9], etc. DRL has been adopted to handle
+task ofﬂoading problems in MEC [9, 10, 11, 12]. However,
+these methods assume the ofﬂoading tasks are independent
+without considering the inherent dependency among tasks
+of real-world applications. In practice, many applications
+are composed of dependent tasks where the outputs of some
+tasks are the inputs of others. Ignoring the task dependency
+
+2
+when making task ofﬂoading decisions will severely affect
+the QoS of applications and waste the edge resources.
+To ﬁll this gap, we propose a new DRL-based Task Of-
+ﬂoading (DRLTO) scheme leveraging off-policy RL empow-
+ered by a Sequence-to-Sequence (S2S) neural network. The
+DRLTO is able to reduce the latency of running applications
+and the energy consumption at UE. In DRLTO, the task of-
+ﬂoading problem is modelled as a Markov Decision Process
+(MDP). Applications are represented by Directed Acyclic
+Graphs (DAG), where vertices and edges denote tasks and
+their dependency, respectively. To effectively extract the
+key features of task dependency, an S2S neural network is
+applied to represent the policy and value function of the
+MDP. Speciﬁcally, the input of the S2S neural network is
+the DAG represented by a sequence of embedding vectors,
+while the output is the ofﬂoading plan for the DAG. To
+improve the training efﬁciency, we combine an off-policy
+DRL algorithm that includes a clipped surrogate objective
+and an entropy bonus to stabilize the training, provide
+better sample efﬁciency, and alleviate the issue of getting
+stuck in local optima. The DRLTO learns to make efﬁcient
+ofﬂoading decisions through directly interacting with the
+environment and only requires minimal expert knowledge.
+The major contributions of this paper are summarized as
+follows:
+• We develop an original DRL-based task ofﬂoading
+scheme, which leverages off-policy reinforcement learn-
+ing with an S2S neural network to capture the intrinsic
+task dependency of applications. An MDP is designed to
+accurately model the dependent task ofﬂoading problem
+with well-designed state space, action space, and reward
+function.
+• We design a new embedding method that encodes ver-
+tices of the DAG representing an application to a sequence
+of embeddings including both the task proﬁles and de-
+pendency information. This method can convert the raw
+DAG as the input of the S2S neural network without
+information loss.
+• We combine an S2S neural network with an attention
+mechanism to capture the long-term dependency of the
+input tasks. This S2S neural network can effectively ap-
+proximate the policy and value function of the MDP
+model for the dependent task ofﬂoading problem. To
+effectively train the S2S neural network, we apply an
+off-policy DRL algorithm with a clipped surrogate ob-
+jective function and an entropy bonus. This algorithm
+has a strong exploration ability and thus can prevent the
+training from getting stuck in the local optima.
+• Extensive simulation experiments were conducted using
+the synthetic DAGs, covering a wide range of topologies,
+task numbers, and data rates that correspond to the char-
+acteristics of real-world applications. The performance
+results show that our method outperforms advanced
+heuristic baselines and can obtain near-optimal results
+under dynamic MEC scenarios.
+The rest of this paper is organized as follows. The prob-
+lem formulation, energy model, and optimization target
+are presented in Section 2. The details of the DRL-based
+ofﬂoading scheme are described in Section 3. Simulation
+results are presented and discussed in Section 4. The related
+Source
+Copy
+Pair generator
+Scaler
+Scaler
+Tiler
+MotionSiFT
+Feature merger
+Descaler
+Copy
+Classify
+Display
+Tiler
+Face detect
+Face merger
+Descaler
+Copy
+Exit tasks
+Fig. 1. An example of DAG for the gesture recognition application.
+work is reviewed in Section 5. Finally, Section 6 concludes
+the paper.
+2
+PROBLEM FORMULATION: TASK OFFLOADING
+The section presents the formulation of the task ofﬂoading
+problem. First, we give the details of the task ofﬂoading pro-
+cess in MEC. Next, the energy model and the optimization
+target used for task ofﬂoading are described.
+In practice, many applications consist of multiple tasks
+with general dependency, which should be considered when
+making decisions on task ofﬂoading. For example, as shown
+in Fig. 1, a gesture recognition application consists of multi-
+ple dependent tasks [13]. Formally, let G = (T , E) denote a
+DAG, where a vertex ti ∈T and a directed edge e(ti, tj) ∈E
+represents a task ti and the dependency between ti and tj,
+respectively. A task can start to run only when all of its
+predecessors are ﬁnished. The exit tasks are those without
+subsequent tasks.
+We consider a block fading channel, where the fading
+coefﬁcient remains unchanged (i.e., the transmission rate
+is ﬁxed) during the task ofﬂoading process. In general, the
+MEC host runs multiple virtual machines (VMs) to process
+the ofﬂoaded tasks. In this work, we consider that each
+UE is associated with a dedicated VM providing provide
+computing, communications and storage resources to the
+UE as speciﬁed in many existing studies [14, 15]. Any task in
+the DAG has two scheduling choices: ofﬂoaded to the MEC
+host or run locally on the UE. If the task ti is ofﬂoaded, it has
+three phases of execution: 1) sending phase: the UE sends ti to
+the MEC host through a wireless channel. 2) executing phase:
+the MEC host executes the received task ti. 3) receiving phase:
+the MEC host returns the results to the UE. On the other
+hand, if ti is locally executed, there is no data transmission
+between the UE and MEC host. The local processor of the
+UE directly processes the task when it is ready. For all
+tasks in a DAG, let A1:n = [a1, a2, . . . , ai, . . . , an] denote an
+ofﬂoading plan, where n represents the total task number
+and ai represents the ofﬂoading decision of ti. Specially,
+ai = 1 denotes that ti is ofﬂoaded to the MEC host,
+otherwise, ai = 0 means that ti is scheduled to the local
+processor.
+
+3
+Let Tul
+i , Ts
+i, and Tdl
+i
+denote the latency of sending,
+executing and receiving phase, respectively. Let Tl
+i denote
+the local execution latency for ti. Besides, fl and fs represent
+the CPU clock speed of the UE and the VM in the MEC Host,
+respectively. Rul denotes the uplink transmission rate while
+Rdl denotes the downlink transmission rate. Let datas
+i and
+datar
+i represent the data size of the task ti that is ofﬂoaded
+to the MEC host and the result received, respectively. We
+denote the required CPU cycles for executing ti as Ci.
+Therefore, all the above-deﬁned latencies can be calculated
+by using the following equations:
+Tul
+i = datas
+i/Rul,
+Ts
+i = Ci/fs,
+Tdl
+i = datar
+i/Rdl,
+Tl
+i = Ci/fl.
+(1)
+We also assume the available time of the uplink wireless
+channel, the MEC host, the downlink wireless channel, and
+the local processor, as Mul
+i , Ms
+i, Mdl
+i , Ml
+i, respectively.
+Given a scheduling plan A1:n, the available time of the re-
+source depends on the ﬁnish time (FT) of the task scheduled
+immediately before ti on that resource. If the task scheduled
+immediately before ti does not utilize the resource, the
+FT on that resource is set as 0. We next analyse the local
+executing and remote ofﬂoading process in detail.
+Local Executing: In this case, ti is scheduled to the local
+processor. Note that ti can only start execution until all its
+immediate predecessors are ﬁnished and the local processor
+is available to run. Besides, the immediate predecessors of
+ti can be either run on the MEC host or the local processor.
+Therefore, the FT of task ti on the local processor, FTl
+i, can
+be deﬁned as
+FTl
+i = max
+
+Ml
+i,
+max
+j∈pre(ti)
+n
+FTl
+j, FTdl
+j
+o
++ Tl
+i,
+Ml
+i = max
+n
+Ml
+i−1, FTl
+i−1
+o
+.
+(2)
+where pre(ti) denotes the set of immediate predecessors of
+ti. FTdl
+j
+denotes the FT of transmitting a task tj over the
+wireless downlink channel.
+Remote Ofﬂoading: In this case, ti is ofﬂoaded to the MEC
+host. As mentioned above, the ofﬂoading process for ti
+includes three phases. In the sending phase, let FTul
+j denote
+the FT of transmitting the task tj over the wireless uplink
+channel, where tj is an immediate predecessor of ti. If tj is
+locally scheduled, ti can only start its sending phase after
+tj has ﬁnished local execution. Otherwise, if tj is ofﬂoaded,
+ti can only start sending after tj has completed its sending
+phase. Therefore, the FT of task ti on the wireless uplink
+channel can be calculated as:
+FTul
+i = max
+
+Mul
+i ,
+max
+j∈pred(ti)
+n
+FTl
+j, FTdl
+j
+o
++ Tul
+i ,
+Mul
+i = max
+n
+Mul
+i−1, FTul
+i−1
+o
+.
+(3)
+In the executing phase, three conditions must be met before
+ti can start running on the MEC host. First, ti should ﬁnish
+its sending phase. Second, all predecessors of ti should
+ﬁnish executing. Third, the MEC host is available to run
+the task. Therefore, the FT of ti on the MEC host, FTs
+i, can
+be calculated as
+FTs
+i = max
+
+Ms
+i, max
+
+FTul
+i ,
+max
+j∈pred(ti) FTs
+j
+
++ Ts
+i,
+Ms
+i = max
+Ms
+i−1, FTs
+i−1
+	 .
+(4)
+Similarly, we obtain the FT of task ti on the downlink
+wireless channel, FTdl
+i as
+FTdl
+i = max
+n
+Mdl
+i , FTs
+i
+o
++ Tdl
+i ,
+Mdl
+i = max
+n
+Mdl
+i−1, FTdl
+i−1
+o
+.
+(5)
+Energy consumption of the UE is another important fac-
+tor that we should consider in MEC. In general, the energy
+consumption of an UE mainly consists of computation and
+transmission cost. Executing task locally or ofﬂoading task
+to the MEC host result in different energy costs.
+When the task is locally executed, no transmission is
+needed, thus the energy consumption is mainly contributed
+by the computation process, which is deﬁned as
+El
+i = ρf ζ
+l Tl
+i,
+(6)
+where ρf ζ
+l represents the computational power of the mo-
+bile device. ρ is a power coefﬁcient while ζ is a constant
+(usually close to 3) [3].
+When the task is ofﬂoaded, there is no computation
+process on the local device, thus the energy consumption
+is mainly contributed by wireless transmission, which is
+deﬁned as
+Es
+i = P TxTul
+i + P RxTdl
+i ,
+(7)
+where P Tx and P Rx are the sending and receiving power,
+respectively.
+Based on the above deﬁnitions, giving the ofﬂoading
+plan, A1:n, of a DAG, the latency and energy consumption
+can be calculated as
+Tc
+A1:n = max
+ti∈K
+n
+max{FTl
+i, FTdl
+i }
+o
+,
+(8)
+Ec
+A1:n =
+X
+ti∈T ,ai=1
+Es
+i +
+X
+tj∈T ,aj=0
+El
+j,
+(9)
+where K denotes the set of exit tasks.
+QoS can be used to measure how good an ofﬂoading
+plan is, considering both latency and energy consumption.
+As in [16, 17], we use a similar deﬁnition of QoS as the
+optimization objective, which is a weighted sum of the
+normalized differences in latency and energy consumption
+between the ofﬂoading plan and local execution:
+JA1:n = λt
+Tc
+l −Tc
+A1:n
+Tc
+l
++ λe
+Ec
+l −Ec
+A1:n
+Ec
+l
+,
+(10)
+where Tc
+l and Ec
+l are the latency and energy consumption of
+executing all tasks locally on the UE. λt and λe ∈[0, 1] are
+scalar weights. Eq. (10) represents a weighted sum approach
+of a multi-objective optimization problem. The weighted-
+sum approach is extensively used since it is generally ef-
+fective and easy to implement. Besides, the weights reﬂect
+the relative importance of energy and latency, which can
+be set based on the user’s preference. For general DAGs,
+the scheduling problem is NP-hard [18]. Therefore, it is
+extremely hard to ﬁnd the optimal ofﬂoading plan with
+reasonable time complexity.
+
+4
+Offloading 
+Scheduler
+Local 
+Processing 
+Unit
+Task Graph 
+Pool
+Offloading
+Trainer
+VM
+VM
+VM
+MEC Computing Resources
+…
+…
+UE Level
+MEC Host
+Edge Level
+Cloud Level
+Cloud Servers
+Fig. 2. The proposed DRL-based task ofﬂoading scheme.
+3
+THE DRLTO SCHEME
+This section presents the proposed DRLTO in detail. We ﬁrst
+present the necessary background of DRL and S2S neural
+network. Next, the overall design of the DRLTO architecture
+is described. Finally, the ofﬂoading model, the S2S neural
+network, and the training algorithm are presented in detail.
+3.1
+Background
+Deep Reinforcement Learning: In general, the targeted
+problem of RL is formulated as an MDP that is deﬁned
+by a 6-tuple (S, A, P, P0, R, γ), where S, A, P, and P0
+denote the state space, action space, state transition prob-
+ability matrix, and initial state distribution, respectively.
+R means the reward function and γ
+∈
+(0, 1) repre-
+sents the discount factor. Denote π(a|s) as the policy that
+speciﬁes the probability of taking action a given state
+s. The trajectories sampled under the policy π are de-
+noted as τ π = (s0, a0, r0, s1, a1, r1, ...), where s0 ∼P0,
+at ∼π(·|st−1) and rt is the immediate reward at time
+step t. The state value function of a state st under a
+policy π, denoted as vπ(st), is the expected return when
+starting in st and following π thereafter, which is deﬁned
+as vπ(st)
+=
+Eπ
+P
+k=0 γkrt+k
+ st
+
+. Similarly, the state-
+action value function, denoted as qπ(st, at), is the expected
+return starting from st, taking the action at, and there-
+after following policy π, which can be formally denoted
+as qπ(st, at) = Eπ
+P
+k=0 γkrt+k
+ st, at
+
+. The objective of
+RL is to ﬁnd a policy that maximizes the total return
+G0 = P
+s0 P0(s0)vπ(s0).
+In general, the current methods for DRL include value-
+based and policy-based methods. Value-based methods aim
+to get the optimal value function of every state in the
+environment: v∗
+π(s) = maxa qπ∗(s, a), where π∗denotes the
+optimal policy. A typical valued-based method is deep Q-
+learning [19], which approximates the optimal value func-
+tion by DNN (i.e., deep Q-network). However, deep Q-
+learning indirectly obtains a deterministic policy through
+updating the deep Q-network toward the one-step reward.
+A drawback of this one-step updating rule is that obtain-
+ing a reward only directly affects the value of the state-
+action pair that led to the reward while the values of other
+state-action pairs are indirectly affected by the updated Q-
+network. This can result in a slow learning process [20].
+In contrast to value-based methods, policy-based DRL di-
+rectly parameterizes the policy with a DNN and updates
+the policy network by performing gradient ascent on the
+total return [21] rather than the one-step return, thus it can
+achieve a faster convergence rate. However, when facing a
+combinatorial optimization problem such as task ofﬂoading
+in MEC, it has two main defects: 1) using Monte-Carlo
+estimation can bring high variance leading to slow learning.
+2) conventional policy gradient methods are data inefﬁcient
+and can get stuck in local optima [22]. To address the above
+issues, we apply proximal policy optimization (PPO) [23]
+that includes generalized advantage estimation (GAE) [24],
+off-policy clipped surrogate objective, and an entropy bonus
+to train the S2S neural network in this work. In particular,
+GAE can substantially reduce the variance by introduc-
+ing an exponentially weighted estimator of the advantage
+function into the objective. The off-policy clipped surrogate
+objective can stabilize the training and improve the sample
+efﬁciency. Besides, adding the entropy bonus can further
+enhance the exploration [23], thus alleviating the problem
+of getting stuck in local minima.
+Sequence-to-Sequence Neural Network: A typical S2S
+neural network consists of an encoder and a decoder, where
+the encoder and decoder are implemented by multi-layer
+RNNs. The input sequence is fed into the encoder and the ﬁ-
+nal hidden state is output through forward propagation. The
+decoder initializes its hidden state via the encoder’s output
+state and outputs a target sequence. The original S2S neural
+network [25] uses a ﬁxed vector to encode the whole input
+sequence, which can lead to serious information loss for
+input sequences with long-term dependency. To cope with
+this problem, the attention mechanism [26] was proposed. In
+the attention mechanism, at each decoding step, a decoder
+output depends on its previous output, previous hidden
+state, and a context vector which is a weighted sum of the
+encoder output. Introducing the context vector gives the
+decoder a chance to “attend” important information from
+the source input sequence. Some work [27, 28] extends the
+S2S neural network to handle combinatorial optimisation
+problems including Travelling Salesman Problem (TSP) and
+Convex Hull. Inspired by the above work, we introduce the
+S2S neural network in our method, since task ofﬂoading
+in MEC is a typical combinatorial optimisation problem.
+Speciﬁcally, the S2S neural network is used to approximate
+both policy and value function of DRLTO, which can effec-
+tively extract representative features from DAGs.
+3.2
+The DRLTO Design
+The DRLTO can be integrated into an emerging MEC plat-
+form deﬁned by ETSI [1]. As shown in Fig. 2, the MEC
+system consists of three levels: UE level, edge level, and
+cloud level. UE level includes various user devices (such as
+smartphones, tablets, vehicles) and software applications. In
+edge level, each MEC host contains the computing, storage
+and network resources for processing applications on its
+virtual machines (VMs). In cloud level, cloud servers are
+hired to process computation-intensive and resource hun-
+gry jobs. The DRLTO scheme contains three major compo-
+nents: ofﬂoading scheduler, task graph pool, and ofﬂoading
+trainer. Each UE has an ofﬂoading scheduler, which makes
+
+5
+ofﬂoading decisions for user applications. Speciﬁcally, the
+trained S2S neural network is included in the ofﬂoading
+scheduler. The MEC host contains a task graph pool and
+an ofﬂoading trainer, which are used to gather DAGs from
+UE and conduct periodical training process, respectively.
+The training for the S2S neural network is based on
+periodically gathered DAGs. At the off-peak time (e.g. mid-
+night), the ofﬂoading trainer runs the training procedure.
+After training, the MEC host sends the parameters of the
+trained S2S neural network back to UE. The UE can then
+make the ofﬂoading decision via forward-propagation of
+the trained S2S neural network. The MEC host executes the
+ofﬂoaded tasks and returns the results to the UE. For those
+locally executed tasks, the local processing unit of the UE
+executes them when ready.
+3.3
+The Task Ofﬂoading Model
+In order to adapt DRL to solve the task ofﬂoading problem,
+we model the problem as an MDP, where the state space,
+action space, and reward function of the MDP are deﬁned
+as follows.
+• State Space:
+When scheduling the task ti, the state of
+the MEC system depends on the scheduling results of
+the previous tasks of ti (i.e., the partial ofﬂoading plan).
+Hence, we deﬁne the state space as a combination of
+the DAG information (including DAG topology and task
+proﬁles) and the partial ofﬂoading plan. Formally, let G
+denote the encoded DAG and A1:i denote the ofﬂoading
+plan for the sequence of tasks from t1 to ti. The state space
+is thus denoted as
+S := {s|s = (G, A1:i)}.
+(11)
+Speciﬁcally, G is comprised of a sequence of task em-
+beddings. Each embedding consists of three elements:
+1) a vector that includes an index of the task and the
+estimated task costs Tl
+i, Tul
+i , Ts
+i, and Tdl
+i ; 2) a vector
+of indices of immediate previous tasks; 3) a vector of
+indices of immediate subsequent tasks. The length of
+previous/subsequent task indices vector is limited to p
+(p = 12 in our experiments). We pad the vector with -1,
+in case the number of previous/subsequent tasks is less
+than p. The embedding vectors are then fed into the S2S
+neural network to obtain ofﬂoading plans.
+• Action Space:
+A task could be either ofﬂoaded to an
+MEC host or run locally on the UE. Let ai = 1 represent
+ofﬂoading to an MEC host and ai = 0 represent local
+execution for task ti. Therefore, the action space can be
+deﬁned as A := {1, 0}.
+• Reward Function: The objective of our method is to
+maximize the QoS. In order to reach this objective, we
+deﬁne the reward function at each step as the estimated
+increment of the QoS:
+R(si, ai) = λt
+T
+c
+l −∆Ti
+Tc
+l
++ λe
+E
+c
+l −∆Ei
+Ec
+l
+,
+∆Ti = Tc
+A1:i −Tc
+A1:i−1,
+∆Ei = Ec
+A1:i −Ec
+A1:i−1,
+(12)
+where T
+c
+l and E
+c
+l are the average latency and energy
+consumption for a task in the DAG, which are given by
+T
+c
+l = Tc
+l /n and E
+c
+l = Ec
+l /n, respectively.
+!!
+!!
+!"
+!"
+!#
+!#
+!$
+!$
+…
+…
+t!
+t"
+t#
+t$
++
+!!
+!!
+!"
+!"
+!#
+!#
+!$
+!$
+…
+#!
+#"
+#$%!
+…
+…
+Encoder
+Task
+embeddings
+Context Vector "
+Decoder
+π(a!|'!)
+v(s!)
+…
+π(a%|'$)
+v(s%)
+Fig. 3. Structure of the S2S neural network for DRLTO.
+3.4
+The S2S Neural Network for DRLTO
+According to the deﬁnition of our MDP model, the ofﬂoad-
+ing problem can be converted to an S2S prediction problem
+where the input is the sequence of task embeddings and
+the output is a scheduling plan for those tasks. The policy
+π(ai|G, A1:i−1) is denoted as the probability of selecting ac-
+tion ai for task ti under the state s = (G, A1:i−1). Moreover,
+π(A1:n|G) is the probability of having the ofﬂoading plan
+A1:n given the graph G with n tasks. Applying the chain
+rules of probability, we have
+π(A1:n|G) =
+n
+Y
+i=1
+π(ai|G, A1:i−1).
+(13)
+To effectively approximate the policy deﬁned in Eq. (13),
+an S2S neural network is a good option. As shown in Fig.
+3, we combine an S2S neural network with the attention
+mechanism to approximate both the policy and the value
+function of the DRLTO. Formally, denote the sequence of
+task embeddings as t = [t1, t2, ...tn] and the function of en-
+coder network as fenc, then the hidden state of the encoder
+network can be obtained by:
+ei = fenc(ei−1, ti; θenc),
+(14)
+where ei is the hidden state for encoding step i and θenc
+are the parameters of the encoder network. Let fdec be the
+function of the decoder network. The hidden state of the
+decoder network dj for decoding step j is calculated by:
+dj = fdec(di−1, aj−1, cj; θdec),
+(15)
+where θdec are the parameters of the decoder network. cj
+is the context vector of the attention mechanism, which
+is deﬁned by a weighted sum of the hidden states of the
+encoder network:
+cj =
+n
+X
+i=1
+αjiei.
+(16)
+The weight αji of each hidden state of the encoder network,
+ei, is computed by
+αji =
+efscore(dj−1,ei)
+Pn
+k=1 efscore(dj−1,ek)
+(17)
+where the score function, fscore(dj−1, ei), is used to measure
+how well the input of the encoder network at position i
+matches the output of the decoder network at position j. In
+
+6
+this paper, we deﬁne the score function as a trainable neural
+network as in the work [26].
+The policy and value networks share most of the pa-
+rameters (encoder and decoder) except for the top layer of
+the decoder. For the policy neural network, we add a fully
+connected layer on the output of the decoder, dj , and use
+softmax function to convert the output into the distribution
+over actions, π(aj|sj). For the value neural network, we add
+another fully connected layer on dj and use the output to
+represent the state value, v(sj). The shared parameters in
+the S2S architecture are used to extract common features in
+DAGs, therefore training the policy neural network that can
+accelerate the training of the value neural network and vice
+versa.
+The ofﬂoading decision for each task is made by the
+trained S2S neural network. Overall the steps for ofﬂoading
+process are follows:
+Step 1: A topological sorting is conducted to sort tasks of
+the DAG according to the rank values of tasks by decreasing
+order, which is deﬁned as
+rank(ti) =
+(
+To
+i
+if ti ∈K,
+maxtj∈succ(ti)(rank(tj)) + To
+i
+if ti /∈K,
+(18)
+where succ(ti) represents the set of immediate successors of
+ti and To
+i = Tul
+i + Ts
+i + Tdl
+i .
+Step 2: Tasks are then embedded into a sequence of
+vectors as the input of the encoder (the details of the
+embedded vectors are presented in Section 3.3). Next, the
+output sequence of the encoder will be used to calculate
+the context vector. At the jth decoding step, the ofﬂoading
+decision can be generated through aj = arg maxaj π(aj|sj).
+Step 3: The UE and MEC host cooperatively ﬁnish
+executing all tasks according to the ofﬂoading decisions.
+3.5
+The Training Process of the DRLTO
+The training goal is to ﬁnd an optimal policy so that the
+accumulated reward is maximal, which is expressed as
+max
+θ
+L(θ) = E
+"
+max
+θ
+πθ(A1:n|G)
+n
+X
+t
+R(st, at)
+#
+,
+(19)
+where θ are the parameters of the S2S neural network, n
+is the task number of the DAG, R(st, at) is the reward
+function, st and at is the observed state and ofﬂoading
+decision for the tth task, respectively.
+To improve the performance and training efﬁciency, the
+training target function is modiﬁed based on PPO [23],
+which generates trajectories using the old policy πθold and
+updates the current policy πθ whose initial value equals
+πθold for several epochs. In order to avoid a large update
+of the policy, PPO penalizes changes to the policy via a
+clip function. The clipped target function for the S2S neural
+network is given by
+LC(θ) = E
+" n
+X
+t=1
+min
+
+prt(θ) ˆAt, clip(prt(θ), 1 −ϵ, 1 + ϵ) ˆAt
+#
+,
+(20)
+Algorithm 1: Off-policy Training for the S2S Neural
+Network
+1 Create two S2S neural networks with θold and θ for
+the old policy πθold and target policy πθ with
+randomly generated initial values.
+2 θold ←θ
+3 for i = 1, 2, ..., l do
+4
+/** Exploration stage **/
+5
+Collect set of trajectories Di on policy πθold.
+6
+for each trajectory τ ∈Di do
+7
+Compute advantage estimates ˆA1, . . . , ˆAn
+according to Eq. (24).
+8
+Compute the target state values
+ˆvπ(s1), . . . , ˆvπ(sn) following the equation:
+ˆvπ(st) = Pn−t+1
+k=0
+γkrt+k.
+9
+Store advantage estimates and target state
+values in Di.
+10
+/** Exploitation stage **/
+11
+for k = 1, 2, ..., m do
+12
+Optimize the target function LPPO w.r.t. θk
+by taking minibatch SGD (via Adam) using
+the sampled minibatches from Di.
+13
+Synchronise old and new parameters: θold ←θ.
+where ˆAt is the estimator of the advantage function at time
+step t and ϵ is a hyperparameter to control the clip range.
+prt(θ) is the policy probability ratio that is given by
+prt(θ) =
+πθ(at|G, A1:t)
+πθold(at|G, A1:t).
+(21)
+The clip function clip(prt(θ), 1 −ϵ, 1 + ϵ) aims to limit the
+value of prt(θ), which removes the incentive for moving
+prt(θ) outside of the interval [1−ϵ, 1+ϵ]. Finally, taking the
+minimum of the clipped and unclipped objective restricts
+the ﬁnal objective as a lower bound on the unclipped
+objective.
+As discussed in the previous subsection, a shared pa-
+rameter S2S neural network is crafted for both policy and
+value function approximation. To train this neural network,
+the clipped objective function and the value function loss
+are integrated into the target function. Besides, adding an
+entropy bonus can ensure efﬁcient exploration. Following
+the suggestion in work [23], we combine these terms and
+obtain the following function as the ﬁnal training target:
+LPPO(θ) = E
+h
+LC(θ) −c1LVF(θ) + c2S[πθ](st)
+i
+,
+(22)
+where c1 and c2 are coefﬁcients, S denotes an entropy
+bonus, and LVF is a squared-error loss between predicted
+state values vπ(s) and target state values ˆvπ(s):
+LVF(θ) = E
+" n
+X
+t=1
+(vπ(st) −ˆvπ(st))2
+#
+,
+(23)
+where ˆvπ(st) = Pn−t+1
+k=0
+γkrt+k.
+Training the S2S neural network with RL is quite dif-
+ferent from training DNN with RL, which can use transi-
+tion segments (st, at, rt, st+1) for back propagation. When
+training the S2S neural network, the entire trajectory should
+
+7
+TABLE 1
+The Parameters of Simulation Environment
+Notation
+Parameter
+Value
+Rul, Rdl
+UL/DL Transmission Rate
+{3, 7, 11, 15, 19}
+Mbps
+fl
+CPU Clock Speed of UE
+1 GHz
+fs
+CPU Clock Speed of a VM in
+MEC Host
+4 × 2.5 GHz
+ζ, ρ
+Constants in Energy Model
+ζ = 3,
+ρ = 1.25 × 10−26
+P Tx
+Avg. Wireless Sending Power
+1.258 W
+P Rx
+Avg. Wireless Receiving Power
+1.181 W
+fat
+Width of a DAG
+{0.3, 0.4, 0.5, 0.6, 0.7,
+0.8}
+density
+Density of Dependency of a DAG {0.3, 0.4, 0.5, 0.6, 0.7,
+0.8}
+ccr
+Comm. to Comp. Ratio of a DAG
+0.3 to 0.5
+datas
+i ,
+datar
+i
+Sending/Receiving Data Size for
+a Task
+5 KB to 50 KB
+C
+Required CPU Cycles for a Task
+107 to 108
+cycles/sec
+p
+Length of Task Indices Vector
+12
+be divided into sequences which are then fed into the
+network. For example, two components of trajectories are
+ﬁrstly sampled from the environment, which are deﬁned
+by a scheduling plan A1:n and a sequence of state val-
+ues [vπ(s1), vπ(s2), . . . , vπ(sn)] obtained from conducting
+a forward propagation of the S2S neural network with
+the tasks embedding sequence. Next, the reward sequences
+[r1, r2, . . . , rn] can be obtained by applying the scheduling
+plan to the environment. Furthermore, the TD-error term δ
+at time step t can be calculated by δt = rt + γvπ(st+1) −
+vπ(st). Finally, the generalized advantage estimator (GAE)
+[24] is used to obtain the advantage function at time step t
+as
+ˆAt =
+n−t+1
+X
+k=0
+(γλ)k(δt+k),
+(24)
+where λ (0 < λ < 1) is used to control the trade-off between
+bias and variance.
+The training algorithm is formally presented in Algo-
+rithm 1. First, the sampling and updating neural networks
+are initialized with the same parameters. In each loop,
+the sampling neural network is used to sample a set of
+trajectories which are stored in Di. Next, the sequence of
+advantage estimates ˆA and the estimated state values ˆvπ
+are calculated and stored in Di. Since then, Di consists
+of the tasks embedding sequences [t1, t2, . . . , tn], sampled
+scheduling plans A1:n, reward sequences [r1, r2, . . . , rn],
+sampled state values sequences [vπ(s1), vπ(s2), . . . , vπ(sn)],
+advantage estimates sequences [ ˆA1, ˆA2, . . . , ˆAn], and esti-
+mated state values sequences [ˆvπ(s1), ˆvπ(s2), . . . , ˆvπ(sn)].
+At the exploitation stage, the updating neural network
+is improved by conducting minibatch Stochastic Gradient
+Descent (SGD) on Di with the target function deﬁned in
+Eq. (22) for m epochs. Adam is adopted as the optimization
+method for its efﬁciency and stability.
+4
+RESULTS AND DISCUSSION
+This section presents the experimental results and perfor-
+mance evaluation of the DRLTO. We ﬁrst present how to
+TABLE 2
+The Neural Network and Training Hyperparameters
+Hyperparameter
+Value
+Hyperparameter
+Value
+Encoder Layers
+2
+Encoder Layer Type
+Bi-LSTM
+Encoder Hidden Units
+256
+Encoder Layer Norm.
+On
+Decoder Layers
+2
+Decoder Layer Type
+LSTM
+Decoder Hidden Units
+256
+Decoder Layer Norm.
+On
+Learning Rate
+10−4
+Activation function
+Tanh
+Optimization Method
+Adam
+Loss Coefﬁcient c1
+0.5
+Discount Factor γ
+0.99
+Entropy Coefﬁcient c2
+0.01
+Adv. Discount Factor λ
+0.95
+Clipping Constant ϵ
+0.2
+Batch Size
+500
+Low fat and density
+High fat and density
+Fig. 4. The examples of synthetic DAGs from low fat and density to high
+fat and density.
+set the simulation environment and hyperparameters. Next,
+the training results of the DRLTO are presented, including
+the average reward, value loss, and policy loss. Finally,
+we analyze the performance results of the DRLTO through
+comparing it with eight existing algorithms.
+4.1
+Simulation Environment and Hyperparameters
+In our simulation experiments, we consider that the UE is
+in a small cell network with different transmission rates
+dependent on the distance between the UE and MEC host.
+The set of transmission rate is {3 Mbps, 7 Mbps, 11 Mbps, 15
+Mbps, 19 Mbps}, which covers the most area of a cell from
+a distal end to a proximal end. We set the constants in the
+energy model ρ = 1.25 × 10−26 and ζ = 3 according to
+[3]. The CPU clock speed of the UE fl is set to be 1 GHz.
+We set the total computation capacity of the edge server as
+10 GHz. Moreover, P Tx and P Rx are 1.258 W and 1.181 W,
+respectively [3].
+In MEC, user applications can be modelled as DAGs
+with various topologies. For example, a data compression
+application is composed of multiple tasks with linear depen-
+dency, while face recognition and gesture capture applica-
+tions involve more complex inner dependency among tasks
+(as shown in Fig. 1). Our scheme aims to obtain an effective
+ofﬂoading policy for general purpose, which can adapt to
+any DAG topologies. To effectively train our DRL-based
+algorithm, we need the information of task proﬁles and
+dependency for many different mobile applications. The
+current real datasets for mobile applications only contain
+information of a very limited number of applications [13].
+Therefore, we use a synthetic DAG generator [29] to gener-
+ate various DAGs representing heterogeneous applications.
+The properties of DAGs are controlled by several parame-
+
+8
+0
+500
+1000
+1500
+2000
+2500
+3000
+Episodes
+0.006
+0.007
+0.008
+0.009
+0.010
+0.011
+0.012
+Average Reward
+0
+200
+400
+600
+800
+1000
+1200
+1400
+1600
+Episodes
+0.00
+0.02
+0.04
+0.06
+0.08
+0.10
+Policy loss
+0
+500
+1000
+1500
+2000
+2500
+3000
+Episodes
+0.0000
+0.0025
+0.0050
+0.0075
+0.0100
+0.0125
+0.0150
+0.0175
+0.0200
+Value loss
+Fig. 5. The values of average reward, policy loss, and value loss in the training process of the DRLTO.
+ters including fat, density, and ccr. Here, fat is used to control
+the width and the height of a DAG. density determines the
+number of edges between two levels of a DAG. ccr denotes
+the communication-to-computation ratio, which is the ratio
+between the communication cost and the computation cost.
+Using a simulator to generate synthetic DAGs has many
+beneﬁts. For example, it can fast generate a large number of
+DAGs representing various mobile applications. In addition,
+it is easy to control the features of generated DAGs by
+tuning simulator parameters.
+For the DAG generation, we randomly pick fat from
+{0.3, 0.4, 0.5, 0.6, 0.7, 0.8}, density from {0.3, 0.4, 0.5, 0.6,
+0.7, 0.8} and ccr from {0.3, 0.4, 0.5}. It is reasonable to set
+ccr less than 0.5, since many emerging applications are
+computation-intensive. Fig. 4 shows an example of DAG
+topologies from low fat and density to high fat and density.
+For the settings of task proﬁle, the transmission data size of
+a task is set between 5 KB and 50 KB. The required CPU
+cycles for a task is set between 107 and 108 cycles/sec. The
+task number n of the generated DAG ranges from 10 to
+50 with a step size of 5. According to the above setting,
+we randomly generate 500 graphs for each task number as
+the training dataset and additional 100 graphs for each task
+number as testing dataset. Speciﬁcally, the parameters of our
+simulation environment are listed in Table 1.
+The S2S neural network is implemented via Tensorﬂow.
+Speciﬁcally, the encoder is set as a two-layer bi-directed
+Long Short-Term Memory (LSTM) with 256 hidden units
+while the decoder is set as a two-layer dynamic LSTM
+also with 256 hidden units. Besides, the layer normaliza-
+tion [30] is added for both encoder and decoder. During
+the training process, the learning rate is set as 10−4, the
+coefﬁcients is set as c1 = 0.5, c2 = 0.01, and the batch
+size is set as 500. Hyperparameters can affect the training
+results and the convergence speed of DRLTO. We initially
+set the hyperparameters according to [23], and then run grid
+search on learning rate, batch size, discount factor, etc., to
+ﬁnd the optimal hyperparameters (given in Table 2) for our
+algorithm. These hyperparameters have been applied to all
+scenarios in our experiments.
+4.2
+Compared Algorithms
+We compare the performance between the DRLTO and the
+following eight existing algorithms:
+• Optimal: The exhaustive search is applied to list all
+possible solutions and ﬁnd the optimal one with the
+highest QoS.
+• Local: All tasks of the DAG are run on the local proces-
+sor.
+• Remote: All tasks of the DAG are ofﬂoaded to the MEC
+host.
+• Random: Each task of the DAG is randomly assigned to
+the local processor or the MEC host.
+• Greedy: Each task of the DAG is greedily assigned
+locally or remotely based on the estimated ﬁnish time
+on the local processor and the MEC host.
+• Round-Robin (RR): Tasks of the DAG are alternately
+scheduled to the local processor and MEC host.
+• HEFT-based: Tasks are ﬁrstly prioritized according to
+Heterogeneous Earliest Finish Time (HEFT) as in [2, 31].
+The prioritized tasks are then scheduled to the resource
+with earliest estimated ﬁnish time.
+• Double Deep-Q Network based Task Ofﬂoading (DDQNTO):
+Tang et al. [10] combined LSTM, dueling deep Q-
+network (DQN), and double-DQN techniques to han-
+dle the task ofﬂoading problem without considering
+the inner dependency. Speciﬁcally, we use the same
+exploration-exploitation strategy as in the work [10] to
+train the Q-networks.
+4.3
+Training Performance and Convergence
+We ﬁrst investigate the training overheads, convergence
+property, and inference latency in our algorithm. In our
+experiments, we set two different targets: latency-optimal
+(LO) and energy-efﬁcient (EE). The LO target aims at mini-
+mizing the latency, thus we set λt = 1.0 and λe = 0.0. The
+EE target aims to jointly optimize the latency and energy
+consumption, so we set λt = λe = 0.5. We conduct the
+training process for the DRLTO and record the average
+reward, the policy loss (i.e., LC as deﬁned in Eq. (20)), and
+the value loss (i.e., LVF as deﬁned in Eq. (23)). We train
+DRLTO on our workstation with GeForce RTX 2080. Each
+episode involves 40 mini-batch updates for the S2S neural
+network with the time overheads around 30 s/episode. Fig.
+5 depicts the training results with the LO target. We notice
+that the average reward increases sharply at the beginning
+and steadily grows after 500 episodes. Our experimental
+results show that the training converges at around 1200
+episodes. The total training overheads for a converged pol-
+icy is around 10 hours. As the training dose not happen
+
+9
+TABLE 3
+The comparison of the DRLTO and existing algorithms in terms of average latency (ms) of a DAG with different numbers of tasks (n).
+N/A denotes cases unable to ﬁnd optimum. LO and EE denote latency-optimal and energy-efﬁcient targets, respectively.
+n
+Optimal
+(LO)
+Local
+Remote
+Random
+Greedy
+RR
+HEFT-based DDQNTO
+(LO)
+DDQNTO
+(EE)
+DRLTO
+(LO)
+DRLTO
+(EE)
+10
+488.61
+723.14
+694.75
+650.01
+556.70
+646.92
+533.25
+580.30
+690.04
+491.98
+583.03
+15
+661.57
+1053.44
+991.49
+915.54
+780.73
+886.51
+743.20
+836.01
+987.36
+673.28
+804.57
+20
+851.71
+1394.49
+1322.87
+1170.06
+999.73
+1134.41
+958.82
+1100.71
+1317.71
+880.89
+1010.94
+25
+N/A
+1796.05
+1630.79
+1430.03
+1239.45
+1395.91
+1194.95
+1349.15
+1616.12
+1054.31
+1221.08
+30
+N/A
+2154.71
+1981.61
+1727.75
+1500.83
+1692.38
+1454.53
+1629.57
+1970.39
+1297.08
+1507.35
+35
+N/A
+2463.69
+2251.70
+2043.32
+1757.25
+2025.92
+1719.99
+1906.46
+2238.88
+1530.58
+1767.64
+40
+N/A
+2910.47
+2757.82
+2360.31
+1992.33
+2246.18
+1939.06
+2286.65
+2737.24
+1757.42
+2067.79
+45
+N/A
+3182.15
+2833.30
+2442.66
+2074.41
+2323.27
+2043.41
+2365.28
+2806.76
+1781.23
+2051.24
+50
+N/A
+3662.96
+3560.65
+2897.15
+2431.63
+2754.37
+2391.01
+2948.88
+3538.77
+2200.68
+2533.18
+TABLE 4
+The comparison of DRLTO and existing algorithms in terms of QoS (targeting at EE) with different numbers of tasks (n),
+N/A denotes cases unable to ﬁnd optimum. EE denotes energy-efﬁcient target.
+n
+Optimal
+(EE)
+Local Remote Random Greedy
+RR
+HEFT-based
+DDQNTO
+(EE)
+DRLTO
+(EE)
+10
+0.394
+0
+0.360
+0.223
+0.194
+0.223
+0.219
+0.339
+0.389
+15
+0.410
+0
+0.367
+0.228
+0.222
+0.252
+0.246
+0.353
+0.399
+20
+0.426
+0
+0.373
+0.254
+0.244
+0.266
+0.265
+0.357
+0.415
+25
+N/A
+0
+0.390
+0.273
+0.270
+0.290
+0.286
+0.381
+0.434
+30
+N/A
+0
+0.388
+0.265
+0.262
+0.281
+0.276
+0.377
+0.426
+35
+N/A
+0
+0.390
+0.255
+0.252
+0.267
+0.260
+0.380
+0.426
+40
+N/A
+0
+0.373
+0.270
+0.275
+0.290
+0.288
+0.368
+0.417
+45
+N/A
+0
+0.398
+0.285
+0.295
+0.307
+0.302
+0.391
+0.441
+50
+N/A
+0
+0.363
+0.274
+0.290
+0.298
+0.296
+0.357
+0.411
+very frequently, the training overheads are acceptable. For
+the training loss, both the value loss and the policy loss
+approximate to zero after 500 episodes, which shows the
+good convergence property of the DRLTO. After training,
+we obtain two trained S2S neural networks, one of which
+is used for the LO target and the other is used for the
+EE target. Those trained networks will then be deployed
+back to the UE. To evaluate the inference speed, we use
+our laptop with CPU only (2.6 GHz 6-Core Intel Core i7)
+to do the inference. We feed 100 DAGs with n = 15 to
+the trained S2S neural networks for network inference. As a
+result, the total inference latency is around 108 ms with 1.08
+ms per DAG. Compared to the time overheads of ofﬂoading
+tasks (as shown in Table 3), the inference overhead can
+be neglect. Note that, we do not involve any inference
+optimisation method to our trained model. However, many
+existing works show that the inference speed can be further
+improved on mobile devices. In the following sections, we
+evaluate DRLTO among different scenarios.
+4.4
+Evaluation with Different Task Numbers
+First, we investigate the latency, energy consumption, and
+QoS of different ofﬂoading algorithms with varying num-
+bers of tasks. In this case, we ﬁx the transmission rate at
+7 Mbps. When aiming at the LO target, we focus on the
+latency. Table 3 lists the average latency of executing a
+DAG with different numbers of tasks. The Optimal (LO) is
+implemented using exhaustive search to ﬁnd the optimal
+solution. However, the Optimal (LO) has exponential time
+complexity, thus it is unable to ﬁnd optimum in a reasonable
+amount of time when n ≥20. The Local and the Remote both
+perform poorly in this scenario, which are even worse than
+the Random. DDQNTO (LO) cannot learn effective policy,
+which obtains higher average latency than the heretic search
+algorithm HEFT-based. Compared to the existing algorithms,
+DRLTO with the LO target signiﬁcantly outperforms all
+heuristic baselines (from the Local to the HEFT-based) and
+the advanced DRL-based methods (i.e., DDQNTO). More-
+over, DRLTO (LO) approximates the optimal solution when
+n ≤20.
+When aiming at the EE target, we jointly consider the
+latency and energy consumption. The comparison results of
+the energy consumption and QoS with different numbers
+of tasks are presented in Fig. 6 and Table 4, respectively.
+Ofﬂoading computation-intensive applications to the MEC
+host can help reduce the energy consumption on UE, there-
+fore the Remote achieves the lowest energy consumption.
+However, the Remote has the highest latency as shown
+in Table 3. DDQNTO (EE) learns ofﬂoading policies that
+have similar energy consumption and latency as Remote
+in all cases. It seems that DDQNTO (EE) fails to learn a
+good trade-off between energy consumption and latency.
+On the contrary, DRLTO with the EE target can learn the
+optimal policy by taking both the latency and energy into
+account. Comparing the results in Table 3 and Fig. 6, we
+ﬁnd that DRLTO with the EE target achieves the lowest
+energy consumption bar Remote and DDQNTO (EE), while
+it still obtains acceptable latencies (close to the Greedy).
+Furthermore, Table 4 gives explicit results related to the QoS
+of all evaluated algorithms. Obviously, the QoS of the Local
+is always zero because we deﬁne QoS as a measurement
+of the gain/loss of an algorithm compared to the Local.
+Moreover, DRLTO with the EE target achieves the maximal
+QoS compared to all baseline algorithms (i.e., from Local to
+
+10
+10
+15
+20
+25
+30
+35
+40
+45
+50
+Task number
+5
+10
+15
+20
+Energy Consumption (J)
+Local 
+Remote 
+Random 
+Greedy 
+Round-robin 
+HEFT-based
+DDQNTO (EE)
+DRLTO (EE)
+Fig. 6. The comparison of the DRLTO and existing algorithms in terms
+of average energy consumption (targeting at EE) with different numbers
+of tasks. EE denotes energy-efﬁcient target.
+3Mbps 
+7Mbps
+11Mbps
+15Mbps
+19Mbps
+Transmission rate
+0
+500
+1000
+1500
+2000
+Latency (ms)
+Local
+Remote
+Random
+Greedy
+Round-robin
+HEFT-based
+DDQNTO (LO)
+DDQNTO (EE)
+DRLTO (LO)
+DRLTO (EE)
+Optimal (LO)
+Fig. 7. The comparison of the DRLTO and existing algorithms in terms
+of average latency with different transmission rates. LO and EE denote
+latency-optimal and energy-efﬁcient targets, respectively.
+DDQNTO) and approximates the optimal solution.
+4.5
+Evaluation with Different Transmission Rates
+Next, we evaluate the performance of the DRLTO with
+different transmission rates. We ﬁrst target at LO, and the
+results are shown in Fig. 7. When the transmission rate is
+low (meaning that the UE is far away from the MEC host),
+ofﬂoading tasks to the MEC host will result in high latency.
+On the contrary, if the transmission rate is high, ofﬂoading
+tasks can signiﬁcantly reduce the latency. An efﬁcient al-
+gorithm should automatically adapt its ofﬂoading policy to
+various transmission rates. As shown in Fig. 7, DDQNTO
+(LO) cannot learn effective policy, which achieves the worse
+performance than HEFT-based when the transmission rate
+increases from 3 Mbps to 15 Mbps. In contrast, DRLTO
+(LO) has high adaptability, which outperforms all baseline
+algorithms (i.e., from Local to DDQNTO) and approximates
+the optimal solution with various transmission rates.
+When the target is EE, we need take energy consumption
+into consideration. Figs. 8 and 9 show the energy consump-
+tions and QoS of various algorithms with different transmis-
+sion rates, respectively. As expected, Remote consumes the
+3Mbps
+ 
+7Mbps
+ 
+11Mbps
+ 
+15Mbps
+ 
+19Mbps
+Transmission rate
+1
+2
+3
+4
+5
+6
+7
+Energy Consumption (J)
+Local 
+Remote 
+Random 
+Greedy 
+Round-robin 
+HEFT-based 
+DDQNTO (EE)
+DRLTO (EE)
+Fig. 8. The comparison of the DRLTO and existing algorithms in terms
+of average energy consumption (targeting at EE) with different transmis-
+sion rates. EE denotes energy-efﬁcient target.
+3Mbps
+ 
+7Mbps
+ 
+11Mbps
+ 
+15Mbps
+ 
+19Mbps
+Transmission rate
+0.4
+0.2
+0.0
+0.2
+0.4
+0.6
+0.8
+QoS
+Optimal (EE)
+Local 
+Remote 
+Random 
+Greedy 
+Round-robin 
+HEFT-based 
+DDQNTO (EE)
+DRLTO (EE)
+Fig. 9. The comparison of the DRLTO and existing algorithms in terms
+of QoS (targeting at EE) with different transmission rates. EE denotes
+energy-efﬁcient target.
+least energy on UE since all tasks are run remotely. However,
+the latency of the Remote could be high and unacceptable
+under low or medium transmission rates. As shown in Fig.
+9, the Remote, Random, and RR even achieve negative QoS
+when the transmission rate is 3 Mbps, meaning that they are
+worse than the local. DRLTO with the EE target achieves the
+lowest energy consumption bar the Remote and DDQNTO
+when transmission rate is greater or equal than 7 Mbps,
+while it still leads to acceptable latencies. For example,
+when the transmission rate is 7 Mbps, DRLTO with the EE
+target obtains a similar latency as the Greedy but 50% less
+energy consumption than the latter, while both DDQNTO
+and Remote achieve the higher latency than Random. Fig.
+9 demonstrates that the QoS of all algorithms (except the
+Local) increases with the transmission rate. This is because
+the communication cost declines as the transmission rate
+grows, ofﬂoading tasks to remote servers can be beneﬁcial.
+In addition, DRLTO with the EE target obtains the maximal
+QoS compared with all baselines and approximates the
+optimal solution.
+4.6
+Evaluation with/without Dependency
+
+11
+…
+t!
+t"
+t#
+t$
+…
+Task
+embeddings
+…
+*(#!|&!)
+,('!)
+*(#$|&$)
+,('$)
+Fig. 10. The neural network architecture without considering the depen-
+dency among tasks.
+0
+200
+400
+600
+800
+1000
+1200
+Episode
+900
+1000
+1100
+1200
+1300
+1400
+Latency (ms)
+DRLTO (with dependency)
+DRLTO (without dependency)
+Fig. 11. Evaluation results for DRLTO with/without dependency informa-
+tion.
+We embed the dependent information into the task em-
+beddings and use the encoder network with the attention
+mechanism to extract features from the task embedding.
+In order to show how the dependent information inﬂu-
+ences the results. As shown in Fig. 10, we remove the
+encoder network with attention mechanism from the S2S
+neural network and directly input the task embeddings to
+the decoder network. The output of the decoder network
+remains the same (i.e., the policy and the value function).
+More speciﬁcally, we remove the adjacent information from
+the task embeddings. We then train this policy network on
+the same training dataset as DRLTO targetting at LO and
+use the same hyperparameters (i.e., learning rate, batch size,
+and the number of gradient steps per episode). During the
+training, we evaluate the trained policy at each episode on
+the testing dataset with n = 15. Fig. 11 shows the evaluation
+results. We ﬁnd that the training process cannot converge
+without considering the dependency information. Note that
+DDQNTO proposed in [10] does not involve the depen-
+dency information either. The above experiment results
+show that DRLTO can learn better policies than DDQNTO
+in all scenarios. Therefore, dependency information is one
+of the crucial factors in achieving good performance.
+5
+RELATED WORK
+The MEC ofﬂoading problem has attracted considerable
+research interests. Mach et al. [32] gave a thorough survey
+for ofﬂoading architecture and solutions in MEC systems.
+Many existing studies assume the ofﬂoading tasks are in-
+dependent. Chen et al. [4] focused on task ofﬂoading in
+a software-deﬁned ultra-dense network. They formulated
+the task ofﬂoading problem as a mixed-integer non-linear
+programming (MINLP) problem and solved it by decom-
+posing the problem into two sub-problems. Dinh et al. [3]
+aimed to minimize both latency and energy consumption
+by jointly optimizing the task allocation decision and the
+CPU frequency. They proposed two heuristic methods to
+solve the ofﬂoading problem for the cases with both ﬁxed
+and elastic CPU frequency. Zeng et al. [33] formulated the
+task ofﬂoading problem with joint consideration of task
+scheduling and image placement as an MINLP problem,
+and proposed a three-stage heuristic algorithm to solve it.
+When considering the inner dependency of ofﬂoading tasks,
+Lin et al. [2] represented mobile applications as task graphs
+and proposed a heuristic-based algorithm to solve the task
+ofﬂoading problem in MEC. Neto et al. [34] proposed a
+user-level online ofﬂoading scheme for MEC, which makes
+ofﬂoading decisions based on the estimation of energy
+and execution time for the dependent tasks. These existing
+solutions rely on hand-tuned heuristic or approximation
+methods. However, turning heuristics for a given task of-
+ﬂoading scenario is an expensive job that requires consid-
+erable human expertise. Consequently, facing the dynamic
+MEC scenarios, one might have to do this tuning repeatedly,
+which is time-consuming and sometimes impractical. By
+contrast, the proposed DRLTO learns an adaptive model by
+interacting with the MEC environment, without relying on
+hand-turned heuristics.
+Recently, DRL-based methods have emerged in the solu-
+tions to the MEC ofﬂoading problem [9, 10, 11, 12, 35, 36, 37].
+Li et al. [35] proposed a deep Q-Learning based ofﬂoading
+method to jointly optimize the ofﬂoading decision and com-
+putational resource allocation. Chen et al. [36] considered an
+ultra-dense network, where multiple base stations can be
+selected for ofﬂoading. They also adopted deep Q-Learning
+to obtain the ofﬂoading strategy. Dinh et al. [37] focused
+on multi-user multi-edge-node task ofﬂoading problem by
+using Q-learning in MEC. Zhan [9] et al. formulated the
+task ofﬂoading problem as a partially observable Markov
+decision process (POMDP) and applied a policy gradient
+DRL-based approach to solve the problem. Zou et al. [12]
+proposed a DRL-based ofﬂoading method by utilizing the
+asynchronous advantage actor-critic algorithm, to reduce
+the latency and energy consumption. Tang et al. [10] incor-
+porated the LSTM, duelling DQN, and double DQN tech-
+niques to solve the task ofﬂoading problem in MEC. All of
+these studies assume that the ofﬂoading tasks are indepen-
+dent. However, most of the real-world applications consist
+of dependent tasks, ignoring the task dependency when
+making ofﬂoading decisions can lead to severe performance
+degradation. To address the above issue, our DRL-based
+method considers the dependency among tasks through
+using DAG models for user applications. Different from
+our previous work [11], DRLTO develops a new learning
+
+12
+model with redeﬁned state space and reward function to
+optimise the QoS in terms of both the latency and energy
+consumption. Moreover, this work conducts comprehensive
+simulation experiments to show the convergence property,
+latency, energy consumption, and QoS of the DRLTO in
+dynamic MEC scenarios.
+From the theoretical perspective, the ofﬂoading problem
+in MEC systems can be seen as a combinatorial optimization
+problem. Recent researches attempt to use deep learning-
+based methods to solve such problems. For example, Pointer
+Networks [27] are variants of attention-based S2S neural
+networks. Pointer Networks use attention as a pointer to
+select a member of the input sequence as the output. This
+well-designed neural network ﬁts one type of combinato-
+rial optimization problem where the output elements are
+selected from inputs, e.g., TSP. Kool et al. [28] adopted
+attention layers rather than Pointer Networks as the policy
+neural network for solving TSP. Dai et al. [38] provided
+a different way to solve TSP with RL by using graph
+embedding technology for learning an indirect policy. The
+learned greedy policy behaves like a meta-algorithm that
+incrementally constructs a solution. These studies aim at
+solving classical combinatorial optimization problems such
+as TSP, MaxCut, and Convex Hull with neural networks and
+RL, which inspired us to integrate S2S architecture with RL
+to solve the MEC ofﬂoading problem.
+6
+CONCLUSION AND FUTURE WORK
+In this paper, we investigate the task ofﬂoading problem
+in MEC considering task dependency, with the aim of
+jointly optimizing the latency and energy consumption. To
+effectively adapt to dynamic scenarios, we propose a new
+ofﬂoading scheme that embeds DRL training and inference
+procedures into the MEC system. Speciﬁcally, we model the
+ofﬂoading problem as an MDP and combine an S2S neural
+network to approximate both the policy and value function
+of the MDP. An efﬁcient policy gradient method is then
+applied for training the S2S neural network. The training
+results show that the DRLTO achieves excellent stability and
+convergence with reasonable training and inference over-
+heads. Through comparing with the existing state-of-the-art
+heuristic and DRL-based algorithms, we demonstrate that
+the DRLTO has strong adaptability among different MEC
+scenarios and can obtain near-optimal solutions.
+Our future work intends to solve task ofﬂoading prob-
+lem with a shared resource allocation strategy (i.e., UEs
+share a common resource pool on an MEC server and the
+ofﬂoaded tasks will compete for the common resources).
+One potential solution for the task ofﬂoading problem with
+shared resources is to use multi-agent reinforcement learn-
+ing [39]. Each UE in the MEC will be treated as an individual
+agent and learns its own policy to achieve a common goal
+(e.g., achieving the maximal total QoS for all involved UEs)
+by collaborating with the other agents.
+ACKNOWLEDGMENT
+This
+work
+was
+partly
+supported
+by
+the
+EU
+Hori-
+zon 2020 INITIATE project under the Grant Agreement
+No.101008297.
+REFERENCES
+[1]
+D. Sabell, V. Sukhomlinov, L. Trang, S. Kekki, P. Paglierani,
+R. Rossbach, X. Li, Y. Fang, D. Druta, F. Giust et al., “Developing
+software for multi-access edge computing,” ETSI White Paper,
+vol. 20, 2019.
+[2]
+X. Lin, Y. Wang, Q. Xie, and M. Pedram, “Task scheduling with
+dynamic voltage and frequency scaling for energy minimization
+in the mobile cloud computing environment,” IEEE Transactions
+on Services Computing, vol. 8, no. 2, pp. 175–186, 2015.
+[3]
+T. Q. Dinh, J. Tang, Q. D. La, and T. Q. Quek, “Ofﬂoading in mobile
+edge computing: Task allocation and computational frequency
+scaling,” IEEE Transactions on Communications, vol. 65, no. 8, pp.
+3571–3584, 2017.
+[4]
+M. Chen and Y. Hao, “Task ofﬂoading for mobile edge computing
+in software deﬁned ultra-dense network,” IEEE Journal on Selected
+Areas in Communications, vol. 36, no. 3, pp. 587–597, 2018.
+[5]
+M. Du, Y. Wang, K. Ye, and C. Xu, “Algorithmics of cost-driven
+computation ofﬂoading in the edge-cloud environment,” IEEE
+Transactions on Computers, vol. 69, no. 10, pp. 1519–1532, 2020.
+[6]
+N. Abbas, Y. Zhang, A. Taherkordi, and T. Skeie, “Reward-oriented
+task ofﬂoading under limited edge server power for multi-access
+edge computing,” IEEE Internet of Things Journal, 2021.
+[7]
+D. Silver, T. Hubert, J. Schrittwieser, I. Antonoglou, M. Lai,
+A. Guez, M. Lanctot, L. Sifre, D. Kumaran, T. Graepel et al.,
+“A general reinforcement learning algorithm that masters chess,
+shogi, and go through self-play,” Science, vol. 362, no. 6419, pp.
+1140–1144, 2018.
+[8]
+T. P. Lillicrap, J. J. Hunt, A. Pritzel, N. Heess, T. Erez, Y. Tassa,
+D. Silver, and D. Wierstra, “Continuous control with deep rein-
+forcement learning,” in International Conference of Learning Repre-
+sentations, ICLR, 2016.
+[9]
+Y. Zhan, S. Guo, P. Li, and J. Zhang, “A deep reinforcement learn-
+ing based ofﬂoading game in edge computing,” IEEE Transactions
+on Computers, vol. 69, no. 6, pp. 883–893, 2020.
+[10] M. Tang and V. W. Wong, “Deep reinforcement learning for task
+ofﬂoading in mobile edge computing systems,” IEEE Transactions
+on Mobile Computing, 2020.
+[11] J. Wang, J. Hu, G. Min, W. Zhan, Q. Ni, and N. Georgalas,
+“Computation ofﬂoading in multi-access edge computing using
+a deep sequential model based on reinforcement learning,” IEEE
+Communications Magazine, vol. 57, no. 5, pp. 64–69, 2019.
+[12] J. Zou, T. Hao, C. Yu, and H. Jin, “A3c-do: A regional resource
+scheduling framework based on deep reinforcement learning in
+edge scenario,” IEEE Transactions on Computers, vol. 70, no. 2, pp.
+228–239, 2021.
+[13] M.-R. Ra, A. Sheth, L. Mummert, P. Pillai, D. Wetherall, and
+R. Govindan, “Odessa: enabling interactive perception applica-
+tions on mobile devices,” in Proceedings of the 9th international
+conference on Mobile systems, applications, and services.
+ACM, 2011,
+pp. 43–56.
+[14] X. Sun and N. Ansari, “Adaptive avatar handoff in the cloudlet
+network,” IEEE Transactions on Cloud Computing, vol. 7, no. 3, pp.
+664–676, 2019.
+[15] C. Borcea, X. Ding, N. Gehani, R. Curtmola, M. A. Khan, and
+H. Debnath, “Avatar: Mobile distributed computing in the cloud,”
+in 2015 3rd IEEE International Conference on Mobile Cloud Computing,
+Services, and Engineering.
+IEEE, 2015, pp. 151–156.
+[16] W. Zhan, C. Luo, G. Min, C. Wang, Q. Zhu, and H. Duan,
+“Mobility-aware multi-user ofﬂoading optimization for mobile
+edge computing,” IEEE Transactions on Vehicular Technology, vol. 69,
+no. 3, pp. 3341–3356, 2020.
+[17] H. Cao and J. Cai, “Distributed multiuser computation ofﬂoading
+for cloudlet-based mobile cloud computing: A game-theoretic
+machine learning approach,” IEEE Transactions on Vehicular Tech-
+nology, vol. 67, no. 1, pp. 752–764, 2017.
+[18] Y.-K. Kwok and I. Ahmad, “Static scheduling algorithms for allo-
+cating directed task graphs to multiprocessors,” ACM Computing
+Surveys (CSUR), vol. 31, no. 4, pp. 406–471, 1999.
+[19] V. Mnih, K. Kavukcuoglu, D. Silver, A. A. Rusu, J. Veness, M. G.
+Bellemare, A. Graves, M. Riedmiller, A. K. Fidjeland, G. Ostrovski
+et al., “Human-level control through deep reinforcement learning,”
+Nature, vol. 518, no. 7540, p. 529, 2015.
+[20] V. Mnih, A. P. Badia, M. Mirza, A. Graves, T. Lillicrap, T. Harley,
+D. Silver, and K. Kavukcuoglu, “Asynchronous methods for deep
+reinforcement learning,” in International conference on machine learn-
+ing, ICML.
+PMLR, 2016, pp. 1928–1937.
+
+13
+[21] R. J. Williams, “Simple statistical gradient-following algorithms
+for connectionist reinforcement learning,” in Reinforcement Learn-
+ing.
+Springer, 1992, pp. 5–32.
+[22] A. Doerr, M. Volpp, M. Toussaint, T. Sebastian, and C. Daniel,
+“Trajectory-based off-policy deep reinforcement learning,” in In-
+ternational Conference on Machine Learning, ICML.
+PMLR, 2019,
+pp. 1636–1645.
+[23] J. Schulman, F. Wolski, P. Dhariwal, A. Radford, and O. Klimov,
+“Proximal
+policy
+optimization
+algorithms,”
+arXiv
+preprint
+arXiv:1707.06347, 2017.
+[24] J. Schulman, P. Moritz, S. Levine, M. Jordan, and P. Abbeel, “High-
+dimensional continuous control using generalized advantage es-
+timation,” in International Conference of Learning Representations,
+ICLR, 2016.
+[25] I. Sutskever, O. Vinyals, and Q. V. Le, “Sequence to sequence
+learning with neural networks,” in Advances in Neural Information
+Processing Systems, NIPS, 2014, pp. 3104–3112.
+[26] D. Bahdanau, K. Cho, and Y. Bengio, “Neural machine translation
+by jointly learning to align and translate,” in International Confer-
+ence of Learning Representations, ICLR, 2015.
+[27] O. Vinyals, M. Fortunato, and N. Jaitly, “Pointer networks,” in
+Advances in Neural Information Processing Systems, NIPS, 2015, pp.
+2692–2700.
+[28] W. Kool and M. Welling, “Attention, learn to solve routing prob-
+lems!” in International Conference of Learning Representations, ICLR,
+2019.
+[29] H. Arabnejad and J. G. Barbosa, “List scheduling algorithm for
+heterogeneous systems by an optimistic cost table,” IEEE Transac-
+tions on Parallel and Distributed Systems, vol. 25, no. 3, pp. 682–694,
+2013.
+[30] J. L. Ba, J. R. Kiros, and G. E. Hinton, “Layer normalization,” in
+Advances in Neural Information Processing Systems, NIPS, 2016.
+[31] H. Topcuoglu, S. Hariri, and M. Wu, “Performance-effective and
+low-complexity task scheduling for heterogeneous computing,”
+IEEE Transactions on Parallel and Distributed Systems, vol. 13, no. 3,
+pp. 260–274, 2002.
+[32] P. Mach and Z. Becvar, “Mobile edge computing: A survey on
+architecture and computation ofﬂoading,” IEEE Communication
+Survey & Tutorial, vol. 9, no. 3, pp. 1628–1656, 2017.
+[33] D. Zeng, L. Gu, S. Guo, Z. Cheng, and S. Yu, “Joint optimization
+of task scheduling and image placement in fog computing sup-
+ported software-deﬁned embedded system,” IEEE Transactions on
+Computers, vol. 65, no. 12, pp. 3702–3712, 2016.
+[34] J. L. D. Neto, S.-Y. Yu, D. F. Macedo, J. M. S. Nogueira, R. Langar,
+and S. Secci, “Uloof: a user level online ofﬂoading framework for
+mobile edge computing,” IEEE Transactions on Mobile Computing,
+vol. 17, no. 11, pp. 2660–2674, 2018.
+[35] J. Li, H. Gao, T. Lv, and Y. Lu, “Deep reinforcement learning
+based computation ofﬂoading and resource allocation for mec,”
+in Wireless Communications and Networking Conference, WCNC, 2018
+IEEE.
+IEEE, 2018, pp. 1–6.
+[36] X. Chen, H. Zhang, C. Wu, S. Mao, Y. Ji, and M. Bennis, “Opti-
+mized computation ofﬂoading performance in virtual edge com-
+puting systems via deep reinforcement learning,” IEEE Internet of
+Things Journal, vol. 6, no. 3, pp. 4005–4018, 2018.
+[37] T. Q. Dinh, Q. D. La, T. Q. Quek, and H. Shin, “Learning for com-
+putation ofﬂoading in mobile edge computing,” IEEE Transactions
+on Communications, vol. 66, no. 12, pp. 6353–6367, 2018.
+[38] H. Dai, E. B. Khalil, Y. Zhang, B. Dilkina, and L. Song, “Learning
+combinatorial optimization algorithms over graphs,” in Advances
+in Neural Information Processing Systems, NIPS, 2017, pp. 6348–6358.
+[39] O.
+Vinyals,
+I.
+Babuschkin,
+W.
+M.
+Czarnecki,
+M.
+Mathieu,
+A. Dudzik, J. Chung, D. H. Choi, R. Powell, T. Ewalds, P. Georgiev
+et al., “Grandmaster level in starcraft ii using multi-agent rein-
+forcement learning,” Nature, vol. 575, no. 7782, pp. 350–354, 2019.
+Jin Wang received the BEng and MEng de-
+grees in computer science from the University
+of Electronic Science and Technology of China
+(UESTC), Chengdu, China, in 2014 and 2017,
+respectively. He is currently working toward the
+PhD degree in computer science at the Uni-
+versity of Exeter. His research interests include
+deep reinforcement learning, applied machine
+learning, cloud and edge computing, and com-
+puter system optimization.
+Jia Hu received the BEng and MEng degrees
+in electronic engineering from the Huazhong
+University of Science and Technology, China,
+in 2006 and 2004, respectively, and the PhD
+degree in computer science from the University
+of Bradford, UK, in 2010. He is a senior lecturer
+of computer science at the University of Exeter.
+His research interests include edge-cloud com-
+puting, resource optimization, applied machine
+learning, and network security.
+Geyong Min received the BSc degree in com-
+puter science from the Huazhong University of
+Science and Technology, China, in 1995, and
+the PhD degree in computing science from the
+University of Glasgow, United Kingdom, in 2003.
+He is a professor of high performance computing
+and networking with the Department of Com-
+puter Science within the College of Engineering,
+Mathematics and Physical Sciences at the Uni-
+versity of Exeter, United Kingdom. His research
+interests include computer networks, wireless
+communications, parallel and distributed computing, ubiquitous comput-
+ing, multimedia systems, modeling and performance engineering.
+Wenhan Zhan is a Senior Experimentalist in
+Computer Science at the University of Electronic
+Science and Technology of China (UESTC),
+Chengdu, China. He received his B.E., M.Sc.,
+and Ph.D. degrees from UESTC, in 2010, 2013,
+and 2020, respectively. From 2018 to 2019, he
+worked as a Visiting Scholar in the Department
+of Computer Science at the University of Ex-
+eter, UK. His research interests mainly lie in Dis-
+tributed System, Cloud Computing, Edge Com-
+puting, and Artiﬁcial Intelligence.
+Albert Y. Zomaya is currently the Chair Pro-
+fessor of High Performance Computing & Net-
+working in the School of Computer Science,
+University of Sydney. He is also the Director of
+the Centre for Distributed and High Performance
+Computing which was established in late 2009.
+Professor Zomaya was an Australian Research
+Council Professorial Fellow during 2010-2014
+and held the CISCO Systems Chair Professor
+of Internetworking during the period 2002–2007
+and also was Head of School for 2006–2007.
+Nektarios Georgalas is a Principal Researcher
+with the Applied Research department of British
+Telecom. In his current role, he leads two collab-
+orative research programmes with key BT part-
+ners delivering innovations in the areas of cloud,
+data centres, network virtualisation, smart cities,
+IoT and mobility. During his career with BT, since
+1998, he has managed numerous collaborative
+and internal research projects in areas such as
+network management, market-driven data man-
+agement systems, policy-based management,
+distributed information systems, SOA/Web services, model driven de-
+sign and development of telecoms OSS, cloud and NFV. He is inven-
+tor and co-inventor of 11 patents. He has also authored more than
+60 papers in international journals and conferences. He has served
+as general co-chair, programme cochair, programme committee and
+keynote speaker or invited panelist in top international IEEE academic
+and TMForum conferences.

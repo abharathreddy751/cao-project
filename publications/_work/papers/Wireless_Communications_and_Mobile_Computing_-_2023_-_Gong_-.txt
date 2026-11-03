@@ -1,0 +1,1385 @@
+Research Article
+Dependent Task-Offloading Strategy Based on Deep
+Reinforcement Learning in Mobile Edge Computing
+Bencan Gong
+and Xiaowei Jiang
+College of Computer and Information Technology, China Three Gorges University, Yichang, 443000 Hubei, China
+Correspondence should be addressed to Bencan Gong; 190026892@qq.com
+Received 29 September 2022; Revised 5 November 2022; Accepted 18 November 2022; Published 4 January 2023
+Academic Editor: Jun Cai
+Copyright © 2023 Bencan Gong and Xiaowei Jiang. This is an open access article distributed under the Creative Commons
+Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work
+is properly cited.
+In mobile edge computing, there are usually relevant dependencies between diﬀerent tasks, and traditional algorithms are
+ineﬃcient in solving dependent task-oﬄoading problems and neglect the impact of the dynamic change of the channel on the
+oﬄoading strategy. To solve the oﬄoading problem of dependent tasks in a dynamic network environment, this paper
+establishes the dependent task model as a directed acyclic graph. A Dependent Task-Oﬄoading Strategy (DTOS) based on
+deep reinforcement learning is proposed with minimizing the weighted sum of delay and energy consumption of network
+services as the optimization objective. DTOS transforms the dependent task oﬄoading into an optimal policy problem under
+Markov decision processes. Multiple parallel deep neural networks (DNNs) are used to generate oﬄoading decisions, cache the
+optimal decisions for each round, and then optimize the DNN parameters using priority experience replay mechanism to
+extract valuable experiences. DTOS introduces a penalty mechanism to obtain the optimal task-oﬄoading decisions, which is
+triggered if the service energy consumption or service delay exceeds the threshold. The experimental results show that the
+algorithm produces better oﬄoading decisions than existing algorithms, can eﬀectively reduce the delay and energy
+consumption of network services, and can self-adapt to the changing network environment.
+1. Introduction
+With the advent of the Internet era, smart devices are widely
+used in our lives. Due to the limited computing power of
+mobile devices, they sometimes cannot satisfy users’ needs.
+In addition, mobile devices processing massive calculation
+tasks can lead to excessive energy consumption, which results
+in bad users’ experience [1]. To solve these problems, mobile
+cloud computing has been brought up. Massive calculation
+tasks can be oﬄoaded to the cloud by mobile devices, where
+the cloud server performs computing and returns the results
+to the terminal [2]. Because the cloud server is far from the
+terminal, the task transmission delay is high. At the same
+time, increasingly, terminal devices upload data to the cloud
+server, which also brings high pressure to the network.
+Therefore, mobile edge computing (MEC) came into being
+[3]. MEC oﬄoads computing tasks from end devices to edge
+servers that are closer to them for computing to reduce net-
+work pressure, data transmission delay, and end device
+energy consumption [4, 5]. How to make oﬄoading deci-
+sions is crucial, and the eﬀectiveness of oﬄoading decisions
+depends on key indicators, such as energy consumption
+and delay [6]. There are 2 forms of oﬄoading, partial oﬄoad-
+ing and fully oﬄoading [7].
+In recent years, there have been many research results
+for the oﬄoading of computing tasks for MEC. Fu and Ye
+[8] described the oﬄoading problem as a delay minimiza-
+tion problem under energy consumption constraints. An
+improved ﬁreﬂy swarm optimization algorithm was pro-
+posed to generate the oﬄoading decision, which signiﬁ-
+cantly reduced the system cost. Zhu and Wen [9] deﬁned
+the weighted sum of energy consumption and delay as an
+optimization function of total overhead. An oﬄoading
+strategy based on an improved genetic algorithm was pro-
+posed, which achieved better results on delay and load bal-
+ance, but not on energy consumption reduction. Wei et al.
+[10] proposed a maximum energy-saving priority algorithm
+to reduce the energy consumption, which used greedy
+Hindawi
+Wireless Communications and Mobile Computing
+Volume 2023, Article ID 4665067, 12 pages
+https://doi.org/10.1155/2023/4665067
+
+selection to solve the optimization problem, but only con-
+sidered energy consumption and was not suitable for delay
+sensitive scenarios. Yang et al. [11] and Guo and Liu [12]
+proposed game theory-based oﬄoading algorithm that
+described the overhead minimization problem as a policy
+game to reduce the energy consumption and delay of each
+mobile device through joint optimization.
+With the development of machine learning, great prog-
+ress has been made in using machine-learning algorithms
+to solve the computing oﬄoading problem [13]. Liang
+et al. [14] proposed a Distributed Deep Learning-based Oﬀ-
+loading (DDLO) algorithm that used multiple parallel deep
+neural networks to generate oﬄoading decisions. The
+network parameters were continuously updated using an
+experience replay mechanism. The algorithm generates
+near-optimal oﬄoading decisions in a short time, but the
+authors only considered the static network scenario. Li
+et al. [15] proposed a deep reinforcement learning algorithm
+for the complex computing oﬄoading problem in collabora-
+tive computing with heterogeneous edge computing servers.
+The algorithm optimized the oﬄoading decision based on
+the real-time state of the network and the properties of the
+task to minimize the task delay, but the authors only consid-
+ered the delay, not energy consumption. Zhou et al. [16]
+used deep reinforcement learning to study the joint optimi-
+zation problem of computing oﬄoading and resource alloca-
+tion in dynamic multiuser MEC systems, using the DDQN
+(Double Deep Q Network) algorithm to dynamically gener-
+ate oﬄoading decisions. In reference [17], a DDQN-based
+trajectory and phase shift optimization method was pro-
+posed to maximize RIS-UAV network capacity. In reference
+[18], a new incentive-driven and deep Q network-based
+method (IDQNM) was proposed for designing mobile node
+incentive mechanisms and content-caching strategies in
+D2D oﬄoading. The reference [19] proposed an incentive
+mechanism based on delay constraints and reverse auction.
+With the maximization of mobile network operators’ reve-
+nue as the optimization objective, two optimization methods
+were proposed: the greedy winner selection method (GWSM)
+and
+the
+dynamic
+planning
+winner
+selection
+method
+(DPWSM). T. Yang and J. Yang [20] proposed a joint optimi-
+zation method for oﬄoading decisions and resource alloca-
+tion, which improved the DQN algorithm, shortened the
+ﬁnish time of computing tasks, and reduced the terminal
+energy consumption. Zhu et al. [21] proposed a dynamic
+resource allocation strategy based on K-means, where
+resources were modeled as “ﬂuids” and allocated using an auc-
+tion algorithm. The throughput of the edge server was
+improved and the transmission delay was reduced. Above
+algorithms have not taken task dependency into account,
+while task dependency is truly existed in practical applications.
+The representative research results on the oﬄoading
+strategies of dependent tasks are as follows. Dong et al.
+[22] proposed a computational-oﬄoading strategy based
+on genetic algorithms. This strategy encoded the oﬄoading
+location and oﬄoading order of tasks, used delay and energy
+consumption as evaluation criteria, and continuously opti-
+mized the oﬄoading decision by variation and crossover
+operations. However, it did not consider the resource alloca-
+tion of edge servers. The ﬁne-grained oﬄoading problem
+with multiple users and multiple servers was studied in
+[23]. The authors considered the ﬁne-grained oﬄoading of
+Internet of Things (IoT) devices as a multiconstrained objec-
+tive optimization problem and proposed an improved Non-
+dominated Sorting Genetic Algorithm (NSGA-II) with the
+objective of minimizing the average delay. Mao et al. [24]
+proposed a delay-acceptance-based oﬄoading strategy for
+multiuser tasks. The strategy ﬁrstly used a nondominated
+genetic algorithm to solve the optimal solution in a single-
+user scenario for each user, then improved the convergence
+speed with a probabilistic selection mechanism and nondo-
+minated judging scheme, and ﬁnally proposed an adjust-
+ment strategy based on the idea of time delay acceptance
+in stable matching. It solved the multiuser-oﬄoading prob-
+lem with dependent task scenarios. Liu et al. [25] proposed
+an energy-eﬃcient collaborative task-oﬄoading algorithm
+based on semideﬁnite relaxation and stochastic mapping,
+which generated oﬄoading decisions for dependent tasks
+in static network environments and reduced the total energy
+consumption of IoT devices.
+Above literatures only consider the oﬄoading of depen-
+dent tasks in static network environments, but in fact the
+network environment is dynamic. In this paper, we use deep
+reinforcement learning methods to generate dependent task-
+oﬄoading decisions, cache the optimal decisions for each
+round, and then optimize DNN parameters using priority
+experience replay mechanism to extract valuable experi-
+ences. DTOS introduces a penalty mechanism, which is
+triggered if the service energy consumption or service
+delay exceeds the threshold. The algorithm can reduce
+delay and energy consumption. When the network trans-
+mission rate changes, the model can generate the corre-
+sponding optimal-oﬄoading decision and adapt to the
+changing network environment by only obtaining the cur-
+rent network rate in real time. The main contributions of
+this paper are as follows:
+(1) A dependent task-oﬄoading model is built for the
+scenario of a dynamic network environment. The
+optimization objective of DTOS is derived by com-
+prehensively considering the delay and energy con-
+sumption of the service
+(2) Transform the dependent task oﬄoading into an
+optimal policy problem under Markov decision pro-
+cesses. A deep reinforcement learning-based depen-
+dent task-oﬄoading strategy is proposed, which can
+obtain optimal task-oﬄoading decisions using priority
+experience replay mechanism and penalty mechanism
+(3) The eﬀectiveness of DTOS is veriﬁed through simu-
+lation experiments. According to the simulated
+experiment results, DTOS is eﬀective and better than
+the other four algorithms
+2. DTOS Model
+2.1. System Model. The model in this paper is built on the
+scenario of multiple IoT devices and a single-edge server,
+2
+Wireless Communications and Mobile Computing
+ 6302, 2023, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/2023/4665067, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+the system model is shown in Figure 1. IoT devices can be
+smart
+devices,
+wireless
+sensors,
+and
+other
+network-
+connected devices. Unmanned Aerial Vehicle (UAV) is
+adopted as the edge server. Suppose that we need to execute
+an IoT service S, and that the service needs to be computed
+collaboratively by K IoT devices. Each IoT device has a cer-
+tain amount of computing power that can execute comput-
+ing tasks locally. Each IoT device connects to the edge
+server through a wireless network, and the wireless trans-
+mission rate from each IoT device to the edge server varies
+and is unstable because the UAV is moving at a low speed
+in the area. The K ﬁne-grained computational tasks of the
+IoT service S are equally distributed in K diﬀerent IoT
+devices. There are data dependencies between diﬀerent com-
+putational tasks and these tasks are indivisible, each compu-
+tational task is either computed locally or all uploaded to the
+edge server for computation, i.e., binary oﬄoading. The oﬀ-
+loading decision at time t is represented as a list at = fx0,
+x1, ⋯, xK−1g with length K. xi determines whether the task
+i should be oﬄoaded to the edge server for computation.
+When xi = 0, it means that the task is executed locally. When
+xi = 1, the task will be oﬄoaded to the edge server for execu-
+tion. In this paper, the optimization goal is to minimize the
+delay and energy consumption to generate the oﬄoading
+decision to determine whether the task is executed at the
+local.
+2.2. Communication Model. The wireless transmission rate
+from each IoT device to the edge server at time t is
+denoted as Rt = fv0, v1, ⋯, vK−1g, where vi denotes the
+wireless transmission rate from the IoT device i to the edge
+server, and the wireless transmission rates of all devices are
+diﬀerent from each other. Assume that the ﬂight altitude of
+the UAV is constant H, its position at time t is denoted as
+loc UAVðtÞ = ðxt, yt, HÞ. The position of device i is denoted
+as loc UEi = ðxi, yi, 0Þ, thus the distance between the UAV
+and the IoT device i at time t is denoted as
+Dit =
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+H2 + loc UAV tð Þ −loc UEi
+2:
+q
+ð1Þ
+It is assumed that the UAV and IoT devices are modu-
+lated by Orthogonal Frequency Division Multiplexing
+(OFDM) and accessed by Time Division Multiple Access
+(TDMA). The wireless channels between UAV and IoT
+devices are line-of-sight channels. Therefore, the channel
+gain hiðtÞ between the UAV and the IoT device i at time t
+can be expressed as follows:
+hi tð Þ = φ0D−2
+it =
+φ0
+H2 + loc UAV tð Þ −loc UEi
+2 ,
+ð2Þ
+where φ0 denotes the channel power gain at 1 m.
+According to the Shannon formula, vi is calculated as
+follows:
+vi = B log2
+1 + Psend
+i
+hi tð Þ
+σ2
+ 
+!
+,
+ð3Þ
+where B is the channel bandwidth of device i; Psend
+i
+is the
+transmission power of device i; and σ2 denotes the variance
+of additive Gaussian white noise.
+If the task i is oﬄoaded to the edge server for calculation,
+the transmission delay is calculated as follows:
+Tsend
+i
+= di
+vi
+,
+ð4Þ
+where di denotes the data size of task i. After the task is ﬁn-
+ished computing at the edge server, the result is transmitted
+back to the IoT device.
+The energy consumption of device i during the task
+transmission to the edge server is calculated as follows:
+Esend
+i
+= Psend
+i
+Tsend
+i
+ð5Þ
+2.3. Computing Model
+2.3.1. Local-Computing Model. If f local
+i
+is deﬁned as the com-
+puting resource of device i, the local computational delay of
+task i is as follows:
+Tlocal
+i
+= diw
+f local
+i
+,
+ð6Þ
+where w is the computation complexity parameter of the
+task.
+Deﬁning Plocal
+i
+as the local-computing power, the local-
+computing energy consumption of device i is as follows:
+Elocal
+i
+= Tlocal
+i
+Plocal
+i
+ð7Þ
+2.3.2. Edge-Computing Model. Deﬁne f edge as the total com-
+puting resources of the edge server and f edge
+i
+as the
+IoT devices
+Wireless Network
+Offloading
+Local
+UAV
+(MEC server)
+D2D
+D2D
+Figure 1: System model for dependent task oﬄoading.
+3
+Wireless Communications and Mobile Computing
+ 6302, 2023, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/2023/4665067, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+computing resources allocated to task i by the edge server, so
+the edge-computing delay of task i is as follows:
+Tedge
+i
+= diw
+f edge
+i
+ð8Þ
+When the task is oﬄoaded to the edge server for calcula-
+tion, the device i is in an idle state. During this period, the
+energy consumption generated by device i is as follows:
+Eedge
+i
+= Tedge
+i
+Pfree
+i
+,
+ð9Þ
+where Pfree
+i
+is the power of device i when it is idle.
+2.4. Task Dependency Model. The task dependency is consid-
+ered as input dependency in this paper, i.e., the execution of
+some tasks requires the execution results of other tasks as
+input. The task dependency can be modeled as a directed
+acyclic graph, where each node represents a computational
+task. A single task can have multiple precursor and successor
+tasks. If the task has no successor, it is the ﬁnal task, and the
+entire service is executed when its execution is ﬁnished.
+Each successor task needs to wait all its precursor tasks
+to end, which are in parallel, so the execution time of succes-
+sor task equals the maximum of the ﬁnish time of all precur-
+sor tasks. Denote the time when all tasks start to execute as
+RT = frt0, rt1, ⋯, rtK−1g, and the beginning node executes
+at 0. Denote the ﬁnish time of all tasks as FT = fft0, ft1, ⋯,
+ftK−1g, then the ﬁnish time of task i equals the following
+formula:
+fti = rti + Ti,
+ð10Þ
+where Ti is the execution delay of task i. It is calculated as
+follows:
+Ti = 1 −xi
+ð
+ÞTlocal
+i
++ xi Tedge
+i
++ Tsend
+i
+
+
+:
+ð11Þ
+The start execution time of task i is as follows:
+rti =
+max f tj
+P ið Þ ≠ϕ, j ∈P ið Þ,
+0
+P ið Þ = ϕ,
+(
+ð12Þ
+where PðiÞ is the set of direct predecessor tasks of task i. If
+PðiÞ is the empty set, the task i is the starting task and its
+start execution time is 0.
+2.5. Problem Description. The optimization objective of the
+oﬄoading strategy is to minimize the weighted sum of the
+delay and energy consumption of the service. From the
+above model, the ﬁnish time of the entire service S can be
+deduced as follows:
+Ts = max fti, fti ∈FT:
+ð13Þ
+The energy consumption generated by task i is as fol-
+lows:
+Ei = 1 −xi
+ð
+ÞElocal
+i
++ xi Eedge
+i
++ Esend
+i
+
+
+:
+ð14Þ
+The sum of the energy consumption generated by all
+tasks is as follows:
+Es = 〠
+k−1
+i=0
+Ei:
+ð15Þ
+The algorithm introduces a penalty mechanism, which is
+triggered if the service energy consumption or service delay
+exceeds the threshold. The weighted sum of the energy con-
+sumption and delay generated by completing the service S is
+as follows:
+cost = αTs + 1 −α
+ð
+ÞEs + gt Ts −TM
+ð
+Þ
+TM
++ ge Es −EM
+ð
+Þ
+EM
+, ð16Þ
+where α is the weight, TM is the delay threshold, EM is the
+energy consumption threshold, and gt ∈f0, 1g and ge ∈f0,
+1g are the penalty factors for delay and energy consumption,
+respectively. When the penalty mechanism is not triggered,
+gt and ge are 0.
+The optimization objective is to minimize the cost value,
+and the formula is:
+Min cost,
+Subject to : C1 : xi ∈0, 1
+f
+g, i ∈0, K −1
+½
+,
+C2 : rti = max f tj, P ið Þ ≠ϕ, j ∈P ið Þ,
+C3 : rti = 0, P ið Þ = ϕ,
+C4 : α ∈0, 1
+½
+:
+ð17Þ
+Constraint C1 indicates that each task can only choose to
+be computed locally or oﬄoaded to an edge server for com-
+puting. Constraint C2 indicates that a task starts execution at
+the ﬁnish time of all its predecessor tasks. Constraint C3
+indicates that the execution time of the starting task is 0.
+Constraint C4 indicates weight α is a number between 0
+and 1.
+3. DTOS Algorithm
+3.1. Model Training Process of DTOS. Oﬄoading optimiza-
+tion of dependent tasks in edge computing is an NP-hard
+problem [25], and reinforcement learning can continuously
+interact with the environment and can transform the oﬀ-
+loading optimization problem of dependent tasks into an
+optimal policy problem in Markov decision-making. The
+model training process of DTOS is illustrated in Figure 2,
+and the main steps are as follows.
+4
+Wireless Communications and Mobile Computing
+ 6302, 2023, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/2023/4665067, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+3.1.1. Forward Propagation. Firstly, the experimental param-
+eters are initialized and nðn > 1Þ DNNs are constructed with
+randomly generated weight parameters and bias parameters.
+The number of neurons in the input and output layers of the
+DNN is the number of IoT devices K, and the number of
+neurons in the 1st hidden layer and the 2nd hidden layer
+is L1 and L2, respectively.
+The wireless transmission rate Rt = fv0, v1, ⋯, vK−1g
+from each IoT device to the edge server at time t is used as
+the input layer data of the DNN and is input to the hidden
+layer for calculation, and all hidden layer neurons use ReLu
+as the activation function. The output layer neurons do not
+need an activation function, and diﬀerent oﬄoading deci-
+sions are directly after the data are calculated with the weight
+parameters and bias parameters.
+Each DNN outputs diﬀerent oﬄoading decisions after
+one forward propagation is completed. The i-th DNN out-
+puts the oﬄoading decision as atðiÞ = fx0, x1, ⋯, xK−1g.
+Since xi ∈f0, 1g, but the output of DNN is not always 0 or
+1, the output of DNN needs to be transformed. The method
+is to convert each value greater than 0 in the array to 1, oth-
+erwise to 0, resulting in n oﬄoading decisions.
+3.1.2. Computational Resource Allocation. In existing studies,
+the computational resources of the edge server are usually
+distributed equally to all tasks oﬄoaded to the edge server
+for execution, which will waste computing resources and
+increase the delay of edge computing in IoT services with
+dependent tasks.
+Computational resource allocation is a continuous con-
+trol problem, so in this paper, the edge server is used as an
+agent, and DDPG (Deep Deterministic Policy Gradient) is
+used to allocate computational resources of the edge server.
+Reinforcement learning has three key elements: state, action,
+and reward. The state consists of two components
+state = O, U
+½
+:
+ð18Þ
+O = ½o0, o1, ⋯, oK−1 denotes the network transmission
+rate of the device that needs to oﬄoad the task to the edge
+server, and the vector O is assigned values based on each oﬀ-
+loading decision at generated by DNN and the wireless
+transmission rate Rt from the device to the edge server. If
+the task needs to be oﬄoaded to the edge server for compu-
+tation, the wireless transmission rate vi from device i to the
+edge server will be assigned to oi; otherwise, oi is set to zero,
+indicating that the task is computed locally. U denotes the
+remaining computational resources of the edge server.
+The action (Act) is the number of computational
+resources allocated by the edge server to the task of each
+device
+Act = 0, U
+ð
+:
+ð19Þ
+At the start of task execution, DDPG selects a value from
+the remaining computational resources based on the current
+state as computational resources amount allocated to the
+task by the edge server.
+The reward is determined by the current state and the
+current action with the following formula:
+reward = R state, Act
+ð
+Þ:
+ð20Þ
+at(n)
+DDPG
+No
+YesEnd
+Yes
+No
+Yes
+Input the wireless
+transmission rate Rt
+of each IoT device
+Counter = 1
+G = 4000
+𝛽 = 512
+Rt
+If Counter > 𝛽 and
+Counter%10 = 0
+Backward
+propagation
+Counter++
+If Counter > G
+Save (Rt,at)
+Arg min
+cost (Rt,at)
+Calculate
+cost value
+Computational
+resource allocation
+Input each atinto
+DDPG as a binary
+group with Rt
+respectively
+at(1)
+at(2)
+Figure 2: Model training process of DTOS.
+5
+Wireless Communications and Mobile Computing
+ 6302, 2023, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/2023/4665067, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+The reward function Rðstate, ActÞ is associated with the
+objective
+function,
+and the
+optimization
+objective
+of
+resource allocation is to minimize the total delay of edge
+computing, which is calculated as follows:
+Tedge = 〠
+k−1
+i=0
+Tedge
+i
+:
+ð21Þ
+The reward function is as follows:
+R state, Act
+ð
+Þ = −Tedge
+i
+
+
+:
+ð22Þ
+The negative of the edge-computing delay of task i is
+used as the reward value, which can minimize the edge-
+computing delay. Each state-action group has a value Q∗ð
+state, ActÞ, which represents the expectation of the long-
+term reward obtained by performing the action Act under
+state. For the state-action group, its Q∗value is calculated
+and stored in the table. The Q∗value is updated by the fol-
+lowing formula:
+Q∗statet, Actt
+ð
+Þ = Q∗statet, Actt
+ð
+Þ + γ
+× rewardt + δ × maxActt+1 statet+1, Actt+1
+ð
+Þ
+Â
+−Q∗statet, Actt
+ð
+Þ,
+ð23Þ
+where Q∗ðstatet, ActtÞ is called the action value function,
+statet is the system state at moment t, γ is the learning rate,
+and δ is the discount factor. We designs two deep neural net-
+works, the action value network Qðstatet, Actt ∣θQÞ and the
+action network μðstatetjθμÞ, where θQ and θμ are network
+parameters. The action network μðstatetjθμÞ is a mapping
+of the state space and action space and can directly generate
+the desired action according to the state. The action value
+network Qðstatet, Actt ∣θQÞ is used to approximate the
+action value function and can provide gradient for the train-
+ing of the action network. The training of this action value
+network is to minimize the following loss function:
+L θQ
+
+
+= rewardt + γQ′ statet+1, Actt+1jθQ′
+
+
+−Q statet, ActtjθQ
+
+
+
+2
+,
+ð24Þ
+where Q′ is the target value network. Q′ synchronizes the
+weights from the Q network. The action network parameters
+are updated by the policy gradient algorithm, and the gradi-
+ent update is as follows:
+∇θμQ state, ActjθQ
+
+   
+state=statet,Act=μ statetjθμ
+ð
+Þ
+= ∇ActQ state, ActjθQ
+
+   
+state=statet,Act=μ statetjθμ
+ð
+Þ∇θμμ statejθμ
+ð
+Þ
+    
+state=statet
+:
+ð25Þ
+After inputting the state into the action network, the
+action network generates the action required for the current
+state, thus minimizing the computational delay of the edge
+server.
+3.1.3. Generate Optimal Oﬄoading Decisions. Each oﬄoad-
+ing decision at and the wireless transmission rate Rt are
+substituted into the model to obtain the cost value under
+each oﬄoading decision. The oﬄoading decision with the
+smallest cost value is selected as the output of this round,
+and the oﬄoading decision at and the device transmission
+rate Rt are stored in memory as one data entry. Set a counter,
+and increase 1 when one data entry is stored.
+3.1.4. Backward Propagation. Diﬀerent from traditional
+supervised learning, the oﬄoading decision in the dynamic
+network environment does not have a dataset with labels
+for neural network training. Thus, DTOS uses the data in
+memory to train DNNs through experience replay mecha-
+nisms. When the counter is higher than the set threshold
+β, the algorithm starts to perform backward propagation.
+In this paper, we use priority experience replay mechanism
+to extract valuable experiences. The lower the cost value of
+the sample, the higher the priority of the sample. The expe-
+rience extraction is performed in a probabilistic way. The
+probability of each sample being selected is as follows:
+Pro jð Þ =
+1/costj
+∑mem
+1
+1/costj
+,
+ð26Þ
+where mem is the number of samples in the current mem-
+ory. The m data are selected in the memory cache as training
+data. Input the Rt of them again to each DNN to generate
+the oﬄoading decision a∗
+t and calculate the cost function J
+ðω, bÞ according to the following formula:
+J ω, b
+ð
+Þ = 1
+m 〠
+m
+i=1
+L at
+∗, at
+ð
+Þ,
+ð27Þ
+where Lða∗
+t , atÞ is the cross-entropy loss function, which is
+formulated as follows:
+L at
+∗, at
+ð
+Þ = −at log at
+∗+ 1 −at
+ð
+Þ log 1 −at
+∗
+ð
+Þ
+ð
+Þ
+ð28Þ
+To minimize the cross-entropy loss, a gradient descent
+algorithm is used to optimize the network parameters of
+each DNN by performing one backpropagation after every
+10 forward propagations. When the memory capacity is full,
+the oldest data entry will be discarded to store a new one.
+The quality of the training data will become higher and
+higher as the DNN parameters are continuously updated,
+and the deep reinforcement learning network also gets closer
+to the objective function. After reaching the set number of
+training rounds G, the algorithm terminates.
+3.2. Usage of DTOS. After the model is trained, the edge
+server detects the wireless transmission rate of each device
+at the start of using DTOS and inputs them into the deep
+reinforcement learning network to generate the optimal-
+oﬄoading decision.
+6
+Wireless Communications and Mobile Computing
+ 6302, 2023, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/2023/4665067, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+Using the oﬄoading coordinator in the edge server as
+the management module for computing oﬄoading, the ser-
+vice is executed as follows:
+(1) When an IoT service is started, the service number is
+transmitted to the edge server via remote command.
+The edge server loads the corresponding network
+model trained in advance according to the service
+number. The oﬄoading coordinator detects the cur-
+rent network state, obtains the network transmission
+rate of each IoT device, and inputs it into the net-
+work model
+(2) Execute DTOS, a deep reinforcement learning-based
+dependent task-oﬄoading policy, to obtain the
+optimal-oﬄoading decision
+(3) Transmit the oﬄoading decision to the correspond-
+ing IoT device
+(4) The IoT device that receives the oﬄoading decision
+determines whether the task is to be processed
+locally or uploaded to the server for processing based
+on the oﬄoading decision. If it is uploaded to the
+server for processing, the edge server dynamically
+allocates computing resources
+(5) The edge server ﬁnishes the calculation and trans-
+mits the result back to the IoT device
+3.3. Computational Complexity Analysis of DTOS. The wire-
+less transmission rate of IoT devices is input to the neural
+network, and the number of neurons in the input layer is
+K since the number of IoT devices is K. The number of neu-
+rons in the ﬁrst hidden layer of the network is L1, then the
+matrix operation from the input layer to the ﬁrst hidden
+layer is ½L1 × K × ½K × 1, and the computational complexity
+of the matrix is OðL1K2Þ. The number of neurons in the sec-
+ond hidden layer of the network is L2, then the matrix oper-
+ation from the ﬁrst hidden layer to the second hidden layer
+is ½L2 × L1 × ½L1 × 1, and the computational complexity of
+the matrix is OðL2L1
+2Þ. The number of neurons in the out-
+put layer is K. The matrix operation from the second hidden
+layer to the output layer is ½L2 × K × ½K × 1, and the com-
+putational complexity of the matrix is OðL2K2Þ. The number
+of DNNs is n, thus the computational complexity of DTOS
+forward propagation is OðnððL1 + L2ÞK2 + L2L1
+2ÞÞ.
+During the model training process of DTOS, the gradi-
+ent descent algorithm is used to update the network param-
+eters several times until the algorithm converges.
+The computational complexity of each parameter update
+is equal to the computational complexity of forward propa-
+gation, so the computational complexity of DTOS is OðnM
+ððL1 + L2ÞK2 + L2L1
+2ÞÞ, and M is the size of batch training.
+4. Experiments and Analysis
+4.1. Experimental Parameters Set. Simulation experiments
+were performed using Python 3.8 and TensorFlow 2.2.0. Set-
+ting up the scenario where there exists 1 edge server with 10
+IoT devices, there are three dependencies among the com-
+puting tasks, as shown in Figure 3.
+Experimental parameter settings are shown in Table 1.
+4.2. Eﬀect of Weighting Factor α and Learning Rate γ.
+Figure 3(c) is used to investigate the eﬀects of the weighting
+factor α and learning rate γ. In Figure 4, we show the eﬀects
+of diﬀerent weighting factors α on the service delay and
+energy consumption. When the weighting factor α is small,
+the DTOS optimization objective focuses more on the ser-
+vice energy consumption. The smaller the service power
+consumption is, the larger the reward value is. As the
+weighting factor α increases, the service delay will decrease,
+while the service energy consumption will increase. For dif-
+ferent IoT services, users can adjust the weight factor α
+according to the delay and energy consumption require-
+ments. To balance the eﬀects of delay and energy consump-
+tion on cost values, the following experiments set the
+weighting factor α to 0.5.
+For choosing the appropriate learning rate γ, the optimal-
+oﬄoading decision generated by the exhaustive method is
+introduced as a comparison benchmark. The exhaustive
+method selects the optimal solution by enumerating all oﬀ-
+loading decisions. Figure 5 shows the ratio of the cost values
+of DTOS and the exhaustive method, i.e., the gain ratio. As
+indicated in Figure 5, DTOS performs best and the gain ratio
+increases gradually when the learning rate is 0.01. The gain
+ratio of both oﬄoading strategies approaches 1.0 after 3000
+rounds, which indicates that the oﬄoading decision gener-
+ated by DTOS is close to the optimal solution of the exhaus-
+tive method. When the learning rate is 0.1, the algorithm
+cannot converge. Because the learning rate is too large and
+the parameter update ranges are too large, which causes the
+network to fail to converge to the optimal solution. When
+the learning rate is 0.001, because the learning rate is too
+small and the parameter update range is too small, the net-
+work cannot converge to the optimal solution in a short time.
+The optimal value of the learning rate is 0.01, so the learning
+rate is set to 0.01 in the following experiments.
+0
+1
+2
+3
+4
+5
+8
+9
+7
+6
+(a) Network A
+0
+1
+2
+3
+4
+5
+8
+9
+7
+6
+(b) Network B
+0
+1
+2
+3
+4
+5
+8
+9
+7
+6
+(c) Network C
+Figure 3: Three types of task dependency diagram.
+7
+Wireless Communications and Mobile Computing
+ 6302, 2023, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/2023/4665067, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+4.3. Analysis of Experimental Results
+4.3.1. Convergence of DTOS. The convergence of DTOS is
+ﬁrstly veriﬁed, and the experimental results are shown in
+Figure 6. Three networks with three diﬀerent dependencies
+shown in Figure 3 are trained. The structure of networks A
+and B is simpler and they converge at rounds 2153 and
+1769, respectively. The structure of network C is the most
+complex, which eﬀects the speed of the algorithm. Network
+C converges at round 2808.
+4.3.2.
+Cost
+Values
+of
+Each
+Algorithm
+with
+Diﬀerent
+Dependencies. DTOS is compared with four other algo-
+rithms, which are the local computing-only algorithm
+(LOCAL), edge computing-only algorithm (EDGE), random
+selection algorithm (RADOM), and DDQN algorithm
+[16]. The local computing-only algorithm indicates that
+all tasks are computed by the IoT device. The edge
+computing-only algorithm indicates that all tasks are
+uploaded to the edge server for computation. The random
+selection algorithm indicates that all tasks are randomly
+selected to be computed by the edge server or the IoT
+device. The experiments are conducted 50 times and the
+results are averaged. The experimental results are shown
+in Figure 7. The cost of DTOS is the lowest for all various
+dependencies. Since the structure of network C is the most
+complex, its cost value is higher than the cost values of
+networks A and B. Since the algorithm LOCAL schedules
+all tasks to be computed locally, there is no transmission
+delay, but it causes excessive energy consumption. The
+algorithm EDGE oﬄoads all tasks to the edge server for
+computation, which results in less energy consumption,
+but causes long transmission delay when the transmission
+speed is low. Both DTOS and DDQN train DNNs through
+experience replay mechanisms, and DDQN rewards DNNs
+based on the cost value of a single-oﬄoading decision. In
+comparison, DTOS selects the optimal oﬄoad decision
+from multiple parallel oﬄoad decisions and uses priority
+experience replay mechanism and penalty mechanism
+Table 1: Experimental parameters.
+Parameter
+Value
+Computing resources of the device if local
+i
+[0.1, 0.5] G cycles/s
+Total edge server computing resources f edge
+{18, 15, and 12} G
+cycles/s
+Power at the device i idle Pfree
+i
+[0.004, 0.04] W
+The data size of the task i di
+[30, 50] MB
+The computational complexity of tasks w
+600cycles/Kb
+The device i wireless data transmission rate vi
+[0.1, 10] MB/s
+Data sending power of the device iPsend
+i
+0.1 W
+The local calculated power of the
+device iPlocal
+i
+10 W
+Delay threshold TM
+200
+Energy consumption threshold EM
+200
+Weighting factor α
+0.5
+Number of DNNs n
+3
+The memory size of experience replay
+1024
+Batch training size M
+128
+Learning rate γ
+0.01
+Number of training rounds G
+4000
+Threshold value β
+512
+Number of IoT devices K
+10
+Number of neurons in the ﬁrst hidden
+layer L1
+120
+Number of neurons in the second hidden
+layer L2
+80
+Service delay (s)
+Service energy consumption (J)
+Service delay
+Service energy consumption
+Weight factor 𝛼
+10
+0.1
+0.3
+0.5
+0.7
+0.9
+20
+20
+30
+40
+50
+60
+70
+80
+30
+40
+50
+60
+70
+Figure 4: The eﬀect of the weighting factor on service delay and
+energy consumption.
+0.4
+0
+500
+1000
+1500
+2000
+Learning steps
+Learning rate = 0.1
+Learning rate = 0.01
+Learning rate = 0.001
+2500
+3000
+3500
+4000
+0.5
+0.6
+0.7
+0.8
+0.9
+1.0
+Gain ratio
+Figure 5: Gain ratio of DTOS with diﬀerent learning rates.
+8
+Wireless Communications and Mobile Computing
+ 6302, 2023, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/2023/4665067, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+according to their cost value; thus, DTOS has better per-
+formance. To further verify the eﬀectiveness of DTOS,
+Figure 3(c) will be used for the subsequent experiments.
+4.3.3. Cost Values of Each Algorithm with Diﬀerent Task
+Data Sizes. The variations of the cost value according to
+the average data size of the computational task in diﬀerent
+algorithms are shown in Figure 8. The cost values generated
+by each algorithm are positively correlated with the average
+data size during the growth of the average data size from
+40 MB to 120 MB. The reason is that the larger data size gen-
+erates greater latency and energy consumption, whether for
+local or edge computing. In comparison with other algo-
+rithms, DTOS has the slowest growth in cost value and the
+lowest cost value. It shows that DTOS outperforms all other
+four algorithms for diﬀerent task data sizes.
+4.3.4. Cost Values of Each Algorithm with Diﬀerent Task
+Computational Complexity. Figure 9 shows the variation of
+cost values with diﬀerent task computational complexities.
+The cost value is positively related to the task computation
+complexity for DTOS, local computing-only algorithm, and
+DDQN. The reason is that the increase in computational
+complexity of tasks leads to an increase in computation
+delay and energy consumption of IoT devices. However,
+for an edge computing-only algorithm or random selection
+algorithm, the cost value does not always increase when
+the computational complexity increases. Since the edge
+0
+0
+50
+100
+150
+Cost value
+200
+250
+300
+1000
+2000
+Training rounds
+3000
+4000
+(a) Network A
+0
+50
+100
+150
+Cost value
+200
+250
+300
+0
+1000
+2000
+Training rounds
+3000
+4000
+(b) Network B
+0
+50
+100
+150
+Cost value
+200
+250
+300
+0
+1000
+2000
+Training rounds
+3000
+4000
+(c) Network C
+Figure 6: Convergence diagram of DTOS algorithm under diﬀerent dependencies.
+9
+Wireless Communications and Mobile Computing
+ 6302, 2023, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/2023/4665067, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+DTOS
+0
+20
+40
+60
+Cost value
+80
+100
+LOCAL
+27.51
+39.29
+76.37
+62.63
+33.72
+EDGE
+RANDOM
+DDQN
+(a) Network A
+0
+20
+40
+60
+Cost value
+80
+100
+DTOS
+LOCAL
+EDGE
+RANDOM
+DDQN
+33.24
+62.67
+76.49
+39.26
+27.43
+(b) Network B
+0
+20
+40
+29.06
+40.43
+76.90
+65.46
+33.77
+60
+Cost value
+80
+100
+DTOS
+LOCAL
+EDGE
+RANDOM
+DDQN
+(c) Network C
+Figure 7: Comparison of cost values for each algorithm with diﬀerent dependencies.
+25
+40
+60
+80
+100
+120
+50
+75
+100
+125
+150
+175
+200
+225
+Cost value
+Average data size (MB)
+DTOS
+EDGE
+DDQN
+LOCAL
+RANDOM
+Figure 8: Cost values correspond to diﬀerent average task data
+sizes.
+20
+30
+40
+50
+60
+70
+80
+Cost value
+400
+600
+800
+1000
+1200
+The average computational complexity of all tasks (cycles/Kb)
+DTOS
+EDGE
+DDQN
+LOCAL
+RANDOM
+Figure 9: Cost values correspond to diﬀerent task computational
+complexities.
+10
+Wireless Communications and Mobile Computing
+ 6302, 2023, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/2023/4665067, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+server’s computational resources are much larger than the
+local computation resources, the computation delay is not
+the main factor aﬀecting the cost values of these two algo-
+rithms. Overall, the cost value of DTOS is lower than the
+other four algorithms, indicating that DTOS has the best
+performance for diﬀerent task computational complexity.
+4.3.5. Cost Values of Each Algorithm at Diﬀerent Network
+Sizes. When the number K of IoT devices in the network is
+10, 20, or 30, the variation of the cost value for each algo-
+rithm is shown in Table 2. DTOS has the lowest cost value
+at all network sizes, indicating that DTOS can adapt to dif-
+ferent network sizes and perform well. DTOS outperforms
+DDQN by 13.9%, 27.1%, and 11.9% when the number K
+of IoT devices is 10, 20, and 30, respectively.
+5. Conclusions
+In this paper, we adopt deep reinforcement learning to
+research
+dependent-task
+adaptive-oﬄoading
+issues
+in
+dynamic network environments in edge computing. A deep
+reinforcement learning-based dependent task-oﬄoading strat-
+egy is proposed to transform dependent task oﬄoading into
+an optimal policy problem under the Markov decision
+process, and the optimal task-oﬄoading decision is obtained
+by priority experience replay mechanism and penalty mecha-
+nism. The experimental results show that DTOS outperforms
+the local computing-only algorithm, edge computing-only
+algorithm, random selection algorithm, and DDQN algorithm
+all time in diﬀerent task data size, diﬀerent task computation
+complexity, and diﬀerent network size.
+Data Availability
+The data used to support the ﬁndings of this study are avail-
+able from the corresponding author upon request.
+Conflicts of Interest
+The authors declare that there are no conﬂicts of interest
+regarding the publication of this article.
+Acknowledgments
+This work is supported by the National Natural Science
+Foundation of China (No. 62172255).
+References
+[1] S. Dong, H. Li, and Y. Qu, “Survey of research on computation
+unloading strategy in mobile edge computing,” Computer Sci-
+ence, vol. 46, no. 11, pp. 32–40, 2019.
+[2] H. Hu, F. Jin, and S. Lang, “Survey of research on computation
+oﬄoading technology in mobile edge computing environ-
+ment,” Computer Engineering and Applications, vol. 57,
+no. 14, pp. 60–74, 2021.
+[3] N. Abbas, Y. Zhang, A. Taherkordi, and T. Skeie, “Mobile edge
+computing: a survey,” IEEE Internet of Things Journal, vol. 5,
+no. 1, pp. 450–465, 2017.
+[4] A. Islam, A. Debnath, M. Ghose, and S. Chakraborty, “A sur-
+vey on task oﬄoading in multi-access edge computing,” Jour-
+nal of Systems Architecture, vol. 118, no. 4, article 102225,
+2021.
+[5] M. Min, L. Xiao, Y. Chen, P. Cheng, D. Wu, and W. Zhuang,
+“Learning-based computation oﬄoading for IoT devices with
+energy harvesting,” IEEE Transactions on Vehicular Technol-
+ogy, vol. 68, no. 2, pp. 1930–1941, 2019.
+[6] Y. Fang, H. Mei, J. Zhou, and X. Zhang, “Multi-user dynamic
+energy-saving resource competition computing oﬄoading
+strategy,” Application Research of Computers, vol. 39, no. 5,
+pp. 1524–1528, 2022.
+[7] J. A. Suradkar and R. D. Bharati, “Computation oﬄoading:
+overview, frameworks and challenges,” International Journal
+of Computer Applications, vol. 134, no. 6, pp. 28–31, 2016.
+[8] K. Fu and J. Ye, “Computation oﬄoading based on improved
+glowworm swarm optimization algorithm in mobile edge
+computing,” Journal of Physics: Conference Series, vol. 1757,
+no. 1, article 012195, 2021.
+[9] A. Zhu and Y. Wen, “Computing oﬄoading strategy using
+improved genetic algorithm in mobile edge computing sys-
+tem,” Journal of Grid Computing, vol. 19, no. 3, pp. 1–12, 2021.
+[10] F. Wei, S. Chen, and W. Zou, “A greedy algorithm for task oﬀ-
+loading in mobile edge computing system,” China Communi-
+cations, vol. 15, no. 11, pp. 149–157, 2018.
+[11] L. Yang, H. Zhang, X. Li, H. Ji, and V. C. M. Leung, “A distrib-
+uted computation oﬄoading strategy in small-cell networks
+integrated with mobile edge computing,” IEEE/ACM Transac-
+tions on Networking, vol. 26, no. 6, pp. 2762–2773, 2018.
+[12] H. Guo and J. Liu, “Collaborative computation oﬄoading for
+multiaccess edge computing over ﬁber-wireless networks,”
+IEEE Transactions on Vehicular Technology, vol. 67, no. 5,
+pp. 4514–4526, 2018.
+[13] A. Shakarami, M. Ghobaei-Arani, and A. Shahidinejad, “A
+survey on the computation oﬄoading approaches in mobile
+edge computing: a machine learning-based perspective,” Com-
+puter Networks, vol. 182, no. 9, article 107496, 2020.
+[14] L. Huang, X. Feng, A. Feng, Y. Huang, and L. P. Qian, “Distrib-
+uted deep learning-based oﬄoading for mobile edge computing
+networks,” Mobile Networks and Applications, vol. 27, pp. 1123–
+1130, 2022.
+[15] Y. Li, F. Qi, Z. Wang, X. Yu, and S. Shao, “Distributed edge
+computing oﬄoading algorithm based on deep reinforcement
+learning,” IEEE Access, vol. 8, pp. 85204–85215, 2020.
+[16] H. Zhou, K. Jiang, X. Liu, X. Li, and V. C. M. Leung, “Deep
+reinforcement learning for energy-eﬃcient computation oﬀ-
+loading in mobile-edge computing,” IEEE Internet of Things
+Journal, vol. 9, no. 2, pp. 1517–1530, 2022.
+Table 2: Comparison of cost values at diﬀerent network sizes.
+Algorithms
+K = 10
+K = 20
+K = 30
+DTOS
+29.06
+37.96
+57.93
+LOCAL
+40.43
+65.92
+88.99
+EDGE
+76.90
+108.15
+143.56
+RADOM
+65.46
+95.31
+119.06
+DDQN
+33.77
+52.06
+65.77
+11
+Wireless Communications and Mobile Computing
+ 6302, 2023, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/2023/4665067, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+[17] H. Zhang, M. Huang, H. Zhou, X. Wang, N. Wang, and
+K. Long, “Capacity maximization in RIS-UAV networks: a
+DDQN-based
+trajectory
+and
+phase
+shift
+optimization
+approach,” IEEE Transactions on Wireless Communications,
+vol. 99, pp. 1–1, 2022.
+[18] H. Zhou, T. Wu, H. Zhang, and J. Wu, “Incentive-driven deep
+reinforcement learning for content caching and D2D oﬄoad-
+ing,” IEEE Journal on Selected Areas in Communications,
+vol. 39, no. 8, pp. 2445–2460, 2021.
+[19] H. Zhou, X. Chen, S. He, J. Chen, and J. Wu, “DRAIM: a novel
+delay-constraint and reverse auction-based incentive mecha-
+nism for WiFi oﬄoading,” IEEE Journal on Selected Areas in
+Communications, vol. 38, no. 4, pp. 711–722, 2020.
+[20] T. Yang and J. Yang, “Deep reinforcement learning method of
+oﬄoading decision and resource allocation in MEC,” Com-
+puter Engineering, vol. 47, no. 8, pp. 37–44, 2021.
+[21] X. Zhu, M. Wu, and G. Wang, “Dynamic resource allocation
+strategy based on K-means,” Computer Engineering and
+Design, vol. 42, no. 4, pp. 901–907, 2021.
+[22] D. O. Hao, Z. H. Haiping, L. I. Zhongjin, and H. Liu, “Compu-
+tation oﬄoading for service workﬂow in mobile edge comput-
+ing,” Computer Engineering and Applications, vol. 55, no. 2,
+pp. 36–43, 2019.
+[23] C. U. Yu-ya, Z. H. De-gan, Z. H. Ting, Y. A. Peng, and Z. H.
+Hao-li, “A multi-user ﬁne-grained task oﬄoading scheduling
+approach of mobile edge computing,” Acta Electronica Sinica,
+vol. 49, no. 11, pp. 2202–2207, 2021.
+[24] Y. Mao, T. Zhou, and P. Liu, “Multi-user task oﬄoading based
+on delayed acceptance,” Computer Science, vol. 48, no. 1,
+pp. 49–57, 2021.
+[25] F. Liu, Z. Huang, and L. Wang, “Energy-eﬃcient collaborative
+task computation oﬄoading in cloud-assisted edge computing
+for IoT sensors,” Sensors, vol. 19, no. 5, pp. 1105–1105, 2019.
+12
+Wireless Communications and Mobile Computing
+ 6302, 2023, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/2023/4665067, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License

@@ -1,0 +1,3043 @@
+Received: 28 October 2021 |
+Accepted: 25 July 2022
+DOI: 10.1002/int.22983
+R E S E A R C H A R T I C L E
+DDDQN‐TS: A task scheduling and load
+balancing method based on optimized deep
+reinforcement learning in heterogeneous
+computing environment
+Changyong Sun
+|
+Tan Yang
+|
+Youxun Lei
+State Key Laboratory of Networking and
+Switching Technology, School of
+Computer Science (National Pilot
+Software Engineering School), Beijing
+University of Posts and
+Telecommunications, Beijing, China
+Correspondence
+Tan Yang, State Key Laboratory of
+Networking and Switching Technology,
+School of Computer Science (National
+Pilot Software Engineering School),
+Beijing University of Posts and
+Telecommunications, Room 404,
+Scientific Research Building, Building 10,
+Xitucheng Road, Haidian District,
+100876 Beijing, China.
+Email: tyang@bupt.edu.cn
+Funding information
+National Key Research and Development
+Program of China,
+Grant/Award Number: 2020YFE0200500
+Abstract
+Task scheduling and load balancing problem of heteroge-
+neous computing environment (HCE) is getting more and
+more attention these days and has become a research
+hotspot in this field. The task scheduling and load
+balancing problem of heterogeneous environment, which
+refers to assigning a set of tasks to a specific set of
+machines with different hardware and different computing
+performance with the goal of minimizing task processing
+time and keeping load balance among machines, has been
+proved to be an NP‐complete problem. The development
+of artificial intelligence provides new ideas to solve this
+problem. In this paper, we propose a novel task scheduling
+and load balancing method based on optimized deep
+reinforcement learning in HCE. First, we formulate task
+scheduling problem as a Markov decision process and
+then adopt a dueling double deep Q‐learning network to
+search the optimal task allocation solution. Then we use
+two well‐known large‐scale cluster data sets Google Cloud
+Jobs data set and Alibaba Cluster Trace data set to validate
+our
+approach.
+The
+experimental
+results
+show
+that
+compared with other existing solutions, our proposed
+method can achieve much shorter task response time and
+better load balancing effect.
+Int J Intell Syst. 2022;37:9138–9172.
+wileyonlinelibrary.com/journal/int
+9138 |
+© 2022 Wiley Periodicals LLC.
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+K E Y W O R D S
+deep reinforcement learning, heterogeneous computing
+environment, load balancing, task scheduling
+1
+|
+INTRODUCTION
+Heterogeneous computing environment (HCE) refers to an environment that consists of
+interconnected sets of dissimilar hardware or software systems.1 Figure 1 shows the task
+scheduling problem in a cross‐domain HCE. In a typical HCE with a central server, all
+heterogeneous computers are connected by a central dispatching server which is responsible for
+receiving messages from machine nodes and distributing messages to machine nodes. And in
+the task scheduling problem of HCE, the task scheduler will collect hardware configuration
+information of all machine nodes and assign tasks committed by the central server to these
+machine nodes using the information collected according to specific task assignment strategies.
+Due to the complexity of task scheduling in cross‐domain HCE, there are multifaceted
+problems that have not yet been solved well. First, although modern computer technology
+develops quite fast and the computing performance of modern computers is increasingly
+higher, there are still huge differences in the computational power of machines in cross‐domain
+HCE. So the diversity of computational power should be taken into consideration in task
+scheduling problem. Second, the goal of task scheduling is to minimize the task response time.
+Task response time is generally calculated as the sum of task WT and task processing time. But
+in cross‐domain HCE, for a particular task, its response time is affected by multiple factors at
+the same time. On the one hand, a specific task can get different task processing times when it
+is assigned to a machine of different computational power. On the other hand, even on the
+FIGURE 1
+Task scheduling in cross‐domain heterogeneous computing environment [Color figure can be
+viewed at wileyonlinelibrary.com]
+SUN ET AL.
+|
+9139
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+same machine, a task will get different task WTs if it is in a different position of the task waiting
+queue. Third, another goal of task scheduling is to maintain the load balance among machines.
+However, task scheduling problem with resource constraints in HCE has been proven to be
+NP‐complete.2–4 Hence the task scheduling problem in cross‐domain HCE is still faced with
+great challenges.
+To cope with the challenges introduced above, a well‐designed efficient task scheduling
+method should be proposed. Generally, the goal of task scheduling is to assign a set of tasks to
+the most suitable machines while meeting specific resource constraints as far as possible. As
+task scheduling problem with resource constraints is NP‐complete, it is usually solved with
+metaheuristic algorithms. But metaheuristic algorithm cannot guarantee the global optimal
+solution and its performance is unstable.5 With the rise of artificial intelligence technology,
+many researchers began to apply machine learning methods to task scheduling problems.6–8
+However, these machine learning‐based methods are heavily dependent on training data sets,
+and in most cases such data sets cannot be obtained in advance. Some papers point out to use
+Q‐learning method of reinforcement learning (RL) to deal with task scheduling problem,9–12
+which avoids the difficulty of obtaining data sets in traditional model‐based machine learning
+methods. Nevertheless, due to the size limitation of the Q‐table, the Q‐learning method can
+only handle small‐scale task scheduling problems. In addition, most methods are unable to
+minimize task execution time while ensuring load balance among machines.
+Therefore, this paper put forward a novel task scheduling algorithm based on deep
+reinforcement learning (DRL) to address those problems mentioned above. In this paper, we
+formulate the task scheduling problem as a Markov decision process (MDP), and then employ
+an optimized deep Q‐network to search for the optimal task assignment solution. This method
+can directly learn from its past experience without any prior data provided. In detail, the input
+of deep neural network is the agent state which is defined as a specific task sequence, and the
+output of the network is the final state which represents the optimal task allocation strategy.
+When the agent chooses an action for the next state, an elaborately designed reward function
+will be used to accelerate the convergence of the learning process. In the experiments setup
+stage, we adopt two well‐known large‐scale cluster data sets Google Cloud Jobs Data set (GoCJ)
+and Alibaba Cluster Trace data set in our simulation environment to validate our approach in
+real workload scenarios. Through the analysis of experimental results, our proposed task
+scheduling algorithm outperforms other task scheduling algorithms in terms of average task
+response time and average machine central processing unit (CPU) utilization STD.
+The major contributions of this paper are concluded as follows:
+1. We formulate the task scheduling problem as an MDP so that we can apply the RL method
+to it. Furthermore, we give the definition of quadruple (S, A, R, S') of the MDP model.
+2. We propose a novel DRL‐based task scheduler named Dueling Double DQN‐based Task
+Scheduler (DDDQN‐TS) to address the task scheduling problem of HCE, which improves
+the original deep Q‐network (DQN) with double Q‐learning algorithms, dueling network
+architectures, target networks, and experience replay techniques.
+3. We meticulously design the reward function to realize multiobjective optimization by taking task
+execution time and average standard deviation of CPU utilization of machines into consideration.
+4. We evaluate our proposed method on two publicly published data sets GoCJ and Alibaba
+Cluster Trace data set to simulate real‐world workload scenarios, and compared the
+performance of the proposed method with several baselines, showing that it outperforms
+other algorithms.
+9140 |
+SUN ET AL.
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+The rest of this paper is organized as follows. In Section 2, the related work in task
+scheduling domain is discussed. In Section 3, this paper gives a description of key concepts and
+presents the task scheduling problem of HCE in a graph. In Section 4, this paper first models
+the task scheduling problem as MDP and illustrates the proposed method in detail. In Section 5,
+the experimental setup work is described and the proposed algorithm is evaluated. Then the
+experiment results are displayed and analyzed. Some conclusions on this study are drawn and
+some suggestions are given for future work in Section 6.
+2
+|
+BACKGROUND AND RELATED WORKS
+Generally speaking, the goal of task scheduling in HCE is to map tasks to machines with
+heterogeneity and order their execution, so as to meet some performance and resource
+requirements, including minimizing total tasks execution time, achieving load balancing, and
+other user‐specified constraints. As we all know, the heterogeneous task scheduling problem
+with resource constraints has been proven to be a nondeterministic polynomial hard complete
+problem. Hence, a lot of research work has been done to pursue a relatively optimal result.
+Research on this issue in the literature is mainly carried out from the following aspects.
+2.1
+|
+Metaheuristic algorithms
+In general, it will take extremely long to obtain the global optimal result of task scheduling problem
+through exact methods. Compared with exact methods, metaheuristic algorithms aim to explore
+search space and find near‐optimal solutions, which makes them more efficient than exact algorithms
+in solving optimization problems in practical application scenarios.5,13,14 Akbari et al.15 presented a
+genetic‐base algorithm to address task scheduling problem in HCE which improves task scheduling
+efficiency and reduces task execution time. Dordaie and Navimipour16 put forward a hybrid particle
+swarm optimization (PSO) method integrating a heuristic hill climbing algorithm. Zhou et al.17
+proposed a method named modified genetic algorithm combined with greedy strategy that integrates
+a modified genetic algorithm (GA) with greedy strategy, which can reduce the number of iterations to
+find an optimal solution. On the basis of small position value rule, Guo et al.18 designed a
+PSO algorithm to minimize the execution cost. Xue et al.19 proposed a load balancing optimization
+algorithm named ant colony optimization load balancing (ACO‐LB) which is based on ant colony
+algorithm so as to solve the VM load imbalance in cloud environment. However, the performance of
+these metaheuristic‐based task scheduling algorithms is unstable and possibly trapped into local
+optimal solution.
+2.2
+|
+Model‐based machine learning algorithms
+In recent years with the rapid development of artificial intelligence technology, machine
+learning methods are gradually being applied to task scheduling problems.6–8,20,21 Xie et al.6
+employed MultiLogistic Regression theory (called MLRS for short) on task scheduling issue in
+HCE, the model of which is trained using the data collected from historical best scheduling
+plans. Besides research work using traditional machine learning methods, there are also some
+studies done using neural networks. To improve scheduling efficiency, the work of Nemirovsky
+SUN ET AL.
+|
+9141
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+et al.7 put forward a novel heterogeneous CPU scheduling model which is used to predict the
+performance of multithreads on heterogeneous computing resources at the scheduling
+quantum granularity based on lightweight artificial neural networks (ANNs). In the work
+of Gupta et al.,8 to achieve a high throughput heterogeneous system, an ANN‐based task
+scheduler was presented by predicting the possible application behavior of the next scheduling
+interval. Zhou21 proposed a task scheduling algorithm using a dynamic integrity measurement
+model based on deep learning networks for real‐time task scheduling. For those machine
+learning‐based task scheduling algorithms, due to the strong correlation between model and
+data, these methods usually show good performance. Nevertheless, in most cases of real‐world
+task scheduling scenarios, the prior data needed to train the prediction model cannot be easily
+obtained in advance.
+2.3
+|
+Traditional RL‐based methods
+As an important branch of machine learning, RL gets rid of the dependence of historical prior
+data compared with model‐based machine learning algorithms because of its ability to self‐
+learn in the environment. Studies on task scheduling using traditional RL represented by Q‐
+learning algorithm have been carried out these years.9–11,22,23 Orhean et al.10 proposed an RL‐
+based task assignment scheme which is implemented by Q‐learning and state‐action‐reward‐
+state‐action (SARSA) for scheduling problem of heterogeneous distributed systems by taking
+the heterogeneity of nodes and their features within the grid. Peng et al.9 designed a novel task
+scheduling method based on Q‐learning algorithm of RL as well as queuing theory to optimize
+scheduling efficiency under the resource constraints. Tong et al.11 proposed a new method
+named QL‐HEFT which combines Q‐learning algorithm with the heterogeneous earliest finish
+time (HEFT) method to minimize the makespan, where the reward function of the origin Q‐
+learning algorithm was improved by using the upward rank value of HEFT. Hajoui et al.
+proposed an approach that combines Q‐learning by using metaheuristic algorithm ACO with
+the mobile agent's systems to reduce the makespan on heterogeneous distributed architectures.
+However, all the above Q‐learning‐based task scheduling methods have some common issues.
+On the one hand, when the number of tasks and machines is large, the Q‐table used to update
+Q‐value will be extremely large, which will lead to an excessive convergence time. On the other
+hand, even the problem of slow convergence time is solved with the blessing of high‐
+performance modern computers, the extremely huge Q‐table will take up a lot of memory and
+eventually result in memory exhaustion.
+2.4
+|
+DRL‐based methods
+Recent advances in DRL techniques have opened a new avenue in the field of task scheduling
+problems. Since there is no need to maintain a Q‐table data structure as the traditional Q‐learning
+algorithm does, DRL algorithm addresses the slow convergence problem and memory explosion
+problem when search space is large of traditional Q‐learning by predicting Q‐value using a deep
+neural network instead of Q‐table.24 Hence, many task scheduling approaches based on DRL were
+put forward.25–29 In Sheng et al.,25 a DRL‐based task scheduling algorithm was proposed to solve both
+resource allocation and task scheduling, where a fully connected neural network is used to extract the
+features. Rjoub et al.26 put forward four deep and RL‐based task scheduling approaches to automate
+9142 |
+SUN ET AL.
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+the large‐scale workloads scheduling process in cloud computing. Dong et al.27 proposed a novel task
+scheduling algorithm named RLTS (a task scheduling algorithm based on a deep reinforcement
+learning architecture) based on DRL to dynamically assign tasks to appropriate cloud servers while
+minimizing the makespan. The study of Che et al.28 reported a new task scheduling model based on
+deep reinforcement algorithm which combined the task assignment problem with resource‐
+utilization optimization. Swarup et al.29 focused on the task scheduling problem of cloud‐based
+applications and proposed a clipped double deep Q‐learning algorithm which is applied target
+network and experience replay techniques. Xiao et al.30 proposed an intelligent task offloading
+scheme called Computational Offloading scheme for Dependent IoT Application and leveraged an
+Actor–Critic‐based algorithm to achieve low latency and high efficiency. Cui et al.31 proposed a DRL‐
+based task offloading algorithm name LSTM‐TD3 (a deep reinforcement learning based task
+offloading algorithm which incorporates the long short‐term memory [LSTM] and twin delayed deep
+deterministic policy gradient algorithm [TD3]) to solve the formulated problem. In Cui et al.,32 a
+double deep Q‐network‐based task offloading strategy is proposed to obtain optimal task offloading
+ratio with cooperative vehicles. In the study of Laroui et al.,33 leveraged Software Defined Networking
+and Network Function Virtualization to control and virtualize network components and then
+adopted a DRL‐based offloading to deal with dense Internet of Things networks. In these researches
+mentioned above, DRL played an important role in tackling the problem of high time complexity,
+high input dimension, and large search space. In these studies, total tasks execution time was the
+primary optimization objective, and load balancing is seldom being taken into consideration.
+Meanwhile, due to the Q‐value overestimation problem of the original DRL algorithm, there is still
+some promotion space for improving the effects of task scheduling methods based on DRL.34,35
+3
+|
+DESCRIPTION OF CONCEPTS AND ARCHITECTURE
+In this section, we first give some assumptions and definitions of HCE task scheduling problem in a
+mathematical representation to lay the groundwork for the subsequent detailed discussion, and then
+we present our proposed system model and give a comprehensive introduction of the model.
+3.1
+|
+Concept description
+In this scheduling model, the task is described as
+T
+id mi cu size
+= (
+,
+,
+,
+),
+i
+i
+i
+i
+i
+(1)
+in which Ti denotes the ith task of the task list, mii denotes the length of the task (generally the
+number of million CPU instructions), cui denotes the CPU utilization rate that the task will
+occupy for a CPU, sizei denotes the file size in megabytes of the task (generally the memory
+occupied by the task). Before the start of each round of scheduling, the above three attributes of
+all the tasks will be evaluated and submitted to the task scheduler. Theoretically, the file size of
+a task is considered to be zero for computing‐intensive situations.
+Assumption 1.
+The
+proposed
+scheduling
+model
+only
+deals
+with
+static
+task
+scheduling in HCE. In this case, all the tasks are submitted offline and will be
+assigned together.
+SUN ET AL.
+|
+9143
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+Assumption 2.
+All the tasks to be scheduled are independent meta tasks, which
+means they do not have any reliance on each other.
+In cross‐domain HCE, differences in computer hardware often lead to differences in
+computer computational power. Hence, the machine in this model is defined as
+M
+id mips ram
+= (
+,
+,
+),
+j
+j
+j
+j
+(2)
+in which Mj denotes the jth machine of the machine list, mipsj denotes the computing
+performance of the machine (namely, how many million CPU instructions can be processed by
+the machine), ramj denotes the memory size in megabytes of the machine.
+Assumption 3.
+Each machine maintains a task processing queue, and each task in this
+processing queue will be executed serially in order.
+Definition 1.
+Expected Execution Time (EET) of a task is its execution time on a
+particular machine. The calculation of the EET takes all of the task attributes and all of
+the machine attributes into account.
+For instance, suppose the task scheduler assigns taski to machinej, then the EET of taski is
+
+EET
+T
+M
+T
+M
+T
+=
+,
+subject to
+>
+.
+ij
+i
+mi
+j
+mips
+i
+cu
+j
+ram
+i
+size
+(3)
+As shown in this equation, in the scheduling model, Ti can be assigned to Mj as long as the
+memory size of the machine is greater than the size of the task. Otherwise, it cannot be
+assigned and the task scheduler will select another appropriate machine for this task. To depict
+this rule more obviously, we give the following definition.
+Definition 2.
+In this scheduling model, we use a vector
+t t
+t
+task = ( ,
+, …,
+)
+N
+1
+2
+to
+represent
+the
+tasks
+to
+be
+scheduled,
+and
+use
+another
+vector
+machine =
+m m
+m
+(
+,
+, …,
+)
+M
+1
+2
+to represent the machines provided in the HCE, where N denotes the
+number of all of the tasks and M denotes the number of all of the machines. Then we
+define TM as an N
+M
+×
+dimension matrix, which is the product of matrix task and
+matrix machine:
+⋯
+⋯
+⋮
+⋮
+⋱
+⋮
+⋯
+
+
+
+
+
+
+TM
+TM
+TM
+TM
+TM
+TM
+TM
+TM
+TM
+TM =
+.
+M
+M
+n
+n
+NM
+11
+12
+1
+21
+22
+2
+1
+2
+(4)
+More generally, if all the attributes of machinej satisfy the requirements of taski, then
+TM = 1
+ij
+; otherwise, TM = 0
+ij
+. That is to say, taski can be assigned to machinej if and only
+if TM = 1
+ij
+.
+9144 |
+SUN ET AL.
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+Definition 3.
+Waiting Time (WT) of a task is the time interval from when the task is
+pushed into the task waiting queue of a certain machine to when the task begins to be
+executed. It can be mathematically expressed as
+
+WT
+EET
+=
+,
+ij
+k
+N
+kj
+=1
+(5)
+where N in the equation indicates the number of tasks to be processed in the task waiting
+queue of machinej before taski is going to be executed.
+Definition 4.
+Response Time (RT) of a task is the time interval from when the task is
+pushed into the task waiting queue of a certain machine to when the task is finished,
+which is the total time the task stays in the task waiting queue. Obviously, the RT of a
+task is the sum of its WT and EET. The equation to calculate RT is depicted as follows:
+RT
+WT
+EET
+=
++
+.
+ij
+ij
+ij
+(6)
+Moreover, we give the definition of Average Response Time (ART) for assigning N
+tasks to M machines. It is expressed by the following formula:
+∈
+
+ART
+RT
+N
+j
+M
+=
+,
+.
+NM
+i
+N
+ij
+=1
+(7)
+In task scheduling problems, the ART of a task scheduling algorithm reflects its ability
+to process tasks in a timely manner and now has become an important indicator to
+evaluate the algorithm performance.
+Definition 5.
+Standard deviation (STD) is the standard deviation of the CPU utilization of
+a certain machine in a scheduling cycle. We can mathematically denote it as
+(
+)
+STD
+T
+UTI
+=
+−
+,
+j
+i
+N
+i
+cu
+j
+=1
+2
+(8)
+in which UTIj is the mathematical expectation of all the CPU utilization of the tasks
+assigned to Mj:
+
+UTI
+T
+N
+=
+.
+j
+i
+N
+i
+cu
+=1
+(9)
+Furthermore, the average STD of CPU utilization in a task scheduling cycle is the
+mean value of the STD of CPU utilization of all the machines after this scheduling round.
+It can be depicted as
+
+STD
+STD
+M
+=
+.
+j
+M
+j
+=1
+(10)
+SUN ET AL.
+|
+9145
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+The average STD of CPU utilization reflects the degree of load balancing for a cluster
+of machines, which is one of the most important criteria to evaluate the load balancing
+effects of a task scheduling algorithm. The goal of our proposed task scheduling
+algorithm is to simultaneously optimize both ART and average STD of CPU utilization so
+as to make full use of all computing resources in the HCE.
+3.2
+|
+Architecture description
+Our proposed architecture model is illustrated in Figure 2. As is shown in the figure, the whole
+task scheduling framework is composed of three layers:
+1. Layer 1: Task submission layer. In this layer, the users of our task scheduling model will
+submit their tasks to the central dispatching server. Before their submissions, the attributes
+of the tasks (such as MI, CPU utilization, task size, etc.) are supposed to be determined.
+2. Layer 2: Scheduling layer. This layer mainly consists of one central dispatching server and
+the task scheduler employed on it. The central dispatching server is responsible for
+committing all the information needed by the task scheduler and dispatching tasks to
+machines according to the scheduling solution generated by the task scheduling algorithm.
+3. Layer 3: Execution layer. What execution layer does is to provide the required status
+information of machines to the scheduling layer and to execute the tasks issued by the
+scheduling layer.
+FIGURE 2
+Architecture of task scheduling framework. BGP, Border Gateway Protocol; DDDQN, dueling
+double deep Q‐network. [Color figure can be viewed at wileyonlinelibrary.com]
+9146 |
+SUN ET AL.
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+In our architecture, our task scheduling model is put forward for static task scheduling
+problem, in which the tasks are collected from all the users in advance and commit all the tasks
+to the scheduler at once. In the scheduling layer, the task scheduler is mainly based on the DRL
+method, more specifically, a dueling double deep Q‐network‐based method. As for the input of
+the method, there are two input sources: a task list in the form of T T T T
+T
+[ ,
+,
+,
+, …,
+]
+N
+1
+2
+3
+4
+and the
+status information of machines collected by the machine status collector. The output of the task
+scheduling method is the task scheduling solution calculated by the deep Q‐network. The final
+scheduling strategy is generally given in the form of a two‐tuples list. An example of the
+scheduling strategy is like
+T M
+T M
+T M
+T
+M
+[( ,
+), (
+,
+), ( ,
+), …, (
+,
+)]
+N
+1
+4
+2
+1
+3
+6
+2 .
+In the execution layer, we assume that there are L autonomous systems in total participated
+in the task scheduling process. These autonomous systems constitute an HCE, because the
+machines in each autonomous system can be in different hardware configurations, different
+architectures, different operating systems, or even different instruction sets. Especially the
+difference of hardware configuration will lead to a huge gap in computing performance among
+different machines. As we can see in Figure 2, supposing there are three machines chosen for
+task scheduling in AS1, each machine will maintain a task waiting queue that stores all the
+tasks assigned to this machine. Taking a typical task waiting queue T T
+T
+T
+[
+,
+,
+, …,
+]
+N
+2
+12
+35
+1 as an
+example, there are N1 tasks in this queue waiting to be executed, and these tasks will be
+executed in serial mode, which means the next task will not start until the previous task is
+finished. The communication between the autonomous systems and the central dispatching
+server is through a backbone router employed in the trunk network. In each autonomous
+system, a particular border router that is running Border Gateway Protocol (BGP) is responsible
+for the high‐speed data transmission with the backbone router.
+4
+|
+DDDQN‐BASED TASK SCHEDULER IN HCE
+Task scheduler is a controller of tasks assignment and resource allocation. An excellent task
+scheduler can not only shorten the task execution time and reduce resource consumption but
+also balance the load of the system and make full use of the available resources of the system.
+Hence, designing an appropriate task scheduler is a crucial issue for HCE.
+In this section, we will first introduce the theoretical background and then present our
+proposed DRL‐based task scheduler in detail. The contents of this section are organized as
+follows. In Section 4.1, we present an overview of MDP, and then we model the task scheduling
+problem as MDP. In Section 4.2, we first introduce the theories of Double Q‐learning and
+dueling network architectures, and then we illustrate our proposed DDDQN‐TS algorithm in
+great detail and display the architecture of our algorithm with some figures.
+4.1
+|
+Problem formulation
+RL is a learning process to obtain the optimal solution by interacting with the uncertain
+external environment without external supervision and guidance.36 Because of the strong
+universality of RL, the RL method has profound studies and widespread use in many fields like
+game theory, cybernetics, and operations research.
+The standard RL paradigm can be modeled as an MDP.37,38 An MDP is a quadruple
+M
+S A P R
+= ( ,
+,
+,
+), where
+SUN ET AL.
+|
+9147
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+• S
+s s
+s
+= { ,
+, …,
+}
+τ
+1
+2
+is a state space which contains all the possible states. Each individual state
+
+
+s
+i
+τ
+{ , 1
+}
+i
+is a description of the current environment, and states can be discrete or
+continuous. In every step of MDP, when the agent chooses an action, the current state will
+change to the next state, while the status change is Markovian.
+• A
+a a
+a
+= {
+,
+, …,
+}
+χ
+1
+2
+is an action space containing all the actions that the agent is able to choose
+and every single action
+
+
+a
+j
+χ
+{ , 1
+}
+j
+which is made by the agent is the result of self‐learning
+of the RL agent. Similarly, actions can be discrete or continuous.
+•
+
+P
+S
+A
+S
+:
+×
+×
+[0, 1] is a transition probability matrix, in which P s a s
+( ,
+, ′)
+a
+denotes the
+probability of reaching state s′ by taking action a from state s. The transition probability
+matrix can also be represented as
+
+P S A S
+P S S A
+( ,
+,
+′) =
+( ′
+,
+). Due to the Markovian of MDP,
+the following equation always holds:
+
+
+P s
+s s
+s
+s a
+a
+P s
+s
+s
+s a
+a
+(
+,
+, …,
+=
+,
+=
+) =
+( ′ =
+=
+,
+=
+).
+t
+t
+t
+t
+t
+t
++1 1
+2
++1
+•
+
+R
+S
+A
+S
+:
+×
+×
+is a reward function which will offer an immediate reward after the
+agent takes an action. For a state s, R
+′
+a s a s
+( , ,
+) represents the reward the agent will obtain by
+taking action a.
+In this paper, we formulate the task scheduling problem in HCE as an MDP. In task
+scheduling problem, the four elements of MDP
+S A P R
+( ,
+,
+,
+) listed above are restated,
+respectively, as follows.
+State space: Assuming there are V tasks to be dispatched and U available machines in total,
+then the state space in our study is defined as S,
+∈
+∈
+s
+S i
+U
+,
+[1,
+]
+i
+V
+and
+∈
+i
+, where
+∈
+s
+m
+m
+m
+m
+k
+U
+= [
+,
+,
+, …,
+],
+[1,
+]
+i
+k
+k
+k
+k
+j
+V
+1
+2
+. As we can see, when U and V are large, there will be an
+excessive number of states in the state space so that the state explosion problem will occur.
+Theoretically, a taski can be assigned to machinej so long as TM = 1
+ij
+, which means the
+resources provided by machinej satisfy the resource constraint of taski. And taski+1 will be
+assigned if and only if taski has already been dispatched, so the task scheduling process meets
+the conditions of Markovian. Therefore, formulating a task scheduling problem to an MDP is
+feasible in theory. The state transition diagram of HCE is displayed below in Figure 3.
+The transition probability from one state to another is calculated based on the Q‐value. If a
+greedy‐based strategy is used, the largest transition probability is chosen and the state transition
+will be made. For example, at state S1, if P1,3 is the largest among
+∈
+P
+i
+U
+,
+[1,
+]
+i
+V
+1,
+, then P1,3 will
+be chosen and at the next time‐step state S3 will be reached.
+Action space: An action in task scheduling problem is defined as choosing an appropriate
+machine for a certain task, so actually the action space is the same as the available machines.
+Obviously, the size of action space equals the number of all available machines. For instance,
+assuming there are U machines available to process all the tasks, if taski is planned to be
+assigned to the 6th machine, then this action can be represented as a = 6
+i
+or in the form of one‐
+hot representation
+∈
+a
+A
+= (0, 0, 0, 0, 0, 1, …, 0)
+i
+.
+Reward function: In task scheduling problem, the reward function is used to offer an
+immediate reward for the RL agent to make the best choice. In fact, the RL agent always
+chooses the action whose immediate reward is the largest. Considering the huge state space in
+large‐scale task scheduling and the predictable slow convergence rate, we must design an
+effective and appropriate reward function. First we put forward a novel concept, Best
+Performance Pool (BPP). Its definition is introduced below.
+9148 |
+SUN ET AL.
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+Definition 6.
+BPP is a container which contains C elements, where C is the size of the
+container. The element in BPP is a task scheduling solution obtained in the previous
+training process, and the scheduling effect of which is in the top C of all the solutions
+produced in the training process. For a particular scheduling solution s, the scheduling
+effect of s is evaluated by evaluation index Ps, which is defined by Equation (11).
+
+
+
+
+
+
+
+
+P
+ω ART
+ω STD
+ω
+ω
+ω
+ω
+=
++
+10
+subject to
+0 <
+< 1,
+0 <
+< 1,
++
+= 1,
+s
+s
+s
+ART
+1
+2
+log(
+) +2
+1
+2
+1
+2
+s
+(11)
+where ARTs is the average response time of all tasks under solution s, STDs is the average
+standard variation of CPU utilization of all machines, ω1 and ω2 are the two coefficients
+to determine the emphasis offset degree between the above two evaluation index, the
+function of the power term in the right half of the formula is to keep ARTs and STDs in
+the same order of magnitude. Obviously, when Ps is smaller, the scheduling effect of
+solution s is better. Because in terms of the two evaluation indexes ART and STD, the
+smaller, the better.
+Therefore, in a certain scheduling round t, immediate reward R will be received after taking
+action at, given in Algorithm 1
+FIGURE 3
+State transition probability diagram [Color figure can be viewed at wileyonlinelibrary.com]
+SUN ET AL.
+|
+9149
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+Algorithm 1: Reward function with BPP
+Input: A list of BPP, L
+Output: The reward obtained on the input state, R
+1 Initialize BPP L to capacity N
+2 Initialize evaluation index P with weights ω
+ω
+,
+1
+2
+3 for episode
+M
+= 1 to
+do
+4
+for i
+T
+= 1 to
+do
+5
+Calculate average task response time ART and average STD of CPU utilization of all machines STD on
+state S
+6
+Set reward = 0
+7
+Set maxIndex = 0 which is the index of the maximum value in L i[ ] that is larger than Ps
+8
+Calculate Ps using Equation (11)
+9
+for j
+N
+= 0 to
+do
+10
+if P
+L i
+j
+<
+[ ][ ]
+s
+then
+11
+Set reward
+reward
+=
++ 1
+12
+if L i
+j
+L i maxIndex
+[ ][ ] >
+[ ][
+] then
+13
+Update maxIndex with index j
+14
+end
+15
+end
+16
+end
+17
+Update L i maxIndex
+[ ][
+] with the current evaluation index Ps
+18
+end
+19 end
+Optimization object function: For the task scheduling problem in our research, the goal of
+optimization object function is to maximize the total reward Rt got in the training phase, which
+can be mathematically expressed as follows.
+
+
+
+optimizationg oal
+maximize R
+minimize ω ART
+ω STD
+minimize P
+=
+(
+)
+=
+(
++
+10
+)
+=
+( ).
+t
+ART
+1
+2
+log(
+) +2
+(12)
+To achieve the optimal returns, we apply a DRL‐based algorithm as our optimization object
+function in our proposed method, which is elaborately illustrated in Section 4.2.
+4.2
+|
+DDDQN‐TS
+Since we have formalized task scheduling problem as MDP, then we can employ deep
+Q‐network on it to achieve our optimization goal. As we all know, basic RL methods like
+Q‐learning cannot tackle large‐scale state space and action space problem because of the
+bloated Q‐table. In this case, DQN is put forward as a new algorithm that combines RL with
+deep neural network to address these issues.24,39 DQN enables the RL agents to learn multiple
+skills autonomously and realizes end‐to‐end learning. In DQN a deep neural network is used to
+automatically learn the characteristics of input data and apply RL method to make decisions
+through these learned features.
+9150 |
+SUN ET AL.
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+In this section, we give a detailed introduction of our proposed method, DDDQN‐TS.
+DDDQN‐TS is a static task scheduling algorithm based on optimized DQN which is integrated
+with double Q‐learning, dueling network architectures, target networks, and experience replay
+techniques. To our best knowledge, DDDQN‐TS is a novel DRL‐based method that is employed
+on task scheduling problem in HCE. In the following parts of this section, we will illustrate the
+details of our proposed method.
+4.2.1
+|
+Double Q‐learning
+As mentioned in Section 4.1, double Q‐learning method is used as our optimization object
+function to obtain the maximum future rewards in the training stage. In fact, we employ double
+Q‐learning method in deep Q‐network which is proved to be better than original deep
+Q‐network in most cases.34 In Q‐learning method, there is a reward‐inspired function named
+Q‐function Q s a
+( ,
+) which is defined to get the optimal action value. At time‐step t, Q s a
+( ,
+) is
+calculated as
+
+Q s a
+E R s
+s a
+a π
+( ,
+) = max
+[
+= ,
+=
+,
+],
+π
+t
+t
+t
+(13)
+where π is a policy mapping states to actions, and Rt is the future discount reward at time‐step
+t, which is defined as
+
+R
+γ
+r
+=
+′
+′
+t
+t
+t
+T
+t
+t
+t
+′=
+−
+(14)
+in which γ is a discount factor that controls the contribution of future rewards, T is the
+maximum time‐step when the scheduling process terminates. In a certain scheduling decision
+time‐step t, the scheduler uses some strategy (e.g.,
+greedy
+ϵ‐
+strategy) to select the action at, the
+update rule of Q
+s a
+( ,
+)
+t
+t
+t
+t
++1
+is given by Equation (15).
+Q
+s a
+Q s a
+α r
+γ
+Q s
+a
+Q s a
+( ,
+) =
+( ,
+) +
+[
++
+max
+(
+,
+) −
+( ,
+)],
+t
+t
+t
+t
+t
+t
+t
+a
+t
+t
+t
+t
+t
+t
++1
++1
++1
+t+1
+(15)
+where
+∈
+α
+[0, 1] is the learning rate, rt is the immediate reward value at time‐step t when taking
+action at to transition from state st to state st+1,
+Q
+s
+a
+max
+(
+,
+)
+a
+t
+t
+t
++1
++1
++1
+t+1
+is the estimated
+maximum future reward in next time‐step. In general, in Equation (15), we define
+r
+γ
+Q
+s
+a
+{
++
+max
+(
+,
+)}
+t
+a
+t
+t
+t
++1
++1
++1
+t+1
+as Qtarget which is the Q‐value calculated in time‐step t, and
+define Q
+s a
+( ,
+)
+t
+t
+t
+t
++1
+as Qevaluation which is the Q‐value stored in the Q‐table in traditional Q‐learning
+way or estimated by deep neural network in DRL way. It can be expressed as follows.
+Q
+s a
+r
+γ
+Q s
+a
+( ,
+) =
++
+max
+(
+,
+),
+t
+t
+t
+a
+t
+t
+t
+target
++1
++1
+t+1
+(16)
+Q
+s a
+Q s a
+( ,
+) =
+( ,
+).
+t
+t
+t
+t
+t
+evaluation
+(17)
+In this case, Equation (15) can be reformulated as
+Q
+s a
+Q
+s a
+α Q
+s a
+Q
+s a
+( ,
+) =
+( ,
+) +
+[
+( ,
+) −
+( ,
+)].
+t
+t
+t
+t
+t
+t
+t
+t
+t
+t
++1
+evaluation
+target
+evaluation
+(18)
+SUN ET AL.
+|
+9151
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+However, the work of Hasselt et al.34 confirmed that overestimations of Q‐learning are actually a
+common problem in practice, and the estimation error will increase with the increase of the number
+of actions. The reason for overestimations is the maximum step over estimated action values in
+Equation (16), which tends to choose the overestimated Q‐values instead of underestimated Q‐values.
+If the overestimations are uniform, the optimal action will not be affected after the maximum step.
+But if the overestimations are nonuniform, the overestimated Q‐value of a suboptimal action will
+exceed the Q‐value of the optimal action so that the optimal solution cannot be found. To reduce
+overestimations in DQN, Double DQN employs the Double Q‐learning method in DQN by
+decomposing the max operation in Qtarget into two operations: action selection and action evaluation.
+Concretely, while in DQN Qtarget is calculated merely according to the target network, Double DQN
+evaluates the greedy policy using the online network and estimates its value using the target network.
+Equation (16) is updated as follows.
+(
+)
+θ
+θ
+Q
+s a
+r
+γQ s
+Q
+s
+a
+( ,
+) =
++
+, max
+(
+,
+,
+),
+′ ,
+t
+t
+t
+t
+a
+t
+t
+t
+t
+t
+target
++1
++1
++1
++1
+t+1
+(19)
+where θt are the parameters of the online network, and θ′t are the parameters of the target
+network. To prove the effectiveness of Double DQN in task scheduling problem, we display the
+Q‐value of original DQN and Doulbe DQN in Figure 4. As we can see, Q‐value estimations are
+reduced in Double DQN method.
+Under the above premise, we use Mean Square Error (MSE) as the loss function in our
+method. Therefore, the loss can be calculated as
+θ
+θ
+Loss
+E
+Q
+s a
+Q
+s a
+=
+{[
+( ,
+,
+) −
+( ,
+, ′)] }.
+target
+evaluation
+2
+(20)
+Thus, the goal of the deep Q‐network is to find appropriate network weights to minimize
+the loss through Backpropagation (BP) algorithm in the training phase.
+4.2.2
+|
+Dueling network architectures
+Another important optimization technique in our approach is dueling network architectures.
+Different from many DQN optimization methods which try to improve RL algorithms, dueling
+FIGURE 4
+Q‐value overestimations in task scheduling problem. DQN, deep Q‐network [Color figure can be
+viewed at wileyonlinelibrary.com]
+9152 |
+SUN ET AL.
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+architecture improves the original DQN method by optimizing the structure of neural network
+without changing the RL algorithms.35 The main idea of dueling architecture is to separate the
+single‐stream Q‐network into two streams, one of which is called state value function for state s
+only, denoted as V s θ α
+( , ,
+), and the other of which is called action advantage function that has
+relevance to both state s and action a, denoted as A s a θ β
+( ,
+, ,
+). Here θ represents the
+parameters of the common part of Q‐network, α and β represent the parameters of the two
+network streams of state value function and action advantage function, respectively. Then the
+Q‐value function can be re‐expressed as
+Q s a θ α β
+V s θ α
+A s a θ β
+( ,
+, ,
+,
+) =
+( , ,
+) +
+( ,
+, ,
+).
+(21)
+However, in Equation (21), there is an identifiability problem caused by constant cancels
+out which will result in poor practical performance. To address this issue, the aggregation layer
+usually subtracts the average A s a
+θ β
+( , ′, ,
+) for all possible a′. Equation (21) is updated as
+
+
+
+
+
+
+
+Q s a θ α β
+V s θ α
+A s a θ β
+A
+A s a
+θ β
+( ,
+, ,
+,
+) =
+( , ,
+) +
+( ,
+, ,
+) −1
+( , ′, ,
+) .
+a′
+(22)
+Equation (22) improves the stability of the optimization effect, avoids overfitting problem,
+and helps accelerate the network training.
+4.2.3
+|
+Proposed algorithm DDDQN‐TS
+In this part, we introduce our proposed DDDQN‐TS algorithm (see Algorithm 2).
+Algorithm 2: DDDQN‐based task scheduling algorithm
+Input: A two‐dimensional vector storing tasks information of size N and a two‐dimensional vector storing
+machines information of size M
+Output: The obtained task scheduling solution which is a mapping from tasks to machines
+1 Initialize online network Q with random weights θ
+2 Initialize target network Q′ with weights θ
+θ
+′ =
+and target network update frequency C
+3 Initialize replay buffer with buffer capacity D
+4 Initialize training epochs H, reward discount factor γ, learning rate α, learning start epoch , minibatch
+size k
+5 for episode
+H
+= 1 to
+do
+6
+Reset scheduling solution and observe initial state s1
+7
+for t
+N
+= 1 to
+do
+8
+Receive current observation state st
+9
+Select action at via ϵ‐greedy scheme and execute at in emulator
+10
+Calculate reward rt based on Algorithm 1 and observe next state st+1
+11
+Store transition s a r s
+( ,
+, ,
+)
+t
+t
+t
+t+1 in 
+(Continues)
+SUN ET AL.
+|
+9153
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+12
+Set s
+s
+=
+t
+t+1
+13
+if
+
+len
+D
+(
+) >
+then
+14
+Drop half of the outdated elements in , so that
+15
+∕
+
+
+
+
+len
+len
+= elements in
+whose index from
+(
+) 2to
+(
+)
+16
+end
+17
+if
+
+t >
+then
+18
+Randomly sample a minibatch of k transitions from replay memory 
+19
+Set
+
+
+
+Q
+r
+i
+r
+γQ s
+Q s
+a
+θ
+θ
+=
+if episode terminates at
++ 1,
++
+′(
+, max
+(
+,
+;
+);
+′)
+otherwise
+i
+i
+i
+a
+i
+i
+i
+i
+target
++1
++1
++1
+i+1
+20
+Calculate MSE loss using Equation (20)
+21
+Perform a gradient descent step to minimize the loss and accumulate weight change Δ
+22
+Update online network parameters
+
+θ
+θ
+α
+=
++
+Δ, then reset Δ to zero
+23
+Update target network parameters θ
+θ
+′ =
+every C steps
+24
+end
+25
+end
+26 end
+Specifically, the inputs of the algorithm are two two‐dimensional vectors that storing the
+information of tasks and machines, respectively. The input vectors can be expressed as
+⋮
+⋮
+⋮
+⋮
+
+
+
+
+
+
+Tasks
+T
+T
+T
+T
+T
+T
+T
+T
+T
+T
+T
+T
+=
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+id
+mi
+cu
+size
+id
+mi
+cu
+size
+n
+id
+n
+mi
+n
+cu
+n
+size
+1
+1
+1
+1
+2
+2
+2
+2
+(23)
+⋮
+⋮
+⋮
+
+
+
+
+
+
+Machines
+M
+M
+M
+M
+M
+M
+M
+M
+M
+=
+,
+,
+,
+,
+,
+,
+.
+id
+mips
+ram
+id
+mips
+ram
+m
+id
+m
+mips
+m
+ram
+1
+1
+1
+2
+2
+2
+(24)
+The output of the algorithm is the scheduling scheme produced by the DRL agent. Lines
+5–25 of the algorithm describe the whole training process of our proposed DDDQN‐TS. With
+regard to given inputs, to find the optimal task assignment scheme, it is necessary to train
+multiple episodes. Therefore, lines 6–24 will be executed iteratively until the maximum training
+episode H is reached. At the beginning of each episode, we need to reset the scheduling
+solution as well as reobserve the initial state s1.
+For a certain episode, the number of time‐steps N of this episode is the same as the size
+of input task vectors. At any time‐step
+
+t
+N, the agent will select an action at for the
+observed state st based on ϵ‐greedy method. The ϵ‐greedy algorithm is widely used in
+multiple RL methods to explore the environment more effectively while balancing
+exploration and exploitation. Generally, given a specific
+∈
+ϵ
+[0, 1], according to ϵ‐greedy
+action‐selection strategy, the agent will choose a random action with probability ϵ
+and choose an optimal action with a maximum Q‐value with probability 1 −ϵ. The
+action‐selection strategy of ϵ‐greedy algorithm at time‐step t can be mathematically defined
+as follows.
+9154 |
+SUN ET AL.
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+
+
+a
+Q a
+=
+randomly choose an action from action space
+with probabilityϵ,
+arg max
+( )
+with probability1 −ϵ,
+t
+a
+(25)
+where ϵ is a predefined parameter of ϵ‐greedy algorithm and ϵ is updated after some certain
+rounds according to the following rules.
+
+
+
+
+β
+ϵ =
+ϵ
+,
+ϵ > ϵ
+,
+ϵ
+,
+else,
+min
+min
+(26)
+where β is the decay rate of ϵ and ϵmin is also a predefined parameter that denotes the minimum
+value of ϵ. Note that if the parameter ϵmin is not set then ϵ will become 0 sooner or later and
+ϵ‐greedy algorithm will degenerate into a greedy method.
+To promote the load balancing effect of our proposed scheduling algorithm, we perform an
+action transformation algorithm (see Algorithm 3) on the actions given by the ϵ‐greedy
+algorithm. This operation can also increase the noise to the network and boost the exploration
+process of the environment. Our experiments confirmed that the stability of the algorithm is
+promoted with this action transformation algorithm.
+Algorithm 3: Action transformation algorithm
+Input: An action at, a list of actions A, a list of tasks T, a list of machines M
+Output: An action a′t
+1 Give a definition of φi to indicate the maximum task numbers that can be assigned to machine Mi:
+2
+∕
+
+
+φ
+len T
+M
+M
+=
+( )
+(
+)
+i
+i
+mips
+j
+j
+mips
+3 while the occurrences of at in the A
+φ
+>
+at do
+4 at = randomly select an action from the action space
+5 Set a
+a
+′ =
+t
+t
+After an action at is selected using the above action‐selection algorithm, it will be executed
+in the scheduling environment so that the reward rt and the next state st+1 will be observed.
+To make full use of the computing resources in HCE and address load balancing, we design a
+reward function with BPP in Algorithm 1 to calculate the immediate reward. Then the current
+transition s a r s
+( ,
+, ,
+)
+t
+t
+t
+t+1 will be stored in the replay memory . Note that if the number of
+stored transitions exceeds the capacity of replay memory D, then one‐half of old transitions of
+will be dropped so that new transitions can be stored (lines 13–16).
+In the initial stage of training process, because there are few transitions in the replay
+buffer, so the network doesn't have enough experience to learn. Therefore, we set a
+parameter to denote the epoch when the learning start. In the first episodes, the agent
+tends to explore more about the environment and the obtained experiences are stored in
+replay buffer. When the training episode reaches , the Q‐network begins learning from
+past experiences. In this stage (lines 17–24), in each episode a minibatch of size k will be
+randomly sampled from the replay buffer, and target Q′ will be calculated based on Double
+Q‐learning method while estimated Q will be predicted by the Q‐Network. Then the MSE
+can be calculated (line 20). In line 21, a gradient descent step is performed to minimize the
+loss and update the parameters θ of online Q‐network with learning rate α through
+BP. Finally, to ensure the stability of training stage, every C steps the weights of online
+Q‐network will be cloned to target Q‐network.
+SUN ET AL.
+|
+9155
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+To clearly express the above process, the framework of the proposed optimized deep Q‐
+network used in task scheduling problem is shown in Figure 5, which is integrated with many
+optimization techniques, including target networks, experienced replay, Double Q‐learning,
+and dueling network structures. In this framework, we innovatively combine double Q‐learning
+and dueling network structures together to cope with static task scheduling problem.
+The network structure of online network and target network optimized with dueling
+architectures are shown in Figure 6. The main DQN structure is composed of two streams which
+represent the state value function and state‐dependent action advantage function, respectively,
+while the two streams share a common fully connected module. In the lower layers of the Q‐
+network, we use two sequences of fully connected layers. Note that the activation functions used
+are all leaky rectified linear unit to achieve more stable convergence. And in the higher layer, we
+use a special aggregating layer to combine the two streams and produce a single state‐action value
+function Q, the output of which is a list of Q‐values, one for each action.
+5
+|
+EXPERIMENTS AND DISCUSSION
+At the start of this section, we first present the scheduling emulator used in this paper and
+information of machines in the simulation environment. In Section 5.2, we give a brief
+introduction of the data sets used. Some classic and state‐of‐the‐art methods mostly used on
+FIGURE 5
+Architectures of proposed DDDQN‐TS method. DDDQN‐TS, Dueling Double DQN‐based Task
+Scheduler; DQN, deep Q‐network; MSE, Mean Square Error. [Color figure can be viewed at wileyonlinelibrary.com]
+9156 |
+SUN ET AL.
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+heterogeneous task scheduling problem are reported in Section 5.3. In Section 5.4, we show the
+experimental results between our proposed method and baselines and make some discussions
+on these results. Finally in Section 5.5 we have a discussion on all involved methods and
+emphasize the strength of DDDQN‐TS.
+5.1
+|
+Environment setup
+CloudSim Plus is an open‐source package proposed in Filho et al.40 for providing a simulation
+environment to facilitate research on task scheduling and resource management. On the basis
+of it, we build our task scheduling simulation environment to evaluate the performance of our
+proposed method. In our study, we provide 50 machines in the HCE scattered in different
+autonomous systems to perform task execution. Considering that the computing performance
+of different machines varies enormously even in the same real‐world region. Generally
+machines with average performance account for the majority, and machines with high
+performance and poor performance are usually in the minority. According to this, we assume
+that the performance of all machines follows Gaussian distribution, represented as
+P
+N μ σ
+~
+( ,
+),
+M
+2
+(27)
+where PM denotes the performance of all machines, μ = 5000 is the mean of the distribution,
+σ = 2000 is the STD of the distribution. To show the distribution more clearly, we drew a bar
+graph in Figure 7. The number above the bar in this figure represents the number of machines
+in the corresponding range of machine microprocessor without interlocked pipelined stage
+(MIPS). And we assume other properties (like RAM) of machines have a positive linear
+correlation with MIPS. Table 1 displays the parameter setting of our proposed DDDQN‐TS
+algorithm for the following experiments.
+FIGURE 6
+Network architectures of online network and target network. LeakyReLU, leaky rectified linear
+unit. [Color figure can be viewed at wileyonlinelibrary.com]
+SUN ET AL.
+|
+9157
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+5.2
+|
+Data sets
+5.2.1
+|
+Alibaba Cluster Traces v2018
+Alibaba Cluster Traces v201841 is a data set released by Alibaba in 2018, which records the details of
+servers and running tasks in a production cluster of Alibaba. This data set consists of about
+4,200,000 batch jobs and about 370,000 online service jobs which are running on about 4000
+machines over a period of up to 8 days, constituting six data tables with more than 450 GB
+FIGURE 7
+Distribution of machine performance. MIPS, microprocessor without interlocked pipelined
+stage. [Color figure can be viewed at wileyonlinelibrary.com]
+TABLE 1
+Parameter setting of DDDQN‐TS for experiments
+Parameter
+Values
+Number of tasks
+100–1000
+Number of machines
+50
+MIPS of machines
+300–10,000
+Train epochs
+800
+Batch size
+32
+Replay memory size
+10,000
+α (learning rate)
+0.001
+γ (reward decay rate)
+0.9
+ϵ (epsilon initial value)
+0.9
+ϵdecay (epsilon decay rate)
+0.9998
+ϵmin (epsilon minimum value)
+0.1
+TUF (target net update frequency)
+20
+ω1 (weight of ART index on calculating reward)
+0.7
+ω2 (weight of STD index on calculating reward)
+ω
+1 −
+1
+bps (BPP size)
+5
+Abbreviations: ART, Average Response Time; BPP, Best Performance Pool; DDDQN‐TS, Dueling Double DQN‐based Task
+Scheduler; DQN, deep Q‐network; MIPS, microprocessor without interlocked pipelined stage; STD, standard deviation.
+9158 |
+SUN ET AL.
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+uncompressed data in total, and each table is saved as a file in comma‐separated values format. Due
+to the massive real workload cases provided by the data set, the Alibaba Cluster Trace data set is
+widely used for researchers to do analysis of resource usage and task scheduling mechanisms.42,43
+5.2.2
+|
+Google cloud jobs data set
+GoCJ data set44 is generated with the Monte Carlo simulation method based on the data
+distribution witnessed in the analysis of real‐world data in Google cluster traces.45 Specifically,
+the data source of GoCJ generation process includes the real historical data of a Google server
+cluster within 29 days and the MapReduce log of Google M45 supercomputing cluster within
+10 months. Due to the Monte Carlo simulation method used, GoCJ data set is able to provide a
+reflection of these real workload data and becomes a benchmark workload for task scheduling
+and resource allocation researches.
+In GoCJ data set, there are 50 jobs of different sizes and all the jobs can be divided into five
+categories (Small, Medium, Large, Extra‐Large, and Huge) in terms of task MI. Figure 8 shows
+the ratio and job distributions according to the job sizes.
+5.3
+|
+Baselines
+To evaluate the performance of our proposed method, we compare it with some classic task
+scheduling and load balancing methods, metaheuristic‐based methods, traditional RL‐based
+methods, and other well‐performing literature competitors.
+5.3.1
+|
+Classic methods
+1. Round‐Robin (RR): One of the most frequently used load balancing methods is RR. With the
+RR method, all the machines are of equal prioritization and pushed into a circular queue. All
+FIGURE 8
+Job size distribution of GoCJ data set. GoCJ, Google Cloud Jobs. [Color figure can be viewed at
+wileyonlinelibrary.com]
+SUN ET AL.
+|
+9159
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+the tasks are assigned in an RR fashion by cycling through the circular queue, generally
+from head to tail. In such way each machine will get an opportunity to execute a task.
+2. Random: Random method is another classic load balancing method. For each task, the
+Random method will select one machine randomly to execute this task. It can be known
+from probability theory that as the amount of tasks increases, the effect of the Random
+method will get close to the RR method.
+5.3.2
+|
+Metaheuristic methods
+1. GA: GA is a popular metaheuristic method which is widely used on task scheduling
+problems. GA is an efficient global search method which draws lessons from Darwin's
+theory of evolution and Mendel's theory of heredity and is able to automatically acquire and
+accumulate knowledge about the search space in the search process and adaptively control
+the search process to obtain the optimal solution.
+2. ACO: ACO is a kind of swarm intelligence algorithm. It was inspired by the foraging
+behavior of ants. In nature, during the foraging process of ants, the ant colony can always
+find an optimal path from the ant nest and food source. ACO provides a new possibility for
+solving complex problems like NP problems.
+5.3.3
+|
+Traditional RL methods
+1. Q‐learning: Among many of the traditional RL methods, Q‐learning is one of the most well‐
+known value‐based methods. As is illustrated in Section 4.1, RL methods are based on MDP,
+so the goal of Q‐learning is to find the best action‐selection strategy and maximize the
+immediate reward obtained in a specified environment.
+2. SARSA: Similar to Q‐learning method, SARSA is also an algorithm based on MDP. What
+distinguishes SARSA from Q‐learning is the Q‐value update rule. Q‐learning used the greedy
+rule to learn the Q‐value, while SARSA used the action performed by the current policy to
+learn the Q‐value.
+5.3.4
+|
+Literature competitors
+Besides the methods mentioned above, we also compare our proposed method with some novel
+methods put forward by other literature works. Note that many DRL‐based methods perform
+well on task scheduling and load balancing problems and even hold state‐of‐the‐art, we select
+two of them which are described as follows.
+1. A DQN‐based approach proposed by Sheng et al.,25 where the authors leverage DRL to
+handle
+problems
+of
+task
+scheduling
+and
+resource
+allocation
+while
+taking
+the
+heterogeneity of available computing resources and the variety of the tasks into
+consideration.
+2. A Deep Deterministic Policy Gradient (DDPG)‐based approach proposed by Ran et al.,46
+where the authors adopt a DDPG‐based network to find the optimal task scheduling solution
+while satisfying the Service Level Agreements requirements.
+9160 |
+SUN ET AL.
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+5.3.5
+|
+Baseline parameter setting
+The parameter setting of all the algorithms employed in our comparison experiments is given
+in Table 2. Since the RR and Random algorithms are simple in design and have no parameter
+settings, these two algorithms are not included in this table.
+5.4
+|
+Experiment details
+To comprehensively compare our proposed method against the baselines illustrated in
+Section 5.3, we adopt multiple indicators including average task response time introduced by
+Equation (7) and average standard variation of CPU utilization introduced by Equation (10).
+Average task response time reflects the ability of a task scheduler to handle all the tasks
+promptly and efficiently, while average standard variation of CPU utilization is a reflection of
+the ability of a task scheduler to make full exploitation of computing resources.
+In our experiments, we perform experiments on both GoCJ data set and Alibaba Cluster
+Trace data set. The experiment results and analysis of the results are described in detail in the
+following part.
+5.4.1
+|
+Experiments on Alibaba Cluster Trace data set
+First, we evaluate the performance of our proposed method with baselines on Alibaba Cluster
+Trace data set. Because the entire data set is too large to do our research work, so to simplify
+our experiments process, we sample a batch of records from the file batch_instance.csv in the
+first day of the whole data set as our training data. In the batch_instance.csv file, for each task,
+properties such as the commit time, finish time, task length, CPU utilization, and task size are
+provided or are able to be calculated. However, since the original data set has too many unused
+columns and lots of incomplete records, we must perform a data preprocessing operation on
+TABLE 2
+Parameter setting of involved algorithms
+Algorithm
+Parameter values
+GA
+P = 10, pc = 0.8, pm = 0.01, maxiter = 800
+ACO
+α = 1, β = 1, ρ = 0.5, Q = 100, ant = 10, maxiter = 100
+Q‐learning
+ϵ = 0.9, γ = 0.9, α = 0.001, maxiter = 800
+SARSA
+ϵ = 0.9, γ = 0.9, α = 0.001, maxiter = 800
+DQN
+ϵ = 0.9, ϵdecay = 0.9997, ϵmin = 0.1, γ = 0.9, α = 0.001,
+memorysize = 10,000, batchsize = 32, maxiter = 800
+DDPG
+ϵ = 0.99, ϵdecay = 0.999, ϵmin = 0.1, γ = 0.6, αa = 0.0006,
+αas = 0.0008, αc = 0.001, memorysize = 10,000, TAU = 0.01
+batchsize = 32, maxiter = 800
+Abbreviations: ACO, ant colony optimization; DDPG, Deep Deterministic Policy Gradient; DQN, deep Q‐network; GA, genetic
+algorithm; SARSA, state‐action‐reward‐state‐action.
+SUN ET AL.
+|
+9161
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+the sampled data to prune the unused columns and drop the invalid records before our
+experiments.
+Furthermore, to test the performance of our method in different scenarios, the training data
+is divided into 10 batches of tasks ranging in size from 100 to 1000 to better simulate the low
+workload and high workload, respectively. Figure 9 shows the task information of one of the
+10 batches. The length of tasks in this batch is around [2000, 3000] and the CPU utilization of
+tasks is nearly all above 50%. In contrast with the MIPS of the machines, obviously the tasks in
+this data set are lightweight and computing‐intensive, which means handling those tasks will
+not cost too much time but will occupy most of the CPU in running time.
+Figure 10 shows the experiment results of our proposed method and baselines on Alibaba
+Cluster Trace data set, in which Figure 10A shows the average task response time of all the
+algorithms except classic methods on 10 batches of different sizes, Figure 10B shows
+the standard variation of CPU utilization of machines on all task batches, Figure 10C shows the
+average STD overall. The complete experimental results in terms of average task response time
+and machine STD are listed in Tables 3 and 4.
+From Table 3, we can see that classic load balancing methods RR and Random are the worst
+performers. The reason is classic methods like RR can only make tasks evenly distributed but it
+is of no help optimize task response time. To make the diagrams more readable, these two
+classic methods are not included in the line graphs.
+From Figure 10A, we can find that metaheuristic methods GA and ACO perform well on small
+task batches (700) but will encounter a performance decline when the task batch size gets larger
+(>700) on account of unstable strategies. Take GA method as an example. Although in our
+experiments the optimization goal of the GA method is to minimize the task response time, to
+achieve this goal, the GA method regards task assignment sequences as chromosomes and performs
+chromosome crossover and chromosome variation operations. However, when dealing with large
+task batches, these operations cannot guarantee all the tasks are uniformly distributed to machines.
+In this case too many tasks may be assigned to machines with low computing performance which
+will result in longer average task response time. Traditional RL methods Q‐learning and SARSA show
+the same trend, like, metaheuristic‐based methods. But the performance degradation of traditional RL
+methods on large task batches is due to the storage limitation of Q‐table. Our literature competitors
+DRL‐based methods DQN and DDPG perform worse than traditional RL methods on small task
+batches. Because traditional RL methods are able to choose the most appropriate action using Q‐table.
+But DRL‐based methods choose most actions according to the prediction of deep neural network
+FIGURE 9
+Task information of a batch from Alibaba Cluster Trace data set. CPU, central processing unit.
+[Color figure can be viewed at wileyonlinelibrary.com]
+9162 |
+SUN ET AL.
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+which may not be optimal. According to the results displayed in Figure 10A and Table 3, it is obvious
+that our proposed method DDDQN‐TS shows the best performance. In terms of the sum of average
+task response time of all the task batches, our proposed method is 16% better than the suboptimal.
+Additionally, results of the standard variation of machine CPU utilization are shown in
+Figure 10B,C and Table 4. Through the results, we can see that most of our baselines are
+suffering load imbalance issues, but the RR method performs a little better than other baselines
+because of the uniform task assignment policy. Due to our optimizations for load balancing
+FIGURE 10
+Experiment results of different task scheduling algorithms on Alibaba Cluster Trace data
+set. ACO, ant colony optimization; CPU, central processing unit; DDDQN‐TS, Dueling Double DQN‐based Task
+Scheduler; DDPG, Deep Deterministic Policy Gradient; DQN, deep Q‐network; GA, genetic algorithm; RR,
+Round‐Robin; SARSA, state‐action‐reward‐state‐action. [Color figure can be viewed at wileyonlinelibrary.com]
+SUN ET AL.
+|
+9163
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+TABLE 3
+Summary of the comparison between our proposed method and baselines in terms of average task response time on Alibaba Cluster Trace data set
+Size of task batches
+Method
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+Total
+RR
+4767.4
+190.61
+13,813.73
+119.17
+203.24
+1543.75
+2432.41
+56,877.52
+48,666.26
+21,704.12
+150,318.21
+Random
+228.04
+368.1
+14,496.68
+170.03
+182.39
+2432.15
+2890.1
+54,063.0
+124,380.83
+41,446.75
+240,658.06
+GA
+166.41
+43.15
+9705.7
+23.19
+24.55
+1771.56
+471.63
+7226.47
+9380.14
+4383.17
+33,195.98
+ACO
+158.86
+46.55
+8132.59
+18.59
+17.58
+1520.27
+389.31
+6816.61
+8035.34
+3979.05
+29,114.75
+Q‐learning
+172.26
+41.86
+7941.95
+25.74
+21.65
+1437.1
+463.07
+9545.54
+12,735.02
+5795.62
+38,179.8
+SARSA
+159.55
+38.62
+7852.07
+21.88
+25.55
+1396.05
+486.98
+8091.07
+10,945.53
+5705.38
+34,722.67
+DQN
+247.44
+51.68
+11,108.06
+14.18
+15.19
+2051.63
+401.96
+6529.92
+7391.95
+4787.05
+32,599.05
+DDPG
+171.1
+47.62
+12,747.8
+12.74
+13.92
+1810.92
+374.04
+5816.91
+8040.62
+3990.46
+33,026.12
+DDDQN‐TS (proposed)
+181.36
+32.1
+6956.94
+12.06
+12.54
+1499.99
+302.48
+5544.35
+6500.57
+3513.53
+24,555.93
+Note: Bold value represents the value with the shortest average task processing time among all the experimental comparison algorithms.
+Abbreviations: ACO, ant colony optimization; DDDQN‐TS, Dueling Double DQN‐based Task Scheduler; DDPG, Deep Deterministic Policy Gradient; DQN, deep Q‐network; GA, genetic
+algorithm; RR, Round‐Robin; SARSA, state‐action‐reward‐state‐action.
+9164 |
+SUN ET AL.
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+described in Section 4, our proposed DDDQN‐TS method gets the lowest STD which represents
+the best load balancing effect. In comparison with other baselines, the load balancing effect is
+promoted by 10% compared with the suboptimal and 30% compared with the worst method.
+5.4.2
+|
+Experiments on GoCJ data set
+In this section, we conduct experiments on GoCJ data set to further evaluate the performance of
+our proposed method and baselines. In the experiment process, we keep the task batch size range
+from 100 to 1000 to simulate both the low workload and high workload scenarios. In addition,
+because there is only task length data in the GoCJ data set, to apply our method to this data set, we
+should manually add an additional feature to the data set which represents the CPU utilization of
+the task. To test our method in more flexible and stochastic scenarios, we set a corresponding CPU
+utilization for each task in the data set with a random strategy. Figure 11 shows one of the task
+batches used in our experiments. In this batch, the distribution of task MI obeys the distribution
+described in Figure 8 ranging in [1500, 900,000], in which the tasks whose task MI ranging
+in [59,000, 135,000] account for the largest proportion (70%). As previously stated, The CPU
+utilization data of this batch satisfies random distribution. In contrast with the MIPS of machines
+provided in our experiments, the task MI in GoCJ data set is relatively much larger. Therefore, tasks
+in GoCJ data set can be considered as computing‐intensive tasks.
+The experimental results on GoCJ data set are displayed in Figure 12, in which
+Figure 12A shows the average task response time on all algorithms tested except classic
+methods, Figure 12B,C shows the results of STD metric of each task batches and average STD of
+all task batches in our experiment. Detailed results of average task response time metric and
+STD metric are listed in Tables 5 and 6.
+TABLE 4
+Summary of the comparison between our proposed method and baselines in terms of standard
+variation of CPU utilization on Alibaba Cluster Trace data set
+Size of task batches
+Method
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+Total
+RR
+0.078
+0.041
+0.067
+0.036
+0.03
+0.064
+0.043
+0.043
+0.027
+0.065
+0.494
+Random
+0.085
+0.05
+0.096
+0.042
+0.033
+0.062
+0.081
+0.04
+0.038
+0.083
+0.61
+GA
+0.076
+0.051
+0.117
+0.029
+0.051
+0.075
+0.071
+0.041
+0.038
+0.061
+0.61
+ACO
+0.078
+0.05
+0.093
+0.039
+0.047
+0.066
+0.08
+0.034
+0.045
+0.077
+0.609
+Q‐learning
+0.066
+0.041
+0.106
+0.037
+0.042
+0.063
+0.065
+0.047
+0.031
+0.075
+0.573
+SARSA
+0.076
+0.067
+0.098
+0.04
+0.059
+0.062
+0.07
+0.042
+0.042
+0.084
+0.64
+DQN
+0.062
+0.042
+0.097
+0.032
+0.047
+0.065
+0.087
+0.041
+0.047
+0.076
+0.596
+DDPG
+0.065
+0.041
+0.097
+0.038
+0.047
+0.058
+0.067
+0.042
+0.049
+0.085
+0.589
+DDDQN‐TS (proposed)
+0.049
+0.039
+0.064
+0.034
+0.036
+0.049
+0.054
+0.031
+0.033
+0.058
+0.447
+Note: Bold value represents the value with the smallest standard variation of CPU utilization among all the experimental
+comparison algorithms.
+Abbreviations: ACO, ant colony optimization; CPU, central processing unit; DDDQN‐TS, Dueling Double DQN‐based Task
+Scheduler; DDPG, Deep Deterministic Policy Gradient; DQN, deep Q‐network; GA, genetic algorithm; RR, Round‐Robin;
+SARSA, state‐action‐reward‐state‐action.
+SUN ET AL.
+|
+9165
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+Through the experiment results, the following conclusions are drawn.
+First, in terms of average task response time metric, the overall trend of Figure 12A is
+similar to Figure 10A. This further shows that the experimental results are mainly determined
+by the characteristics of the algorithms rather than data sets.
+Second, from Table 5 we can find that the ACO‐based method performs the best among all the
+algorithms in the first test (task batch size is 100). That is because on small‐scale problems ACO
+method can quickly explore the search space and find an optimal solution. But with problem scale
+and search space becoming larger, metaheuristic methods can only find a near‐optimal solution due
+to the great search cost. According to Table 5, our proposed method DDDQN‐TS still has comparable
+performance in the first test and obtains the best results among all the algorithms on subsequent test
+scales (task batch size 200). Besides, in terms of the total average task response time of all the task
+batches, our proposed method shortens this time by 16% in comparison with the suboptimal.
+Third, from Figure 12C we can see that the RR method performs worse than the results on
+Alibaba Cluster Trace data set. This is because tasks in GoCJ data set have a wider range of task
+MI and more random CPU utilization, so the disadvantage of the simple rotation allocation
+strategy of the RR method is amplified. Although in this experiment Random method obtains
+relatively good results, this has a lot of randomness and instability.
+Moreover, through Figure 12B and Table 6, we can conclude that on GoCJ data set DRL‐
+based methods surpass most non‐DRL‐based methods in terms of STD. Because for a certain
+scheduling strategy, task execution efficiency and load balancing effect are often related. DRL‐
+based methods have much faster task response time, so they also have lower STD of machines.
+In our proposed method, we elaborately design the reward function so that the DRL agent
+chooses the action which will minimize the task response time and machine STD
+simultaneously and finally find the optimal task scheduling solution. Considering the STD
+metric, our proposed method DDDQN‐TS improved the load balancing performance by 11%
+compared with the suboptimal and 27% compared with the worst.
+5.5
+|
+Discussion
+In this section, the performance of our proposed method DDDQN‐TS and all involved baseline
+algorithms will be analyzed and the strength of DDDQN‐TS will be discussed.
+According to all obtained experimental results on both two data sets, we can find that
+classic task scheduling and load balancing methods like RR and Random are only applicable to
+FIGURE 11
+task information of a batch from GoCJ data set. CPU, central processing unit; GoCJ, Google
+Cloud Jobs. [Color figure can be viewed at wileyonlinelibrary.com]
+9166 |
+SUN ET AL.
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+simple scheduling scenarios but not suitable for complex task scheduling problems in HCE. As
+for metaheuristic‐based task scheduling methods like GA and ACO, these methods perform
+well on small task scales. But these methods will encounter a performance drop as the task
+scale become larger due to the high search cost and will take a long search time. Similar to
+metaheuristic methods, traditional RL‐based task scheduling methods like Q‐learning and
+SARSA show comparable performance with the optimal on small or middle task batches. However,
+the search process of these traditional RL‐based methods is based on Q‐table. That means if the
+FIGURE 12
+Experiment results of different task scheduling algorithms on GoCJ data set. ACO, ant
+colony optimization; CPU, central processing unit; DDDQN‐TS, Dueling Double DQN‐based Task Scheduler; DDPG,
+Deep Deterministic Policy Gradient; DQN, deep Q‐network; GA, genetic algorithm; GoCJ, Google Cloud Jobs;
+RR, Round‐Robin; SARSA, state‐action‐reward‐state‐action. [Color figure can be viewed at wileyonlinelibrary.com]
+SUN ET AL.
+|
+9167
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+TABLE 5
+Summary of the comparison between our proposed method and baselines in terms of average task response time on GoCJ data set
+Size of task batches
+Method
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+Total
+RR
+9823.51
+9585.45
+16,625.92
+38,963.16
+45,013.51
+114,858.68
+57,064.76
+95,303.25
+153,482.89
+141,566.05
+682,287.18
+Random
+34,961.84
+40,255.47
+98,597.13
+112,337.44
+139,404.02
+151,219.59
+147,882.31
+207,547.83
+536,497.62
+261,439.13
+1,730,142.39
+GA
+5977.43
+6385.81
+12,201.04
+16,891.74
+15,731.22
+24,821.72
+23,986.08
+26,332.33
+30,770.98
+36,237.54
+199,335.88
+ACO
+5248.22
+7714.29
+10,589.57
+15,077.52
+13,398.48
+23,104.91
+21,322.03
+21,059.68
+28,162.61
+29,640.39
+175,317.7
+Q‐learning
+5287.48
+6486.08
+11,563.93
+14,348.74
+17,802.58
+22,075.19
+25,377.61
+27,233.84
+39,779.5
+37,227.24
+209,182.18
+SARSA
+5966.98
+6440.89
+9672.27
+14,045.27
+15,010.53
+21,360.88
+19,420.24
+26,210.65
+30,218.13
+34,208.24
+182,554.07
+DQN
+7679.73
+9269.3
+12,967.46
+18,540.92
+13,168.27
+24,580.82
+17,600.09
+22,581.98
+28,707.76
+27,506.76
+182,603.08
+DDPG
+6495.85
+7285.18
+12,726.52
+16,227.48
+12,621.03
+20,378.75
+16,719.31
+20,857.34
+26,401.2
+26,875.73
+166,588.4
+DDDQN‐TS (proposed)
+5332.73
+6380.69
+8785.75
+10,880.06
+11,162.64
+17,344.83
+14,572.61
+19,565.84
+22,460.9
+23,503.26
+139,989.32
+Note: Bold value represents the value with the shortest average task processing time among all the experimental comparison algorithms.
+Abbreviations: ACO, ant colony optimization; DDDQN‐TS, Dueling Double DQN‐based Task Scheduler; DDPG, Deep Deterministic Policy Gradient; DQN, deep Q‐network; GA, genetic
+algorithm; GoCJ, Google Cloud Jobs; RR, Round‐Robin; SARSA, state‐action‐reward‐state‐action.
+9168 |
+SUN ET AL.
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+problem scale gets larger, the Q‐table will rapidly inflate and run out of memory. Therefore, under
+large‐scale problems, these methods cannot fully explore the search space. Different from
+traditional RL‐based methods, our literature competitors DQN‐ and DDPG‐based task scheduling
+methods are DRL‐based methods. These methods choose action according to the prediction of deep
+neural network rather than Q‐table. So DRL‐based methods still work well under large‐scale
+problems. But the performance of task scheduling can continue to improve by changing the
+structure of deep Q‐network and some other optimization measures.
+In our proposed method DDDQN‐TS, we have done the following three aspects of
+innovative work to better solve the problem of task scheduling and load balancing in HCE.
+1. We adopt a DRL method optimized by double Q‐learning technique and dueling network
+structures described in Section 4.2 to get stabler task scheduling strategies. Experimental
+results show that our algorithm can obtain the shortest task response time, which means our
+task scheduling algorithm can improve the efficiency of task scheduling.
+2. We meticulously design the reward function of MDP in Equation (11) to realize
+multiobjective optimization so that we can optimize average task response time and
+machine STD simultaneously. This is why the load balancing effect of DDDQN‐TS is much
+better than other baseline algorithms according to Figures 10B,C and 12B,C.
+3. We elaborately design a novel BPP structure in Algorithm 1 and action transform strategy in
+Algorithm 3 to accelerate the convergence of the learning process and find better task
+scheduling solutions.
+Through the experimental results on both data sets, we can find that using the DDDQN‐TS
+method, the task scheduling performance and load balancing effect are dramatically improved
+in comparison with baseline algorithms.
+TABLE 6
+Summary of the comparison between our proposed method and baselines in terms of standard
+variation of CPU utilization on GoCJ data set
+Size of task batches
+Method
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+Total
+RR
+0.115
+0.067
+0.054
+0.059
+0.056
+0.054
+0.05
+0.045
+0.044
+0.044
+0.588
+Random
+0.098
+0.064
+0.057
+0.054
+0.045
+0.04
+0.045
+0.041
+0.033
+0.033
+0.51
+GA
+0.135
+0.076
+0.067
+0.055
+0.057
+0.048
+0.054
+0.041
+0.041
+0.043
+0.617
+ACO
+0.128
+0.059
+0.058
+0.065
+0.044
+0.042
+0.048
+0.045
+0.043
+0.045
+0.577
+Q‐learning
+0.12
+0.07
+0.089
+0.061
+0.056
+0.045
+0.052
+0.038
+0.042
+0.049
+0.622
+SARSA
+0.122
+0.073
+0.056
+0.062
+0.044
+0.047
+0.049
+0.053
+0.05
+0.035
+0.591
+DQN
+0.101
+0.066
+0.074
+0.059
+0.048
+0.048
+0.049
+0.037
+0.036
+0.036
+0.554
+DDPG
+0.106
+0.062
+0.053
+0.045
+0.048
+0.046
+0.044
+0.043
+0.041
+0.041
+0.529
+DDDQN‐TS (proposed)
+0.081
+0.068
+0.056
+0.048
+0.036
+0.04
+0.03
+0.026
+0.036
+0.031
+0.452
+Note: Bold value represents the value with the smallest standard variation of CPU utilization among all the experimental
+comparison algorithms.
+Abbreviations: ACO, ant colony optimization; CPU, central processing unit; DDDQN‐TS, Dueling Double DQN‐based Task
+Scheduler; DDPG, Deep Deterministic Policy Gradient; DQN, deep Q‐network; GA, genetic algorithm; GoCJ, Google Cloud
+Jobs; RR, Round‐Robin; SARSA, state‐action‐reward‐state‐action.
+SUN ET AL.
+|
+9169
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+6
+|
+CONCLUSION AND FUTURE WORK
+Doing efficient task scheduling without sacrificing the load balancing effect is a challenging
+problem in an HCE which contains diverse computational resources. To address this problem, in
+this paper we propose a novel task scheduling framework which is composed of task submission
+layer, scheduling layer, and execution layer. In the scheduling layer, we first formulate static task
+scheduling problem as an MDP and then design a DRL‐based task scheduling algorithm named
+DDDQN‐TS to dispatch massive tasks to appropriate machines in HCE under resource constraints.
+Furthermore, to comprehensively evaluate the performance of our proposed method, we compare
+the performance of our proposed method with multiple baselines on two real‐world data‐based data
+sets. And the experiment results show that our proposed method outperforms the baselines in
+terms of average task response time and average standard variation of machine CPU utilization,
+which represents higher task scheduling efficiency and better load balancing effect.
+According to our previous findings, several inspired future research works are concluded as
+follows. First, we aim to extend our task scheduling network architecture to dynamical
+workloads and high concurrency scenarios. In such case, the algorithm needs to be further
+adjusted to adapt to workloads of different intensities. Additionally, we can optimize our
+scheduling model using multiagents and voting mechanisms to find more robust and stable
+scheduling solutions. Finally, we can also migrate our proposed network structure to other
+computing environments, such as cloud computing environments to deal with cloud job
+scheduling problems.
+ACKNOWLEDGMENT
+This study is supported by the National Key Research and Development Program of China
+under Grant No. 2020YFE0200500.
+CONFLICT OF INTEREST
+The authors declare no conflict of interest.
+DATA AVAILABILITY STATEMENT
+The data that support the findings of this study are openly available in Google Cloud Jobs
+(GoCJ) Data set at https://data.mendeley.com/datasets/b7bp6xhrcd, by Zhou.21 The data that
+support the findings of this study are openly available in Alibaba Cluster Trace v2018 at https://
+github.com/Alibaba/clusterdata/tree/master/cluster-trace-v2018, by Tong et al.11
+ORCID
+Changyong Sun
+http://orcid.org/0000-0003-3620-9175
+REFERENCES
+1.
+Notkin D, Hutchinson N, Sanislo J, Schwartz M. Heterogeneous computing environments: report on the
+ACM SIGOPS workshop on accommodating heterogeneity. Commun ACM. 1987;30(2):132‐140.
+2.
+Deng Z, Shen H, Cao D, Yan Z, Huang H. Task scheduling on heterogeneous multiprocessor systems
+through coherent data allocation. Concurrency Comput: Pract Exper. 2021;33(10):e6183.
+3.
+Wang Y, Li K, Chen H, He L, Li K. Energy‐aware data allocation and task scheduling on heterogeneous
+multiprocessor systems with time constraints. IEEE Trans Emerging Top Comput. 2014;2(2):134‐148.
+4.
+Sulaiman M, Halim Z, Lebbah M, Waqas M, Tu S. An evolutionary computing‐based efficient hybrid task
+scheduling approach for heterogeneous computing environment. J Grid Comput. 2021;19(1):11.
+9170 |
+SUN ET AL.
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+5.
+Beheshti Z, Shamsuddin SMH. A review of population‐based meta‐heuristic algorithms. Int J Adv Soft
+Comput Appl. 2013;5(1):1‐35.
+6.
+Xie H, Wei L, Liu D, Wang L. Task scheduling in heterogeneous computing systems based on machine
+learning approach. Int J Pattern Recognit Artif Intell. 2020;34(12):2051012.
+7.
+Nemirovsky D, Arkose T, Markovic N, Nemirovsky M, Unsal OS, Cristal A. A machine learning approach
+for performance prediction and scheduling on heterogeneous CPUs. In: Boeres C, Prasanna VK, eds. 2017
+29th International Symposium on Computer Architecture and High Performance Computing (SBAC‐PAD).
+IEEE; 2017:121‐128.
+8.
+Gupta M, Bhargava L, Indu S. Artificial neural network based task scheduling for heterogeneous systems.
+In: 2020 3rd International Conference on Emerging Technologies in Computer Engineering: Machine
+Learning and Internet of Things (ICETCE). IEEE; 2020:74‐79.
+9.
+Peng Z, Cui D, Zuo J, Li Q, Xu B, Lin W. Random task scheduling scheme based on reinforcement learning
+in cloud computing. Cluster Comput. 2015;18(4):1595‐1607.
+10.
+Orhean AI, Pop F, Raicu I. New scheduling approach using reinforcement learning for heterogeneous
+distributed systems. J Parallel Distrib Comput. 2018;117:292‐302.
+11.
+Tong Z, Deng X, Chen H, Mei J, Liu H. QL‐HEFT: a novel machine learning scheduling scheme base on
+cloud computing environment. Neural Comput Appl. 2020;32(10):5553‐5570.
+12.
+Settles B. Active Learning. Synthesis Lectures on Artificial Intelligence and Machine Learning. Morgan &
+Claypool Publishers; 2012.
+13.
+Makhadmeh SN, Khader AT, Al‐Betar MA, Naim S, Abasi AK, Alyasseri ZAA. Optimization methods for
+power scheduling problems in smart home: survey. Renewable Sustainable Energy Rev. 2019;115:109362.
+14.
+Desale S, Rasool A, Andhale S, Rane P. Heuristic and meta‐heuristic algorithms and their relevance to the
+real world: a survey. Int J Comput Eng Res Trends. 2015;351(5):2349‐7084.
+15.
+Akbari M, Rashidi H, Alizadeh SH. An enhanced genetic algorithm with new operators for task scheduling
+in heterogeneous computing systems. Eng Appl Artif Intell. 2017;61:35‐46.
+16.
+Dordaie N, Navimipour NJ. A hybrid particle swarm optimization and hill climbing algorithm for task
+scheduling in the cloud environments. ICT Express. 2018;4(4):199‐202.
+17.
+Zhou Z, Li F, Zhu H, Xie H, Abawajy JH, Chowdhury MU. An improved genetic algorithm using greedy
+strategy toward task scheduling optimization in cloud environments. Neural Comput Appl. 2020;32(6):
+1531‐1541.
+18.
+Guo L, Zhao S, Shen S, Jiang C. Task scheduling optimization in cloud computing based on heuristic
+algorithm. J Networks. 2012;7(3):547‐553.
+19.
+Xue S, Li M, Xu X, Chen J, Xue S. An ACO‐LB algorithm for task scheduling in the cloud environment.
+J Software. 2014;9(2):466‐473.
+20.
+Balasekaran G, Jayakumar S, Prado PdR. An intelligent task scheduling mechanism for autonomous
+vehicles via deep learning. Energies. 2021;14(6):1788.
+21.
+Zhou J. Real‐time task scheduling and network device security for complex embedded systems based on
+deep learning networks. Microprocess Microsyst. 2020;79:103282.
+22.
+Hajoui Y, Bouattane O, Youssfi M, Illoussamen E. Q‐learning applied to the problem of scheduling on
+heterogeneous architectures. Int J Comput Sci Network Secur. 2018;18(2):153‐159.
+23.
+Hajoui Y, Bouattane O, Youssfi M, Illoussamen EH. Q‐learning and ACO hybridisation for real‐time
+scheduling on heterogeneous distributed architectures. Int J Comput Mater Sci Eng. 2019;20(2):225‐239.
+24.
+Mnih
+V,
+Kavukcuoglu
+K,
+Silver
+D,
+et
+al.
+Playing
+atari
+with
+deep
+reinforcement
+learning.
+arXiv:1312.5602. 2013.
+25.
+Sheng S, Chen P, Chen Z, Wu L, Yao Y. Deep reinforcement learning‐based task scheduling in IoT edge
+computing. Sensors. 2021;21(5):1666.
+26.
+Rjoub G, Bentahar J, Abdel Wahab O, Saleh Bataineh A. Deep and reinforcement learning for automated
+task
+scheduling
+in
+large‐scale
+cloud
+computing
+systems.
+Concurrency
+Comput:
+Pract
+Exper.
+2020;33(23):e5919.
+27.
+Dong T, Xue F, Xiao C, Li J. Task scheduling based on deep reinforcement learning in a cloud
+manufacturing environment. Concurrency Comput: Pract Exper. 2020;32(11):e5654.
+28.
+Che H, Bai Z, Zuo R, Li H. A deep reinforcement learning approach to the optimization of data center task
+scheduling. Complex. 2020;2020:3046769:1‐3046769:12.
+SUN ET AL.
+|
+9171
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+29.
+Swarup S, Shakshuki EM, Yasar A. Task scheduling in cloud using deep reinforcement learning. Procedia
+Comput Sci. 2021;184:42‐51.
+30.
+Xiao H, Xu C, Ma Y, Yang S, Zhong L, Muntean GM. Edge intelligence: a computational task offloading
+scheme for dependent IoT application. IEEE Trans Wireless Commun. Forthcoming 2022. doi:10.1109/
+TWC.2022.3156905
+31.
+Cui E, Yang D, Wang H, Zhang W. Learning‐based deep neural network inference task offloading in multi‐
+device
+and
+multi‐server
+collaborative
+edge
+computing.
+Trans
+Emerging
+Telecommun
+Technol.
+2022;33(7):e4485.
+32.
+Cui Y, Du L, He P, Wu D, Wang R. Cooperative vehicles‐assisted task offloading in vehicular networks.
+Trans Emerging Telecommun Technol. 2022;33(7):e4472.
+33.
+Laroui M, Ibn‐Khedher H, Ali Cherif M, Moungla H, Afifi H, Kamel AE. SO‐VMEC: service offloading in
+virtual mobile edge computing using deep reinforcement learning. Trans Emerging Telecommun Technol.
+2022;33(7):e4211.
+34.
+Hasselt vH, Guez A, Silver D. Deep reinforcement learning with double Q‐learning. In: Proceedings of the
+AAAI Conference on Artificial Intelligence; 2016:2094‐2100.
+35.
+Wang Z, Schaul T, Hessel M, Hasselt vH, Lanctot M, Freitas dN. Dueling network architectures for deep
+reinforcement learning. In: International Conference on Machine Learning. PMLR. Vol 48; 2016:1995‐2003.
+36.
+Bougie N, Ichise R. Fast and slow curiosity for high‐level exploration in reinforcement learning. Appl Intell.
+2021;51(2):1086‐1107.
+37.
+Li C, Li Y, Zhao Y, Peng P, Geng X. SLER: self‐generated long‐term experience replay for continual
+reinforcement learning. Appl Intell. 2021;51(1):185‐201.
+38.
+Luo W, Zhang J, Feng P, Liu H, Yu D, Wu Z. An adaptive adjustment strategy for bolt posture errors based
+on an improved reinforcement learning algorithm. Appl Intell. 2021;51(6):3405‐3420.
+39.
+Mnih V, Kavukcuoglu K, Silver D, et al. Human‐level control through deep reinforcement learning. Nature.
+2015;518(7540):529‐533.
+40.
+Filho MCS, Oliveira RL, Monteiro CC, Inácio PRM, Freire MM. CloudSim Plus: a cloud computing
+simulation framework pursuing software engineering principles for improved modularity, extensibility and
+correctness. In: 2017 IFIP/IEEE Symposium on Integrated Network and Service Management (IM). IEEE;
+2017:400‐406.
+41.
+Ding H. Alibaba Cluster Trace v2018. Github (Online); 2018. https://github.com/alibaba/clusterdata/blob/
+master/cluster‐trace‐v2018
+42.
+Chen W, Ye K, Wang Y, Xu G, Xu C. How does the workload look like in production cloud? Analysis and
+clustering of workloads on Alibaba Cluster Trace. In: IEEE 24th International Conference on Parallel and
+Distributed Systems (ICPADS). IEEE; 2018:102‐109.
+43.
+Everman B, Rajendran N, Li X, Zong Z. Improving the cost efficiency of large‐scale cloud systems running
+hybrid workloads—a case study of Alibaba Cluster Traces. Sustain Comput Inf Syst. 2021;30:100528.
+44.
+Hussain A, Aleem M. GoCJ: Google Cloud Jobs Dataset. Mendeley Data (Online); 2018.
+45.
+Hussain A, Aleem M. GoCJ: Google cloud jobs dataset for distributed and cloud computing infrastructures.
+Data. 2018;3(4):38.
+46.
+Ran L, Shi X, Shang M. SLAs‐aware online task scheduling based on deep reinforcement learning method
+in cloud environment. In: 2019 IEEE 21st International Conference on High Performance Computing and
+Communications; IEEE 17th International Conference on Smart City; IEEE 5th International Conference on
+Data Science and Systems (HPCC/SmartCity/DSS). IEEE; 2019:1518‐1525.
+How to cite this article: Sun C, Yang T, Lei Y. DDDQN‐TS: A task scheduling and load
+balancing method based on optimized deep reinforcement learning in heterogeneous
+computing environment. Int J Intell Syst. 2022;37:9138‐9172. doi:10.1002/int.22983
+9172 |
+SUN ET AL.
+ 1098111x, 2022, 11, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/int.22983 by Egyptian National Sti. Network (Enstinet), Wiley Online Library on [08/11/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License

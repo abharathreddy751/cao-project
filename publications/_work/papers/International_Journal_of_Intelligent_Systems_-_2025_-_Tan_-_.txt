@@ -1,0 +1,2677 @@
+Research Article
+Task Scheduling for Heterogeneous Multi-Core Processors
+Based on Deep Reinforcement Learning
+Qiguang Tan
+, Wei Chen
+, and Dake Liu
+School of Information and Communication Engineering, Hainan University, Haikou 570228, Hainan, China
+Correspondence should be addressed to Wei Chen; weichen@hainanu.edu.cn
+Received 4 September 2024; Revised 7 July 2025; Accepted 25 August 2025
+Academic Editor: Richard Murray
+Copyright © 2025 Qiguang Tan et al. International Journal of Intelligent Systems published by John Wiley & Sons Ltd. Tis is an
+open access article under the terms of the Creative Commons Attribution License, which permits use, distribution and
+reproduction in any medium, provided the original work is properly cited.
+Heterogeneous multicore processor systems are commonly used for scheduling tasks of DAG applications. Deep reinforcement
+learning, with its superior ability to perceive decisions directly and handle high-dimensional state actions, has become a prevalent
+solution for scheduling these systems. However, the incomplete environment models and large action spaces of deep re-
+inforcement learning present signifcant challenges to scheduling. Tis paper investigates a scheduling problem in a heteroge-
+neous multicore processor environment. Initially, system environment information is extracted and encoded using a graph
+convolutional neural network based on integrating adapter and AdapterFusion into the transformer architecture. Ten, by
+separating task selection and processor allocation, the decision space is reduced: the former uses a deep neural network to learn to
+select nodes, and the latter allocates processors using a heuristic scheduling algorithm combining earliest completion time-based
+node replication and rolling technology. Te entire scheduling process is a Markov decision problem. Terefore, the PPO al-
+gorithm with dynamic adjustment of the clipping factor, combined with an advantage actor-critic network, is employed for
+training, optimizing, and evaluating the algorithm to fnd the optimal scheduling strategy. Te training process adopts a reward
+function for the time and power consumption required for completed task scheduling to ensure that multiple DAG application
+task scheduling can achieve optimal performance. Experiments conducted in various environments with diferent parameters
+show that, compared to other algorithms, this algorithm reduces the overall execution time and power consumption cost of
+heterogeneous multicore processor tasks by 11.09%.
+Keywords: advantage actor-critic network; DAG scheduling; heterogeneous multicore processor systems; PPO algorithm;
+transformer architecture
+1. Introduction
+With the continuous development and expansion of 5G, new
+devices are constantly connecting to the Internet, enabling
+the integration of people, machines, and objects, thereby
+achieving the Internet of Everything. Consequently, data
+transmission has become more frequent, and application
+scenarios have become more complex and diverse, leading to
+the delivery of a large number of heterogeneous tasks [1] in
+5G communication networks. Heterogeneous tasks typically
+feature diferent characteristics, requirements, and execu-
+tion environments within a heterogeneous task set. More-
+over, a large number of interdependent heterogeneous tasks
+exist within the same task set. For example, video or audio
+data tasks transmitted through broadband communication
+require
+real-time
+computation
+and
+transmission,
+de-
+terministic communication control tasks, and communi-
+cation protocol tasks that need adaptation and conversion
+between diferent protocols. Tese heterogeneous tasks’
+structures can be represented as directed acyclic graphs
+(DAGs), allowing for more convenient allocation of tasks to
+diferent types of processors for accelerated processing. Such
+an environment forms a heterogeneous multicore processor
+system [2, 3].
+Heterogeneous
+multicore
+processor
+systems
+are
+designed to accelerate the resolution of diferent types of
+Wiley
+International Journal of Intelligent Systems
+Volume 2025, Article ID 7562400, 22 pages
+https://doi.org/10.1155/int/7562400
+
+tasks and consist of computing systems composed of dif-
+ferent types of hardware processors or software. However,
+there are three primary issues to address when scheduling
+heterogeneous multicore processors [4]. First, a DAG
+contains
+numerous
+node
+tasks
+with
+complex
+in-
+terdependencies, involving all tasks scheduling information
+during the scheduling process. Second, the processing order
+of node tasks and processor allocation create a large decision
+space. Lastly, heterogeneous tasks within a DAG exhibit
+signifcant diferences in program structure and processing
+methods. Terefore, to minimize scheduling overhead,
+selecting an optimal scheduling algorithm to allocate het-
+erogeneous tasks to suitable processors is crucial, especially
+given the current large and diverse data. Consequently,
+research on scheduling algorithms in heterogeneous mul-
+ticore processor systems has been a hot topic [5].
+Scheduling
+algorithms
+generally
+fall
+into
+machine
+learning–based and traditional scheduling algorithms [6].
+Currently, the most commonly used traditional scheduling
+algorithms are heuristic scheduling algorithms, which use
+existing information for reasoning and computation to obtain
+approximate optimal solutions [7]. For example, Wang et al.
+[8] proposed describing task scheduling in a heterogeneous
+multicore processor system environment as a binary non-
+linear programming (BNP) problem [9]. Based on the Least
+Slack Time First (LSTF) and Earliest Deadline First (EDF),
+they designed a heuristic task scheduling method, which
+performs well in minimizing task violations and resource
+utilization performance. However, due to the typically dy-
+namic nature of heterogeneous system environments, where
+task arrival times and resource availability can change at any
+time, this algorithm may not quickly adapt to dynamic
+changes, leading to suboptimal scheduling and potential
+recomputation situations. Li et al. [10] proposed a method to
+reduce communication costs by bundling tasks with high
+communication costs on a single node and employing
+bundling scheduling strategies and replication mechanisms to
+reduce communication delays. However, in environments
+with increasing numbers of heterogeneous system tasks, over-
+reliance on task bundling reduces scheduling fexibility, and
+bundling tasks with high communication costs may lead to
+certain nodes being overloaded while others are idle, afecting
+overall system efciency and performance. Heuristic sched-
+uling algorithms are prone to local optima, especially in large
+heterogeneous multicore processor systems, where local
+optima can lead to overall performance degradation.
+With the upgrade of hardware architecture and device
+capabilities, deep learning models in machine learning are
+favored for their strong adaptability, ability to capture and
+handle complex nonlinear relationships, automatic extrac-
+tion of high-dimensional features, powerful prediction ca-
+pabilities, and self-improving scheduling strategies [11].
+Researchers have increasingly favored deep learning–based
+scheduling algorithms. Currently, these algorithms have
+been applied to many complex task scheduling scenarios
+with good results. However, many deep learning–based
+scheduling algorithms do not simultaneously consider time
+and energy consumption for heterogeneous system envi-
+ronments, and their ability to work in multitask and
+multiworkfow environments is often insufcient [12]. In
+real system environments, multiple task fows coexist, en-
+larging the scheduling decision space and increasing com-
+putational complexity. Tis requires neural networks with
+multiple fully connected (FC) layers for function ftting and
+more efcient algorithm strategies. Furthermore, many al-
+gorithms using stochastic gradient descent (SGD) for
+training are prone to local optima. Terefore, many re-
+searchers propose using proximal policy optimization (PPO)
+to efectively reduce the probability of local optima. Tis
+paper focuses on this aspect of research.
+Tis paper focuses on the structure of heterogeneous tasks
+in DAGs using graph convolutional neural networks and
+combining improved PPO reinforcement learning algo-
+rithms. Te proposed algorithm extracts subsequent required
+feature information from the DAG using graph convolutional
+neural networks, and then continuously optimizes and trains
+the deep neural network to select task nodes. Finally, the
+heuristic algorithm combining node replication and rolling
+technology based on the earliest completion time determines
+the optimal processor allocation strategy. Heuristic algo-
+rithms are employed to reduce the decision space and im-
+prove algorithmic stability. Te performance is measured
+based on three key indicators: the maximum makespan, the
+average speedup ratio, and the average power consumption.
+Experimental results show that this algorithm outperforms
+existing scheduling algorithms. In summary, the main con-
+tributions of this paper are as follows:
+1. In the feature extraction stage of DAG task nodes,
+a graph convolutional neural network combined with
+a transformer architecture is applied to the DAG
+structure of heterogeneous tasks.
+2. In the training and selection of nodes, a FC neural
+network is used for selection, employing an advantage
+actor-critic (A2C) algorithm combined with a PPO
+algorithm based on dynamic attenuation clipping
+functions, improving training efciency, enhancing
+system stability, and reducing the probability of the
+optimal scheduling strategy falling into local optima.
+3. Reconstructing the reward function, using time and
+energy consumption for weight synthesis, and en-
+abling the generation of the optimal scheduling
+strategy are based on actual constraint conditions of
+time and energy consumption. Experimental results
+show that the algorithm improves performance by
+11.09%.
+Te rest of this paper is organized as follows: Section 2
+discusses the research on scheduling in heterogeneous
+multicore processor systems. Section 3 describes the prob-
+lem model in heterogeneous multicore processor systems.
+Section 4 introduces the proposed algorithm in detail.
+Section 5 analyzes the experimental results, and the paper
+concludes with a summary.
+2. Related Work
+In recent years, increasing attention has been directed to-
+wards scheduling algorithms for heterogeneous multicore
+2
+International Journal of Intelligent Systems
+ ijis, 2025, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/int/7562400, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+processor systems based on deep learning. In this section, we
+will introduce the research progress on deep learning–based
+scheduling algorithms for heterogeneous multicore pro-
+cessor systems.
+Te pervasive deployment of heterogeneous computing
+architectures has propelled the DAG-based task scheduling
+problem into a critical research domain within system
+optimization. Contemporary research methodologies pre-
+dominantly encompass four technical paradigms: rule-based
+conventional
+scheduling
+mechanisms,
+heuristic
+search
+strategies, swarm intelligence optimization algorithms, and
+reinforcement
+learning-driven
+autonomous
+decision
+models, with their taxonomic framework and comparative
+characteristics systematically categorized as shown in
+Table 1.
+Classical scheduling algorithms typically adopt a design
+paradigm rooted in linear analysis of task parameters. As
+a quintessential representative of traditional scheduling
+methodologies, the Shortest Job First (SJF) algorithm [13]
+operates through constructing priority queues based on job
+execution duration, employing heuristic selection mecha-
+nisms for node scheduling. While demonstrating notable
+advantages in temporal complexity and implementation
+simplicity, this algorithmic framework exclusively relies on
+temporal dimension as the singular optimization metric,
+failing to incorporate topological constraint relationships
+between tasks into its computational model. Such inherent
+characteristics lead to substantial performance degradation
+in heterogeneous system architectures with multidimen-
+sional constraints, particularly manifesting in distributed
+computing
+scenarios
+containing
+strongly-coupled
+de-
+pendency relationships.
+Kaur et al. [14] proposed a reinforcement workfow
+scheduling algorithm named deep Q-learning-based het-
+erogeneous earliest fnish time (DQ-HEFT), which combines
+deep Q-learning with the HEFTalgorithm. Te algorithm frst
+uses the HEFT algorithm to update Q-table values as im-
+mediate rewards. Ten, it sorts the tasks according to the
+converged Q-table to obtain the optimal policy. Finally, the
+algorithm employs the EFTallocation technique to assign the
+best processor to each task. Since the task scheduling problem
+in a heterogeneous multicore processor system environment
+is a multiobjective problem, Sahoo et al. [15] proposed
+a dynamic task scheduling algorithm based on existing meta-
+heuristic
+algorithms
+[16]
+and
+deep
+recurrent
+neural
+network–black widow optimizer (DRNN-BWO). Tis algo-
+rithm prioritizes tasks directly using an upward ranking
+technique and maps them to suitable multiobjective pro-
+cessors in order to minimize the maximum completion time
+and maximize processor utilization.
+Moreover, the DAG of heterogeneous tasks contains all
+the information needed for scheduling tasks. Song et al. [17]
+proposed a scheduling algorithm for heterogeneous multi-
+core processor systems based on a neural network learning
+model. Tis algorithm extracts key feature information from
+the DAG using graph convolution and learns the order of
+node selection from this feature information. Subsequently,
+it employs a heuristic algorithm to assign tasks to
+determined nodes.
+According to the research outcomes of the above-
+mentioned studies, the scheduling process is generally di-
+vided into two parts: task node selection and processor
+allocation.
+However, these studies do not consider dynamically
+adjusting the strategy to reduce the probability of the
+scheduling strategy falling into a local optimum. Terefore,
+this paper will focus on research in this area.
+Moreover, recent advances have witnessed the emer-
+gence of graph transformer architectures for scheduling
+heterogeneous DAG workloads, aiming to capture both local
+graph structure and long-range dependencies with greater
+fdelity. For instance, Li et al. [18] propose Graphormer-
+Scheduler, which converts each DAG into a FC graph
+augmented with positional encodings and applies multiple
+layers of Graphormer (graph Transformer) to compute
+global self-attention scores. While Graphormer-Scheduler
+improves makespan by modeling long-range interactions, it
+sufers from high computational complexity—its full self-
+attention over all nodes scales as O(N2)—and it lacks
+a mechanism to mitigate catastrophic forgetting when fne-
+tuning on diverse DAG instances. Moreover, Graphormer-
+Scheduler focuses exclusively on makespan optimization
+without explicitly incorporating energy consumption into its
+objective.
+Chen et al. [19] introduce AttentionFlow, a hybrid graph
+attention network (GAT) + Transformer model in which
+a two-layer Transformer encoder is stacked atop a GAT to
+generate
+task
+priority
+embeddings
+for
+reinforcement
+learning–based scheduling. Although AttentionFlow dem-
+onstrates approximately 9% improvement in makespan
+compared to standard GAT or HEFT baselines, its design
+reveals two major shortcomings: (1) the GAT and Trans-
+former layers are loosely coupled, causing suboptimal fusion
+of local topological features and high-order global de-
+pendencies; (2) the model’s performance and stability are
+highly sensitive to Transformer depth and number of at-
+tention heads, making it difcult to generalize across dif-
+fering DAG sizes and communication-to-computation ratio
+(CCR). Furthermore, AttentionFlow’s reward function
+adopts only a rudimentary linear delay penalty, providing
+limited support for multiobjective trade-ofs between latency
+and energy.
+Kumar and Singh [20] develop a GCN-Transformer
+hybrid tailored for cloud task scheduling, where node
+embeddings from a multilayer GCN are fed into a stan-
+dard Transformer encoder to capture global task corre-
+lations. Tis approach partially alleviates the locality
+limitation of pure GCNs. However, full fne-tuning of all
+Transformer parameters introduces two critical issues: (1)
+training instability and tendency toward overftting when
+deployed on large-scale heterogeneous DAGs, due to the
+substantial number of trainable parameters; (2) a lack of
+lightweight adaptation modules, resulting in poor online
+transferability and large performance variance across data
+distributions.
+In contrast to the above methodologies, our work
+proposes a GCN + AdapterFusion–Transformer framework
+that addresses the highlighted limitations. Specifcally:
+International Journal of Intelligent Systems
+3
+ ijis, 2025, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/int/7562400, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+1. Mitigation of catastrophic forgetting and task in-
+terference. By integrating AdapterFusion modules
+within the Transformer layers, we isolate task-specifc
+parameters from the shared Transformer backbone. Tis
+design signifcantly reduces parameter interference
+when switching among heterogeneous DAG instances,
+thereby improving training stability and generalization.
+2. Reduced computational overhead for online sched-
+uling. Unlike naive Graphormer variants or fully fne-
+tuned
+Transformers,
+AdapterFusion
+introduces
+lightweight MLP adapters that are responsible for
+fne-grained task adaptation. Consequently, the bulk
+of Transformer parameters remain frozen during
+online inference, yielding substantial reductions in
+latency and memory footprint.
+3. Unifed latency–energy multiobjective optimization.
+Whereas prior Graph Transformer–based schedulers
+optimize only makespan or employ coarse-grained
+energy penalties, our reward function comprehen-
+sively decouples communication and computation
+energy costs and integrates a tunable weight λ to
+balance latency and energy consumption. Tis enables
+dynamic adjustment to application-specifc con-
+straints and signifcantly improves energy efciency
+without sacrifcing scheduling speed.
+Trough empirical studies (Section 5.4), our architecture
+demonstrates a 11.2% reduction in average makespan
+compared to a GCN-only baseline and a 5.6% improvement
+over a vanilla GCN + Transformer model (p < 0.01). Tese
+results confrm that AdapterFusion–enhanced Transformers
+are necessary to achieve stable, efcient, and multiobjective-
+aware scheduling in heterogeneous multicore environments.
+3. Problem Modeling
+Tis paper aims to study the scheduling of multiple het-
+erogeneous tasks on multiple processors in heterogeneous
+multicore processor systems. In order to optimize the total
+execution time of the task set, we use the graph convolu-
+tional neural network and the PPO algorithm to construct
+a deep reinforcement learning (DRL) scheduling model. Tis
+section will elaborate on the problem modeling.
+In a heterogeneous multicore processor system, there are
+K processors clusters, denoted as C  Clu1, Clu2, . . . , Cluk
+􏼈
+􏼉.
+Each processor cluster contains a sufcient number of
+processors. Te heterogeneous tasks to be scheduled are
+encoded as DAGs, of which there are M, denoted as
+Q1, Q2, . . . , QM. Each DAG contains N task nodes (here-
+inafter referred to as nodes), denoted as T1, T2, . . . , TN. Each
+task is distributed and interdependent, and the tasks are
+heterogeneous. When there is a dependency between two
+nodes, data must be transferred from the predecessor node
+to the successor node. In the DAG, this is represented by the
+edges between nodes. Te predecessor node must be
+scheduled to the most suitable processor for execution to
+minimize the maximum completion time. Additionally, each
+task must be allocated to a processor for execution and
+cannot be arbitrarily interrupted by other tasks during its
+execution. A node can only be scheduled for execution after
+all its parent nodes have completed execution and trans-
+ferred data to it.
+Tere are a total of M × N nodes. Tmn represents the
+n-th node in the m-th DAG, and it has two fundamental
+attributes: the data to be processed Rdata
+mn and the commu-
+nication data Rcomm
+mn
+. Assume these attributes are random
+values within the ranges (Rdata
+min, Rdata
+max) and (Rcomm
+min , Rcomm
+max ),
+respectively.
+Each processor cluster has four attributes. For the i-th
+type
+of
+processor,
+these
+attributes
+are
+denoted
+as
+(PDcomm
+i
+, PDproc
+i
+, Pi, CSi), where PDcomm
+i
+represents the
+communication power consumption of the i-th type of
+processor, and PDproc
+i
+represents the processing power
+consumption of the i-th type of processor. Pi denotes the
+unit processing capability of the i-th type of processor, and
+CSi represents the unit communication capability of the i-th
+type of processor. Assume that the intercluster communi-
+cation rate is the same, denoted as CS. Te intracluster
+communication rates are diferent, and the intercluster
+communication rate is higher than the intracluster com-
+munication rates. Communication is zero only when pro-
+cessors are of the same type. Similarly, the intercluster
+communication power consumption is the same, denoted as
+PDcomm. Te action of assigning node Tmn to processor Cluk
+for processing is denoted as
+Table 1: Overview of current scheduling techniques in heterogeneous computing environments.
+Algorithm
+Category
+Advantages
+Disadvantages
+SJF
+Traditional
+Low implementation complexity
+Susceptible to task arrival dynamics
+CPOP
+Heuristic
+Computationally lightweight
+Limited scalability in large-scale
+heterogeneous systems
+DLS
+Heuristic
+Minimal implementation overhead
+Degrades under concurrent task execution
+HHO
+Meta-heuristic
+Optimal for isolated DAG workloads
+Computationally prohibitive at scale
+DQ-HEFT
+Machine
+learning
+Outperforms baseline heuristics
+Suboptimal for interdependent DAG
+workfows
+DRNN-BWO
+Machine
+learning
+High utilization
+High implementation complexity
+LRMA
+Machine
+learning
+Superior throughput in multijob scenarios, heterogeneous
+computing environment
+Unable to be applied to dynamic
+environments
+Smart-mDAG
+Machine
+learning
+Superior throughput in multijob scenarios, heterogeneous
+computing environment
+Sufers scalability bottlenecks with dense
+DAG sets
+4
+International Journal of Intelligent Systems
+ ijis, 2025, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/int/7562400, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+amnk 
+0,
+Tmn has not been assigned to Cluk,
+1,
+Tmn is assigned to Cluk.
+􏼨
+(1)
+Tis paper considers two critical factors in the sched-
+uling process: task delay and energy consumption overhead.
+Te following sections introduce the communication and
+computation models involved in task scheduling based on
+the aforementioned assumptions.
+To better balance energy consumption and latency op-
+timization, this study builds upon the methodology of Qirui
+et al. [21] by adopting a linear energy model that decouples
+communication and computational energy consumption as
+the product of average power × execution time. Specifcally,
+energy consumption is partitioned into communication and
+computational power consumption, estimated separately
+based on communication duration and computation du-
+ration. Te model’s advantages lie in its simplicity of for-
+mulation
+and
+seamless
+integration
+with
+scheduling
+strategies, efectively reducing implementation complexity
+while capturing the impacts of communication frequency
+(determined by task data volume and bandwidth allocation)
+and processor load (infuenced by multitasking parallelism
+levels) on energy expenditure. However, this framework
+does not diferentiate static idle power consumption or
+incorporate
+hardware-level
+power
+management
+mechanisms such as dynamic voltage and frequency scaling
+(DVFS), thereby retaining limitations in extreme energy-
+sensitive scenarios.
+Nevertheless, this linear approximation sufciently
+captures predominant energy consumption sources in
+multitask scheduling and demonstrates efective energy-
+delay trade-of capabilities in experimental evaluations.
+All subsequent analytical investigations will therefore utilize
+this model. Future research will seek to integrate factors such
+as idle power consumption and DVFS into the model to
+further enhance the algorithm’s energy-saving potential and
+applicability in complex real-world environments.
+3.1. Communication Model. Based on the aforementioned
+defnitions, it is understood that when there is communi-
+cation between nodes Tmi and Tmj within the k-th processor
+cluster, the following can be deduced:
+TDcomm
+mij
+
+Rcomm
+mij
+CSk
+.
+(2)
+From the above equation (2), the communication time
+cost and energy consumption between node Tmn and its
+successor tasks in a heterogeneous multicore processor
+system can be, respectively, derived as
+TDcomm
+mn
+
+􏽘
+iϵsucc(n)
+Rcomm
+mni
+×
+􏽘
+k1,k2∈D(k)
+amikiamjk2
+CS
+⎛
+⎝
+⎞⎠,
+(3)
+Ecomm
+mn
+
+􏽘
+i∈succ(n)
+􏽘
+k1,k2∈D(k)
+TDcomm
+mni
+× amnk1 × amnk2 ×
+PDcomm
+k1
+k1  k2
+PD
+others
+􏼨
+􏼠
+􏼡.
+(4)
+3.2. Computation Model. Similarly, the computation time
+cost and energy consumption of node Tmn in a heteroge-
+neous multicore processor system can be respectively
+expressed as
+TDproc
+mn  􏽘
+kK
+k0
+amnkRdate
+mn
+Pk
+,
+(5)
+Eproc
+mn  􏽘
+kK
+k0
+TDproc
+mn × PDproc
+k
+× amnk
+􏼐
+􏼑.
+(6)
+Combining the above equations (3) and (5), the time cost
+and energy consumption from the arrival time of a pre-
+ceding node to the arrival time of the subsequent node can
+be, respectively, derived as
+C Tmi, Tmj
+􏼐
+􏼑 TDcomm
+mij
++ TDproc
+mi ,
+(7)
+E Tmi, Tmj
+􏼐
+􏼑 Ecomm
+mij
++ Eproc
+mi .
+(8)
+3.3. Overall System Model. Upon allocating task Tmn to
+processor i, its earliest feasible start time (EST) and mini-
+mum achievable fnish time (EFT) are derived from the
+preceding formulation, expressed as
+EST Tmn, Clui
+ 􏼁 max Avail Clui
+ 􏼁, max AFT Tmk
+ 􏼁+ TDcomm
+mn
+ 􏼁
+􏼈
+􏼉,
+k ∈pred Tmn
+ 􏼁
+(9)
+EFT Tmn, Clui
+ 􏼁 EST + TDproc
+mn + dur Tmn
+ 􏼁.
+(10)
+International Journal of Intelligent Systems
+5
+ ijis, 2025, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/int/7562400, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+Te actual start time (AST) and actual fnish time (AFT)
+can then be determined using an approximate HEFT al-
+gorithm. During the scheduling process, AST and AFT are
+estimated using free slots that meet timing constraints. Te
+critical path execution time (makespan) for a DAG is defned
+by the terminating node’s fnalized completion timestamp,
+computationally derived from equations (2) and (3) through
+makespan  AFT Tend
+ 􏼁.
+(11)
+Task release timing constitutes a fundamental scheduling
+parameter. Workloads may exist in either static provisioning
+mode (all tasks concurrently available at t  0) or dynamic
+arrival mode (time-tagged incremental task injection). Our
+experimentation employs static provisioning. Te envi-
+ronmental model’s task completion efciency metric is
+given by
+1
+N
+􏽘
+J
+j∈Ji(n)
+(finish(j) −arrival(j)).
+(12)
+Within the specifed equation, N denotes the total vertex
+count of the target DAG, while finish(j) and arrival(j)
+correspond, respectively, to the fnal execution timestamp
+and designated release instant for task j
+All the corresponding parameter confgurations and
+results are summarized below in Table 2.
+4. Proposed Algorithm
+Tis paper proposes a scheduling algorithm for heteroge-
+neous multicore processor systems based on DRL. Te al-
+gorithm is suitable for distributed operating systems on
+multiprocessor platforms. Te algorithm’s framework is
+depicted in Figure 1 and is divided into three main com-
+ponents: graph convolutional network (GCN), advantage
+A2C network, and heuristic scheduling algorithm. Ac-
+cordingly, the process can be divided into three stages.
+Te feature representation phase initiates by processing
+native node attributes from DAG workloads through a hy-
+brid architecture integrating GCN with Transformer-based
+contextual encoders. Te GCN efectively extracts key fea-
+tures from this data as output. Next, the extracted key
+features are input into the node network for learning and
+optimization, which selects nodes as output for the next
+stage. Finally, the heuristic scheduling algorithm assigns the
+selected nodes to the most suitable processors. Tis stage
+involves continuous parameter optimization using the A2C
+algorithm combined with an improved PPO algorithm. Tis
+process repeats until all nodes are assigned to appropriate
+processors.
+4.1. Topological Attribute Abstraction via Transformer-GCN
+Synergy. Fundamental to our algorithmic operation is
+system-wide task ontology synthesis for scheduling opti-
+mization. Structural embodiment emerges in the inter-
+connected component mapping presented as shown in
+Figure 2. In a heterogeneous multicore processor system
+with multiple tasks and workfows, the number of tasks is
+dynamically changing, and the dependency relationships
+between tasks are complex. Additionally, at specifc times,
+certain tasks may arrive or complete.
+Consequently, the variable dimensionality inherent to
+raw feature inputs demands an adaptive processing mech-
+anism capable of maintaining representational fdelity. Es-
+sential DAG attributes–encompassing task execution costs,
+internodal
+communication
+latencies,
+and
+topological
+dependencies–require transformation via graph convolu-
+tional operators for hierarchical feature abstraction and
+high-dimensional embedding learning. Tis process yields
+scalable task state information, facilitating the subsequent
+handling of task nodes by the node selection neural network.
+Traditional graph convolution methods predominantly
+aggregate information recursively layer by layer to extract
+feature information. Tis approach is often suboptimal in
+terms of parallel efciency and capturing high-level features
+[22]. Currently, due to the outstanding performance of
+transformer models based on self-attention mechanisms in
+these two aspects, researchers are extensively applying them
+to GCNs [23].
+Te transformer model used in this paper is illustrated in
+the fgure below. By incorporating AdapterFusion from
+Pfeifer et al. [24], the learning process is divided into two
+stages to enhance downstream task performance. Tese two
+stages are the knowledge extraction stage and the knowledge
+combination stage.
+In the knowledge extraction stage, training is aimed at
+enabling downstream applications to acquire task-specifc
+knowledge. Tis requires training adapter modules to en-
+capsulate this knowledge within their parameters. In the
+knowledge combination stage, to improve model perfor-
+mance on the target task, it is necessary to fne-tune both the
+pretrained model parameters and the task-specifc adapter
+parameters. Additionally, new parameters are introduced to
+learn how to efectively combine knowledge from multiple
+adapters.
+By applying AdapterFusion from this model, this paper
+efectively addresses issues such as catastrophic forgetting,
+task interference, and training instability, resulting in more
+accurate training data.
+From the fgure, it can be seen that the architecture
+includes a multihead attention mechanism. To more efec-
+tively capture the dependencies between nodes and enhance
+the model’s representation capability, multiple attention
+heads are utilized to parallelize the computation of attention
+weights between each task node and other nodes in the task
+graph. For an input sequence H  [h1, h2, . . . , hn], it is
+mapped into query space Q, key space K, and value space V.
+Te relevant computational formulas are as follows:
+Q  HWq  q1, q2, . . . , qn
+􏼂
+􏼃,
+K  HWk  k1, k2, . . . , kn
+􏼂
+􏼃,
+V  HWv  v1, v2, . . . , vn
+􏼂
+􏼃.
+(13)
+For the i-th attention head, the computation formula is
+given by
+6
+International Journal of Intelligent Systems
+ ijis, 2025, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/int/7562400, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+Head Hi
+ 􏼁 softmax QiKT
+i
+
+dk
+􏽰
+􏼠
+􏼡Vi
+(14)
+In the above equation, dk is the dimension of the key
+vector. Ten, the outputs of all attention heads are con-
+catenated to form the output of the multihead attention
+mechanism:
+MultiHead(H)  Concat head1, head2, . . . , headx
+ 􏼁Wo.
+(15)
+In Figure 3, the adapter serves as an automatic adjuster,
+bridging information between layers of the pretrained
+network. By optimizing and fne-tuning the network pa-
+rameters, it enhances the original pretrained network’s
+Table 2: Abbreviation.
+Symbol
+Meaning
+CSk1k2
+Communication speed between processors k1 and k2
+succ(Tmn)
+Te successor node of node Tmn
+pred(Tmn)
+Te predecessor node of node Tmn
+TDcomm
+mij
+Communication time consumption between node Tmi and node Tmj
+TDcomm
+mn
+All Communication time consumption between node Tmn and subsequent nodes
+Ecomm
+mn
+All communication energy consumption of node Tmn
+TDproc
+mn
+Node Tmn calculation time consumption
+Eproc
+mn
+Node Tmn calculates energy consumption
+D(k)
+Processor cluster collection
+Ji(n)
+Te set of tasks in the i-th DAG in the system
+dur(Tmn)
+Node Tmn random delay error
+Avail(Tmn, Clui)
+Idle startup time of the processor
+AFT(Tmk)
+Actual completion time of predecessor nodes
+DAG
+information
+Heterogeneous
+multicore
+environment
+Scheduling
+Resource
+information and state
+GCN with graph
+attention
+Node selection
+network
+Heuristic
+algorithm
+scheduling
+Node
+embedding
+Selected
+nodes
+Feature
+information
+extraction
+Heterogeneous
+processor
+processing
+Node selection
+Figure 1: System framework.
+DAG graph
+Transformer
+Transformer
+Global average
+pooling
+Fully connected
+layer
+Softmax
+Output
+× ω
+Figure 2: GCN structure.
+International Journal of Intelligent Systems
+7
+ ijis, 2025, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/int/7562400, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+adaptability to subsequent task requirements, extracting
+features that closely resemble the DAG task graph charac-
+teristics. For simplicity and efectiveness in design, an
+adapter composed of two multilayer perceptrons (MLPs) is
+selected. Each MLP includes activation functions to increase
+nonlinear processing capabilities, and the strong ftting
+ability of MLPs can capture and transform complex feature
+representations. Tis enables the adapter to efectively
+convert the features extracted by the pretrained model into
+forms that are more benefcial for downstream tasks. Te
+operation of the adapter involves taking the output in-
+formation Fi from the previous layer to obtain the hint Pi,
+represented as
+Pi  MLPup σ MLPi
+tune Fi
+􏼐
+􏼑
+􏼐
+􏼑
+􏼐
+􏼑.
+(16)
+In the above equation, MLPi
+tune represents the linear
+layer that provides specifc hints for each subsequent
+adapter, and MLPup is the shared up-projection layer for all
+adapters, used to adjust feature dimensions. Pi denotes the
+output hint appended to the adapter, and σ represents the
+activation function. Fi mainly aggregates the weighted
+combination of diferent task-specifc features.
+Te standard residual connections primarily employ the
+ResNet architecture, responsible for extracting and trans-
+mitting high-level features. Typically, this includes several
+groups of residual blocks, each containing a certain number
+of blocks. In this model, four groups are chosen, with each
+group containing two residual blocks. Te frst residual
+block in each group usually downsamples the feature map,
+reducing its dimensions, and subsequently increases the
+number of output channels. Starting from 64 output
+channels in the frst group, the model incrementally doubles
+the output channels up to 512 channels in the fourth group.
+Tis approach ensures computational efciency while cap-
+turing more hierarchical features.
+4.2. Architecturally Optimized Vertex Discernment via MLP
+Systems. As formalized in Section 4.1, topological de-
+composition of DAGs through graph convolution operators
+generates tripartite feature representations: vertex-specifc
+AdapterFusion
+Transformer
+layer
+Add & norm
+AdapterFusion
+Adapter
+Add & norm
+Feed forward
+Add & norm
+Multiheaded
+attention
+Add & norm
+FF up
+FF down
+Adapter
+Value
+Key
+Query
+Softmax
+Add & norm
+Figure 3: Transformer architecture.
+8
+International Journal of Intelligent Systems
+ ijis, 2025, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/int/7562400, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+embeddings (V), workfow-level descriptors (W), and
+system-contextual encapsulations (S), each maintaining
+dynamical propagation characteristics. Tese heterogeneous
+feature matrices are jointly fed into a deep neural network
+architecture for intelligent node selection through multi-
+dimensional feature fusion. To enhance training stability, we
+incorporate a learnable priority weighting matrix W into the
+node-level feature representation. Te architecture of the
+deep neural network used in the node selection stage is
+illustrated in Figure 4.
+Te node selection module employs a three-tier FC
+architecture: Te input layer performs three-channel feature
+concatenation (dimension d = 3k), the hidden layer applies
+nonlinear
+transformation
+through
+128-dimensional
+LeakyReLU-activated units, and the output layer generates
+preliminary node scores via 16-dimensional linear pro-
+jection. Each node ni undergoes strategic score calibration
+through the priority adjustment term:
+ni′  wi + εni′,
+(17)
+where wi ∈W denotes the trainable weight in the priority
+matrix and ε ∈(0, 1) serves as the policy entropy coefcient.
+Tis parameter undergoes dynamic adjustment through an
+enhanced PPO algorithm during policy gradient back-
+propagation,
+ensuring
+Pareto-optimal
+balance
+among
+multiobjective optimization criteria including temporal ef-
+fciency, energy consumption, and task prioritization.
+Te calibrated node scores are normalized via Softmax
+function (equation (18)) to produce selection probabilities
+π(at|st) following Boltzmann distribution. Tis policy
+network undergoes end-to-end training within a re-
+inforcement learning framework, employing an A3C ar-
+chitecture for distributed policy optimization, ultimately
+establishing an adaptive decision-making mechanism for
+dynamic DAG scheduling.
+Pni 
+eni′
+􏽐N
+i1eni′.
+(18)
+4.3. Computational Resource Assignment Using Blended
+Search Strategies. Following the derivation of node sched-
+uling strategies through deep neural optimization, task
+vertices necessitate binding to processing units to augment
+systemic throughput in heterogeneous multicore architec-
+tures. Te integration of reinforcement learning for both
+vertex selection and processor allocation engenders pro-
+hibitive decision space complexity, scaling multiplicatively
+with the cardinality of schedulable nodes and available
+processors. Such combinatorial expansion imposes com-
+putationally intractable burdens on the target system, ulti-
+mately degrading scheduling efcacy. Consequently, this
+research implements a phased heuristic decomposition:
+during vertex discernment, topological attributes exclusively
+inform prioritization while processor metadata remain la-
+tent; subsequently in resource binding, hardware confgu-
+ration vectors drive allocation decisions absent task feature
+reconsideration.
+Tis
+decoupled
+optimization
+strategy
+achieves polynomial complexity reduction while preserving
+solution quality.
+Tere are generally three types of heuristic algorithms.
+List-based heuristic algorithms usually implement the
+earliest fnish time method, which has relatively poor
+performance. For instance, Topcuoglu et al. [25] proposed
+a typical list-based heuristic algorithm that implements
+the earliest fnish time method. Task replication-based
+heuristic algorithms replicate parent nodes onto the same
+processor according to certain rules to reduce commu-
+nication overhead and are often used in conjunction with
+other heuristic algorithms [26]. Meta-heuristic algo-
+rithms, through random search, combine or mutate
+feasible solutions during the search process to achieve
+optimal performance [27].
+To mitigate action space dimensionality in algorithmic
+training, this research implements a synergistic scheduling
+paradigm integrating Earliest Finish Time heuristics with
+topological replication mechanisms. Te computational
+sequence operates under the following protocol.
+First, a set of candidate tasks is selected from the DAG,
+consisting of nodes that are currently executable or have
+satisfed all dependency constraints. For each candidate task,
+the completion time on diferent processors (or computa-
+tional resources) is estimated, taking into account factors
+such as queue waiting time, data transmission delay, and
+actual execution time.
+For critical nodes or those prone to becoming bottle-
+necks, node replication may be employed—if resources
+permit—to execute the task in parallel across multiple
+processors, thereby reducing overall execution time. How-
+ever, replicating nodes introduces additional overhead by
+distributing tasks across multiple processors. To ensure that
+node replication efectively advances the earliest fnish time
+of the current task without negatively impacting subsequent
+tasks, the scheduling approach must incorporate a quanti-
+tative balancing mechanism.
+Furthermore, a rolling horizon scheduling strategy is
+applied, where scheduling decisions are continuously ad-
+justed through an iterative process that integrates local
+optimization and global optimization. Tis dynamic ad-
+justment
+balances
+the
+trade-of
+between
+immediate
+decision-making and its long-term impact on system per-
+formance. Te formula for selecting the optimal processor is
+defned as follows:
+Cluk∗ arg min
+Clu∈D(k) EFT Tmn, Cluk
+ 􏼁.
+(19)
+Consequently, the node with the shortest EFT is pri-
+oritized and assigned to the most suitable processor. If
+multiple nodes compete for the same resource, a refned
+ranking is performed based on priority or heuristic rules,
+such as task importance and remaining deadline.
+Finally, the rolling window position is adjusted to
+proceed to the next batch of tasks, continuing the scheduling
+process until all tasks are successfully assigned.
+In this study, the key hyperparameters of the heuristic
+algorithm include
+International Journal of Intelligent Systems
+9
+ ijis, 2025, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/int/7562400, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+1. Replication factor limit (dfactor) prevents excessive
+replication that could lead to unnecessary resource
+consumption.
+2. Rolling window size (W) balances parallelism and
+scheduling overhead.
+Algorithm 1 provides a detailed description of the
+specifc steps involved in processor allocation.
+4.4. Policy Gradient Refnement via Stochastic Temporal
+Diference Methods
+4.4.1. Formalization of Markovian Decision Processes With
+Reward-Maximizing
+Agent–Environment
+Interactions.
+Given the neural processing paradigm for DAG feature
+extraction and vertex selection inherent to the proposed
+methodology, network parameter optimization necessitates
+specialized training protocols. Supervised learning proves
+infeasible due to undetermined optimality criteria during
+scheduling algorithm training [28]. However, the Markovian
+state transitions characterizing system–environment in-
+teractions [29], coupled with real-time environmental re-
+ward signals following agent actions, establish reinforcement
+learning
+as
+the
+theoretically
+grounded
+optimization
+framework [30, 31]. Consequently, this research employs
+RL-based hyperparameter tuning to minimize the expected
+makespan of task ensembles. Execution leverages PPO with
+temporally discounted reward objectives, while processor
+allocation integrates heuristic methods as environmental
+constraint-mitigating decision space explosion from pure RL
+allocation strategies.
+In the training process, the scheduling problem is de-
+scribed as a Markov decision process, represented as
+(S, A, P, R), where S is the state space, A is the action space, P
+is the state transition function, and R is the reward function.
+Additionally,
+P(st+1  s′|at  a, st  s)
+represents
+the
+probability of transitioning to a new state st+1 as s′ after
+taking action at in state st. Te probability distribution of
+actions is computed using a neural network, and actions are
+sampled and selected accordingly. After execution, the state
+s, action a, reward R, and new state s′ are stored. Tis study
+takes latency and energy consumption as the core optimi-
+zation objectives and integrates them into the same reward
+function R in the following form. Te reward function R is
+defned as follows:
+R  (λ −1) × 􏽐J(k)Pi × Ecomm + Eproc
+ 􏼁
+tn+1 −tn
+−λ
+× 􏽘
+J(k)
+Pi × TDcomm + TDproc
+ 􏼁,
+(20)
+where J(k) denotes the nodes scheduled and executed be-
+tween tn and tn+1. Pi is the priority weight of task i, with
+a higher value indicating a higher priority. At the same time,
+nonlinear processing can be used to adjust the degree of
+priority impact, avoiding low priority tasks from being
+completely unable to be executed. TDcomm and TDproc
+represent the communication time consumption and pro-
+cessing time consumption of these nodes, respectively.
+Ecomm and Eproc are the communication energy consump-
+tion and processing energy consumption of these nodes,
+respectively. Te parameter λ serves as an adjustable
+weighting coefcient that balances the trade-of between
+energy efciency and latency reduction. In multiobjective
+optimization scenarios, minimizing either latency or energy
+consumption in isolation can result in the extreme sacrifce
+of the other objective. By incorporating λ into the reward
+function, the system can dynamically adjust its trade-of
+between execution time and energy consumption. When λ is
+large, the latency penalty has a higher weight, making the
+algorithm more inclined to reduce task completion time.
+When λ is small, the energy consumption penalty is more
+signifcant, leading the system to prioritize energy savings.
+Te
+determination
+of
+λ
+generally
+follows
+three
+approaches:
+1. Empirical tuning: During the experimental phase,
+several typical values of λ (e.g., 0, 0.1, 0.3, 0.5, 0.7, 0.9,
+1) can be tested within a reasonable range (e.g.,
+λ ∈[0, 1]). By comparing the algorithm’s trade-of
+Softmax
+Node-level
+matrix
+DAG-level
+matrix
+Global-
+level
+matrix
+Selected
+task
+Policy network
+Figure 4: Deep neural network.
+10
+International Journal of Intelligent Systems
+ ijis, 2025, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/int/7562400, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+efects between latency and energy consumption, an
+optimal λ value that meets the system’s requirements
+can be selected.
+2. Normalization or unit analysis: If the magnitudes of
+latency and energy consumption difer signifcantly,
+normalization is recommended. For example, latency
+and energy values can be divided by their maximum
+or mean values before applying λ as a weight. Tis
+prevents one objective from dominating due to nu-
+merical scale diferences.
+3. Business scenario or budget constraints: If there is
+a strict latency limit (SLA) or energy budget, these
+constraints can be converted into λ constraints or
+sensitivity analysis. Te algorithm can then dynami-
+cally adjust λ within an acceptable range to achieve an
+optimal balance.
+Te selection of an appropriate approach depends on the
+system environment. In this study, we adopt the empirical
+tuning method using predefned weight values.
+Te reward function applies penalties or rewards to both
+the energy consumption and latency terms, enabling the
+scheduling strategy to adapt its objective emphasis across
+diferent phases or scenarios. In high real-time scenarios, λ
+can be increased to prioritize latency. In energy-efcient
+applications, λ can be reduced to emphasize energy savings.
+For more complex energy models—such as those dis-
+tinguishing between static standby power consumption and
+DVFS—these factors can be incorporated into the energy
+term, with corresponding adjustments to the reward func-
+tion structure.
+By employing this approach, our study integrates
+multiobjective optimization for both task completion time
+and system energy consumption within a single reward
+function. Te adjustable parameter λ enhances the algo-
+rithm’s adaptability to diferent industry applications and
+real-world deployment scenarios. Te experimental section
+will compare performance across diferent λ values and
+analyze their impact on the latency-energy trade-of.
+4.4.2. Optimization of Proximal Strategy Based on Dynamic
+Adjustment. After defning the scheduling problem as
+a Markov process and utilizing reinforcement learning to
+solve it, we need a suitable reinforcement learning algo-
+rithm. Te PPO algorithm [32] is one of the most widely
+used algorithms in reinforcement learning, having achieved
+signifcant results in many state-of-the-art studies. However,
+it also has drawbacks such as parameter sensitivity, in-
+sufcient exploration, and limited sample utilization. Recent
+researchers have optimized and improved the PPO algo-
+rithm by introducing automatic parameter tuning mecha-
+nisms [33], combining other exploration strategies [34],
+model-agnostic methods [35], updated clipping methods
+[36], and utilizing more sample sampling methods [37]. Tis
+paper proposes a clipping range method that applies linear
+and logarithmic decay during training. Tis approach ef-
+fectively avoids prematurely narrowing the exploration
+Input: Node Tmn, Processor P
+1. Initialize the original actual fnish time table T;
+2. Initialize the replicated actual fnish time table T′;
+3. Initialize the rolling window size W and replication factor limit dfactor;
+4. While there are unscheduled nodes Tmn do
+5.
+Select nodes from the waiting queue within the rolling window
+6.
+For each processor pj ∈W do
+7.
+Calculate EST(Tmn, pj) and EFT(Tmn, pj)
+8.
+Calculate AST(Tmn, pj) and AFT(Tmn, pj)
+9.
+Add AFT(Tmn, pj) to table T
+10.
+Initialize the replicated fnish time table T′ on processor pj
+11.
+For each predecessor node Tmi ∈pred(Tmn) do
+12.
+Calculate AST′(Tmn, pj) and AFT′(Tmn, pj) after replicating Tmi to processor pj
+13.
+add AFT′(Tmn, pj) to table Tj′
+14.
+End for
+15.
+Add the minimum value in table Tj′ to table T′
+16.
+End for
+17.
+Calculate the minimum fnish time AFTmin  min(T ∪T′)
+18.
+If AFTmin ∈Ten
+19.
+Assign node Tmn to processor pj
+20.
+Else
+21.
+Assign node Tmn to processor pj and replicate the corresponding predecessor nodes
+22.
+End if
+23.
+Move the rolling window W to the right
+24. end while
+ALGORITHM 1: Processor allocation.
+International Journal of Intelligent Systems
+11
+ ijis, 2025, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/int/7562400, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+variance, maximizes the prevention of slow progress and
+local optima, and dynamically adjusts the clipping factor.
+Tis ensures that the exploration variance gradually de-
+creases during training, avoiding local optima.
+Specifcally, assuming the total number of training
+epochs or steps is T, the current number of steps is t, and the
+initial pruning coefcient is ε0. Te decay function for the
+adjustment is given by
+εt  T −t
+T
+ξε0—linear attenuation,
+(21)
+εt  log T −t
+T
+ξ + 1
+􏼒
+􏼓ε0—nonlinear attenuation.
+(22)
+Here, ξ ∈(0, 1) serves as a modulation factor to further
+regulate the decay rate, while ε0 denotes the initial clipping
+threshold. In the linear decay function, εt decreases linearly
+from ε0 to 0 as the training step t approaches the predefned
+termination step T. Similarly, in the nonlinear decay
+function, εt also decays from ε0 to 0 by step T, but with
+a nonconstant decay gradient. Tis design ensures gradual
+decay during early training phases and accelerated con-
+vergence to narrower clipping ranges in later phases. In
+subsequent experimental evaluations, ε0 was empirically set
+to 0.1. Crucially, the PPO objective function retains its
+original formulation but incorporates dynamic εt values
+during each policy update iteration. Tis mechanism ach-
+ieves adaptive decaying clipping-progressively tightening
+the trust region constraints while maintaining theoretical
+alignment with the PPO optimization framework.
+During policy optimization, iterative parameterization
+occurs through sequential policy refnement, where training
+data undergo batching into cardinality-constrained subsets
+per epoch. Each subset facilitates stochastic gradient up-
+dates, enabling multicycle parameter adjustment within
+single epochs to accelerate convergence efciency. Con-
+currently, the policy divergence constraint coefcient ex-
+periences monotonic decay, progressively enforcing stricter
+trust region adherence for enhanced training stability. Given
+L optimization steps constituting a complete training tra-
+jectory, step-indexed datasets encapsulate environmental
+interaction records. Advantage estimation functions derive
+from these trajectories as formalized in the following
+equation:
+A
+∧πk
+t  Gt −V st, at; πk
+ 􏼁.
+(23)
+Te return function Gt is
+Gt  Rt+1 + cRt+2 + · · · + cn−1Rt+n + cnV st+n
+ 􏼁.
+(24)
+Ten, combined with the PPO algorithm based on the
+policy objective function, the objective function for updating
+the policy network is obtained as follows:
+Lclip
+θk (θ)  E
+τ∼πk 􏽘
+T
+t0
+min rt(θ), clip rt(θ), 1 −εt, 1 + εt
+ 􏼁
+ 􏼁A
+∧πk
+t
+􏼢
+􏼣
+⎡⎣
+⎤⎦.
+(25)
+Te referents rt(θ) are represented as
+rt(θ) 
+πθ at st
+􏼌􏼌􏼌􏼌
+􏼐
+􏼑
+πθold at st
+􏼌􏼌􏼌􏼌
+􏼐
+􏼑
+.
+(26)
+Finally, the objective optimization function of the critic
+network is expressed as follows:
+Lcritic
+t
+(ϕ)  1
+2 􏽘
+T
+t1
+Rt + cVϕ st+1
+ 􏼁−Vϕ st
+ 􏼁
+􏼐
+􏼑
+2.
+(27)
+Trough the above formula, it can be concluded that the
+training optimization of this algorithm can be stably com-
+pleted and the optimal strategy can be obtained through
+critic network optimization. Algorithm 2 demonstrates the
+entire training optimization process.
+4.5. Computational Complexity. Te algorithmic research
+comprises three phases. In the feature extraction phase, task
+node features are extracted from DAGs by integrating GCNs
+and Transformer modules. For a DAG containing N nodes
+and E edges, the computational complexity of each GCN
+layer typically amounts to O(N + E), while the multihead
+attention mechanism in the Transformer requires pairwise
+similarity computation among all nodes in the worst case,
+yielding O(N2) complexity. Given L GCN layers, the total
+complexity of this phase approximates O(L(N + E)) +
+O(N2). Te node selection phase employs a three-layer FC
+neural network to score and normalize each candidate node.
+With constant-scale network parameters, the processing
+complexity for N nodes remains O(N), rendering this phase
+computationally lightweight. Te processor allocation phase
+adopts a hybrid heuristic algorithm within a rolling window
+framework to reduce decision space, selecting optimal
+processors for unscheduled nodes. For a system with P
+processors, a window size w(w ≤P), and an average pre-
+decessor count d per node, evaluating each processor re-
+quires
+traversing
+d
+predecessors,
+yielding
+O(w · d)
+complexity per node. Consequently, the overall complexity
+for N nodes becomes O(N · w · d).
+In practical scenarios, where w and d are typically small
+constants, this phase approximates O(N). Te total online
+scheduling
+complexity
+thus
+combines
+as
+O(N2) + O(N) + O(N · w · d).
+Crucially, the quadratic complexity scaling O(N2) inherent
+to Transformer architectures constitutes the asymptotic bot-
+tleneck for high-dimensional scheduling instances. Trough
+structural decomposition into vertex selection and resource
+binding phases, the decoupling strategy achieves polynomial
+reduction in action space cardinality while optimizing com-
+putational load distribution across heterogeneous processors.
+Te training phase (employing PPO and A3C-based re-
+inforcement learning) involves iterative policy updates and
+gradient computations, with its complexity primarily confned
+to ofine optimization and remaining independent of real-time
+scheduling operations.
+4.6. Implementation Details. First, in the feature extraction
+stage, we implement a three-layer GCN (based on torch_-
+geometric.nn.GCNConv), each performing the following
+12
+International Journal of Intelligent Systems
+ ijis, 2025, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/int/7562400, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+operation for layer. After each GCN layer (except the last),
+a dropout layer with probability (p  0.2) is applied to
+mitigate overftting. Following the GCN encoder, node
+representations are forwarded into two sequential Trans-
+former layers with integrated AdapterFusion modules. Each
+layer comprises multihead self-attention (MHSA) with 4
+heads and Query/Key/Value 64 dimensions; layer normal-
+ization and residual connection applied to the MHSA
+output; two-layer MLP with hidden width 256 and GELU
+activation; an inserted adapter transformation; Adapter-
+Fusion provided a set of pretrained adapter weights.
+Between the MHSA and FFN sublayers, and again after
+the FFN, we inserted adapter modules. Each adapter con-
+sisted of a down-projection MLP from 128 to 32 dimensions
+(with GELU activation), followed by an up-projection MLP
+from 32 back to 128 dimensions. A dropout (p  0.1) layer
+separated the down- and up-projections. Unlike conven-
+tional fne-tuning, we froze the primary Transformer weight
+matrices and trained only the adapter parameters, thereby
+signifcantly reducing the number of tunable weights.
+Furthermore, we employed AdapterFusion as described by
+Pfeifer et al. [24]: multiple pretrained adapter matrices
+A1, . . . , Am
+􏼈
+􏼉were provided, and a learned gating vector
+g ∈Rm (normalized via Softmax) combined them into
+􏽐m
+j1gjAj(x).
+Tis
+approach
+preserves
+task-specifc
+knowledge while preventing catastrophic forgetting across
+diverse DAG instances.
+Te
+two-layer
+AdapterFusion-Transformer
+encoder
+produced refned node embeddings HTrans ∈RN×128. We
+applied global average pooling over all N node embeddings
+to obtain a single 128-dimensional state representation
+h  (1/N)􏽐N
+i1HTrans[i, : ]. Tis vector h was then duplicated
+as input to both the policy (actor) and value (critic) net-
+works. Te actor network comprised a FC layer mapping
+R128 to R64 with ReLU activation and dropout (p  0.2),
+followed by a fnal FC layer projecting R64 to RN; a Softmax
+over the latter outputs yielded a categorical distribution over
+the N executable nodes. Te critic network similarly used an
+FC(128 ⟶64)
+with
+ReLU + dropout
+and
+then
+an
+FC(64 ⟶1) to produce a scalar state-value estimate.
+We trained this A2C backbone using PPO with gener-
+alized advantage estimation (GAE). Specifcally, we collected
+trajectories of length (T  2048) timesteps per epoch. Te
+discount factor was c  0.95, and the GAE parameter was
+λGAE  0.97. Te learning rate for both actor and critic
+optimizers (Adam, with β1  0.9, β2  0.999, ε  10−8) was
+fxed at 1 × 10−4. Te initial PPO clipping threshold ϵ0  0.1
+was decayed according to a logarithmic schedule over a total
+of 500 epochs. Every collected trajectory was normalized by
+subtracting the mean and dividing by the standard deviation
+before computing advantages. Each epoch’s batch of T steps
+was divided into 32 mini-batches (each of size 64), and for
+each mini-batch, we performed one gradient update on the
+clipped surrogate loss. Concurrently, the critic was updated
+by minimizing the value-function loss with a coefcient of
+0.5 in the combined loss. Entropy regularization with co-
+efcient 0.01 encouraged exploration, and gradient norms
+were clipped to 0.5. Training was run for 500 epochs, with an
+early-stopping criterion if the average episodic return did
+not improve for 50 consecutive epochs.
+Once the A2C model produced a node selection, we
+applied a hybrid heuristic scheduler to assign the selected
+node to a specifc processor. Te heterogeneous multicore
+environment comprised K  3 cluster types, each with dis-
+tinct processing capability Pk ∈800, 1200, 1600
+{
+} MFLOPS,
+intracluster
+bandwidth
+CSk ∈1.0, 0.6, 0.4
+{
+}
+GB/s,
+in-
+tercluster bandwidth fxed at 0.8 GB/s, processing power
+PDproc
+k
+∈{30, 40, 50} W, and communication power
+PDcomm
+k
+ 10 W (intercluster) or ≤8 W (intracluster). A
+rolling window of up to W  10 ready tasks was maintained:
+for each candidate node, we computed ESTand EFTon every
+processor according to equations (9) and (10), taking into
+1. Initialize the policy parameters θ0, value parameters ω0, and clipping factor ε0.
+2. For l  1 to L do
+3.
+Schedule tasks for T steps in the heterogeneous environment using the policy πθ, and record st, at, rt, st+1.
+4.
+Calculatethe advantage function A
+∧
+t for this behavior.
+5.
+Calculate the return function Rt for this behavior.
+6.
+Calculate the decay function εt  ((T −t)/T)ξε0 or εt  log((T −t)/Tξ + 1)ε0 of the clipping factor and choose a better
+alternative.
+7.
+Divide st, at, rt, st+1 into K mini-batches.
+8.
+For k  1 to K do
+9.
+Combine the objective function maximization with the Adam optimization algorithm to update the policy parameters.
+θj+1  arg maxθ(1/(|Dm|T))􏽐τ∈Dm􏽐T
+t0 min
+[
+((rt(θ), clip(rt(θ), 1 −εt, 1 + εt))At]
+10.
+Evaluate the policy network and select the best policy network.
+11.
+End for;
+12.
+For k  1 to K do:
+13.
+Update the value parameters using the gradient descent function based on mean square error:
+ωi+1  arg minω(1/(|Dm|T))􏽐τ∈Dm􏽐T
+t0(Rt −V(s; ω))2
+14.
+End for;
+15. End for;
+ALGORITHM 2: Training process.
+International Journal of Intelligent Systems
+13
+ ijis, 2025, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/int/7562400, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+account current AFT values of parent nodes; we simulta-
+neously evaluated hypothetical replication by recomputing
+EST′ and EFT′ if all parent nodes were replicated onto that
+processor (with a replication factor limit ϕ  3). Te selected
+processor minimized min{EFT, EFT′}, and replication was
+enacted only if it yielded a strictly smaller completion time.
+Te heuristic was implemented in scheduler/heuristic.py,
+while the environment simulation (batch-mode DAG
+scheduling) was encapsulated in scheduler/environment.py.
+5. Experimental Analysis
+5.1. Experimental Environment. Comprehensive perfor-
+mance validation necessitates deployment in physical het-
+erogeneous
+multicore
+architectures.
+Given
+laboratory
+resource constraints, experimental verifcation was con-
+ducted within a discrete-event simulation environment. Te
+computational infrastructure confguration is detailed in
+Table 3, with model training executed under dynamic
+computational graph frameworks and Python runtime
+environments.
+During scheduling iterations, the simulator propagates
+time-stepped system states to the policy model. Processor
+allocation subsequently occurs through heuristic-guided
+node binding based on model outputs. Temporal reward
+signals are computed via the predefned optimization metric.
+Final
+performance
+benchmarking
+is
+performed
+upon
+scheduling termination through multidimensional evalua-
+tion metrics.
+5.2. Heterogeneous Task Generation. We used the TPC-H
+dataset [38] to combine training and evaluation experi-
+ments, thus proposing this algorithm, adopting TPC-H 1 GB
+scale benchmark, and transforming each query fow task into
+a DAG with random edge weights using a custom script
+(located at data_gen/tpch-to_dag. py). Each DAG node is
+annotated with exec_cost (approximate execution time in
+MFLOPS) and comm_cost (communication volume in MB).
+Te number of nodes and node complexity of each DAG
+refect the size of each application. Te number of nodes was
+set to 20, 30, 40, 50, and 60 based on the requirements of the
+simulation. Vertex complexity exhibits signifcant variance
+in computational volume, characterized by execution
+workload and internode communication overhead. Tese
+attributes undergo formal abstraction through nodal het-
+erogeneity coefcients (σ) and the CCR, constituting the
+principal parametric representation within the scheduling
+framework. We generate a random directed graph using
+network generators.directed-gn_graph (n, p  0.3, seed  -
+SEED), fltering out self-looping and nonconnected com-
+ponents; node processing time (execution cost) and edge
+communication follow a normal distribution and are ad-
+justed appropriately according to CCR attributes to adapt to
+task structures in diferent environments. All node features
+(execution cost, communication cost, in-degree, out-degree,
+and priority weight) are normalized to zero mean and unit
+variance before feeding into the GCN. For each DAG, we
+construct an adjacency matrix A ∈0, 1
+{
+}ˆ N × N
+{
+}, where
+A[i, j]  1 if there is a directed edge from node $i$ to node
+$j$. Self-loops are added as per standard GCN conventions.
+Te data size and computation-communication cost for
+these nodes are randomly determined within a data range
+using a normal distribution, with node heterogeneity as the
+variance of the distribution. Terefore, low-CCR DAGs are
+data-intensive, while high-CCR DAGs are communication-
+intensive. Tese parameters create a realistic environment
+for diferent programs. Te parameter values are set as
+follows: σ  {0.1, 0.5, 1, 5, 10} and CCR  {0.1, 0.5, 1, 5, 10}.
+5.3. Benchmark Algorithms and Evaluation Criteria. Tis
+study compares the proposed algorithm with fve baseline
+approaches: FCFS-QL-HEFT [39], FCFS-HDPSO [40],
+Smart-mDAG-EFT [41], EDA-GA [17], and DRLBTSA [42].
+Below are their methodological summaries:
+1. FCFS-QL-HEFT: A hybrid task scheduling method
+integrating reinforcement learning (Q-learning) with
+the classical heuristic HEFT algorithm. It employs Q-
+learning for task sequencing while retaining HEFT’s
+processor allocation strategy to identify near-optimal
+scheduling solutions.
+2. FCFS-HDPSO: A metaheuristic approach combining
+discrete particle swarm optimization (DPSO) with
+hill-climbing
+algorithms.
+Designed
+for
+discrete
+scheduling search spaces, it introduces novel discrete
+operators to replace conventional continuous-value
+PSO update rules. During DPSO iterations, it prob-
+abilistically activates local search (hill-climbing) to
+mitigate premature convergence to local optima.
+3. Smart-mDAG-EFT: A DRL-based intelligent sched-
+uling framework for multi-DAG workloads, aiming to
+minimize makespan. Its architecture comprises two
+components: a dependency-aware feature extraction
+module and a cascaded neural network structure for
+decision-making.
+4. EDA-GA: A hybrid evolutionary algorithm merging
+estimation of distribution algorithms (EDA) with
+genetic algorithms (GA). EDA generates candidate
+solutions via probabilistic modeling and sampling,
+while GA expands search diversity through crossover
+and mutation operations, collectively optimizing
+scheduling policies.
+5. DRLBTSA: A DRL-based task scheduling algorithm
+utilizing a deep Q-network (DQN) to dynamically
+adjust scheduling strategies by integrating task pri-
+orities and real-time resource states.
+Crucially, QL-HEFT and HDPSO methodologies were
+inherently architected for unitary workfow scheduling
+contexts. To facilitate comparative analysis in multi-DAG
+scheduling
+environments,
+structural
+adaptations
+were
+implemented wherein task prioritization operates under
+a FCFS queuing discipline.
+Te experimental performance evaluation metrics are
+average makespan, average speedup, and average power
+consumption. Te average makespan is calculated based on
+14
+International Journal of Intelligent Systems
+ ijis, 2025, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/int/7562400, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+the makespan after multiple simulated scheduling of all
+nodes. Te calculation formula is
+Averagemakespan  1
+Nr
+􏽘
+Nr
+i1
+makespani.
+(28)
+Here, Nr refers to the number of simulated scheduling
+iterations. Te average speedup is the average ratio between
+the makespan of sequential execution and makespan of
+scheduled execution across multiple simulations. In se-
+quential execution, tasks are assigned to processors in a frst-
+come, frst-served manner, while, in scheduled execution,
+nodes are selected and assigned to processors through
+a scheduling algorithm. A higher average speedup indicates
+better scheduling performance. Te formula is
+Speedup  1
+Nr
+􏽘
+i
+makespanSequential(i)
+minCluk∈D(k) 􏽐Tmn ∈J(n)AFT Tmn, Cluk
+ 􏼁
+􏼐
+􏼑
+i
+.
+(29)
+Average power consumption is the average power
+consumption after multiple simulation scheduling of all
+nodes, calculated in the same manner as the average
+makespan.
+5.4. Comparative Analysis of Experimental Results
+5.4.1. Analysis of Hyperparameters in Experimental Simu-
+lation Models. Hyperparameters have a crucial impact on
+the training optimization of the A2C algorithm in the
+scheduling process. Tese hyperparameters include the re-
+ward weight λ, learning rate α, discount rate c, and clipping
+factor ε.
+Te reward weight λ refects the average loss of the
+scheduling algorithm under diferent real-world constraint
+conditions; hence, it also afects the scheduling algorithm.
+Te average loss in the reward weight λ consists of system
+average loss in terms of time consumption and power
+consumption, calculated according to equation (19). Al-
+though the present study employs three empirical values to
+balance latency and energy consumption, this selection is by
+no means arbitrary; rather, it is grounded in a system
+sensitivity analysis (as demonstrated by the experiments
+below) and corroborated by existing literature. Te approach
+is consistent, in theory, with common practices in multi-
+objective reinforcement learning. As reported by Farsang
+et al. and Zhang et al. [34], when latency and energy bear
+comparable—but
+not
+overwhelmingly
+domi-
+nant—importance, practitioners typically favor intermediate
+weightings. Tese studies likewise emphasize that extreme λ
+values tend to bias the policy toward single-objective op-
+timization, which may degrade overall system performance.
+Accordingly, in the present experiments, we selected three
+representative λ values for simulation and analysis.
+Te learning rate α and the discount rate c are important
+hyperparameters in reinforcement learning, with suitable α
+and c determining the convergence of the objective function
+to a local optimum. ε is an important parameter in the PPO
+algorithm, used to control the step size during policy up-
+dates, ensuring that the policy does not undergo signifcant
+changes during each update.
+Firstly, hyperparameter experimental analysis follows
+the principle of comparative experiments: only one exper-
+imental variable is altered per experiment, while other
+factors remain at optimal conditions. From Figure 5(a), it
+can be seen that when λ is 0.6, the performance is optimal,
+and the loss is minimal. Terefore, 0.6 is chosen as the value
+for the hyperparameter λ. From Figure 5(b), it is evident that
+when α  0.0001, the training is the most stable and the
+reward value is the highest. Training with α  0.00001 starts
+well but becomes unstable, while training with α  0.001 is
+too slow and unsuitable. Similarly, from Figure 5(c), it can be
+seen that when c  0.95, the training performs well, and the
+results for the other two parameter values resemble the
+learning rate’s training result curves. Figure 5(d) shows that
+the clipping factor formed by a nonlinear logarithmic decay
+function yields better results than a linear one, with an initial
+clipping factor value of 0.1 performing better than an initial
+value of 0.5. Terefore, the comparative experiments in
+Section 5.4.2 are conducted under the conditions of λ  0.6,
+α  0.001, c  0.95, and ε_log  0.1.
+5.4.2. Ablation Study on AdapterFusion-Transformer Module.
+To validate the architectural necessity and performance ad-
+vantage of the AdapterFusion-enhanced Transformer module,
+we conducted an ablation study comparing three alternative
+confgurations for DAG feature encoding:
+a. Model A (GCN only): Standard graph convolution
+network without any attention mechanism.
+b. Model B (GCN + vanilla Transformer [12]): Replaces
+AdapterFusion with a standard multihead Trans-
+former encoder.
+c. Model C (Proposed: GCN + AdapterFusion-Trans-
+former): Full model with AdapterFusion integration
+as described in Section 4.1.
+Each model was trained and evaluated under identical
+conditions (300 DAG tasks; 5 independent runs). Te av-
+erage results are summarized in Table 4.
+Te results show that the inclusion of the AdapterFusion
+mechanism improves scheduling performance signifcantly.
+Compared to GCN-only architecture, the proposed model
+reduces makespan by 11.2% and improves energy efciency.
+Compared to the vanilla Transformer-enhanced model,
+AdapterFusion leads to a further 5.6% improvement in
+makespan while enhancing training stability, as evidenced
+by lower variance across runs.
+Table 3: Software and hardware environment.
+Operating system
+Python
+Deep learning framework
+cuDNN
+CUDA
+CPU
+GPU
+Memory
+Ubuntu22.04
+3.8
+pytorch2.1.2
+8.9.2
+11.8
+Intel Xeon® Gold 6248R
+Nvidia RTX 4090Ti
+12T
+International Journal of Intelligent Systems
+15
+ ijis, 2025, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/int/7562400, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+Tese improvements can be attributed to AdapterFusion’s
+ability to retain task-specifc knowledge through decoupled
+adapter modules, which mitigates catastrophic forgetting and
+facilitates more stable optimization across multitask DAG
+structures. Similar design motivations and results have been
+discussed by Pfeifer et al., further supporting our integration
+choice.
+5.4.3. Comparative Analysis of Experimental Simulation
+Models. After conducting simulation performance tests on
+task scheduling algorithms under diferent numbers of
+heterogeneous
+tasks,
+we
+obtained
+the
+three
+fgures
+shown below.
+From Figure 6(a), it can be observed that the FCFS-QL-
+HEFT, FCFS-HDPSO, Smart-mDAG-EFT, and EDA-GA
+λ = 0.6
+λ = 1
+λ = 0
+0.2
+0.7
+1.2
+1.7
+2.2
+2.7
+3.2
+Average loss
+100
+300
+200
+400
+500
+0
+Heterogeneous tasks nums
+(a)
+α = 0.001
+α = 0.0001
+α = 0.00001
+100
+200
+300
+400
+500
+0
+Training epochs
+–20
+–18
+–16
+–14
+–12
+–10
+–8
+Moving reward
+(b)
+γ = 0.9
+γ = 0.95
+γ = 0.99
+–20
+–18
+–16
+–14
+–12
+–10
+–8
+Moving reward
+100
+300
+200
+400
+500
+0
+Training epochs
+(c)
+ε_lin = 0.1
+ε_log = 0.1
+ε_lin = 0.5
+ε_log = 0.5
+–20
+–18
+–16
+–14
+–12
+–10
+–8
+Moving reward
+100
+200
+300
+400
+500
+0
+Training epochs
+(d)
+Figure 5: Diferent hyperparameters during the training process of this algorithm. (a) Diferent return weights during the training process
+of this algorithm λ. (b) Diferent learning rates during the training process of this algorithm α. (c) Diferent attenuation rates during the
+training process of this algorithm c. (d) Diferent clipping factors during the training process of this algorithm ε.
+Table 4: Performance results under diferent models.
+Model
+Makespan (s)
+Speedup
+Power (kW)
+p-value (vs. proposed)
+A
+759.2
+7.34
+1.46
+< 0.001
+B
+711.5
+7.76
+1.38
+0.008
+C
+672.3
+7.97
+1.32
+—
+16
+International Journal of Intelligent Systems
+ ijis, 2025, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/int/7562400, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+algorithms exhibit relatively large makespan, particularly
+FCFS-QL-HEFT and FCFS-HDPSO, whose makespan in-
+creases rapidly as the number of tasks grows. Tis indicates
+that these algorithms perform poorly in task scheduling
+optimization. In contrast, the DRLBTSA algorithm generally
+demonstrates better performance; however, as the number
+of tasks increases, the performance gap between DRLBTSA
+and the proposed algorithm widens. Meanwhile, the pro-
+posed algorithm exhibits a slower growth rate in makespan
+as the number of tasks increases, demonstrating its high
+efciency in task scheduling. Tis suggests that the proposed
+algorithm is particularly suitable for scenarios where time
+constraints are critical.
+In Figure 6(b), it can be seen that the FCFS-QL-HEFT,
+FCFS-HDPSO, Smart-mDAG-EFT, and EDA-GA algo-
+rithms exhibit relatively low speedup, particularly FCFS-
+QL-HEFT and FCFS-HDPSO, whose speedup grows slowly
+when the number of tasks increases. Tis indicates that these
+algorithms do not perform well in parallel acceleration. In
+contrast, the DRLBTSA algorithm and the proposed algo-
+rithm achieve relatively similar speedup values, both
+maintaining stable performance as the task count increases.
+However, the proposed algorithm achieves slightly higher
+speedup than DRLBTSA.
+Similarly, Figure 6(c) reveals that, when the number of
+tasks is large, the power consumption of the compared
+QL-HEFT [39]
+FCFS-HTDG [40]
+Smart-mDAG-EFT [41]
+OCT-HEFT [17]
+IPPTS [42]
+Proposed
+100
+300
+500
+700
+900
+1100
+1300
+1500
+Average makespan
+100
+200
+300
+600
+400
+500
+Heterogeneous tasks nums
+(a)
+2
+4
+6
+8
+10
+Average speedup
+QL-HEFT [39]
+FCFS-HTDG [40]
+Smart-mDAG-EFT [41]
+OCT-HEFT [17]
+IPPTS [42]
+Proposed
+200
+300
+400
+500
+600
+100
+Heterogeneous tasks nums
+(b)
+1.0
+1.2
+1.4
+1.6
+1.8
+2.0
+2.2
+2.4
+Average power consumption (kW)
+QL-HEFT [39]
+FCFS-HTDG [40]
+Smart-mDAG-EFT [41]
+OCT-HEFT [17]
+IPPTS [42]
+Proposed
+200
+300
+400
+500
+600
+100
+Heterogeneous tasks nums
+(c)
+Figure 6: Scheduling performance under diferent numbers of heterogeneous tasks. (a) Average maximum makespan for diferent
+heterogeneous tasks. (b) Average acceleration ratio under diferent heterogeneous tasks. (c) Average power consumption under diferent
+heterogeneous tasks.
+International Journal of Intelligent Systems
+17
+ ijis, 2025, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/int/7562400, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+algorithms increases signifcantly, indicating that these al-
+gorithms have relatively poor resource utilization efciency
+and power control. On the other hand, the proposed al-
+gorithm achieves the lowest power consumption and ex-
+hibits a slower growth rate in power consumption as the task
+count increases. Tis demonstrates that the proposed al-
+gorithm performs best in terms of energy efciency, efec-
+tively controlling power consumption growth and making it
+well-suited for power-sensitive applications.
+Algorithmic efcacy assessment incorporated com-
+putational asymmetry efects on temporal efciency. A
+discrete spectrum of architectural heterogeneity co-
+efcients (σ  {0.1, 0.5, 1, 5, 10}) was employed to quantify
+scheduling robustness degradation. Tis investigation
+further delineates microarchitectural nonuniformity im-
+pacts on workfow orchestration optimality gaps. Simu-
+lation experiments were conducted under varying levels of
+node heterogeneity, and the results are presented in the
+fgures above. From Figures 7(a), 7(b), and 7(c), it can be
+observed that as node heterogeneity increases, makespan
+signifcantly decreases, while speedup and power con-
+sumption increase. However, it remains evident that the
+FCFS-QL-HEFT, FCFS-HDPSO, and Smart-mDAG-EFT
+algorithms exhibit relatively poor performance. In con-
+trast, the EDA-GA and DRLBTSA algorithms perform
+comparably to the proposed algorithm, demonstrating
+a relatively balanced performance across diferent eval-
+uation metrics.
+QL-HEFT [39]
+FCFS-HTDG [40]
+Smart-mDAG-EFT [41]
+OCT-HEFT [17]
+IPPTS [42]
+Proposed
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+1200
+1300
+Average makespan
+0.5
+1
+5
+10
+0.1
+Node heterogeneity
+(a)
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+Average speedup
+QL-HEFT [39]
+FCFS-HTDG [40]
+Smart-mDAG-EFT [41]
+OCT-HEFT [17]
+IPPTS [42]
+Proposed
+0.5
+1
+5
+10
+0.1
+Node heterogeneity
+(b)
+1
+1.2
+1.4
+1.6
+1.8
+2
+2.2
+2.4
+2.6
+2.8
+Average power consumption (kW)
+QL-HEFT [39]
+FCFS-HTDG [40]
+Smart-mDAG-EFT [41]
+OCT-HEFT [17]
+IPPTS [42]
+Proposed
+0.5
+1
+5
+10
+0.1
+Node heterogeneity
+(c)
+Figure 7: Scheduling performance under diferent node heterogeneity. (a) Average maximum makespan under diferent node hetero-
+geneity. (b) Average acceleration ratio under diferent node heterogeneity. (c) Average power consumption under diferent node
+heterogeneity.
+18
+International Journal of Intelligent Systems
+ ijis, 2025, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/int/7562400, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+Similarly, the impact of CCR on scheduling performance
+was also evaluated. Te CCR parameter values selected were
+0.1, 0.5, 1, 5, and 10 for comparison. Additionally, besides
+evaluating the impact of node heterogeneity on the algo-
+rithms, simulation experiments were also conducted under
+diferent CCR conditions, yielding similar results as pre-
+sented in the previous fgures.
+From Figure 8, it can be observed that the proposed
+algorithm consistently maintains the best scheduling per-
+formance across diferent CCR values. In contrast, the FCFS-
+QL-HEFT and FCFS-HDPSO algorithms, being traditional
+scheduling methods, exhibit the worst performance despite
+certain optimizations. Moreover, their performance is sig-
+nifcantly afected by variations in CCR, highlighting their
+sensitivity to communication overhead.
+Based on the analysis of the simulation test results
+mentioned above, the TPC-H dataset simulation tests reveal
+that FCFS-QL-HEFT, FCFS-HDPSO, and Smart-mDA-
+G-EFT algorithms underperform in terms of power con-
+sumption, makespan, and speedup, making them less
+suitable for performance-critical applications. Tey may be
+more applicable in scenarios where computational perfor-
+mance is not the primary concern or where further opti-
+mizations can be applied based on specifc application
+requirements. Meanwhile, the EDA-GA and DRLBTSA
+algorithms perform slightly worse than the proposed al-
+gorithm, ofering a relatively balanced scheduling approach.
+In contrast, the proposed algorithm demonstrates superior
+overall performance, making it particularly well-suited for
+scenarios that demand high efciency in terms of power
+QL-HEFT [39]
+FCFS-HTDG [40]
+Smart-mDAG-EFT [41]
+OCT-HEFT [17]
+IPPTS [42]
+Proposed
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+1200
+1300
+Average makespan
+0.5
+10
+5
+1
+0.1
+CCR
+(a)
+QL-HEFT [39]
+FCFS-HTDG [40]
+Smart-mDAG-EFT [41]
+OCT-HEFT [17]
+IPPTS [42]
+Proposed
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+Average speedup
+0.5
+1
+5
+10
+0.1
+CCR
+(b)
+1
+1.2
+1.4
+1.6
+1.8
+2
+2.2
+2.4
+2.6
+2.8
+Average power consumption (kW)
+5
+10
+0.5
+1
+0.1
+CCR
+QL-HEFT [39]
+FCFS-HTDG [40]
+Smart-mDAG-EFT [41]
+OCT-HEFT [17]
+IPPTS [42]
+Proposed
+(c)
+Figure 8: Scheduling performance under diferent CCRs. (a) Average maximum makespan under diferent CCRs. (b) Average acceleration
+ratio under diferent CCRs. (c) Average power consumption under diferent CCRs.
+International Journal of Intelligent Systems
+19
+ ijis, 2025, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/int/7562400, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+consumption, execution time, and speedup. In addition, to
+verify the generalizability of this algorithm, various datasets
+were tested in various testing environments, and the test
+results are shown in Table 5.
+In summary, the above experimental results demonstrate
+that our proposed algorithm exhibits the best performance
+under diferent environmental parameters in various sim-
+ulation scenarios, fully demonstrating its applicability to
+various complex environments and having rich research
+prospects.
+6. Conclusion
+Tis research introduces a deep reinforcement scheduling
+framework targeting heterogeneous many-core architec-
+tures, engineered to concurrently orchestrate polymorphic
+workloads while minimizing schedule length. Te meth-
+odology implements a tri-phase optimization pipeline: to-
+pological feature abstraction, vertex discernment, and
+resource binding.
+Within the feature abstraction phase, an AdapterFusion-
+augmented transformer module synergizes with graph
+convolutional operators to distill critical path semantics and
+internode dependencies, signifcantly enhancing represen-
+tational efcacy. Te vertex discernment stage employs
+feedforward networks to compute task priority logits,
+normalized via Softmax activation for stochastic sampling.
+Processor
+allocation
+leverages
+temporal-window
+con-
+strained heuristics incorporating task replication strategies
+to optimize resource mapping.
+Policy optimization utilizes PPO with adaptive clipping
+decay, embedded within an advantage A2C paradigm. Tis
+dual-mechanism maintains exploration entropy while ac-
+celerating
+gradient
+convergence.
+Empirical
+validation
+demonstrates
+statistically
+signifcant
+improvements
+in
+schedule length reduction, concurrency utilization, and
+solution stability, establishing Pareto dominance in multi-
+objective scheduling space.
+Te proposed algorithm demonstrates broad applica-
+bility across diverse scenarios and accommodates DAGs of
+arbitrary topological structures. While benchmark datasets
+exhibit comprehensive coverage, they lack domain-specifc
+partitioning.
+Te
+scheduling
+process
+employs
+batch-
+processing paradigms for data transmission, omitting
+consideration of stream-processing mechanisms. System
+reliability remains underexplored: escalating processor
+counts and task volumes exacerbate interprocessor resource
+contention, yet no fault tolerance mechanisms or failure
+recovery architectures are designed to address these dy-
+namics. Additionally, the implementation disregards critical
+hardware-specifc factors such as communication frequency,
+processor load fuctuations, idle power consumption, and
+DVFS, which collectively induce more intricate energy
+consumption patterns in real-world systems. Tese dis-
+crepancies from practical operational environments con-
+stitute pivotal research directions for future algorithmic
+refnement and system co-design.
+Data Availability Statement
+Data will be made available upon reasonable request to the
+corresponding author.
+Ethics Statement
+Tis material is the authors’ own original work, which has
+not been previously published elsewhere. DeepSeek(R1) was
+employed solely for linguistic refnement. All technical
+formulations, experimental results, and conclusions remain
+exclusively human-generated and verifed. Te paper is not
+currently being considered for publication elsewhere.
+Consent
+Te authors declare their agreement to publish this paper.
+Conflicts of Interest
+Te authors declare no conficts of interest.
+Funding
+Tis work was supported in part by the National Natural
+Science Foundation of China under Grant 62504065 and
+62464005 and in part by the Natural Science Foundation of
+Hainan Province under Grant 625QN267.
+References
+[1] S. A. Serrano, J. Martinez-Carranza, and L. E. Sucar, “Inter-
+Task Similarity Measure for Heterogeneous Tasks,” in Robot
+World Cup (2021).
+[2] J. Zhou, M. Zhang, J. Sun, T. Wang, X. Zhou, and S. Hu,
+“DRHEFT: Deadline-Constrained Reliability-Aware HEFT
+Algorithm for Real-Time Heterogeneous MPSoC Systems,”
+IEEE Transactions on Reliability 71, no. 1 (2022): 178–189,
+https://doi.org/10.1109/tr.2020.2981419.
+Table 5: Test results in diferent system environments.
+Data set
+Experimental environment
+Makespan (s) Speedup
+Average
+Power (kW)
+TPC-H
+Random DAG task
+370
+7.97
+1.32
+NAS parallel benchmarks
+Large scale scientifc computing (computationally
+intensive)
+1840
+9.12
+1.99
+YouTube-8M segments
+Image processing and real-time analysis (communication
+intensive)
+584
+8.33
+1.76
+TinyML datasets (CIFAR-10/100,
+MNIST)
+Mixed load Internet of Tings edge computing
+(heterogeneous hybrid)
+1976
+9.43
+0.89
+20
+International Journal of Intelligent Systems
+ ijis, 2025, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/int/7562400, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+[3] J. Chen, P. Han, Y. Zhang, T. You, and P. Zheng, “Scheduling
+Energy consumption-constrained Workfows in Heteroge-
+neous Multi-Processor Embedded Systems,” Journal of Sys-
+tems
+Architecture
+142
+(2023):
+https://doi.org/10.1016/
+j.sysarc.2023.102938.
+[4] Z. Lin, C. Li, L. Tian, and B. Zhang, “A Scheduling Algorithm
+Based on Reinforcement Learning for Heterogeneous Envi-
+ronments,” Applied Soft Computing 130 (2022): https://
+doi.org/10.1016/j.asoc.2022.109707.
+[5] P. Shukla and S. Pandey, “DE-GWO: A Multi-Objective
+Workfow Scheduling Algorithm for Heterogeneous Fog-
+Cloud Environment,” Arabian Journal for Science and En-
+gineering 49, no. 3 (2024): 4419–4444, https://doi.org/10.1007/
+s13369-023-08425-0.
+[6] R. Aron and A. Abraham, “Resource Scheduling Methods for
+Cloud Computing Environment: the Role of Meta-Heuristics
+and Artifcial Intelligence,” Engineering Applications of Ar-
+tifcial
+Intelligence
+116
+(2022):
+https://doi.org/10.1016/
+j.engappai.2022.105345.
+[7] M. Ðurasevi´c and D. Jakobovi´c, “Heuristic and Metaheuristic
+Methods for the Parallel Unrelated Machines Scheduling Prob-
+lem: A Survey,” Artifcial Intelligence Review 56, no. 4 (2023):
+3181–3289, https://doi.org/10.1007/s10462-022-10247-9.
+[8] B. Wang, Y. Song, C. Wang, W. Huang, and X. Qin, “A Study
+on Heuristic Task Scheduling Optimizing Task Deadline
+Violations in Heterogeneous Computational Environments,”
+IEEE
+Access
+8
+(2020):
+205635–205645,
+https://doi.org/
+10.1109/access.2020.3037965.
+[9] B. Akay, D. Karaboga, B. Gorkemli, and E. Kaya, “A Survey on
+the Artifcial Bee Colony Algorithm Variants for Binary,
+Integer and Mixed Integer Programming Problems,” Applied
+Soft
+Computing
+106
+(2021):
+https://doi.org/10.1016/
+j.asoc.2021.107351.
+[10] T. Li, D. Cao, Y. Lu, et al., “DBEFT: A Dependency-Ratio
+Bundling Earliest Finish Time Algorithm for Heterogeneous
+Computing,” IEEE Access 7 (2019): 173884–173896, https://
+doi.org/10.1109/access.2019.2956759.
+[11] M. Massaoudi, H. Abu-Rub, S. S. Refaat, I. Chihi, and
+F. S. Oueslati, “Deep Learning in Smart Grid Technology: A
+Review of Recent Advancements and Future Prospects,” IEEE
+Access
+9
+(2021):
+54558–54578,
+https://doi.org/10.1109/
+access.2021.3071269.
+[12] Z. Wu, S. Pan, F. Chen, G. Long, C. Zhang, and P. S. Yu, “A
+Comprehensive Survey on Graph Neural Networks,” IEEE
+Transactions on Neural Networks and Learning Systems 32, no. 1
+(2021): 4–24, https://doi.org/10.1109/tnnls.2020.2978386.
+[13] I. Khan, M. Owais, S. Aleem, and T. Jama, “A Review on New
+Multilevel Scheduling Algorithm and SJF and Priority
+Scheduling Algorithms,” International Journal of Scientifc
+Research in Network Security and Communication 11, no. 6
+(2023): 1–8.
+[14] A. Kaur, P. Singh, R. Singh Batth, and C. Peng Lim, “Deep-Q
+Learning-Based Heterogeneous Earliest Finish Time Sched-
+uling Algorithm for Scientifc Workfows in Cloud,” Software:
+Practice and Experience 52, no. 3 (2022): 689–709, https://
+doi.org/10.1002/spe.2802.
+[15] R. M. Sahoo and S. Kumari Padhy, “A Novel Algorithm for
+Priority-Based Task Scheduling on a Multiprocessor Het-
+erogeneous System,” Microprocessors and Microsystems 95
+(2022): https://doi.org/10.1016/j.micpro.2022.104685.
+[16] H. Singh, S. Tyagi, P. Kumar, S. S. Gill, and R. Buyya,
+“Metaheuristics for Scheduling of Heterogeneous Tasks in
+Cloud Computing Environments: Analysis, Performance
+Evaluation, and Future Directions,” Simulation Modelling
+Practice and Teory 111 (2021): https://doi.org/10.1016/
+j.simpat.2021.102353.
+[17] S. Pang, W. Li, H. He, Z. Shan, and X. Wang, “An EDA-GA
+Hybrid Algorithm for multi-objective Task Scheduling in
+Cloud Computing,” IEEE Access 7 (2019): 146379–146389,
+https://doi.org/10.1109/access.2019.2946216.
+[18] J. Zhao, C. Li, Q. Wen, et al., Gophormer: Ego-Graph
+Transformer for Node Classifcation (2021).
+[19] X. Wang and H. Shen, “Online Scheduling of Cofows by
+Attention-Empowered Scalable Deep Reinforcement Learn-
+ing,” Future Generation Computer Systems 146 (2023): 195–
+206, https://doi.org/10.1016/j.future.2023.04.020.
+[20] F. Ding, Y. Yuan, L. Lv, R. Zhang, and W. Zhou,
+“Transformer-Enhanced DQN Approach for Energy and
+Cost-Efcient Large-Scale Dynamic Workfow Scheduling in
+Heterogeneous Environment,” IEEE Internet of Tings Journal
+11, no. 22 (2024): 37351–37367, https://doi.org/10.1109/
+jiot.2024.3442997.
+[21] Q. Li, Z. Peng, D. Cui, J. Lin, and H. Zhang, “UDL: A Cloud
+Task Scheduling Framework Based on Multiple Deep Neural
+Networks,” Journal of Cloud Computing 12, no. 1 (2023): 114,
+https://doi.org/10.1186/s13677-023-00490-y.
+[22] S. Zhang, H. Tong, J. Xu, and R. Maciejewski, “Graph
+Convolutional Networks: a Comprehensive Review,” Com-
+putational Social Networks 6, no. 1 (2019): 11–23, https://
+doi.org/10.1186/s40649-019-0069-y.
+[23] E. Min, R. Chen, Y. Bian, et al., “Transformer for Graphs: An
+Overview From Architecture Perspective,” arXiv preprint
+arXiv:2202.08455 (2022).
+[24] J. Pfeifer, A. Kamath, A. R¨uckl´e, K. Cho, and I. Gurevych,
+Adapterfusion: Non-Destructive Task Composition for Transfer
+Learning (2020).
+[25] H. Topcuoglu, S. Hariri, and M. Y. Wu, “Performance-
+Efective and Low-Complexity Task Scheduling for Hetero-
+geneous Computing,” IEEE Transactions on Parallel and
+Distributed Systems 13, no. 3 (2002): 260–274, https://doi.org/
+10.1109/71.993206.
+[26] I. Gupta, M. S. Kumar, and P. K. Jana, “Task Duplication-
+based Workfow Scheduling for Heterogeneous Cloud En-
+vironment,” in 2016 Ninth International Conference on
+Contemporary Computing (August 2016), 1–7, https://doi.org/
+10.1109/ic3.2016.7880207.
+[27] M. Kalra and S. Singh, “A Review of Metaheuristic Scheduling
+Techniques in Cloud Computing,” Egyptian Informatics
+Journal 16, no. 3 (2015): 275–295, https://doi.org/10.1016/
+j.eij.2015.07.001.
+[28] A. Tiwari, “Supervised Learning: From Teory to Applica-
+tions,” in Artifcial Intelligence and Machine Learning for
+EDGE Computing (2022).
+[29] B. Mor, S. Garhwal, and A. Kumar, “A Systematic Review of
+Hidden Markov Models and Teir Applications,” Archives of
+Computational Methods in Engineering 28, no. 3 (2021):
+1429–1448, https://doi.org/10.1007/s11831-020-09422-4.
+[30] Y. Zhang and Q. Yang, “A Survey on Multi-Task Learning,” IEEE
+Transactions on Knowledge and Data Engineering 34, no. 12
+(2022): 5586–5609, https://doi.org/10.1109/tkde.2021.3070203.
+[31] N. Vithayathil Varghese and Q. H. Mahmoud, “A Survey of
+Multi-Task Deep Reinforcement Learning,” Electronics 9, no. 9
+(2020): 1363, https://doi.org/10.3390/electronics9091363.
+[32] S. Huang, A. Kanervisto, A. Rafn, W. Wang, S. Ontañ´on, and
+R. F. J. Dossa, “A2C is a Special Case of PPO” (2022).
+[33] W. Yi, R. Qu, L. Jiao, and B. Niu, “Automated Design of
+Metaheuristics
+Using
+Reinforcement
+Learning
+Within
+a Novel General Search Framework,” IEEE Transactions on
+International Journal of Intelligent Systems
+21
+ ijis, 2025, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/int/7562400, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+Evolutionary Computation 27, no. 4 (2023): 1072–1084,
+https://doi.org/10.1109/tevc.2022.3197298.
+[34] J. Zhang, Z. Zhang, S. Han, and S. L¨u, “Proximal Policy
+Optimization via Enhanced Exploration Efciency,” In-
+formation Sciences 609 (2022): 750–765, https://doi.org/
+10.1016/j.ins.2022.07.111.
+[35] X. Bai, C. Lu, Q. Bao, S. Zhu, and S. Xia, “An Improved PPO
+for Multiple Unmanned Aerial Vehicles,” Journal of Physics:
+Conference Series 1757, no. 1 (2021): 012156, https://doi.org/
+10.1088/1742-6596/1757/1/012156.
+[36] M. Farsang and L. Szegletes, “Decaying Clipping Range in
+Proximal Policy Optimization,” in 2021 IEEE 15th In-
+ternational Symposium on Applied Computational Intelligence
+and Informatics (SACI) (2021).
+[37] C. Yu, A. Velu, E. Vinitsky, et al., “Te Surprising Efec-
+tiveness of Ppo in Cooperative Multi-Agent Games,” Ad-
+vances in Neural Information Processing Systems 35 (2022):
+24611–24624.
+[38] TPC, “TPC-h Benchmark Vesion 2 and Version 3, 2022”
+(2022).
+[39] Z. Tong, X. Deng, H. Chen, J. Mei, and H. Liu, “QL-HEFT:
+a Novel Machine Learning Scheduling Scheme Base on Cloud
+Computing Environment,” Neural Computing & Applications
+32, no. 10 (2020): 5553–5570, https://doi.org/10.1007/s00521-
+019-04118-8.
+[40] M. Hosseini Shirvani, “A Hybrid meta-heuristic Algorithm
+for Scientifc Workfow Scheduling in Heterogeneous Dis-
+tributed Computing Systems,” Engineering Applications of
+Artifcial
+Intelligence
+90
+(2020):
+https://doi.org/10.1016/
+j.engappai.2020.103501.
+[41] Y. Zhu and B. Hu, “Smart-mDAG: An Intelligent Scheduling
+Method for multi-DAG Jobs,” in 2021 International Con-
+ference on Information and Communication Technology
+Convergence (ICTC) (IEEE, October 2021), 110–115, https://
+doi.org/10.1109/ictc52510.2021.9621176.
+[42] S. Mangalampalli, G. R. Karri, M. Kumar, O. I. Khalaf,
+C. A. T. Romero, and G. A. Sahib, “DRLBTSA: Deep Re-
+inforcement Learning Based Task-Scheduling Algorithm in
+Cloud Computing,” Multimedia Tools and Applications 83,
+no. 3 (2024): 8359–8387, https://doi.org/10.1007/s11042-023-
+16008-2.
+22
+International Journal of Intelligent Systems
+ ijis, 2025, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/int/7562400, Wiley Online Library on [12/09/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License

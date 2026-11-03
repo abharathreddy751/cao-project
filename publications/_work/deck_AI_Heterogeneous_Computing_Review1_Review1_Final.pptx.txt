@@ -1,0 +1,476 @@
+
+--- slide 1
+
+
+
+AI-ASSISTED
+Heterogeneous Computing / Framework
+Dynamic task offloading and scheduling
+
+REVIEW – 1
+Computer Organization and Architecture
+TASK
+
+Task Graph
+
+Monitor
+
+ML
+
+Offload
+
+Execute
+DEPENDENCIES  •  RESOURCE STATE  •  DECISION  •  EXECUTION
+AI-ASSISTED HETEROGENEOUS COMPUTING
+01
+
+--- slide 2
+REVIEW 1  /  02
+1. Problem Substantiation
+
+
+
+
+1
+Modern systems use different resources such as CPUs, GPUs, FPGAs and edge devices.
+
+
+
+2
+Each resource has different strengths for different workloads.
+
+
+
+3
+Resource availability can change while tasks are running.
+
+
+
+4
+Fixed scheduling may send a task to a busy or unsuitable resource.
+
+
+
+5
+The problem is to choose the best resource for each task at run time.
+AI-ASSISTED HETEROGENEOUS COMPUTING
+02
+
+--- slide 3
+REVIEW 1  /  03
+2. Why This Problem Needs to Be Solved
+
+
+
+
+1
+Workloads can change in size and type during execution.
+
+
+
+2
+CPU, memory, queue length and network conditions can also change.
+
+
+
+3
+Unused resources may remain idle while another resource is overloaded.
+
+
+
+4
+Manual or fixed decisions cannot react to these changes.
+
+
+
+5
+Computer-based scheduling can make these decisions continuously.
+AI-ASSISTED HETEROGENEOUS COMPUTING
+03
+WHY DYNAMIC?
+
+CPU busy
+
+Choose GPU
+
+--- slide 4
+REVIEW 1  /  04
+3. Use Case
+
+A small heterogeneous setup
+
+Raspberry Pi
+
+Laptop / CPU
+
+GPU / Jetson
+WORKLOADS
+
+Matrix multiplication
+
+Image processing
+
+Sorting
+
+AI inference
+
+Compression
+
+Independent tasks
+can run in parallel
+Dependent tasks
+wait for predecessors
+AI-ASSISTED HETEROGENEOUS COMPUTING
+04
+
+--- slide 5
+REVIEW 1  /  05
+4. Existing Solution – Base Patent
+
+BASE PATENT  •  US 11,561,826 B1
+
+T1
+
+T2
+
+T3
+
+T4
+Task graph + dependencies
+
+Resource-specific queues
+
+Kernel objects
+
+Heterogeneous resources
+
+Parallel execution
+
+Dependency checks
+AI-ASSISTED HETEROGENEOUS COMPUTING
+05
+
+--- slide 6
+REVIEW 1  /  06
+5. Limitations and Gap Identified
+
+
+
+
+1
+The existing approach does not mainly predict the best resource using machine learning.
+
+
+
+2
+It uses resource-specific scheduling mechanisms rather than a lightweight ML resource-selection model.
+
+
+
+3
+Real-time resource conditions are not its main scheduling focus.
+
+
+
+4
+It is not specifically designed around distributed edge devices.
+
+
+
+5
+More adaptation is needed when workload and system conditions change.
+AI-ASSISTED HETEROGENEOUS COMPUTING
+06
+
+--- slide 7
+REVIEW 1  /  07
+6. Proposed Solution
+
+
+
+
+1
+Monitor the current condition of each available resource.
+
+
+
+2
+Use task type, task size and system conditions as scheduling inputs.
+
+
+
+3
+Use a lightweight ML model to predict the suitable resource.
+
+
+
+4
+Offload the task to the selected device.
+
+
+
+5
+Use execution results as feedback for later scheduling decisions.
+AI-ASSISTED HETEROGENEOUS COMPUTING
+07
+
+--- slide 8
+REVIEW 1  /  08
+7. Main Functionalities
+
+
+
+
+1
+Create tasks from the application workload.
+
+
+
+2
+Build a task graph and check task dependencies.
+
+
+
+3
+Monitor CPU, memory, GPU, queue, latency and temperature.
+
+
+
+4
+Predict the suitable resource for each ready task.
+
+
+
+5
+Execute independent tasks in parallel and collect the results.
+AI-ASSISTED HETEROGENEOUS COMPUTING
+08
+
+--- slide 9
+REVIEW 1  /  09
+8. Methodology – System Flow
+
+Application
+
+Task Generator
+
+Task Graph Builder
+
+Dependency Check
+
+Task Characteristics
+
+Resource Monitor
+
+ML-Based Scheduler
+
+Selected Resource
+
+Task Execution
+Result Manager  →  Performance Feedback
+Ready task → resource decision → execution → feedback
+AI-ASSISTED HETEROGENEOUS COMPUTING
+09
+
+--- slide 10
+REVIEW 1  /  10
+9. Data and ML Model
+
+SCHEDULER INPUTS
+
+CPU use
+
+Memory use
+
+GPU use
+
+Queue length
+
+Task type / size
+
+Network latency
+
+Past execution time
+
+Decision Tree / or Random Forest
+
+Pi
+
+Laptop CPU
+
+GPU / Jetson
+OUTPUT: recommended resource
+AI-ASSISTED HETEROGENEOUS COMPUTING
+10
+
+--- slide 11
+REVIEW 1  /  11
+10. Dynamic Task Offloading
+
+READY TASK
+
+Scheduler
+
+Raspberry Pi
+
+Laptop / CPU
+
+GPU / Jetson
+
+Execute
+
+Result Manager
+Python sockets • Ray • MPI
+Placement can change as system conditions change.
+AI-ASSISTED HETEROGENEOUS COMPUTING
+11
+
+--- slide 12
+REVIEW 1  /  12
+11. Experimental Setup
+
+HARDWARE
+
+Raspberry Pi
+edge device
+
+Laptop / Desktop
+main CPU
+
+GPU / Jetson
+optional accelerator
+WORKLOADS
+Matrix multiplication • image processing • sorting • inference • compression
+SOFTWARE
+Python • C/C++ • NumPy • Pandas • Scikit-learn • psutil • OpenMP/Pthreads
+EXECUTION
+Tasks run on selected resources; independent tasks can run in parallel.
+AI-ASSISTED HETEROGENEOUS COMPUTING
+12
+
+--- slide 13
+REVIEW 1  /  13
+12. Performance Metrics
+
+
+Execution time
+How long the workload takes
+
+Speedup
+Improvement over baseline
+
+Throughput
+Work completed per time
+
+Resource utilization
+How well resources are used
+
+Network / offloading
+Cost of moving tasks
+
+Goal: measure the real benefit of adaptive scheduling — not assume it.
+AI-ASSISTED HETEROGENEOUS COMPUTING
+13
+
+--- slide 14
+REVIEW 1  /  14
+13. Comparison Plan
+
+
+Sequential
+one after another
+
+Static
+fixed resource
+
+Round-robin
+fixed rotation
+
+Proposed
+current state + ML
+COMPARE
+Execution time  •  speedup  •  throughput  •  utilization  •  offloading overhead
+
+Measured results will determine whether the proposed method improves performance.
+AI-ASSISTED HETEROGENEOUS COMPUTING
+14
+
+--- slide 15
+REVIEW 1  /  15
+14. Expected Outcome
+
+
+Faster completion
+Lower overall task execution time.
+
+Better utilization
+Better use of available resources.
+
+Less idle time
+Less unused processing capacity.
+
+Adaptation
+Better response to changing conditions.
+
+Scalability
+Better behavior as resources/tasks grow.
+These are targets to test, not claimed results.
+AI-ASSISTED HETEROGENEOUS COMPUTING
+15
+
+--- slide 16
+REVIEW 1  /  16
+15. Cons and Future Work
+
+
+
+
+1
+Managing task graphs, dependencies and multiple resources adds complexity.
+
+
+
+2
+Network communication can add extra execution time.
+
+
+
+3
+ML prediction quality depends on useful training data.
+
+
+
+4
+Future work can include energy-aware scheduling and adaptive learning.
+
+
+
+5
+Further support can be added for GPUs and other accelerators.
+AI-ASSISTED HETEROGENEOUS COMPUTING
+16
+
+--- slide 17
+REVIEW 1  /  17
+16. Core Contribution
+
+BASE WORK  →  OUR EXTENSION
+
+Task graph + dependencies
+Base work
+
+Real-time monitoring
+Extension
+
+ML resource prediction
+Extension
+
+Dynamic offloading
+Extension
+
+Measured comparison
+Validation
+
+Core idea: intelligently choose where a task should run — the AI assists the scheduler, not the execution itself.
+AI-ASSISTED HETEROGENEOUS COMPUTING
+17

@@ -1,0 +1,189 @@
+
+--- slide 1
+
+
+
+
+
+
+
+
+CAO PROJECT
+AI-Assisted Heterogeneous / Computing Framework
+Dynamic Task Offloading and Scheduling
+Project status, experimental evidence, and the next validation phase
+
+From scheduling experiments to real-device validation
+Current boundary: Raspberry Pi integration is planned, not yet validated.
+
+--- slide 2
+Problem Statement
+01 • PROBLEM
+
+02
+
+The scheduling challenge
+Tasks in one workflow can have very different execution costs. / A simple scheduler may ignore task parameters that strongly affect runtime. / Choosing a worker by availability alone may miss a faster task–worker assignment. / The challenge is to reduce total workflow time while respecting task dependencies and worker availability.
+
+Project question
+Can task-cost estimates help the scheduler make better offloading decisions?
+
+Research focus
+Compare a parameter-aware scheduling policy with blind and informed baselines, then test whether the approach holds under different workloads.
+Target outcome: measured improvement—not an assumed speedup.
+
+--- slide 3
+Proposed Methodology
+02 • METHODOLOGY
+
+03
+
+
+1
+Create workload
+Build task DAG / and dependencies
+
+
+2
+Find ready tasks
+Select tasks whose / parents are complete
+
+
+3
+Estimate cost
+Predict runtime from / task parameters
+
+
+4
+Schedule
+Rank task and choose / an eligible worker
+
+
+5
+Execute
+Dispatch to CPU, / GPU or remote worker
+
+
+6
+Measure & update
+Record runtime and / compare outcomes
+
+Estimator layer
+Includes simple baselines, profile/analytic approaches and parameter-based runtime prediction. Model predicts cost; it does not choose the worker.
+
+Scheduling policy layer
+Policies such as B4 and PRED_RANK_GREEDY decide which ready task to run and where to send it.
+Raspberry Pi extension: replace loopback emulation with a real remote worker and measure the full path.
+
+--- slide 4
+System Architecture
+03 • ARCHITECTURE
+
+04
+CONTROL PLANE
+
+Workload input
+Task nodes, parameters / and dependencies
+
+DAG manager
+Track completed tasks / and ready queue
+
+Parameter-aware estimator
+Predict runtime from / task parameters
+
+Scheduler
+Rank ready tasks and / select a placement
+
+Resource manager
+Check worker eligibility / and availability
+EXECUTION PLANE
+
+CPU worker pool
+P/E-core execution resources
+
+GPU worker
+GPU-supported task execution
+
+Remote worker adapter
+Loopback tested • physical Pi pending
+dispatch to eligible worker
+
+Completion monitor & metrics
+Record task status, actual runtime, communication overhead and end-to-end time
+Feedback: completion updates the DAG; timing records support evaluation and estimator updates.
+
+Raspberry Pi test is still pending
+
+--- slide 5
+What Has Been Completed
+04 • COMPLETED
+
+05
+
+
+Framework
+Task-graph workflow, runtime estimation and scheduling-policy comparison are implemented.
+
+
+Policies compared
+Blind baseline B4, informed rule B4_param_first, P-only baseline, EFT and PRED_RANK_GREEDY among the tested methods.
+
+
+Experiment coverage
+Hidden-cost, uniform and two-factor workload experiments; individual CPU/GPU task timing.
+
+
+Remote path
+Remote-worker workflow exercised with loopback emulation; physical Pi validation remains open.
+
+Scope note: implementation and selected experiments are complete; deployment on physical heterogeneous devices is not.
+
+--- slide 6
+Results and Evaluation Metrics
+05 • RESULTS
+
+06
+
+HIDDEN-COST WORKLOAD
+−21.8%
+PRED_RANK_GREEDY vs blind B4
+Reproduced experiment
+Policy vs B4 | Change | 95% CI | Interpretation
+PRED_RANK_GREEDY | −21.79% | −23.67 to −19.87 | Faster
+B4_param_first | −21.36% | −23.97 to −18.94 | Faster
+EFT_E1_noctx | +36.44% | +26.60 to +49.98 | Slower
+
+Other workload results
+Uniform: +0.45% (no supported gain) / Two-factor: +0.95% (no supported gain)
+
+What the metrics mean
+Runtime change vs B4: negative means faster. CI: uncertainty range. Adjusted p-values support the hidden-cost comparison, not broad generalisation.
+Key interpretation: parameter-aware scheduling helps on the tested hidden-cost case, but it is not better on every workload.
+
+--- slide 7
+Remaining Work
+06 • NEXT STEPS
+
+07
+
+01
+Raspberry Pi integration
+Set up the device, dependencies and worker process.
+
+02
+Real remote execution
+Submit tasks from the main machine and verify results on the Pi.
+
+03
+Measure end-to-end impact
+Record task time, communication overhead, total workflow time and failures.
+
+04
+Strengthen experiments
+Add workload diversity and compare against both blind and informed baselines.
+
+05
+Reproducibility & paper
+Freeze the code version, preserve raw logs, resolve overhead-report differences and document limits.
+
+Immediate request: Raspberry Pi access for the next hardware-integration milestone.

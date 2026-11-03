@@ -1,0 +1,1374 @@
+Computers and Electrical Engineering 107 (2023) 108653
+Available online 28 February 2023
+0045-7906/© 2023 Elsevier Ltd. All rights reserved.
+Contents lists available at ScienceDirect
+Computers and Electrical Engineering
+journal homepage: www.elsevier.com/locate/compeleceng
+A reinforcement learning based job scheduling algorithm for
+heterogeneous computing environment✩
+Yutao Song a, Chen Li a,∗, Lihua Tian a, Hui Song b
+a School of Software Engineering, Xi’an Jiaotong University, Xi’an, China
+b School of Information and Engineering University of PAP, China
+A R T I C L E
+I N F O
+Keywords:
+DAG scheduling
+Heterogeneous computing environment
+Graph convolution network
+Reinforcement learning
+Heuristics
+A B S T R A C T
+Efficient job scheduling for heterogeneous computing environments has attracted widespread
+attention, jobs are usually modeled as directed acyclic graphs(DAG). Optimizing scheduling can
+improve system throughput. We propose a two-stage scheduling algorithm, which calculates task
+selection and processor allocation respectively. In task selection stage, we utilize a bidirectional
+graph convolution network to learn DAG structural features, and a fully-connected network to
+generate proper scheduling scheme. In the processor allocation stage, we propose a heuristic
+based on optimistic cost table(OCT) and task duplication, which trade-off scheduling allocation
+better. Experiments of various scheduling scenarios have been conducted, and the results
+show that the proposed algorithm has better scheduling performance than the compared
+heterogeneous DAG scheduling algorithms.
+1. Introduction
+With the improvement of application scale and modularity, more and more applications have put forward requirements for the
+heterogeneity of computing resources, such as deep neural network training, graphics and image modeling, etc., which have different
+requirements for CPU, GPU and other computing resources. Therefore, in order to better serve these applications, more and more
+heterogeneous computing platforms appear in modern computer design, and the related technologies are also developing.
+Heterogeneous computing platforms provide computing services based on a group of heterogeneous processors. There are a
+certain number of jobs running on them. The scheduler is responsible for allocating processor resources to ready jobs, and the
+completion efficiency of these jobs mainly depends on the quality of the scheduling algorithm. Therefore, it is very important
+to optimize the job scheduling strategy for heterogeneous platforms. Specifically, the optimization goal of job scheduling in
+heterogeneous environments is to improve performance indicators such as job completion time, acceleration ratio, throughput and
+response time.
+At present, a large number of scholars have carried out in-depth research on job scheduling in such heterogeneous environments.
+A submitted job can usually be formalized as a Directed Acyclic Graph(DAG). Nodes in the graph represent a process in the job,
+and edges represent the existence of certain dependencies, such as data communication. For heterogeneous processors, the cost of
+executing tasks on different processors is different. The goal of scheduling is to allocate the task nodes in each job to the appropriate
+processor resources in order to optimize the average task completion time of the system.
+In addition, according to whether the job information can be obtained in advance, the problem can be divided into the following
+two categories: static job scheduling and dynamic job scheduling. Static job scheduling, also known as offline scheduling, means
+✩This paper is for regular issues of CAEE. Reviews were processed by Associate Editor Dr. Quan Zhou and recommended for publication.
+∗Correspondence to: Software Engineering School, Xi’an Jiaotong University, No. 28, West Xianning Road, Xi’an, Shaanxi, 710049, China.
+E-mail address:
+lynnlc@126.com (C. Li).
+https://doi.org/10.1016/j.compeleceng.2023.108653
+Received 15 December 2022; Received in revised form 15 February 2023; Accepted 17 February 2023
+
+Computers and Electrical Engineering 107 (2023) 108653
+2
+Y. Song et al.
+that all job information has been known in advance before the scheduling. For dynamic task scheduling, job information can only
+be known during runtime. The main work of this paper is static scheduling for DAG jobs.
+Static DAG scheduling based on heterogeneous systems has been proved to be a NP complete type problem [ ]. Algorithms can be
+1
+divided into two categories: algorithms based on artificial heuristics and algorithms based on neural networks. Among them, heuristic
+based scheduling algorithms can be further divided into deterministic scheduling and non-deterministic scheduling according to
+whether the scheduling strategy is determined. The deterministic algorithm generates the same scheduling result for the same DAG
+input every time, and the performance of such heuristic is poor due to fixed rules.
+The basic idea of non deterministic scheduling algorithm is to give an approximate solution to the problem from plenty of
+feasible solution. The algorithm needs to constantly evaluate the quality of the current solution and optimize it in the iteration [ ].
+2
+Therefore, although this kind of algorithm can often give better solutions, it introduces a large amount of execution time overhead.
+The above algorithms have been widely used in the single job (DAG) scheduling problem, while the real production environment
+is mostly a multi-workflow environment, and there are multiple ready jobs in the system at the same time [ ], which will be a large
+3
+decision space in each scheduling, and it is difficult for heuristic rules to make full use of environmental information for decision-
+making. The neural network constructed using multiple fully-connected layers has the ability to fit complex functions. Thus, many
+proposed works attempt to learn task scheduling strategies using deep neural network, efficiently boost the overall performance
+over existing heuristics.
+In This paper, we propose a DAG scheduling algorithm in heterogeneous environments based on neural network learning model.
+The algorithm extracts DAG graph features according to the graph convolution network(GCN), learn from feature representations
+and gives node selection, then implements the task allocation of the determined nodes based on the heuristic algorithm. When
+learning DAG features, we further strengthen GCN by introducing message passing from parent node to child node, we use the
+Proximal Policy Optimization (PPO) [ , ] to train the neural network model for optimizing scheduling policy. In the processor
+4 5
+allocation stage, we propose a heuristic algorithm combining optimistic cost table and critical parent task duplication, which can
+effectively reduce the idle time of the processor and improve the overall scheduling performance. To sum up, this paper proposes
+a scheduling model for heterogeneous processors and multi-DAGs job environments, and its contributions can be summarized as
+follows:
+1. In the DAG job feature extraction stage, a GCN network based on bidirectional message passing mode is proposed to learn
+the overall DAG structure.
+2. In the training stage, the neural network is trained by using PPO based on importance sampling, and appropriate reward
+function are set to effectively improve the training efficiency.
+3. In the processor allocation stage, a hybrid allocation strategy based on optimistic cost table and critical parent node
+duplication is proposed to improve the overall scheduling performance.
+The general structure of this paper is as follows. Section
+introduces the related research of job scheduling in heterogeneous
+2
+environment. In Section
+, DAG job scheduling in heterogeneous environments is defined. In Section
+, a scheduling algorithm
+3
+4
+in heterogeneous computing environments is proposed. Section
+presents the experimental results and analysis. The last chapter
+5
+summarizes the work of this paper.
+2. Related works
+Static DAG scheduling algorithms in heterogeneous environments can be divided into two categories, namely heuristic algorithms
+based on artificial design rules and optimization algorithms based on reinforcement learning, summarized in
+. Heuristic
+Table 1
+algorithms can be divided into list based scheduling, task duplication based scheduling, cluster based scheduling, and Meta-heuristic.
+The list based scheduling algorithm calculates the priority relationship of each task according to the artificially defined calculation
+rules, and schedules tasks to the processor according to the priority order. Heterogeneous earliest completion time algorithm
+(HEFT) [ ] is a classic representative of this kind. It calculates the relative priority of each task according to the overall characteristics
+6
+of DAG, and allocates tasks according to the heuristic rule of the earliest completion time; The critical path (CPOP) algorithm [ ]
+6
+defines the critical path according to the characteristics of DAG, and assigns the tasks on it to the fastest processor core first;
+Predict earliest finish time (PEFT) [ ] uses a optimistic cost table to trade-off allocation. List based heuristics are easy to implement.
+7
+However, they are subjected to fixed priority rules and deliver poor scheduling performance.
+Tasks executed on heterogeneous cores often turn to waiting because the data is not ready, which leads to a waste of processor
+resources. The algorithm based on task duplication copies the parent task to the same processor according to certain rules to reduce
+the overhead caused by data communication, which is often combined with other heuristic algorithms [ ]. Task duplication based
+8
+scheduling (TDS) [ ] duplicates parent tasks based on clustering algorithm; Task duplication based clustering(TDCA) [
+] executes
+9
+10
+through cluster merging, processor merging, task idle insertion. The algorithm based on task duplication can significantly reduce
+processor idle time and improve utilization, but it is likely to introduce redundant tasks and increase processor load.
+Meta-heuristic introduces randomness by guided search on the basis of heuristic algorithm [
+]. In the process of problem search,
+11
+new possible solutions are obtained by combining or mutating the obtained feasible solutions. NGA [
+] is based on the genetic
+12
+algorithm to optimize solution. In most cases, Meta-heuristic has better scheduling performance, but its complexity is high.
+For the scheduling scenario of large complex DAGs, heuristic algorithms usually suffer from significant performance loss, but
+algorithms based on neural network maintain more efficient scheduling [
+–
+]. Because it is difficult to judge the quality of
+13 17
+a choice in time, it is impossible to train such networks in a supervised way. Generally speaking, only unsupervised methods
+
+Computers and Electrical Engineering 107 (2023) 108653
+3
+Y. Song et al.
+Table 1
+Summary of some state-of-art scheduling algorithms for heterogeneous computing environment.
+Algorithm
+Category
+Advantages
+Disadvantages
+HEFT
+Heuristic
+Simple and easy to implement
+Poor performance when scheduling large number of jobs
+CPOP
+Heuristic
+Simple and easy to implement
+Poor performance when DAG structures vary greatly
+TDCA
+Heuristic
+Better performance when scheduling single
+DAG
+Poor performance when scheduling multiple DAG jobs
+NGA
+Meta-Heuristic
+Better result for single DAG scheduling
+High computational complexity
+Spotlight
+Reinforcement
+learning
+Better adaptability for scheduling deep
+learning applications
+Unable to be applied to general scheduling environment
+Decima
+Reinforcement
+learning
+Better performance for homogeneous
+computing environment
+Unable to be applied to heterogeneous computing
+environment
+QL-HEFT
+Reinforcement
+learning
+Better performance than heuristic
+Poor performance when scheduling multiple DAG jobs
+Lachesis
+Reinforcement
+learning
+Better performance for heterogeneous
+computing environment
+Poor training efficiency
+Smart-mDAG
+Reinforcement
+learning
+Better performance for multiple jobs,
+heterogeneous computing environment
+Poor performance when scheduling large number of DAG
+jobs
+such as reinforcement learning can be used to train networks. A resource management and task scheduling system is proposed in
+DeepRM [
+]. The task arrive in different times will be allocate to processor immediately within the time constraint. Yuanxiang Gao
+13
+proposed the Spotlight algorithm [
+], which is designed to solve deep learning job scheduling problem. Spotlight uses Proximal
+14
+Policy Optimization(PPO) to train the policy network, which improve the efficiency. However, this method needs to manually
+define the features before training, so it cannot be migrated to other application scenarios. Mao proposed Decima [
+] for solving
+15
+DAG jobs scheduling. This method extracts DAGs features based on the graph convolution network and trains the network by
+policy gradient. However, the algorithm only considers the scheduling of homogeneous computing environments, and ignores
+the communication overhead between tasks. Jinhong Luo proposed Lachesis [
+] which migrated the scheduling problem to a
+16
+heterogeneous computing environment, using GCN for feature extraction, and actor–critic method for network training; Thesis [
+]
+17
+also proposes a DAG scheduling algorithm. The policy network of the algorithm learns to add or delete dependencies of the DAG. The
+performance of the algorithm depends largely on adding and deleting dependencies. In the face of complex DAG jobs, it is difficult
+to ensure the rationality of the dependent edges, resulting in the change of priority and the decline of scheduling performance.
+Zhao et al. propose QL-HEFT [
+] that apply Q-learning to DAG scheduling in heterogeneous computing environment, but only
+18
+single job scheduling scenarios are considered. Zhu et al. proposed Smart-mDAG [
+] for multi-DAGs scheduling environment using
+19
+reinforcement learning method, but deliver poor performance when the DAG number is high.
+In summary, applying a single heuristic algorithm for scheduling is subject to fixed rules, which is difficult to ensure scheduling
+performance; However, some existing static scheduling algorithms based on reinforcement learning still deliver poor performance
+for scheduling multiple DAG application. In this paper, the graph convolution network is used to extract DAG features, and a new
+message passing branch is introduced on the basis of extracting the aggregation features from the parent node. The final feature
+representation of the node is concatenated by the results of the two branches, thus enriching the structural information in the
+feature vector. In addition, this paper proposes an efficient heuristic processor allocation algorithm for heterogeneous processors.
+Many heterogeneous scheduling algorithms use the method of earliest completion time(EFT) when allocating processors, which is
+based on greedy policy and lead to great performance penalty. In this paper, the optimistic cost table is introduced into the heuristic
+allocation process to alleviate performance deterioration. These adaptations help network learn efficient scheduling strategy and gain
+performance improvement.
+3. Problem description
+The Heterogeneous environment we studied consists of
+independent DAG jobs in the system at the same time, which are
+𝑁
+denoted as 𝐽
+𝑗
+= [ 1, 𝑗2,
+, 𝑗
+…
+𝑛]
+= [
+, with K heterogeneous processors, formalized as 𝑅
+𝑟1, 𝑟2,
+, 𝑟
+…
+𝑘]. Each job is composed of a series of
+inseparable tasks, and there are dependencies and data exchange relationships between these tasks. The jobs to be scheduled are
+encoded as Directed Acyclic Graph (DAG), where 𝑁𝑖= [𝑛1, 𝑛2,
+, 𝑛
+…
+𝑚] represents the set of task nodes in DAG i, 𝐸𝑖= [𝑒1, 𝑒2,
+, 𝑒
+…
+𝑚]
+represents the set of directed edges in the DAG, and there is no loop in the whole DAG. In addition, the DAG edge also has a weight
+attribute, The weight of the edge represents the inter task communication overhead. For a directed acyclic graph of a given job,
+𝑃𝑟𝑒𝑑𝑖
+𝑆𝑢𝑐𝑐𝑖
+( ) represents the set of parent nodes of node i, and
+( ) represents the set of child node i.
+In combination with the above definition, the DAG of a job can be further expressed as a set of
+matrices: W(i,j) represents
+[
+]
+𝑊, 𝐶
+the execution cost of task i on processor j; C(i,j) represents the average communication cost between task i and j, which can be
+calculated in Eq.
+:
+(1)
+𝐶𝑖, 𝑗
+𝐿
+(
+) =
++ 𝑑𝑎𝑡𝑎𝑖, 𝑗
+(
+)
+𝐵
+(1)
+
+Computers and Electrical Engineering 107 (2023) 108653
+4
+Y. Song et al.
+where, B represents the average bandwidth between processors, L represents the average transmission delay, and data(i,j) represents
+the amount of data transmitted between task i and task j. When the task is allocated to the same processor core as the task, the
+transmission overhead can be regarded as 0. When a task is assigned to a processor, its earliest start time EST and earliest finish
+time EFT can be calculated in Eqs.
+,
+:
+(2) (3)
+𝐸𝑆𝑇
+(
+𝑛𝑖, 𝑝𝑗
+)
+= max
+{
+𝐴𝑣𝑎𝑖𝑙
+(
+𝑝𝑗
+)
+, max
+(
+𝐴𝐹𝑇
+(
+𝑛𝑘
+)
++ 𝐶(𝑘, 𝑖)
+)}
+, 𝑘
+𝑝𝑟𝑒𝑑
+∈
+(
+𝑛𝑖
+)
+(2)
+𝐸𝐹𝑇
+(
+𝑛𝑖, 𝑝𝑗
+)
+= 𝐸𝑆𝑇
+(
+𝑛𝑖, 𝑝𝑗
+)
++ 𝑊(𝑖, 𝑗)
+(3)
+Wherein, 𝐴𝑣𝑎𝑖𝑙(𝑝𝑗
+) represents the idle start time of the processor; 𝐴𝐹𝑇(𝑛𝑘
+) represents the actual completion time of the
+predecessor node. The scheduling length makespan of the whole DAG can be determined by the actual completion time aft of
+the exit node, which can be represented by Eq.
+:
+(4)
+𝑚𝑎𝑘𝑒𝑠𝑝𝑎𝑛
+𝐴𝐹𝑇
+=
+(
+𝑛𝑒𝑥𝑖𝑡
+)
+(4)
+In addition to the above assumptions, the arrival time of the job is also an important factor. All jobs in the system can be ready
+at the beginning and waiting to be scheduled (batch mode); Or may arrive at each predetermined time (stream mode) during system
+execution. The average completion time of DAG jobs in the environment can be defined as Eq.
+:
+(5)
+1
+𝑁
+𝐽∑
+𝑗𝜖𝐽
+(𝑓𝑖𝑛𝑖𝑠ℎ(𝑗) −𝑎𝑟𝑟𝑖𝑣𝑎𝑙(𝑗))
+(5)
+In the formula,
+represents the number of jobs in the system, including all jobs at startup and subsequent arrival, and J
+𝑁
+represents the set of job DAGs in the system. 𝑓𝑖𝑛𝑖𝑠ℎ(𝑗) represents the completion time of job j, and 𝑎𝑟𝑟𝑖𝑣𝑎𝑙(𝑗) represents the arrival
+time of job j.
+4. Proposed method
+The detailed process of the algorithm proposed in this paper is shown in
+, which is mainly composed of three parts:
+Fig. 1
+graph convolution network, policy network and heuristic scheduling algorithm. The scheduling process of the algorithm is generally
+divided into three stages: the feature extraction stage of job DAGs, the node selection stage and the processor allocation stage. In the
+node selection stage, the original features of the task nodes will be sent to the GCN network, which can effectively learn the DAG
+structural features and output them as high-level representations of the task nodes; After that, the high-level representations will be
+directly sent to the policy network, which will select node to schedule; Finally, the algorithm schedules the output nodes of the policy
+network to the most suitable processor core according to the proposed improved heuristic allocation algorithm. Repeat the above
+process until all nodes in the current system have been allocated to the appropriate processors. The algorithm constantly learns and
+updates its own strategies in the environment, The introduction of heuristic algorithm helps to improve the decision-making speed
+and overall scheduling performance of the algorithm when selecting processors.
+4.1. Bidirectional feature extraction based on graph convolution network
+The algorithm we propose makes decisions according to the comprehensive information of jobs in the system and generates
+a reasonable scheduling scheme. In the multi-job system environment, the number of jobs is always changing dynamically, and
+there will be jobs completed or arrived at a specific time. Therefore, the scale of the input feature is changing dynamically, and
+the network needs to have the ability to process the input information effectively. Therefore, for the input of the original DAGs
+(including the information of each node’s execution cost, communication cost, out/in degree, number of nodes to be scheduled,
+etc.), the graph convolution network is introduced to learn its high-level feature representation, so as to obtain the scalable task
+state information in the system, which is helpful for the policy network to make decisions on the next task node.
+Traditional convolutional neural networks are mostly used for feature extraction, but cannot directly migrate to graph structured
+data. Graph convolutional neural networks [
+,
+] can operate convolution on graphs. At present, substantial progress has been
+20 21
+made in its research. Generally speaking, graph convolution operations are divided into two categories. One is spectral domain
+convolution based on convolution theory and graph Fourier transform. This kind of method needs to do Eigen-decomposition, and
+often has a large computational overhead; The other named spatial convolution is based on neighborhood aggregation [
+]. This
+22
+kind updates the node representation by sampling and aggregating the neighbor nodes, which is more intuitive and efficient than
+spectral convolution. A typical spatial graph convolution is implemented as Eq.
+:
+(6)
+𝑒𝑛= 𝑔
+[ ∑
+𝑢𝜉
+∈(𝑛)
+𝑓
+(
+𝑒𝑢
+)
+]
++ 𝑥𝑛
+(6)
+𝑒𝑛, 𝑒𝑢represents the feature vectors of node n and node u, 𝑥𝑛represents the original feature and
+represents the set of child
+𝜉
+nodes. 𝑓(.) and 𝑔(.) are two nonlinear functions, which are realized by two fully connected neural network layers. The main step of
+spatial graph convolution is sampling and aggregation, and the two layers performs feature mapping before and after aggregation.
+The message transmission between network layers starts from the leaf node and goes up layer by layer until the root node.
+
+Computers and Electrical Engineering 107 (2023) 108653
+5
+Y. Song et al.
+Fig. 1. The overall structure of the proposed algorithm.
+Fig. 2. Two graph message passing modes.
+Based on the graph convolution algorithm expressed in Eq.
+, the network can effectively learn the original features of nodes
+(6)
+and the spatial features of DAG structure, and output high-level feature representations. For the policy network, the features learned
+by the graph convolution network should have smaller dimensions, otherwise it will lead to an increase in the amount of calculation;
+On the other hand, the output features must be able to effectively express the structural information of the DAG and the execution
+information of the task node itself. If the network has poor expression ability, it will directly affect the training of the policy network.
+Take 𝑟𝑎𝑛𝑘𝑢𝑝and 𝑟𝑎𝑛𝑘𝑑𝑜𝑤𝑛[ ] as examples. The two indicators are often used as the priority of nodes in heuristic algorithms. They
+6
+not only reflect the execution information characteristics of nodes, but also include the topology characteristics between nodes. The
+combination of them describes the overall structure of DAG from the node level. The 𝑟𝑎𝑛𝑘𝑢𝑝value of each node mainly depends
+on its own execution cost on different processors, communication cost with subsequent nodes, and the 𝑟𝑎𝑛𝑘𝑢𝑝value of subsequent
+nodes, thus covering its own information and surrounding nodes. Obviously, 𝑟𝑎𝑛𝑘𝑢𝑝needs to calculate layer by layer from the leaf
+node to the current node in a recursive manner, whereas 𝑟𝑎𝑛𝑘𝑑𝑜𝑤𝑛does the opposite.
+According to the spatial graph convolution network constructed in Eq.
+, each node updates itself by aggregating the
+(6)
+characteristics of its child nodes, and the information flows from the child nodes to the parent nodes, as shown in
+. Therefore,
+Fig. 2
+we can simulate the calculation process and learn the calculation indicators like 𝑟𝑎𝑛𝑘𝑢𝑝. However, for indicators such as 𝑟𝑎𝑛𝑘𝑑𝑜𝑤𝑛, the
+feature representation of child nodes mainly depends on the parent node, and the network needs to be able to realize the message
+transfer from the parent node to the child node, so existed method cannot effectively learn such indicators. In order to get the feature
+representation of the overall structure of DAG, it is necessary to introduce new branches to the network so that the network can
+learn the indicators of the top-down and bottom-up computing modes at the same time. The GCN network based on unidirectional
+message passing is not competent.
+Therefore, this paper proposes a graph convolution network based on bidirectional message passing, introduces a new computing
+branch on the original basis, and realizes message passing in both directions. The basic flow is shown in
+. The critical computing
+Fig. 3
+process of GCN block is show in Eqs.
+,
+,
+:
+(7) (8) (9)
+𝑒𝑛,𝑗
+𝑢𝑝= 𝑔
+[ ∑
+𝑢𝜉
+∈(𝑛)
+𝑓
+(
+𝑒𝑢,𝑗
+𝑢𝑝
+)]
++ 𝑥𝑗
+𝑛
+(7)
+
+Computers and Electrical Engineering 107 (2023) 108653
+6
+Y. Song et al.
+Fig. 3. Bidirectional GCN structure.
+Fig. 4. Calculation process of the three representations.
+𝑒𝑛,𝑗
+𝑑𝑜𝑤𝑛= 𝑔
+
+𝑢𝜑
+∈(𝑛)
+𝑓
+
+𝑒𝑢,𝑖
+𝑑𝑜𝑤𝑛
+
+
++ 𝑥𝑗
+𝑛
+(8)
+𝑒𝑗
+𝑛=
+
+𝑒𝑛,𝑗
+𝑢𝑝, 𝑒𝑛,𝑗
+𝑑𝑜𝑤𝑛
+
+(9)
+Among them, 𝑔, 𝑓𝑔
+𝑓
+𝑒
+,
+and
+are fully connected networks, which are designed for nonlinear feature transformation.
+𝑛,𝑗
+𝑢𝑝, 𝑒𝑛,𝑗
+𝑑𝑜𝑤𝑛
+represents two kinds of feature representations of the same node respectively. Each of them is calculated from embedding feature
+vectors of its neighbor nodes and its origin input. Neighbor nodes’ embedding vectors are firstly input into the
+network to obtain
+𝑓
+the new feature representation, then these are aggregated, and input into the
+network. The output feature vector plus original
+𝑔
+input is the final embedding feature representation 𝑒𝑛,𝑗
+𝑢𝑝, 𝑒𝑛,𝑗
+𝑑𝑜𝑤𝑛. The two feature representations are concatenated together to obtain
+node level representation. For 𝑒𝑛,𝑗
+𝑢𝑝calculation, it summarizes child nodes information, and 𝑒𝑛,𝑗
+𝑑𝑜𝑤𝑛does the opposite. The necessity of
+introducing
+and
+is that such a network structure can effectively learn the critical structural indicators of DAG [
+]. In order to
+𝑔
+𝑓
+15
+learn the overall structure characteristics of DAGs in the environment, all nodes in the same DAG graph are concatenated and input
+into a fully connected network to obtain a DAG level representation; Then, the DAG level representations are concatenated and
+input into another fully connected network, and the global level representation is then obtained. The calculation process is shown
+in
+.
+Fig. 4
+It is worth noting that although the combination of 𝑟𝑎𝑛𝑘𝑢𝑝and 𝑟𝑎𝑛𝑘𝑑𝑜𝑤𝑛indexes mentioned above can completely describe the
+structural information of DAG, its form is relatively simple, and it often has limitations in the face of complex DAG, which is also a
+bottleneck of heuristic algorithms. The GCN network proposed in this paper can transfer messages in both directions, and it passes
+through multi-layer nonlinear functions before and after aggregation, so it can fit more complex mapping relationships. In the
+end-to-end network training, the network can learn higher-level structural features according to the original input, and has stronger
+expression ability; And the information contained in the feature representation is not obtained by hard coding, but is learned by
+the network itself in the training process.
+
+Computers and Electrical Engineering 107 (2023) 108653
+7
+Y. Song et al.
+Fig. 5. Calculation process of policy agent.
+4.2. Node selection based on policy network
+As described in Section
+, after the features of the original DAG are input to GCN, three levels of feature representation will be
+4.1
+obtained, namely, node level representation, DAG level representation and global level representation. These three types of features
+can fully express the job information of the current environment. Then we input these three levels of features to the policy network
+for node selection. Policy network will learn from these representations to make decisions. The selection order of nodes will have
+an important impact on the subsequent processor allocation. This algorithm uses a multi-layer fully connected network, takes these
+representation vectors as input, learns the selection strategy of nodes, and trains the policy network using the Proximal Policy
+Optimization (PPO). This algorithm is based on importance sampling, and realizes the reuse of empirical data of different epochs
+at the training stage, which can effectively improve the training efficiency.
+It can be seen from
+that after the node level, DAG level and global level representation are obtained, the policy network
+Fig. 5
+will take these states as inputs, pass through the fully-connected policy network, and get the selected probability of each node
+through Softmax normalization. The calculation formula is show in Eq.
+:
+(10)
+𝑃(𝑛) =
+exp
+(
+𝑞𝑖
+𝑛
+)
+∑
+𝑢𝛬
+∈
+𝑡exp
+(
+𝑞𝑗(𝑢)𝑢
+)
+(10)
+where,
+represents the probability that each candidate node is selected,
+𝑃𝑛
+( )
+𝑞𝑛represents the score value of each candidate node
+output by the network. In the training phase, in order to ensure good exploration, the final selected node is determined according
+to the given probability value. So far, the policy network can learn from overall feature and give node selection.
+4.3. Processor allocation based on hybrid heuristic strategy
+After the task node is selected, it needs to be allocated to processor to ensure better overall performance. If the processor need
+to select together with node, so the decision space of the algorithm is the product of the number of nodes to be scheduled and
+the number of processors, which will become very large, affecting the efficiency of the algorithm. Therefore, this paper will use
+heuristic algorithm in the processor allocation stage, fully decoupling the two links of task selection and allocation. In the node
+selection stage, only the input characteristics are concerned, and the processor information is ignored. In the processor allocation
+stage, only the processor information is concerned.
+Three types of heuristic algorithms have been analyzed in the previous text. Most of list based heuristics are based on the idea of
+the earliest completion time, which takes poor performance; Clustering based algorithms need to consider the overall information of
+the DAG. Tasks in the same clusters often need to be assigned to the same processor, and generally have a high time complexity, so
+the algorithm is difficult to apply here; The idea of task duplication can be applied to the processor allocation phase to make full use
+of idle time [
+]. Many duplication based algorithms try to duplicate all parent nodes. This will cause the duplication of multiple
+23
+parent task nodes. Although it can greatly reduce the idle time of the processor, it will introduce a large number of redundant
+executions, which may not necessarily improve the final scheduling performance. In [
+],
+based on the duplication of
+16
+𝐶𝑃𝐸𝐹𝑇
+critical parent is used for processor allocation, thereby reducing redundant duplication.
+However, duplication based policy usually tends to copy the task to processor to advance the completion time of the current node
+as much as possible. This method only considers the impact of scheduling the current node, but ignores the impact of the current
+scheduling choice on subsequent nodes, which will affect the overall scheduling performance. Therefore, it is necessary to quantify
+and balance the impact of current scheduling decisions on future scheduling costs. The optimistic cost table(OCT) has been proved
+to be a very effective ‘‘Look-ahead’’ idea. When allocating processors, the minimum value of the sum of the earliest completion time
+and optimistic cost estimate is considered as the optimal solution to allocate tasks to the corresponding processor. By estimating the
+impact of the current allocation on the future scheduling overhead and making trade-offs, the problem of performance degradation
+
+Computers and Electrical Engineering 107 (2023) 108653
+8
+Y. Song et al.
+can be alleviated to a certain extend. Therefore, this paper introduces OCT to optimize heuristic scheduling on the basis of duplicating
+critical parent tasks. The calculation method for OCT is show in Eq.
+:
+(11)
+𝑂𝐶𝑇
+
+𝑛𝑖, 𝑟𝑘
+
+=
+max
+𝑛𝑗∈𝜉(𝑛𝑖)
+
+min
+𝑟𝑣∈𝑅𝑗
+
+𝑂𝐶𝑇
+
+𝑛𝑗, 𝑟𝑤
+
++ 𝑤𝑖,𝑟𝑣+
+𝑒𝑖,𝑗
+𝑐𝑖,𝑤
+
+(11)
+In formula
+,
+(11) 𝑛𝑖represents the current task and 𝑛𝑗represents its child task, 𝑤𝑖,𝑟𝑣represents the execution cost of node 𝑖
+executing on the processor 𝑟𝑣, and 𝑒𝑖,𝑗represents the communication cost between the parent and child nodes. Each time a new job
+DAG arrives in the system, the
+value of each node is calculated. The value represents the minimum execution time of nodes
+𝑂𝐶𝑇
+unscheduled. According to the results given by current allocation strategies (EFT and
+), the subsequent cost is estimated,
+𝐶𝑃𝐸𝐹𝑇
+and the final decision is made by synthesizing the earliest completion time and its future estimated cost. This not only allows each
+task to be completed as early as possible, but also ensures the overall scheduling performance of the DAG. Therefore, we propose
+the duplication based predicted earliest finish time
+, defined in Eq.
+:
+𝐷𝑃𝐸𝐹𝑇
+(12)
+DPEFT
+
+𝑛𝑖, 𝑟𝑘
+
+= min
+
+𝐸𝐹𝑇
+
+𝑛𝑖, 𝑟𝑘
+
+, CPEFT
+
+𝑛𝑝, 𝑛𝑖, 𝑟𝑘
+
++ 𝑂𝐶𝑇
+
+𝑛𝑖,𝑟𝑘
+
+(12)
+After the above calculation, the task node will be allocated to the specified processor and get the corresponding reward value.
+Repeat the DAG feature extraction, node selection, and processor allocation until all DAGs are scheduled. Algorithm
+shows the
+1
+detail of processor allocation procedure.
+Algorithm 1: Processor Allocation
+Input: node 𝑛𝑖, processor 𝑅
+1 Initialize actual finish time list 𝑇
+2 Initialize actual duplication finish time list 𝑇′
+3 for
+do
+processor
+do
+𝑟
+𝑅
+∈
+4
+Calculate 𝐸𝐹𝑇𝑛
+( 𝑖, 𝑟
+𝑂𝐶𝑇𝑛
+),
+( 𝑖, 𝑟)
+5
+Add 𝐸𝐹𝑇𝑛
+( 𝑖, 𝑟
+𝑂𝐶𝑇𝑛
+) +
+( 𝑖, 𝑟
+𝑇
+) to
+6
+Initialize temporary duplication finish time list 𝑇𝑟
+7
+for 𝑛𝑘∈
+(
+𝑝𝑟𝑒𝑑𝑛𝑖) do
+8
+Calculate 𝐶𝑃𝐸𝐹𝑇𝑛
+( 𝑖, 𝑛𝑘, 𝑟)
+9
+Add 𝐶𝑃𝐸𝐹𝑇𝑛
+( 𝑖, 𝑛𝑘, 𝑟
+𝑂𝐶𝑇𝑛
+) +
+( 𝑖, 𝑟
+𝑇
+) to
+𝑟
+10
+end
+11
+Add 𝑚𝑖𝑛𝑇
+(
+𝑟) to 𝑇′
+12 end
+13 Minimum finish time 𝑀𝑖𝑛𝑂𝑏𝑗
+𝑚𝑖𝑛𝑇, 𝑇
+=
+([
+′])
+14 if
+then
+𝑀𝑖𝑛𝑂𝑏𝑗
+𝑇
+∈
+then
+15
+Allocate 𝑛𝑖to corresponding processor
+16 end
+17 else
+18
+Allocate 𝑛𝑖and its critical parent node to corresponding processor
+19 end
+4.4. Neural network training based on reinforcement learning
+In this paper, the correctness of scheduling behavior cannot be defined in advance, so supervised learning cannot be used for
+training GCN and policy network. The optimization algorithm based on reinforcement learning can continuously optimize itself by
+taking advantage of the feedback of the environment on its own scheduling results. So it is very suitable for such scenarios.
+When reinforcement learning is used to train scheduling models in heterogeneous environments, the whole scheduling process
+needs to be represented as a Markov decision process [
+]. The Markov decision process can be represented by a four tuple:
+24
+(
+)
+𝑠, 𝑎, 𝑃, 𝑅, where
+is the set of system states,
+is the set of actions executed each time in the system,
+is the system state transition
+𝑠
+𝑎
+𝑃
+function, and
+is a reward function. After each action is executed, the reward function will return a feedback value to identify
+𝑅
+whether the action is good or bad. In order to accurately reflect the execution cost of each job in different time periods, the reward
+function in this paper is defined as Eq.
+:
+(13)
+𝑟𝑘= −
+𝑁
+
+𝑛=1
+
+𝑡𝑛
+𝑘−𝑡𝑛
+𝑘−1
+
+(13)
+In the above formula,
+represents the sum of the unfinished tasks in the system within the current cycle time,
+𝑁
+𝑡𝑘−1 and 𝑡𝑘
+respectively represent the start and end time. This reward target reflects the actual execution time of each job in a scheduling
+interval.
+
+Computers and Electrical Engineering 107 (2023) 108653
+9
+Y. Song et al.
+Considering model training, policy gradient is a typical algorithm. In the training process of policy gradient, when the policy is
+updated, the original experience data cannot be reused, so data needs to be regenerated in different rounds. PPO solves the problem
+that data cannot be reused due to parameter changes by introducing importance sampling, which improves training efficiency.
+Therefore, PPO is adopted in our algorithm for model training. The basic process is as follows: initialize network parameters;
+randomly select a certain number of initial DAGs, gather information and feed into the model. Selected node will be output by
+policy network, and then be allocated to a specific processor, with rewards from the system environment. These will be saved in
+the experience pool, and the details are as follows:
+1. Status of each step 𝑠𝑡: mainly including the number of remaining tasks, average execution and communication costs, nodes
+to be scheduled, DAG sets to be scheduled, message passing matrix, etc.
+2. Action 𝑎𝑡: the node selected under the status St.
+3. Reward 𝑟𝑡: calculated after nodes are allocated based on DPEFT algorithm.
+After all 
+𝑠𝑡, 𝑎𝑡, 𝑟𝑡
+are obtained, calculate the cumulative discount reward 𝑢𝑡, and estimate 𝐴𝑡based on 𝑣𝑐𝑟𝑖𝑡𝑖𝑐. The updated
+parameters are solved according to the policy gradient method. In our experiment, the loss function(optimization objective) is
+calculated from the probability distribution, dominant terms and correction factors of the old and new policy, as shown in Eqs.
+,
+(14)
+(15):
+𝐿𝑐𝑙𝑖𝑝(𝜃) = 𝐸𝑡
+
+min
+
+𝑟𝑡(𝜃) 𝐴𝑡, 𝑐𝑙𝑖𝑝
+
+𝑟𝑡(𝜃) ,
+𝜀,
+𝜀
+1 −
+1 +
+𝐴𝑡
+
+(14)
+𝐴𝑡= 𝑢𝑡−𝑣𝑐𝑟𝑖𝑡𝑖𝑐
+𝑠𝑡
+, 𝑟𝑡(𝜃) =
+𝜋𝜃
+𝑎𝑡𝑠𝑡
+
+𝜋𝜃𝑜𝑙𝑑
+𝑎𝑡𝑠𝑡
+
+(15)
+In Eq.
+,
+and
+(15) 𝜃
+𝜃𝑜𝑙𝑑respectively represent the new and old policy parameters,
+𝜋𝜃(𝑎𝑡𝑠𝑡)
+𝜋𝜃𝑜𝑙𝑑(𝑎𝑡𝑠𝑡) (the ratio of the probability distribution
+of the old and new strategies) represents the importance weight. It can be seen that the calculation of the optimization goal depends
+on the clip of 𝑟𝑡( )
+[1 −
+1 + ]
+𝜃, which is limited to
+𝜖,
+𝜖, thus guarantee the difference between the old and new strategies to not be too
+large, and increasing the stability of the training process. Algorithm
+shows the overall training process.
+2
+Algorithm 2: Training Process
+for
+do
+𝑒𝑝
+𝑁
+= 1 to
+do
+schedule application, reset parameters;
+assign each node to processor, record all 𝑠𝑡, 𝑎𝑡, 𝑟𝑡;
+calculate 𝑢𝑡= 𝑛
+𝑘𝑡
+= 𝛾𝑘𝑡
+−𝑟𝑘;
+split 𝑠𝑡, 𝑎𝑡, 𝑟𝑡to
+minibatchs;
+𝐾
+for
+do
+𝑘
+𝐾
+= 1 to
+do
+update policy network
+𝜃𝑘+1 =
+max
+𝑎𝑟𝑔
+𝜙
+1
+𝐷𝑘𝑇
+
+𝜏𝐷
+∈
+𝑘
+𝑇
+𝑡=0 min
+
+𝜋𝜃(𝑎𝑡𝑠𝑡)
+𝜋𝜃𝑘(𝑎𝑡𝑠𝑡) 𝐴𝜋𝜃𝑘
+𝑠𝑡, 𝑎𝑡
+
+,
+𝑐𝑙𝑖𝑝
+
+1 −
+1 +
+𝜀,
+𝜀, 𝐴𝜋𝜃𝑘
+𝑠𝑡, 𝑎𝑡
+
+
+update critic network
+𝜙𝑘+1 =
+min
+𝑎𝑟𝑔
+𝜙
+1
+𝐷𝑘𝑇
+
+𝜏𝐷
+∈
+𝑘
+𝑇
+𝑡=0
+
+𝑉𝜙
+
+𝑠𝑡
+
+−𝑅𝑡
+2
+end
+end
+The computational complexity of the constructed model is discussed below. The number of processors in the heterogeneous
+environment is recorded as
+, the average number of nodes in the DAG is recorded as
+, the number of DAGs is recorded as
+,
+𝐾
+𝑁
+𝑀
+the original input dimension is recorded as
+, and the output dimension is recorded as
+𝐷
+𝐷𝑜𝑢𝑡. The complexity of the algorithm mainly
+depends on the above three processes. In the graph feature extraction stage, the network learn feature representations according
+to the original input, and the computational complexity is 𝑂𝑀𝑁𝐷𝐷
+(
+𝑜𝑢𝑡). In the node selection stage, the calculation complexity of
+the output node selection is 𝑂𝑀𝑁𝐷
+(
+𝑜𝑢𝑡). In the processor allocation phase, the computational complexity is simplified by relying
+on heuristic allocation algorithm. When calculating the OCT term of each node, it is necessary to traverse the execution cost of all
+its sub nodes on each core, and the time complexity is 𝑂𝑀𝑁
+(
+2𝐾); To calculate the critical tasks of each node while copying, it is
+necessary to traverse the earliest completion time of all parent nodes on each core. The complexity is 𝑂𝑀𝑁
+(
+2𝐾). Therefore, the
+overall complexity of the processor allocation phase is 𝑂𝑀𝑁
+(
+2𝐾). Based on the above discussion, the complexity of the algorithm
+in the graph feature extraction phase is 𝑂𝑀𝑁𝐷𝐷
+(
+𝑜𝑢𝑡)
+(
+, in the node selection phase is 𝑂𝑀𝑁𝐷𝑜𝑢𝑡), and in the processor allocation
+phase is 𝑂𝑀𝑁
+(
+2𝐾
+𝑂
+). The total computational complexity is
+𝑀𝑁𝐷𝐷𝑜𝑢𝑡+ 𝑀𝑁2𝐾.
+5. Experiment evaluation
+5.1. Experiment environment
+In this paper, the scheduling simulation environment is implemented based on python, and the model building and training
+are based on the TensorFlow framework, as a scheduling service on the heterogeneous computing platform. Our benchmark use
+
+Computers and Electrical Engineering 107 (2023) 108653
+10
+Y. Song et al.
+Table 2
+The software and hardware environments in the experiment.
+Operating system
+Framework
+Python
+CUDA
+CPU
+GPU
+Memory
+Ubuntu18.04 LTS
+TensorFlow1.15
+Python3.7
+CUDA10.0
+IntelXeon E5-2683 v3
+NVIDIA GTX 1080Ti
+64G
+Table 3
+Experimental settings of proposed algorithm.
+Parameters
+Value
+𝑙𝑟
+0.0001
+𝜀
+0.2
+𝛾
+0.9
+𝜂
+0.1
+Number of processors
+8
+TPC-H input size
+2 g, 5 g, 10 g, 20 g, 50 g, 80 g, 100 g
+TPC-H queries
+Q01–Q22
+Heterogeneous parameter
+0.5, 1, 2, 5
+𝛼
+𝐶𝐶𝑅parameter
+0.1, 0.5, 1, 2, 5, 8
+the applications taken from TPC-H [
+] dataset, with various DAGs of different sizes, ranging from 2 to 18 nodes. Furthermore,
+25
+a large portion of random generated DAG graphs are added to our benchmark dataset. The basic information of this experimental
+environment is shown in the
+. The hyper parameters of the algorithm and detailed benchmark information are shown in
+Table 2
+Table 3.
+5.2. Baseline algorithms and evaluation metrics
+This experiment uses the following baseline algorithms for comparison:
+1. Smart-mDAG: This algorithm is based on the reinforcement learning to obtain scheduling and allocation policy. It performs
+node selection and processor allocation simultaneously.
+2. Short job first algorithm(SJF-EFT) [
+]: it simply sorts jobs in ascending order according to their execution time and allocate
+26
+node to processor according to its earliest-finish-time.
+3. FCFS-HEFT: A heterogeneous scheduling algorithm based on
+priority and earliest-finish-time.
+𝑟𝑎𝑛𝑘𝑢𝑝
+4. FCFS-PEFT: This algorithm works similarly to HEFT but uses OCT for processor allocation.
+5. HRRN-DEFT: This algorithm prioritizes nodes according to their waiting time. The longer a node waits, the higher its priority
+value and the more likely it is to schedule first.
+6. TDCA: A heuristic scheduling strategy based on clustering and task duplication.
+7. QL-HEFT: Learning scheduling strategy based on Q-Learning and earliest-finish-time allocation.
+Among these, FCFS-HEFT, FCFS-PEFT, TDCA and QL-HEFT are designed for single-job scheduling scenario. Consequently, we
+have adapted these algorithm by using a first-come-first-serve manner for job prioritizing.
+The most common performance metric to evaluate scheduling algorithms in heterogeneous environments is the average
+completion time. In order to more comprehensively express the execution of each job in the multi-DAGs and heterogeneous processor
+environment, this paper also considers the following two aspects: 1. Whether the algorithm can make every DAG job make full use of
+multiple processors as much as possible for parallel acceleration. 2. Whether the algorithm can reduce the performance gap between
+multi-job scheduling and single job scheduling. On the one hand, the algorithm should use multiprocessor resources as much as
+possible to schedule jobs for parallel execution. On the other hand, it should also consider the impact of its own scheduling on
+other jobs and make trade-off scheduling decisions. In this paper, the following three indicators are used to evaluate the scheduling
+performance of the algorithm:
+𝑀𝑎𝑘𝑒𝑠𝑝𝑎𝑛=
+1
+𝑁
+𝑁
+∑
+𝑖=0
+𝑚𝑎𝑘𝑒𝑠𝑝𝑎𝑛(𝑖)
+(16)
+𝑆𝑝𝑒𝑒𝑑𝑢𝑝=
+1
+𝑁
+𝑁
+∑
+𝑗=0
+𝑠𝑒𝑞𝑢𝑒𝑛𝑡𝑖𝑎𝑙(𝑗)
+𝑚𝑎𝑘𝑒𝑠𝑝𝑎𝑛(𝑗)
+(17)
+𝑆𝑙𝑜𝑤𝑑𝑜𝑤𝑛=
+1
+𝑁
+𝑁
+∑
+𝑗=0
+𝑚𝑎𝑘𝑒𝑠𝑝𝑎𝑛(𝑗)
+𝐻𝐸𝐹𝑇(𝑗)
+(18)
+In Eq.
+, makespan(i) represents the execution time of each job in the system, including the time from the arrival of the job to
+(16)
+the completion of the scheduling,
+represents the total number of jobs in the system. After getting the execution time of each job,
+𝑁
+calculate the average value to get the average completion time of multiple DAG jobs. In Eq.
+, j represents the job number, and
+(17)
+the numerator represents the shortest completion time obtained by allocating each incoming job to a single processor (the time from
+
+Computers and Electrical Engineering 107 (2023) 108653
+11
+Y. Song et al.
+Fig. 6. Training curves of policy gradient and PPO.
+Fig. 7. Learning curve of unidirectional GCN.
+job arrival to completion). The higher the speedup value, the more efficient the algorithm can use multiprocessors, and the higher
+the parallelism of job scheduling. In a multi-DAGs environment, the speedup is usually less than 1. In Eq.
+, HEFT(j) represents
+(18)
+the scheduling length obtained by applying HEFT algorithm when there is only a single job j in the system. Slowdown can reflect
+the algorithm performance in a multi job environment to a certain extent. This indicator can measure the stability of the scheduling
+policy. If the job arrives earlier and cannot be scheduled later, the slowdown will increase due to the increase of makespan. In a
+multi-DAGs environment, the slowdown is usually greater than 1.
+5.3. Experiment results
+5.3.1. Training process comparison
+In the training phase, a certain number of DAGs are sampled each time, and the execution information (average execution cost,
+communication cost, number of remaining nodes, remaining time, etc.) and the overall structure information (DAG height, etc.)
+of these DAGs are dynamically counted in the scheduling process. After these data are normalized, they are input to GCN to get
+the node representation, and the policy network gives the probability of each node selection. Based on importance sampling, data
+collected in each epoch can be reused and policy update is confined, which benefits for training efficiency and stability.
+shows
+Fig. 6
+the training curves of policy gradient and PPO with same learning rate. It is obvious that PPO has faster convergence efficiency
+though both will converge to similar reward values, so we use PPO for network training.
+5.3.2. GCN predicts 𝑟𝑎𝑛𝑘𝑢𝑝/𝑟𝑎𝑛𝑘𝑑𝑜𝑤𝑛performance
+In order to compare the difference of feature learning ability between unidirectional and bidirectional networks, this paper
+designs experiments to learn the 𝑟𝑎𝑛𝑘𝑢𝑝and 𝑟𝑎𝑛𝑘𝑑𝑜𝑤𝑛characteristics of DAG using two kinds of networks, and the learning loss
+curve obtained is shown in
+,
+.
+Figs. 7 8
+Figs. 7
+8
+,
+shows the convergence curve of unidirectional GCN learning 𝑟𝑎𝑛𝑘𝑢𝑝, 𝑟𝑎𝑛𝑘𝑑𝑜𝑤𝑛, and bidirectional GCN learning
+𝑟𝑎𝑛𝑘𝑢𝑝+𝑟𝑎𝑛𝑘𝑑𝑜𝑤𝑛in this paper. The vertical axis represents the mean square loss value (MSE) of predicted and real rank values output
+by the network. The original input of the network contains the basic information of DAG nodes, such as the average computing
+cost of nodes and the communication cost between nodes. Based on the original information, we hope that the network can fit the
+calculation functions of 𝑟𝑎𝑛𝑘𝑢𝑝and 𝑟𝑎𝑛𝑘𝑑𝑜𝑤𝑛.
+In
+, the unidirectional GCN network represented by blue and orange aggregates information from child nodes, but does
+Fig. 7
+not aggregate information from parent nodes mentioned in Section
+. Messages flow from child nodes to parent nodes. Although
+4.1
+
+Computers and Electrical Engineering 107 (2023) 108653
+12
+Y. Song et al.
+Fig. 8. Learning curve of bidirectional GCN.
+Fig. 9. Makespan comparison in batch mode.
+Fig. 10. Slowdown comparison in batch mode.
+the blue curve finally converges to a small loss value (about 200, and the average loss size of each node is less than 1), which
+indicates that the network can effectively fit the non-linear function used to predict the 𝑟𝑎𝑛𝑘𝑢𝑝, it can be seen from the orange curve
+(loss fluctuates around 10 000) that the unidirectional message passing network is difficult to learn such indicators as 𝑟𝑎𝑛𝑘𝑑𝑜𝑤𝑛.
+That means when training for downward indicators, network fail to capture dependencies between adjacent nodes for inconsistent
+message flow direction, so that it is difficult to accurately express such indicators and can hardly fit the calculation function. Thus,
+the model will lead to a bigger loss value when predict the downward indicators.
+The curve in
+represents the experimental results of bidirectional GCN network proposed in Section
+. The loss curve
+Fig. 8
+4.1
+finally converges to around 300, and the error of the average 𝑟𝑎𝑛𝑘𝑢𝑝+ 𝑟𝑎𝑛𝑘𝑑𝑜𝑤𝑛value of each node is also controlled within 1.
+Obviously, the adapted GCN can more accurately predict these two types of indicators. This means that bidirectional GCN network
+can more effectively learn the structural characteristics of DAGs, and has a stronger expressive ability.
+5.3.3. Scheduling performance with different numbers of DAGs
+First, test the performance of the algorithm in batch mode. In this mode, all jobs in the system are ready at the beginning, and
+the number range is increased from 10 to 200. The comparison results of several indicators obtained in the experiment are shown
+in
+:
+Figs. 9–11
+The
+shows the comparison of speedup indicators in this mode. It can be seen that the speedup value of proposed is higher
+Fig. 11
+than that of other algorithms, and the SJF algorithm performs the worst overall. This index tends to decrease with the increase of
+the number of DAGs, indicating that with the increase of the number of jobs, processor race intensifies, and the parallelism of the
+algorithm is limited.
+The
+shows the comparison of the slowdown indicators in Batch mode. The slope of the curve in the figure is almost
+Fig. 10
+constant, indicating that the slowdown is linear with the number of jobs. For different job numbers, the slowdown of our algorithm
+is significantly lower than that of other algorithms, so it has better scheduling performance.
+shows the comparison of the
+Fig. 9
+
+Computers and Electrical Engineering 107 (2023) 108653
+13
+Y. Song et al.
+Fig. 11. Speedup comparison in batch mode.
+Fig. 12. Makespan comparison in stream mode.
+Fig. 13. Slowdown comparison in stream mode.
+Fig. 14. Speedup comparison in stream mode.
+average completion time index in batch mode. Similar to slow down, the average completion time is also linearly related to the
+number of jobs. As the number of jobs increases, the average completion time of our algorithm is significantly less than that of other
+algorithms.
+Next, test the performance of the algorithm in the streaming arrival mode. In this mode, only about 20% of the jobs in the system
+are ready at the start time, and the remaining jobs arrive in turn at different times. The comparison results of several indicators
+obtained in this experiment are shown in
+:
+Figs. 12–14
+Fig. 14 represents the speedup performance comparison of our algorithm in stream mode. The trend in the figure shows that
+with the increase of the number of jobs, the speedup value of the algorithm proposed in this paper is also decreasing, but it is
+obviously better than other algorithms.
+shows the performance comparison of slowdown. The trend in the figure shows that
+Fig. 13
+with the increase of the number of jobs, the slowdown values of all algorithms are also increasing, which means that compared with
+
+Computers and Electrical Engineering 107 (2023) 108653
+14
+Y. Song et al.
+Fig. 15. Makespan comparison with different heterogeneous parameters.
+Fig. 16. Slowdown comparison with different heterogeneous parameters.
+Fig. 17. Speedup comparison with different heterogeneous parameters.
+a single job environment, the performance is declining due to the increased processor competition. It can be seen that our algorithm
+outperforms the other and mDAG-EFT is closest to us. When DAG number reaches 200, our algorithm performs a slowdown with
+7.5 which means an 7.5 times delay in average job finish time.
+represents the comparison of average makespan performance.
+Fig. 12
+The overall situation is similar to that of slowdown, and it is linear positive correlation with the number of jobs. It can be seen that
+our algorithm has the minimum average finish time compared with the other in different number of jobs, and shows more obvious
+advantages with jobs increase.
+From the above results, we can see that our algorithm is significantly superior to other algorithms in stream mode. In stream
+mode, the system task arrives immediately, and feature extraction based on GCN network can better capture the dynamically
+changing job information to assist decision-making. Combined with the current test results in batch and stream modes, our algorithm
+surpasses other algorithms in these indicators, proving that it has learned a more efficient scheduling strategy. Next, we will further
+compare and explore its performance in terms of the heterogeneity of the execution cost and the computation to communication
+ratio(CCR).
+5.3.4. Performance comparison of different heterogeneous parameters
+First, set a set of different heterogeneous parameters to express the differences in computing power of heterogeneous processor
+groups. Execute all algorithms under these parameters, and the results are as shown in
+.
+Figs. 14–16
+Figs. 15–17 visualize the result of different heterogeneity parameters
+. For performance comparison under the setting, the
+𝛼
+heterogeneous parameter is set to 0.5, 1, 2, 3. It can be seen from
+that with the increase of heterogeneous parameters, the
+Fig. 15
+average completion time of all algorithms is decreasing. The possible reason is that for scenarios with large heterogeneity, these
+algorithms are more sensitive to processor execution overhead and tend to choose processors with shorter execution time. Therefore,
+these algorithms can generate more efficient scheduling solutions when the heterogeneity is large. For the slowdown comparison in
+Fig. 16, the overall situation is similar to the average completion time. Our algorithm is stable when the heterogeneity changes, which
+
+Computers and Electrical Engineering 107 (2023) 108653
+15
+Y. Song et al.
+Fig. 18. Makespan comparison with different CCR.
+Fig. 19. Slowdown comparison with different CCR.
+Fig. 20. Speedup comparison with different CCR.
+is significantly better than other algorithms. For the speedup comparison in
+, with the increase of heterogeneity, speedup is
+Fig. 17
+on the rise as a whole. In the case of high heterogeneity(
+3), our algorithm is significantly superior to other algorithms, which
+𝛼=
+is probably benefit from the hybrid allocation strategy to make full use of heterogeneous information.
+5.3.5. Performance comparison of different communication to computation ratio
+Considering different types of tasks, there are often large differences in communication costs and computing costs. Therefore,
+set the calculated communication ratio to 0.1, 1, 2, 5, and 10 as a set of test parameters, and the results are shown in
+.
+Figs. 18–20
+It can be seen from
+that with the increase of CCR, the average completion time of each algorithm tends to decrease.
+Fig. 18
+The reason is that with the increase of CCR, the communication cost between nodes increases relatively, while the computing cost
+is relatively small. All algorithms tend to reduce the communication cost and allocate the parent and child nodes to the same
+processor. When the communication cost is obviously greater than the computation cost, this allocation method effectively reduces
+the completion time. The average completion time of our algorithm is significantly better than that of other algorithms; From Fig. 19
+With the increase of CCR, the slowdown of each algorithm shows a significant increase trend, and our algorithm is also relatively
+superior to other comparison algorithms. The reason is probably that when the CCR is large, the processor will have more space to
+wait for communication. At this time, task duplication reduces the idle overhead, thus improving the scheduling performance. From
+the speedup comparison in
+, our algorithm is still superior to other algorithms, which proves that in a multi job environment,
+Fig. 20
+the algorithm can still make full use of multiprocessor parallel scheduling and execution of each DAG.
+Table 4 summarizes the average indicators’ values under batch and stream scheduling mode. Integrating all experimental results,
+it can be seen that in most scenarios (different heterogeneity, different CCRs, different jobs), the proposed algorithm has a certain
+degree of performance improvement compared with the classical heterogeneous scheduling algorithm. Among the other algorithms,
+mDAG-EFT is second to our method. Because our algorithm has stronger feature extraction ability for complex DAGs scheduling
+scenarios, it is more efficient than others in these cases.
+
+Computers and Electrical Engineering 107 (2023) 108653
+16
+Y. Song et al.
+Table 4
+Comprehensive performance comparison of heterogeneous multi-DAG scheduling algorithm (see [ , ,
+,
+,
+]).
+6 7 10 25 26
+6. Conclusion
+This paper proposes a DAG job scheduling algorithm based on graph convolutional network and reinforcement learning. By
+learning the characteristics of job DAGs based on bidirectional message passing GCN network, the representations of node level,
+DAG level and global level are obtained, and input into the multi-layer fully connected network to select task node. In the task
+allocation phase, a heuristic algorithm named DPEFT based on critical parent task duplication and optimistic cost table is proposed.
+Network are trained based on PPO. The experimental results show that compared with other classical scheduling algorithms, this
+algorithm has better scheduling performance, which improved the average job cost, parallel performance, stability, etc.
+The algorithm proposed in this paper is suitable for DAG application scheduling with arbitrary structure. The benchmark dataset
+is relatively comprehensive, but lack of specialization; Moreover, our algorithm only considered the optimization of the average
+completion time of DAG jobs, without considering optimizing other indicators such as energy cost or response time, etc; In addition,
+this paper assumes that jobs have equal status and occupy processors fairly, and does not consider the situation where jobs have
+different priorities, which will be considered in the future work.
+Task selection and processor allocation are two important stages of the implementation of this algorithm. Compared with the
+traditional DAG scheduling algorithm, the selection order of nodes is determined by the neural network and is no longer based on
+manually defined priority indicators. Therefore, in the future work, we can consider further optimizing the mechanism of graph
+convolution network to enhance the ability of the model to express the structure of DAGs. In addition, the heuristic algorithm with
+fixed rules limits the exploration of policy learning, so we can consider building a task allocation algorithm based on reinforcement
+learning to enhance the exploration of the model through multi-agent learning.
+CRediT authorship contribution statement
+Yutao Song:
+Chen Li:
+Methodology, Software, Data curation, Writing – original draft.
+Conceptualization, Methodology, Writing
+– review & editing, Formal analysis.
+Resources, Supervision, Formal analysis.
+Resources, Formal analysis.
+Lihua Tian:
+Hui Song:
+Declaration of competing interest
+No author associated with this paper has disclosed any potential or pertinent conflicts which may be perceived to have impending
+conflict with this work. For full disclosure statements refer to
+.
+https://doi.org/10.1016/j.compeleceng.2023.108653
+Data availability
+No data was used for the research described in the article.
+Acknowledgments
+This work is supported by the National Natural Science Foundation of China under Grant No. 61901356 and Research on
+Steganography for the Information Security of PAP
+References
+[1] Prates Marcelo OR, Avelar Pedro HC, Lemos Henrique, Lamb Luis, Vardi Moshe. Learning to solve np-complete problems: A graph neural network for
+decision tsp. In: Proceedings of the AAAI conference on artificial intelligence. 2019, p. 4731–8.
+[2] Eduardo Silva, Paulo Gabriel. A comprehensive review of evolutionary algorithms for multiprocessor DAG scheduling. Computation 2020;8(2):26.
+[3] Zhao Henan, Sakellariou Rizos. Scheduling multiple DAGs onto heterogeneous systems. In: Proceedings of the 20th International conference on parallel
+and distributed processing (IPDPS’06). 2006, p. 159–64.
+[4] Sutton RS, Barto AG. Reinforcement learning: An introduction. Cambridge: MIT Press; 2018, p. 2–5.
+
+Computers and Electrical Engineering 107 (2023) 108653
+17
+Y. Song et al.
+[5] Wang Yuhui, He Hao, Wen Chao, Tan Xiaoyang. Truly proximal policy optimization. In: Conference on uncertainty in artificial intelligence. 2020, p.
+113–22.
+[6] Topcuoglu H H, Hariri S, Wu Min-You. Performance-effective and low-complexity task scheduling for heterogeneous computing. IEEE Trans Parallel Distrib
+Syst 2002;13(3):260–74.
+[7] Arabnejad Hamid, Barbosa Jorge G. List scheduling algorithm for heterogeneous systems by an optimistic cost table. IEEE Trans Parallel Distrib Syst
+2014;25(3):682–94.
+[8] Indrajeet Gupta, Kumar MS, Jana PK. Task duplication-based workflow scheduling for heterogeneous cloud environment. In: Ninth International conference
+on contemporary computing. IEEE Computer Society; 2016, p. 1–7.
+[9] Ranaweera S, Agrawal DP. A task duplication-based scheduling algorithm for heterogeneous systems. In: Proceedings 14th International parallel and
+distributed processing symposium. 2000, p. 445–50.
+[10] He Kun, Meng Xiaozhu, Pan Zhizhou, Yuan Ling, Zhou Pan. A novel task-duplication based clustering algorithm for heterogeneous computing environments.
+IEEE Trans Parallel Distrib Syst 2019;30(1):2–14.
+[11] Abdel-Basset M. Metaheuristic algorithms: A comprehensive review. Comput Intell Multimed Big Data Cloud Eng Appl 2018;185–231. http://dx.doi.org/
+10.1016/B978-0-12-813314-9.00010-4.
+[12] Keshanchi, Bahman, Navimipour, Nima Jafari, Souri, Alireza. An improved genetic algorithm for task scheduling in the cloud environments using the
+priority queues. J Syst Softw 2017;124:1–21.
+[13] Mao Hongzi, Mohammad Alizadeh, Ishai Menache, Srikanth Kandula. Resource management with deep reinforcement learning. In: Proceedings of the 15th
+ACM workshop on hot topics in networks. 2016, p. 50–6.
+[14] Gao YuanXiang, Chen Li, Li Baochun. Spotlight: Optimizing device placement for training deep neural networks. In: International conference on machine
+learning. 2018, p. 1676–84.
+[15] Mao Hongzi, Schwarzkopf Malte, Bojja Venkatakrishnan Shaileshh, Meng Zili, Alizadeh Mohammad. Learning scheduling algorithms for data processing
+clusters. In: Proceedings of the ACM special interest group on data communication. 2019, p. 270–88.
+[16] Luo Jinhong, Li Xijun, Yuan Mingxuan, Yao Jianguo, Zeng Jia. Learning to optimize DAG scheduling in heterogeneous environment. 2021, arXiv preprint
+arXiv:2103.06980.
+[17] Hua Zhigang, Qi Feng, Liu Gan, Yang Shuang. Learning to schedule DAG tasks[db/ol]. 2021, [2021-03-05]. https://doc.taixueshu.com/foreign
+/arXiv210303412.html.
+[18] Tong Zhao, Deng Xiaomei, Chen Hongjian, Mei Jing, Liu Hong. QL-HEFT: a novel machine learning scheduling scheme base on cloud computing
+environment. Neural Comput Appl 2020;32(10):5553–70.
+[19] Zhu Yu, Hu Bin. Smart-mDAG: An intelligent scheduling method for multi-DAG jobs. In: 2021 International conference on information and communication
+technology convergence. 2021, p. 110–5.
+[20] Zhang Si, Tong Hanghang, Xu Jiejun, Maciejewski Ross. Graph convolutional networks: a comprehensive review. Comput Soc Netw 2019;6(1):1–23.
+[21] Defferrard Michaël, Bresson Xavier, Vandergheynst Pierre. Convolutional neural networks on graphs with fast localized spectral filtering. In: Proceedings
+of the 30th International conference on neural information processing systems (NIPS’16). 2016, p. 3844–52.
+[22] Wu Zonghan, Pan Shirui, Chen Fengwen, Long Guodong, Zhang Chengqi, Philip S, Yu. A comprehensive survey on graph neural networks. IEEE Trans
+Neural Netw Learn Syst 2021;32(1):32.
+[23] Bansal S, Kumar P, Singh K. An improved duplication strategy for scheduling precedence constrained graphs in multiprocessor systems. Parallel Distributed
+Syst IEEE Trans 2003;14(6):533–44.
+[24] Bellman R. A Markovian decision process. Indiana Univ Math J 1957;6(4):15.
+[25] TPC-H. TPC-H Benchmark V3[EB/OL].
+.
+http://www.tpc.org/tpch/
+[26] Alworafi Mokhtar A, Dhari Atyaf, Al-Hashmi Asma A, Basit Darem A, Suresha. An improved sjf scheduling algorithm in cloud computing environment.
+In: 2016 International conference on electrical, electronics, communication, computer and optimization techniques. 2016, p. 208–12.
+Yutao Song: He is a graduate student and is currently studying at the School of Software, Xi’an Jiaotong University. His research topic is heterogeneous
+scheduling algorithms.
+Chen Li: She is an associate professor at the School of Software, Xi’an Jiaotong University. Her research interests are mainly in multimedia technology, including
+watermarking algorithms in audio, video, picture, etc.
+Lihua Tian: She is a senior engineer of the School of Software, Xi’an Jiaotong University. Her main research interests include watermarking algorithms in audio,
+video, picture.
+Hui Song: She graduated from the School of Software, Xi’an Jiaotong University, and her main research topic is digital audio watermarking.

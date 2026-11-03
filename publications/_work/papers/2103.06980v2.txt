@@ -1,0 +1,1428 @@
+arXiv:2103.06980v2  [cs.DC]  19 Feb 2022
+Learning to Optimize DAG Scheduling in
+Heterogeneous Environment
+Jinhong Luo‡†∗, Yunfan Zhou†§∗, Xijun Li†, Mingxuan Yuan†, Jia Zeng†, and Jianguo Yao‡,
+‡Shanghai Jiaotong University
+†Huawei Noah’s Ark Lab
+§Chinese University of Hong Kong (Shenzhen)
+∗Equal contributions
+1 Abstract—Scheduling job ﬂows efﬁciently and rapidly on
+distributed computing clusters is one of huge challenges for daily
+operation of data centers. In a practical scenario, a single job
+consists of numerous stages with complex dependency relation
+represented as a Directed Acyclic Graph (DAG) structure. Nowa-
+days a data center usually equips with a cluster of heterogeneous
+computing servers which are different in the hardware/software
+conﬁguration. From both the cost saving and environmental
+friendliness, the data centers could beneﬁt a lot from optimizing
+the job scheduling problems in the heterogeneous environment.
+Thus the problem has attracted more and more attention from
+both the industry and academy. In this paper, we propose a
+task-duplication based learning algorithm, namely LACHESIS2,
+aiming to optimize the problem. In the proposed approach, it
+ﬁrst perceives the topological dependencies between jobs using a
+reinforcement learning framework and a specially designed graph
+neural network (GNN) to select the most promising task to be
+executed. Then the task is assigned to a speciﬁc executor with
+the consideration of duplicating all its precedent tasks according
+to an expert-designed rules. We have conducted extensive experi-
+ments over standard workloads to evaluate the proposed solution.
+The experimental results suggest that LACHESIS can achieve at
+most 26.7% reduction of makespan and 35.2% improvement of
+speedup ratio over seven strong baseline algorithms, including
+the state-of-the-art heuristics methods and a variety of deep
+reinforcement learning based algorithms.
+Index Terms—DAG Scheduling, Task duplication, Deep Rein-
+forcement Learning
+I. INTRODUCTION
+With the rapid development of parallel and distributed
+computing, scheduling job ﬂows efﬁciently and rapidly on
+distributed computing clusters (i.e., data center) has become
+a vital problem. Because a little improvement in execution
+efﬁciency of the distributed computing clusters could both
+lead to huge increases in service providers’ proﬁts and large
+improvement of Quality of Service (QoS) for clients [1]. For
+this purpose, we are supposed to assign jobs to a suitable com-
+putation resource (also called executor) within the distributed
+system to complete jobs as soon as possible while meeting all
+requirements of service.
+Speciﬁcally, in the typical jobs scheduling problem, a job
+to be scheduled consists of many stages (also called tasks)
+among which there is a determined dependent relationship.
+A Directed Acyclic Graph (DAG) is utilized to describe the
+1Xijun Li is the corresponding author.
+2The second of the Three Fates in ancient Greek mythology, who deter-
+mines destiny.
+above dependency. The job is said to be completed once its all
+tasks have been ﬁnished on executors following the given de-
+pendency. The goal is to ﬁnish on-the-ﬂy jobs within a cluster
+of homogeneous executors with one or more metrics of interest
+(e.g., makespan, average complete time, etc.) via assigning
+each task to an appropriate executor subject to all dependencies
+between tasks. The job scheduling problem within homoge-
+neous executors has been proved NP-hard [2]. However, the
+heterogeneous computation has become the mainstream infras-
+tructure of cutting-edge distributed computing clusters, which
+requires us to consider the differences among the executors
+when scheduling jobs to these heterogeneous executors. The
+differences between these heterogeneous executors might be
+the computation, communication capacity, etc., which greatly
+increases the complexity of the scheduling problem.
+Many previous works have been proposed to solve the
+DAG scheduling problem under different settings, which
+fall into two categories, heuristics, and learning-based al-
+gorithms. Generally, heuristics mainly include list schedul-
+ing [3], cluster-based scheduling [4], and task duplication-
+based scheduling [5]. List scheduling [3] divides the schedul-
+ing process into two-phase work, task selection, and executor
+allocation. Cluster-based scheduling [4] clusters the tasks
+by heuristic rules to resolve the dependencies and assigns
+different task clusters to speciﬁc executors by the assignment
+strategy. Task duplication-based scheduling [6] duplicates
+tasks properly to reduce communication costs to minimize the
+completion time of all jobs. Furthermore, the task duplication
+technique can be combined with list scheduling or cluster-
+based scheduling to improve the scheduling result. However,
+the design of heuristics heavily relies on the experience of
+human experts, almost not taking advantage of amounts of re-
+dundant pattern and characteristics of the scheduling problem.
+Thus, learning-based algorithms are proposed to address
+the above issues. Mao et. al. proposed Decima algorithm [7]
+that adopts a Graph neural Network (GNN) to learn the task
+dependencies and executor real-time information ﬁrst and then
+decides the stage assignment. Besides, Sun et. al. proposed
+a GNN-based architecture named DeepWeave [8], which re-
+duces the Job Completion Time (JCT) by accelerating the
+co-ﬂow transmission while processing every single job stage.
+Nevertheless, all above techniques neglect the development of
+heterogeneous computation, which means they do not consider
+the DAG job scheduling within a cluster of heterogeneous
+
+executors.
+Thus, to optimize the DAG Job scheduling problem,
+LACHESISis proposed in this paper. The major challenges is
+summarized as follows. First, we have to tackle the complex
+dependencies among job stages, which requires the algorithm
+to comprehensively perceive the topological structure of jobs.
+Second, the state information in a scheduling problem is large-
+scale and dynamic, since hundreds of jobs are continuously
+submitted by clients to the distributed system. Third, the
+heterogeneity of executors makes the calculation of an optimal
+solution very difﬁcult. To address the above challenges, a task-
+duplication-based learning algorithm named LACHESIS
+is
+proposed, which incorporates GNN with an elaborated heuris-
+tic in a two-phase scheduling framework. In the ﬁrst phase,
+LACHESIS perceives the dependencies between all existing
+tasks using a specially designed GNN, followed by a policy
+network to select one task to be executed. Then a heuristic
+method is designed to assign the task to the most ’appropriate’
+executor and meanwhile decide whether to duplicate all its
+precedent tasks or not.
+The technical contributions of this paper can be summarized
+as follows:
+• We deﬁne a DAG job scheduling problem in a heteroge-
+neous environment, where the executors might differ from
+each other with respect to capabilities of computation and
+communication. Meanwhile, the task to be executed in
+the environment is allowed to be duplicated over multiple
+executors.
+• We design a task-duplication based learning algorithm,
+which incorporates the GNN with heuristics in a two-
+phase framework. The two phases are in charge of task se-
+lection and executor allocation respectively. Speciﬁcally,
+in the ﬁrst phase, we adapt the GNN in order to deal
+with DAGs of arbitrary shapes and sizes and complex
+dependencies. Besides, the heuristics used in the second
+phase consider the duplication of tasks over multiple
+executors.
+• We evaluate the proposed algorithm with extensive exper-
+iments. The experimental results show that our approach
+achieves at most 26.7% reduction of makespan and
+35.2% improvement of speedup ratio over seven strong
+baselines.
+The remainder of this paper is organized as follows. The
+previous works are discussed in Section II. A formal deﬁnition
+of the problem is given in Section III. Our approach to solving
+the problem is presented in Section IV. The experimental
+results are reported in Section V, followed by conclusion in
+Section VII.
+II. RELATED WORK
+Many works has been contributed to solve the DAG schedul-
+ing problem with both heuristic and machine learning methods.
+Domain Resource Fairness (DRF) [9] algorithm schedules
+different types of resources to satisfy several highly desirable
+properties, especially fairness. The Shortest Job First (SJF)
+algorithm schedules the shortest job preferentially. Tetris [10]
+schedules many types of executors with an analog of shortest-
+running-time-ﬁrst to trade-off cluster efﬁciency for speeding
+up individual jobs.
+List scheduling is widely used for DAG scheduling. Het-
+erogeneous Earliest Finish Time (HEFT) algorithm [3] is a
+highly efﬁcient list scheduling algorithm. Speciﬁcally, HEFT
+prioritizes the task with a high-level feature and allocates
+executors for tasks with a heuristic search algorithm. Besides,
+Critical Path on a Processor (CPOP) algorithm [3] is another
+list scheduling algorithm which allocates the fastest executors
+for the tasks on critical path and matches other executors
+with other tasks. Moreover, the Dynamic Level Scheduling
+(DLS) algorithm [11] chooses a pair of tasks and executors
+which maximize a dynamic attribute combined with tasks and
+executors, which is also a list scheduling algorithm.
+The scheduling policy is able to duplicate some tasks to
+save time for data communication in task duplication scenario.
+Task Duplication based Scheduling (TDS) algorithm [6] uses
+clustering scheduling method to generate a schedule only
+considering duplicating the critical parent task. Duplication
+First and Reduction Next (DFRN) algorithm [12] based on list
+scheduling method duplicates the task ﬁrstly and reduces the
+redundant task secondly. Task Duplication based Clustering
+Algorithm (TDCA) [13] generates a schedule through four
+steps: cluster initialization, task duplication, process merging,
+and task insertion.
+Different from the aforementioned heuristic algorithms,
+learning-based algorithms including Reinforcement Learning
+(RL) [14], Deep Learning (DL) [15] etc. are proposed to solve
+DAG scheduling problem. Decima [7] using RL to train a deep
+neural network to schedule the jobs on spark cluster. However,
+Decima only handles the scheduling in homogeneous environ-
+ment and detachable jobs without considering data transmis-
+sion time existing in jobs. Furthermore, task duplication is not
+supported by Decima. DeepWave [16] proposed by Sun et. al.
+also uses RL to train a neural network to schedule coﬂow in
+job DAG in order to reduce Job Complete Time (JCT). Ni
+et. al. proposed Dream [17] which places a data processing
+node on a suitable resource to maximize the throughput of the
+whole process using GNN and RL.
+III. PROBLEM DESCRIPTION
+DAG scheduling problem in heterogeneous environment
+widely exists in distributed computing systems. The jobs to
+be executed are continuously submitted by clients to the
+distributed system which is composed of heterogeneous ex-
+ecutors. In particular, each job consists of tasks, in which there
+are determined dependencies. One task could be executed on
+one executor if 1) all its precedent tasks have been ﬁnished
+and 2) corresponding data needed is available. A job is said
+to be completed if all tasks of it have been ﬁnished by
+corresponding executors. One is supposed to appropriately
+assign tasks to executors in order to complete on-the-ﬂy jobs as
+soon as possible while meeting all requirements of scheduling.
+Speciﬁcally, the goal of this work is to minimize the makespan.
+A relatively formal problem description is given below. For
+
+TABLE I: Notation of all variable used in this paper
+symbol
+description
+J
+job (DAG)
+n
+task (DAG node)
+wi
+the computation size of node ni
+j(ni)
+node ni’s job
+ϕ(ni)
+node ni’s parent nodes
+ξ(ni)
+node ni’s children nodes
+γ(ni)
+edges connecting node ni and its children nodes
+At
+the set of executable nodes at time t
+eij
+the size of data transferred from node ni to node nj
+rk
+the executor in system
+vk
+the processing speed of executor rk
+Rnp
+the set of executors allocated for node np
+qj
+n
+node score
+cij
+the transmission speed between executor ri and executor rj
+f, g, q
+non-linear functions
+xj
+n
+node feature vector
+aj
+n
+edge feature vector
+ej
+n
+per-node embedding
+EST
+the earliest start time
+AST
+actual start time for job (node)
+EF T
+the earliest ﬁnish time
+AF T
+actual ﬁnish time for job (node)
+ease of reading, we summarize all variables used in this paper
+in Table I.
+Deﬁnition 1 (Actual Finish Time): AFT (ni, rk) represents
+actual ﬁnish time for node ni executed on executor rk, which
+can be calculated as follows:
+AFT (ni, rk) = AST (ni, rk) + wi
+vk
+(1)
+where AST (ni, rk) denotes actual start time for node ni is
+executed on executor rk.
+Deﬁnition 2 (Earliest Start Time): EST (ni, rj) represents
+the earliest start time for node ni executed on executor rj,
+which can be calculated by:
+EST (ni, rj) =
+max
+np∈ϕ(ni)( min
+rp∈Rnp
+AFT (np, rp) + ep,i
+cp,j
+)
+(2)
+EFT (ni, rj) = EST (ni, rj) + wi
+vj
+(3)
+Obviously, the earliest start time and the earliest ﬁnish time
+depends on actual ﬁnish time of parent nodes and dependent
+data transmission time.
+Deﬁnition 3 (Makespan): Makespan is completion time of
+the workload which is signiﬁcant to execution efﬁciency of
+the whole process. Our target in the DAG scheduling problem
+is minimizing the makespan, which can be deﬁned as follows:
+Objective : min(makespan(Job))
+(4)
+where Job = {J1, J2, ···, Jk} represents the set of jobs in the
+system.
+The DAG scheduling problem can be illustrated as follows.
+Given the dependency relations of tasks, the computation size
+of the task, the size of data transferred between tasks, speed
+of computation for executors, and speed of data transmission
+for executors, the DAG scheduling is to schedule the tasks
+on executors to minimize the makespan. In order to simplify
+Fig. 1: A simple instance of a DAG-structured job. A node in
+the DAG represents a job stage, which is composed of several
+parallel tasks. Meanwhile, an edge is deﬁned by the nodes it
+connects and the size of data shufﬂed by it. In a DAG job,
+only the nodes whose parent nodes are ﬁnished can be the
+candidate of the next node chosen to be processed.
+the problem properly, we assume that every task can be exe-
+cuted by executors successfully without considering execution
+failure. Furthermore, we assume that wi
+vj represents all time
+for task ni executed on executor ri avoiding considering the
+changes of the processing speeds of executors. In addition to
+assumptions, the constraints of the problem are also signif-
+icant to the scheduling process. And some constraints must
+be satisﬁed in scheduling process. The constraints can be
+demonstrated as follows:
+1) Constraints for tasks: First, all tasks are atomic, and
+they can’t be preempted by another task if they are running
+on executors. Moreover, a task should be assigned to at least
+one executor to be executed. If it is assigned to more than
+one executor, the result of the same task executed on different
+executors is also the same. The last, a task can be executed
+by an executor until all of its dependencies are satisﬁed
+and all data required is transferred to the assigned executor.
+Finally, tasks can be noticed and processed if and only if the
+corresponding job arrives at the system.
+2) Constraints for executors: First of all, |R| ∈N indicates
+that the number of executors in the system is limited. Then,
+every executor can only execute a task at the same time. In
+other word, the execution of different tasks assigned on the
+same executor is exclusive. Finally, vi̸ = vj, i̸ = j represents
+that the processing speeds of executors may be different.
+3)Constraints for communication: In the ﬁrst place, result
+data can only be transferred from one executor to another
+executor after the task generating result data is completed.
+In the second place, data transfer time is communication data
+size divided by transfer speed between two executors if the
+
+parent task and the children task aren’t assigned to the same
+executor, and otherwise 0.
+The main challenges of DAG scheduling in a heterogeneous
+environment could be summarized as follows.
+Complex dependencies. Data processing platforms and query
+compilers such as Hive, Hadoop, and Spark-SQL create jobs
+which usually have a DAG structure. Generally, the DAG is
+complicated and arbitrary due to tens or hundreds of tasks
+and countless data transmissions. An optimal scheduler should
+ensure that the tasks are executed in parallel as much as
+possible and no task is blocked by the dependencies of the
+task under the condition of available executors. In order to
+realize the above targets, the scheduling algorithm should
+understand the complex dependencies of tasks and plan ahead
+to assign the tasks to executors properly. Evidently, it is
+of great importance to learn from the DAG structure for
+designing an ideal scheduling algorithm. On the contrary, the
+traditional algorithms just enqueue different available tasks
+by a high-level attribute directly without taking advantage of
+dependencies fully.
+Heterogeneous environment. Executors within a large scale
+cluster or cloud environment are usually heterogeneous, which
+probably have different computing speed, memory size, and
+transmission bandwidth. Furthermore, the difference in com-
+puting speed may cause a huge difference in computation time
+when executors deal with the same task. So allocating the
+task to a suitable executor is able to reduce execution time.
+Certainly, a naive idea is allocating all tasks to the fastest
+executor to get minimum time of task execution. However,
+the allocation strategy damages the parallelism of all task
+execution process. Although it obtains minimum execution
+time of a single task. In addition, the execution time of two
+similar tasks executed by two slow executors parallel is not
+less than executed by a fast executor when the processing
+speed of the fast executor is twice the slow executor. Therefore,
+an ideal scheduling algorithm should consider not only the
+parallelism of execution but also the difference in processing
+speed. In other words, the heterogeneity of executors makes a
+huge room for improvement of efﬁciency of DAG scheduling
+systems. Evidently, the task should be assigned to a speciﬁed
+executor which is more complicated than assignment in a
+homogeneous environment.
+Continuous arrival of jobs. In addition to understanding
+task dependencies and executor heterogeneity, an ideal DAG
+scheduling algorithm should also deal with the situation
+that many jobs arrive in the system continuously. For the
+data processing platform, the jobs are submitted by differ-
+ent clients randomly. Hence, the DAG scheduling algorithm
+should schedule the tasks to executors continuously and plan
+ahead for the future arrival jobs. The future jobs arriving at
+the platform will change the current DAGs’ structure. On the
+contrary, some existing algorithms only handle the situation
+where all jobs arrive at the system at start time. They can
+optimize the schedule result iteratively and modify the existing
+assignment gradually due to the changeless DAGs. Therefore,
+the DAG scheduling algorithm in continuous environment
+should make an assignment immediately which would be
+executed in time. Besides, every assignment decision should
+be completed in a short period of time to avoid blocking the
+execution of tasks.
+IV. THE PROPOSED FRAMEWORK
+This
+section
+presents
+the
+details
+of
+our
+proposed
+LACHESIS. Speciﬁcally, LACHESIS is composed of two
+parts: a GNN and a heuristic algorithm, which is correspond-
+ing to the two phases of the scheduling process, namely
+the node selection phase and the executor allocation phase.
+In the node selection phase, LACHESIS uses a GNN to
+learn the complex relationship no matter tasks in the same
+job or in different jobs. In the executor allocation phase,
+LACHESIS uses a heuristic search algorithm to assign the
+selected task to a suitable executor and decide to duplicate the
+corresponding task or not. Finally, we adopt a reinforcement
+learning paradigm to train LACHESIS as an entirety. As
+scheduling DAG jobs, LACHESIS repeats the above process
+until all tasks are assigned to executors. In particular, this
+kind of algorithm framework combine the advantages of RL
+and heuristic method to ensure high decision quality and fast
+inference, which can handle scalable task information and
+heterogeneous executor states.
+A. GNN Design
+The GNN contained in the LACHESIS is mainly con-
+structed by two parts, namely information embedding and
+a fully connected feed-forward network. In this section, we
+will focus on the detail of information embedding. Since we
+adopt a reinforcement learning paradigm to train LACHESIS,
+the information of jobs in the system should be properly
+transferred to the LACHESIS to function as state information.
+Obviously, the most naive idea is to construct a ﬂat vector
+with all features of a job to represent the job in the system.
+However, a ﬂat vector is incapable to represent the complicated
+relationship between different job stages. Hence, a information
+embedding process is leveraged to generate a representation
+consisting of all the useful information.
+Before concentrating on the process of information em-
+bedding, it is signiﬁcant to choose useful features for a job
+stage as raw information. Evidently, good features of nodes
+may help the model represent DAG information clearly. And
+some high-level features such as rankup and rankdown can
+represent the DAG information about the task, which are
+beneﬁcial to the GNN to process the problem structure. For
+instance, rankup and rankdown, which can be calculated as
+Eq. (5) and (6) respectively, represent the length from the
+node to exit node (the node without children nodes) and the
+length from the task to the entry node (the node without
+parent nodes) [3] respectively. In other words, the two features
+indicate the approximate position of the belonging DAG for
+the corresponding node. In particular, the job attributes contain
+the number of left tasks and the sum of average execution
+time for left tasks. Moreover, the node features contains all
+the features from the corresponding job such as the average
+
+Fig. 2: Node embedding in a DAG job. For a certain em-
+bedding node, the information contained in its children nodes
+and edges connecting them is aggregated and transferred in a
+two-level neural network.
+left execution time, the average time cost of incoming data, the
+average time cost of outgoing data, rankup, and rankdown.
+rankup (ni) = wi
+¯v +
+max
+nj∈ξ(ni)
+ei,j
+cij
++ rankup (nj)
+
+(5)
+rankdown (ni) =
+max
+nj∈ϕ(ni)
+
+rankdown (nj) + wj
+vj
++ eji
+cji
+
+(6)
+In Eq. (5), v means the average speed of all executors, and
+eij indicates the data size transferred from node ni to node
+nj. Generally, the rankup value of node ni equals the average
+execution time of itself adding the maximum value of the sum
+of communication cost and the maximum rankup of children
+nodes. Hence, rankup value is the maximum execution time
+for the paths from the node to exit node. Similarly, rankdown
+value represents the maximum execution time for the paths
+from the entry node to the corresponding node. The above
+process is shown in Figure 2.
+The information embedding is composed of two procedures:
+node embedding and high-level summarization. In the node
+embedding procedure, the computation of every node embed-
+ding GNN layer can be expressed as follows:
+ej
+n = g
+
+X
+u∈ξ(n)
+ ej
+u
+
+
++ h
+
+X
+u∈γ(n)
+ aj
+u
+
+
++ xj
+n
+(7)
+In Eq. (7), vector xj
+n represents the node attributes correspond-
+ing to tasks in Job j. LACHESIS constructs a per-node em-
+bedding (Gj, xj
+n) 7−→ej
+n. Eq. (7) illustrates the fundamental
+calculation operation of GNN of LACHESIS. Similarly, the
+per-job embedding and global embedding can be calculated as
+Eq. (7). Node embedding leverage the connectivity of DAG to
+pool the information to each node. By stacking node embed-
+ding GNN layers together, a node can eventually incorporate
+information from across all the reachable nodes. However,
+node embedding is incapable to aggregate the information for
+a whole DAG job or a cluster of DAG jobs. Thus, we design
+the high-level summarization to tackle this ﬂaw, as shown in
+Figure 3.
+Fig. 3: High-level summarization of DAG jobs’ information.
+Nodes’ information is pooled to generate DAG summaries.
+And all DAG summaries are passed through a neural network
+to generate a global summary.
+Fig. 4: Framework of the GNN used in LACHESIS. Job
+information and executor information is the input of the GNN.
+Furthermore, the job information is incorporated to three
+different dimension representations. Finally, the GNN outputs
+the probabilities of each candidate job stage being selected.
+After this multi-layer data processing, we get the three
+different dimension representations of the jobs in the system.
+Next, those representations are computed through a fully
+connected feed forward network, outputting initial scores for
+candidate nodes. Then, a softmax layer is used to compute
+the probability of every node with the obtained scores. The
+probability of every node can be calculated as follows:
+P(n) =
+exp
+ qi
+n
+
+P
+u∈At exp
+
+qj(u)
+u
+
+(8)
+In Eq. (8), P(n) represents the probability of the node n
+and qi
+n represents the score for the node n in job Ji. And
+At indicates the executable node set for current state which is
+computed at every node selection step. All above procedures
+are depicted in Figure 4.
+After the process of GNN, the scheduling algorithm is able
+to select the next node based on current information which
+is a key part of the whole algorithm. Then, the selected node
+is supposed to be assigned to a suitable executor to minimize
+ﬁnish time of the node. Evidently, we can get a good schedule
+with a small makespan if we minimize the ﬁnish time of every
+node at every assignment step.
+B. Executor Allocation
+Assigning a node to a suitable executor is another important
+step for the whole scheduling process. Obviously, a simple
+
+idea is making use of a neural network model to deal with node
+information and executor information to select a pair of nodes
+and executors at the same time. It handles the task and executor
+information together to generate an assignment pair which
+can be executed directly without other computation. However,
+the decision space of the neural network model would be the
+product of executable tasks and available executors which are
+too large to converge to a stable state. Therefore, we design
+a two-phase algorithm to cope with the problem which is
+capable of reducing the decision space, which includes the
+node selection phase and the executor allocation phase. In
+the ﬁrst place, in the node selection phase, the algorithm
+only focuses on handling job information without considering
+executor information. In the second place, in the executor allo-
+cation phase, the model only makes decisions about executor
+information with the determinate selected node.
+A heterogeneous environment makes the executor alloca-
+tion more difﬁcult than that in a homogeneous environment.
+Considering task duplication, task assignment should bal-
+ance the computing cost and communication cost. In fact,
+heterogeneous executor information is standard and easy to
+deal with if the next node is determined. Therefore, we
+choose a heuristic search algorithm to allocate an executor
+for the selected node by considering execution efﬁciency.
+Task duplication should be considered under many conditions.
+Apparently, duplicating a task on different executors will
+probably reduce the earliest start time for the children tasks
+directly by saving communication cost. Besides, duplicating
+many tasks on different executors may also be beneﬁcial to
+reduce the makespan in some cases. However, the online job
+processing procedure requires the algorithm to deal with the
+jobs as soon as possible. And the assignment generated by
+the algorithm is not changeable because it may be executed
+immediately. So it is not possible to optimize the assigned
+schedule through trying different duplication schedules.
+Considering the efﬁciency of execution and the continuous
+execution model, we design the DEFT algorithm attempts
+to try to duplicate one parent node of the selected node
+to reduce the makespan avoiding duplicating multiple tasks
+simultaneously in at a single assignment step. In order to
+compute the earliest ﬁnish time of the selected node in task
+execution mode, copy parent earliest ﬁnish time algorithm
+(CPEFT) duplicates one parent of the select node on the
+executor before computing. In some cases, the earliest ﬁnish
+time in duplication execution mode is not less than that in
+common execution mode. So DEFT algorithm comprised of
+EFT and CPEFT is supposed to compare the result of EFT
+with that of CPEFT to obtain the minimum result. The CPEFT
+algorithm can be calculated as follows:
+AFT C(nk, ni, rj) =
+min
+rk∈Rnk
+
+AFT (nk, rk) + eki
+ckj
+
+(9)
+CPEFT (np, ni, rj) =
+max
+nm∈ϕ(ni),nm̸=np [AFT C(np, ni, rj), AFT C(nm, ni, rj)] + wi
+vj
+(10)
+In Eq. (10), CPEFT attempts to duplicate each parent node
+of the selected node to calculate the earliest ﬁnish time
+and selects the minimum result. Rnp is the set of allocated
+executors for node np; AFT and AFT C are calculated as
+Eq. (1) and Eq. (9). So DEFT can be calculated as follows:
+DEFT (ni) = min
+
+min EFT (ni, rk) ,
+min
+np∈ϕ(ni)CPEFT (np, ni, rj)
+
+(11)
+In Eq. (11), the DEFT algorithm selects the minimum result
+in the results of EFT and CPEFT, which ensures that the
+result is the minimum one no mater duplicate the parent node
+or not. Appendix (Section VI) provides the details of DEFT
+algorithm. Brieﬂy, the heuristic algorithm DEFT searches all
+the executors and selects the earliest ﬁnish time assignment
+considering task duplication.
+The heuristic algorithm makes the selected node matched
+with a suitable executor through two loops in a short time. In
+summary, we can calculate an assignment for a node through
+the node selection phase and the executor allocation phase.
+C. Algorithm Training
+Training the aforementioned algorithm model to suit the
+continuous execution environment is an intractable problem
+for LACHESIS. LACHESIS assigns a node to an executor
+at one step, and it repeats this procedure until all nodes
+are assigned. Once a node is assigned to an executor, the
+algorithm will decide the next node based on updated in-
+formation about jobs and executors. The timing to execute
+the scheduling algorithm in the continuous execution mode
+is signiﬁcant. The scheduling algorithm should interact with
+the scheduling events because it can’t schedule tasks all the
+time. In particular, the scheduling events happen when a job
+arrives at the system, a task is completed by executor and
+the system contains unassigned executable tasks. For each
+scheduling event, LACHESIS probably schedules a task to
+the corresponding executor and updates information of the left
+tasks and executors.
+RL training proceeds in episodes to optimize the objective.
+Each episode contains many scheduling events and actions
+generated by LACHESIS. We use T and tk to represent
+the number of actions in an episode which can vary in
+different episodes and the wall clock time for kth action
+respectively. Usually, the RL framework requires a reward to
+navigate the model to achieve the designed target. So after
+every action, LACHESIS generates a reward of rk based on
+the high-level scheduling objective in the training process.
+For instance, LACHESIS penalizes the agent rk = −(tk −
+tk−1) after the kth action if the objective is minimizing the
+makespan. Minimizing the expected time-average of penalties
+E[ 1
+tT
+PT
+k=1(tk −tk−1)] is the target of the RL reward.
+LACHESIS uses synchronous actor-critic method [18] for
+RL training. Speciﬁcally, this method uses an actor network to
+choose the action and a critic network to score the potential se-
+lection actions, which is more stable than one network method
+for model training. In addition, all operations of LACHESIS
+from GNN to the policy network are differentiable. We use
+the following elements to illustrate the RL model concisely.
+
+Algorithm 1: Training process for LACHESIS
+1 Initialize the weights of actor µ (s | θµ) πθand critic
+Qw
+ s, a | θQw
+2 for each iteration do
+3
+Sample a job arrival sequence randomly
+4
+Sample episode length τ ∼exponential(τmean)
+5
+Receive initial observation s1
+6
+for k = 1 to τ do
+7
+Select action ak = µ (s | θµ)
+8
+Execution action ak and observe reward rk, state
+sk+1
+9
+Let yk = rk + γQ′
+w(sk+1, µ′(sk+1|θµ′)|θQ′
+w)
+10
+Update critic by minimizing the loss:
+L =
+1
+N
+P
+i(yi −Qw(si, ai|θQw))2
+11
+Update the actor policy:
+12
+∇θµµ|
+ak =
+1
+N
+P
+k ∇θµµ
+
+s | θβ2
+∇aQw
+ s, a | θQw
+13
+Update the target networks:
+14
+∆θ ←∆θ + ∇θ log πθ (sk, ak) Qw(sk, ak)
+15
+end
+16
+τmean ←τmean + ǫ
+17
+θ ←θ + α∆θ
+18 end
+State (s): information about the system including the sum of
+average execution time of left tasks, the number of left tasks,
+average communication time, high-level features, etc.
+Action (a): the action of selecting the next task.
+Reward (r): rk
+=
+−(tk −tk−1) which minimizes the
+makespan.
+Provided that the agent collects the observation (sk, ak, rk)
+in the episode which has T actions. LACHESIS uses the
+actor-critic method to update the parameters θ of the policy
+πθ(st, at) as follows:
+θ ←θ + α∇θ log πθ (sk, ak) Qw (sk, ak)
+(12)
+In Eq. (12), α, Qw (sk, ak), and log πθ (sk, ak) represent
+the learning rate, the score generated by the critic network
+for current (sk, ak) and the various directions of the action
+ak on the state sk in the parameter space. Brieﬂy, the goal
+of the equation is to get a better-than-average reward through
+changing the probability of the task being selected based on
+the score. The pseudo code in Algorithm 1 provides more
+details about algorithm training.
+V. EVALUATION
+A. Implementation
+We implement LACHESIS as a plug-and-play scheduling
+service using Python, which can communicate with the data
+processing platform. Usually, the data processing platform
+consists of a master node and many resource nodes. The
+resource node executes the tasks dispatched by the master node
+and reports information about the resource node to the master
+node through the node manager which is an application in
+the resource node. Similarly, the resource manager dispatching
+tasks is an application of the master node.
+Fig. 5: Actor-critic training framework of LACHESIS.
+The running procedure of the data processing platform
+with a LACHESIS agent can be described as follows. First
+of all, clients submit jobs to the data processing platform.
+Then, the resource manager sends information about jobs and
+executors to LACHESIS agent and gets an assignment for the
+next task from LACHESIS. Next, the resource manager dis-
+patches the task to the corresponding resource node based on
+the decisions of LACHESIS agent. Particularly, the resource
+node reports the execution status to the master node with
+heartbeats. Therefore, LACHESIS can be easily integrated
+into the data processing platform as a plug-and-play module.
+LACHESIS agent only gets information from the master node
+and computes an assignment for the next task. The information
+that the master node transfers to LACHESIS agent is state
+observation and resource status. State observation is described
+in Section IV-A. Resource status contains available execution
+time of the executor and the list of executed tasks on the
+resource node.
+As for the detailed implementation of GNN in LACHESIS
+, it consists of a three-layer modiﬁed graph convolution neural
+network which uses the technique of sharing parameters.
+Speciﬁcally, each layer only contains two non-linear function
+f(·) and g(·). Besides, the policy network contains three hid-
+den fully connected layers with 32, 16, 8 units on each layer,
+respectively. As mentioned above, the RL neural network is
+a light-weight model which infers the next task less than 30
+ms in most situations. For the heuristic method DEFT, it will
+cost M computations if it does not duplicate the parent nodes
+where M is the number of executors. Considering duplicating
+a parent node in every assignment step, it takes P ∗M
+computations where P is the number of parent tasks. So the
+complexity of the assignment one task to executor is O(PM).
+For all tasks in the system, the complexity of the whole process
+is O(EM) where E is the number of edges.
+A simulated environment for the data processing platform
+is beneﬁcial to the ofﬂine training of LACHESIS. Generally,
+training the RL model in a real environment occupies many ex-
+ecutors with a low speed for training. Therefore, we designed
+a simulator for the data processing platform and trained our
+model on it. The details of the simulator are demonstrated
+in Appendix (Section VI). The RL model trained with the
+simulator can be integrated with the true data processing
+platform well to generate good assignments for the system.
+
+B. Experiment Settings
+Dataset. The experiment dataset is generated from TPC-
+H workload [19], which is a decision support benchmark.
+Speciﬁcally, the workload mainly contains TPC-H queries
+which are executed on a real data processing platform. In
+order to avoid processing the complex real environment, we
+extract the key information about task dependencies and work-
+load size from the workload and evaluate LACHESIS in the
+simulated environment with the TPC-H workload. Because the
+scheduling algorithm should be able to process jobs regardless
+of scale, we evaluate it with small scale jobs and large scale
+jobs. The jobs are selected from the TPC-H workload with
+six size types (2, 5, 10, 50, 80 and 100 GB) and 22 different
+job shapes. For the heterogeneous executors, we focus on
+processing speed of executors. So we collect the frequency
+of the Intel CPU range from 2.1 to 3.6 GHz. We simulate 50
+executors in experiments and set computing speed from the
+frequency table randomly to realize the heterogeneity. In order
+to simplify the scheduling problem, we assume that transfer
+speed is the same between different executors.
+Compared baselines. Seven strong baselines are compared
+with the proposed LACHESIS :
+1) First-In-First-Out (FIFO) scheduling method. It executes
+jobs based on an ascending order of arrival time that they arrive
+at the platform. And the algorithm uses the DEFT algorithm
+in the executor allocation phase.
+2) Short Job First (SJF) scheduling method. It prioritizes
+the executable tasks by an ascending order of arrival time
+to generate the execution order. Similarly, the algorithm also
+allocates the selected task to an executor through DEFT
+algorithm.
+3) HEFT algorithm. It is a high efﬁciency heuristic schedul-
+ing algorithm in non-duplication and batch mode. It prioritizes
+the tasks with high-level features rankup by a descending
+order and allocates executors with the EFT algorithm.
+4) TDCA algorithm. It makes use of duplication and clus-
+tering techniques to minimize the makespan in batch mode.
+5) A RL-based scheduling algorithm based Decima named
+Decima-DEFT. It combines the task selection method from
+Decima and the DEFT heuristic algorithm.
+6) A high rankup ﬁrst scheduling algorithm. It selects the
+next task based on the rankup feature. It also uses a DEFT
+algorithm to allocate executors for the selected task.
+7) A high response ratio next (HRRN) algorithm. It selects
+the next task by the ratio
+twait
+twait+texecution where twait rep-
+resents the wait time and texecution represents the execution
+time. DEFT is used for the executor allocation in the algo-
+rithm.
+Metrics. We use makespan, speedup, and schedule length
+ratio to measure the performance of the scheduling algorithms.
+Evidently, different metrics can be used for measuring the
+performance in different angles. Speciﬁcally, makespan is the
+completion time of all jobs, and the speedup value is sequential
+execution time divided by actual execution time in batch mode.
+The sequential execution time is computed by assigning all
+tasks to the fastest executor. The actual execution time is the
+0
+100
+200
+300
+400
+500
+600
+700
+800
+Episode
+0
+500
+1000
+1500
+2000
+2500
+3000
+3500
+4000
+4500
+Loss
+Lachesis
+Fig. 6: Learning curve of the proposed algorithm
+time of the generated schedule, also called makespan. The
+speedup value can be computed as follows:
+Speedup = minpj∈Q
+P
+ni∈N wi,j
+	
+makespan
+(13)
+In Eq. (13), the numerator is a determinate value for the
+same executor environment. Therefore, higher speedup value
+represents less actual execution time which is a better schedule
+result. Average speedup value is the average result of speedup
+value, which is used in our experiment to measure the exper-
+iment result.
+It is necessary to normalize the schedule to compare the
+performance between different jobs. And the schedule length
+ratio (SLR) is the makespan of the actual schedule divided
+by the lower bound execution time, which can normalize the
+scheduling result. The SLR value of a schedule on the jobs
+can be deﬁned as follows:
+SLR =
+makespan
+P
+ni∈CPMIN minpj∈Q {wi,j}
+(14)
+In Eq. (14), the denominator means the sum of execution
+time for allocating nodes on the critical path (CPmin) to
+the fastest executor. And the critical path of a DAG is the
+minimum length of entry node to exit node. Besides, the
+denominator of the fraction only depends on the DAGs and
+executors without the inﬂuence of the scheduling algorithm,
+which is the lower bound of the problem. Evidently, the
+scheduling algorithm gets the lowest SLR result in a special
+situation indicating that it is the best algorithm with respect
+to performance. In our experiment, the average SLR is used
+to measure the scheduling algorithm over different jobs.
+C. Experimental Results
+1) Convergence:
+Figure
+6
+shows
+the
+loss
+value
+of
+LACHESIS decreases as episode increases on batch execu-
+tion mode. LACHESIS ’s loss converges to a small value
+gradually after 800 episodes. Every training episode only takes
+less than 100 ms to handle with jobs arrived at the platform
+in the beginning, which indicates the high efﬁciencies of the
+simulator.
+
+0
+2
+4
+6
+8
+10
+12
+14
+16
+18
+20
+Number of jobs
+1
+2
+3
+4
+5
+6
+Average Makespan
+1e6
+TDCA
+HEFT
+Lachesis
+FIFO-DEFT
+Decima-DEFT
+(a) Average makespan
+0
+2
+4
+6
+8
+10
+12
+14
+16
+18
+20
+Number of jobs
+0
+1
+2
+3
+4
+5
+6
+7
+Average Speedup
+TDCA
+HEFT
+Lachesis
+FIFO-DEFT
+Decima-DEFT
+(b) Average speedup
+0
+2
+4
+6
+8
+10
+12
+14
+16
+18
+20
+Number of jobs
+0
+2
+4
+6
+8
+10
+12
+14
+16
+Average SLR
+TDCA
+HEFT
+Lachesis
+FIFO-DEFT
+Decima-DEFT
+(c) Average SLR
+0
+5
+10
+15
+20
+25
+30
+Time(ms)
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+CDF
+Decima-DEFT
+Lachesis
+(d) Decision time(ms)
+Fig. 7: Experimental results under batch mode on small scale jobs
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90 100 110 120 130 140 150
+Number of jobs
+0.0
+0.5
+1.0
+1.5
+2.0
+2.5
+3.0
+3.5
+Average Makespan
+1e7
+TDCA
+HEFT
+Lachesis
+FIFO-DEFT
+Decima-DEFT
+(a) Average makespan
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90 100 110 120 130 140 150
+Number of jobs
+0
+5
+10
+15
+20
+25
+Average Speedup
+TDCA
+HEFT
+Lachesis
+FIFO-DEFT
+Decima-DEFT
+(b) Average speedup
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90 100 110 120 130 140 150
+Number of jobs
+2
+4
+6
+8
+10
+12
+14
+16
+Average SLR
+TDCA
+HEFT
+Lachesis
+FIFO-DEFT
+Decima-DEFT
+(c) Average SLR
+0
+10
+20
+30
+40
+50
+60
+70
+80
+Time(ms)
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+CDF
+Decima-DEFT
+Lachesis
+(d) Decision time(ms)
+Fig. 8: Experimental results under batch mode on large scale jobs
+2) Batch mode: Here we measure the schedules gener-
+ated by LACHESIS in batch mode using the aforementioned
+metrics. In the batch mode, jobs arrive at the system in the
+beginning and no jobs arrive in the future. The number of jobs
+in the system ranges from 1 to 20 in a small scale experiment.
+Besides, we select ten workloads for every different number of
+jobs to examine the algorithms in order to reduce the inference
+of randomness.
+Figure 7a shows that the average makespan of LACHESIS
+is less than the other four baseline scheduling algorithms.
+Moreover, LACHESIS can reduce the average makespan of
+the best baseline algorithm by 15.3% at most. The performance
+of HEFT is close to that of Decima-DEFT, because the
+duplication execution mode beneﬁts a little for the makespan
+in small scale situations. Furthermore, the makespan of FIFO-
+DEFT is the maximum result in ﬁve comparing algorithms
+because the algorithm only selects the next node by the
+arrival sequence, which can’t utilize the dependencies between
+different tasks. Noticeably, the result of TDCA is only better
+than that of FIFO-DEFT indicating that TDCA may be not
+suitable for this kind of job.
+Figure 7b shows that speedup value of LACHESIS is the
+maximum value within the ﬁve algorithms. This ﬁgure demon-
+strates that LACHESIS is able to speed up the execution
+process up to 6.8 times compared to the sequential execution
+process. The speedup value ascends as the number of jobs
+ascends, which demonstrates that the more executors are used
+for execution tasks. Figure 7c reveals that the SLR Value of
+HEFT, Decima-DEFT and LACHESIS are close to 1 and the
+value of LACHESIS is the minimum value in ﬁve algorithms.
+The SLR value of FIFO-DEFT and TDCA decreases a lot
+when the number of jobs changes from 1 to 2 because the time
+of the critical path increases rapidly. Figure 7d demonstrates
+that 98% decision operation time of LACHESIS is less than
+14ms, although it is about 3ms bigger than that of Decima-
+DEFT algorithm.
+Figure 8a shows that LACHESIS is also the best schedul-
+ing algorithm within ﬁve scheduling algorithms. Furthermore,
+LACHESIS reduces the makespan of the second algorithm
+by 26.7% at most, which shows the advantage of LACHESIS.
+We can notice that Decima-DEFT is better than HEFT in most
+cases in our experiment. Maybe the reason for this situation
+is that the duplication method of Decima-DEFT plays an
+important role in reducing the makespan. In addition, FIFO-
+DEFT is also the worst scheduling algorithm in large scale
+experiment because it only adopts the arrival order.
+Figure 8b shows that the speedup value of LACHESIS
+exceeds the other four algorithms substantially. Especially, the
+speedup value of LACHESIS exceeds the second algorithm
+by 35.2% at most. Besides, the speedup value of FIFO-DEFT
+is almost unchanged after the number of jobs is bigger than
+20 due to the unreasonable makespan of the algorithm. Sim-
+ilarly, Figure 8c indicates that LACHESIS is the minimum
+value within all value of ﬁve algorithms. The SLR value of
+LACHESIS and that of Decima-DEFT are between 1 and
+2 indicating that the learning method is good for DAGs
+scheduling situations. The SLR value of TDCA ascends with
+the number of jobs ascends nearly because the critical path
+of the special job is almost unchanged and the makespan
+of TDCA increases. Figure 8d illustrates that 98% decision
+operations of LACHESIS can be completed in 30 ms in batch
+mode of large scale. Obviously, the decision time of two
+learning algorithms increases with the number of jobs in the
+system. LACHESIS is about 10ms slower than Decima-DEFT
+
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90 100 110 120 130 140 150
+Number of jobs
+2
+3
+4
+5
+6
+7
+8
+9
+Average Makespan
+1e6
+HighRank *
+up
+SJF *
+HRRN *
+Decima *
+Lachesis
+(a) Average makespan
+0
+10
+20
+30
+40
+50
+60
+70
+80
+Time(ms)
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+CDF
+Decima-DEFT
+Lachesis
+(b) Decision time(ms)
+Fig. 9: Experimental results under continuous mode on large
+scale jobs
+algorithm.
+3) Continuous mode: In continuous mode, the jobs arrive at
+the system continuously and the scheduling algorithm needs
+to schedule online with current job information. Therefore,
+we let a job arrive at the system in the beginning and the
+others arrive at the system continuously. In order to simulate
+the arrival situation of data processing platform, we ensure that
+the arrival interval is the Poisson distribution with an average
+interval time of 45 seconds.
+Figure 9a shows that LACHESIS is the best scheduling
+algorithm compared with other four baseline algorithms in
+most cases. In particular, SJF∗, HRRN∗, and HighRank∗
+up rep-
+resents SJF-DEFT algorithm, HRRN-DEFT, and HighRankup-
+DEFT respectively. Apparently, LACHESIS is able to reduce
+the average makespan of the second algorithm by 7.4% at
+most. Moreover, HighRankup-DEFT is better than Decima-
+DEFT after the number of jobs is bigger than 50, which
+indicates that the node selection model of Decima-DEFT is
+worse than that of HighRankup-DEFT. Besides, SJF-DEFT is
+better than the worst algorithm HRRN-DEFT representing that
+the shortest job ﬁrst policy is better than the high respond
+ratio next policy in the node selection phase. For the data
+processing platform, scheduling decisions should be made
+in time to avoid unreasonable wait time. Figure 9b shows
+that LACHESIS completes 98% decision operation in 38ms.
+Hence, LACHESIS is an efﬁcient algorithm, although it is
+about 15ms slower than Decima-DEFT.
+VI. SUPPLEMENTARY MATERIALS
+Due to the limitation of space, we put part of contents
+in an external link, including the pseudo code of DEFT
+algorithm, implementation of the simulator for LACHESIS,
+parameter/hyperparameter setting of referred algorithms, etc.
+Readers of interest can directly access the link.
+VII. CONCLUSION
+In this work, we propose a novel two-phase scheduling
+algorithm named LACHESIS to address the job scheduling
+problem in heterogeneous environments. Speciﬁcally, it deal
+with node selection using reinforcement learning and copes
+with executor allocation by means of a sophisticated heuristic
+rules. The proposed LACHESIS could be as a plug-and-
+play module in any kinds of data processing system which
+is supposed to cope with job scheduling problem. Extensive
+experimental results suggest that our proposed LACHESIS
+greatly outperform the-state-of-the-art baselines in terms of
+the efﬁciency and effectiveness.
+REFERENCES
+[1] L.
+A.
+Barroso,
+J.
+Clidaras,
+and
+U.
+H¨olzle,
+The
+Datacenter
+as a Computer:
+An Introduction
+to the
+Design of
+Warehouse-
+Scale
+Machines,
+Second
+Edition,
+2013.
+[Online].
+Available:
+http://dx.doi.org/10.2200/S00516ED2V01Y201306CAC024
+[2] M. R. Garey and D. S. Johnson, Computers and Intractability: A Guide
+to the Theory of NP-Completeness (Series of Books in the Mathematical
+Sciences).
+W. H. Freeman, 1979.
+[3] H. Topcuoglu, S. Hariri, and M.-Y. Wu, “Performance-effective and low-
+complexity task scheduling for heterogeneous computing,” Parallel and
+Distributed Systems, IEEE Transactions on, vol. 13, pp. 260–274, 04
+2002.
+[4] T. Yang and A. Gerasoulis, “A fast static scheduling algorithm for dags
+on an unbounded number of processors,” in Proceedings of the 1991
+ACM/IEEE Conference on Supercomputing, ser. Supercomputing ’91.
+New York, NY, USA: Association for Computing Machinery, 1991, p.
+633–642. [Online]. Available: https://doi.org/10.1145/125826.126138
+[5] F. Wu, Q. Wu, and Y. Tan, “Workﬂow scheduling in cloud: A survey,”
+J. Supercomput., vol. 71, no. 9, p. 3373–3418, Sep. 2015.
+[6] S. Darbha and D. P. Agrawal, “Optimal scheduling algorithm for
+distributed-memory machines,” IEEE Trans. Parallel Distrib. Syst.,
+vol. 9, no. 1, p. 87–95, Jan. 1998.
+[7] H. Mao, M. Schwarzkopf, S. B. Venkatakrishnan, Z. Meng, and M. Al-
+izadeh, “Learning scheduling algorithms for data processing clusters,”
+in Proceedings of the ACM Special Interest Group on Data Communi-
+cation, ser. SIGCOMM ’19.
+Association for Computing Machinery,
+2019, p. 270–288.
+[8] P. Sun, Z. Guo, J. Wang, J. Li, J. Lan, and Y. Hu, “Deepweave: Ac-
+celerating job completion time with deep reinforcement learning-based
+coﬂow scheduling,” in Proceedings of the Twenty-Ninth International
+Conference on International Joint Conferences on Artiﬁcial Intelligence,
+2021, pp. 3314–3320.
+[9] A. Ghodsi, M. Zaharia, B. Hindman, A. Konwinski, S. Shenker, and
+I. Stoica, “Dominant resource fairness: Fair allocation of multiple
+resource types,” ser. NSDI’11.
+USA: USENIX Association, 2011, p.
+323–336.
+[10] R. Grandl, G. Ananthanarayanan, S. Kandula, S. Rao, and A. Akella,
+“Multi-resource packing for cluster schedulers,” in Proceedings of the
+2014 ACM Conference on SIGCOMM, ser. SIGCOMM ’14.
+New
+York, NY, USA: Association for Computing Machinery, 2014, p.
+455–466. [Online]. Available: https://doi.org/10.1145/2619239.2626334
+[11] G. C. Sih and E. A. Lee, “A compile-time scheduling heuristic
+for interconnection-constrained heterogeneous processor architectures,”
+IEEE Transactions on Parallel and Distributed Systems, vol. 4, no. 2,
+pp. 175–187, 1993.
+[12] Gyung-Leen Park, B. Shirazi, and J. Marquis, “Dfrn: a new approach
+for duplication based scheduling for distributed memory multiprocessor
+systems,” in Proceedings 11th International Parallel Processing Sympo-
+sium, 1997, pp. 157–166.
+[13] K. He, X. Meng, Z. Pan, L. Yuan, and P. Zhou, “A novel task-duplication
+based clustering algorithm for heterogeneous computing environments,”
+IEEE Transactions on Parallel and Distributed Systems, vol. 30, no. 1,
+pp. 2–14, 2019.
+[14] R. Sutton and A. Barto, Introduction to Reinforcement Learning.
+MIT
+Press.
+[15] I. Goodfellow, Y. Bengio, and A. Courville, Deep Learning. MIT Press,
+2016.
+[16] P. Sun, Z. Guo, J. Wang, J. Li, J. Lan, and Y. Hu, “Deepweave:
+Accelerating job completion time with deep reinforcement learning-
+based coﬂow scheduling,” 07 2020, pp. 3286–3292.
+[17] X. Ni, J. Li, M. Yu, W. Zhou, and K. Wu, “Generalizable resource
+allocation in stream processing via deep reinforcement learning,” CoRR,
+vol. abs/1911.08517, 2019.
+[18] A. G. Barto, R. S. Sutton, and C. W. Anderson, “Neuronlike adaptive
+elements that can solve difﬁcult learning control problems,” IEEE
+Transactions on Systems, Man, and Cybernetics, vol. SMC-13, no. 5,
+pp. 834–846, 1983.
+[19] TPC-H.
+(2021)
+The
+tpc-h
+benchmarks.
+[Online].
+Available:
+www.tpc.org/tpch/

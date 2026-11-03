@@ -1,0 +1,1578 @@
+594
+IEEE TRANSACTIONS ON CLOUD COMPUTING, VOL. 12, NO. 2, APRIL-JUNE 2024
+Dynamic Task Ofﬂoading in Edge Computing Based
+on Dependency-Aware Reinforcement Learning
+Xiangchun Chen
+, Jiannong Cao
+, Fellow, IEEE, Yuvraj Sahni
+, Member, IEEE,
+Shan Jiang
+, and Zhixuan Liang
+Abstract—Collaborative edge computing (CEC) is an emerging
+computing paradigm in which edge nodes collaborate to perform
+tasks from end devices. Task ofﬂoading decides when and at which
+edge node tasks are executed. Most existing studies assume task
+proﬁles and network conditions are known in advance, which can
+hardly adapt to dynamic real-world computation environments.
+Some learning-based methods use online task ofﬂoading without
+considering task dependency and network ﬂow scheduling, leading
+to underutilized resources and ﬂow congestion. We study Online
+Dependent Task Ofﬂoading (ODTO) in CEC, jointly optimizing
+network ﬂow scheduling to optimize quality of service by reduc-
+ing task completion time and energy consumption. The challenge
+of ODTO lies in how to ofﬂoad dependent tasks and schedule
+network ﬂows in dynamic networks. We model ODTO as the
+Markov Decision Process (MDP) and propose an Asynchronous
+DeepProgressiveReinforcementLearning(ADPRL)approachthat
+optimize ofﬂoading and bandwidth decisions. We design a novel
+dependency-aware reward mechanism to address task dependency
+and dynamic network. Extensive experiments on the Alibaba clus-
+ter trace dataset and synthetic dataset indicate that our algorithm
+outperforms heuristic and learning-based methods in average task
+completion time and energy consumption.
+Index
+Terms—Collaborative
+edge
+computing,
+deep
+rein-
+forcement learning, network ﬂow scheduling, task ofﬂoading.
+I. INTRODUCTION
+T
+HE rapid proliferation of the Internet of Things (IoT)
+devices with improved computation and communication
+capacities has spurred numerous innovative applications, such
+as autonomous vehicles, smart healthcare, and metaverse [1],
+[2]. Complex services offered by these applications, such as
+immersive 3D world rendering in the metaverse [2], are always
+data-driven and computation-intensive tasks, which involve
+Manuscript received 9 March 2023; revised 3 March 2024; accepted 11 March
+2024. Date of publication 27 March 2024; date of current version 7 June 2024.
+This work was supported by in part the Research Institute for Artiﬁcial Intelli-
+gence of Things, in part by the Hong Kong Polytechnic University, in part by the
+Hong Kong (HK) Research Grant Council (RGC) General Research Fund (GRF)
+under Grant PolyU 15220922, and in part by the Innovation and Technology
+Fund - Mainland-Hong Kong Joint Funding Scheme (ITF-MHKJFS) under
+Grant MHP/013/21. Recommended for acceptance by J. Ren. (Corresponding
+author: Shan Jiang.)
+Xiangchun Chen, Jiannong Cao, Shan Jiang, and Zhixuan Liang are with
+the Department of Computing, Hong Kong Polytechnic University, Hong
+Kong, SAR, China (e-mail: csxcchen@comp.polyu.edu.hk; csjcao@comp.
+polyu.edu.hk; cs-shan.jiang@polyu.edu.hk; zhixuan.liang@connect.polyu.hk).
+Yuvraj Sahni is with the Department of Building Environment and Energy
+Engineering, Hong Kong Polytechnic University, Hong Kong, SAR, China
+(e-mail: yuvraj-comp.sahni@polyu.edu.hk).
+Digital Object Identiﬁer 10.1109/TCC.2024.3381646
+many dependent components and a large amount of data carried
+by components. These services impose critical requirements
+in low latency, which can hardly be provided by centralized
+cloud computing. Collaborative edge computing (CEC) has
+been introduced to support such services and applications. CEC
+has emerged as a distributed computing paradigm where edge
+nodes collaborate by sharing data and computational resources
+to achieve individual and global objectives [3], [4].
+Task ofﬂoading is one of the key enabling technologies in
+CEC, which refers to the transmission of resource-intensive
+computationaltasksfromenddevicestoaresource-richplatform
+(i.e., edge nodes). In task ofﬂoading, we decide when and at
+which edge node each task is executed, considering the task pro-
+ﬁles, available resources, network conditions, etc. Data transfer
+time signiﬁcantly inﬂuences task completion time, especially
+in dependent tasks, because dependent tasks are data-intensive
+and require access to data distributed throughout the network.
+However, existing works [5], [6], [7], [8] fail to adequately
+address the challenge of integrated network ﬂow scheduling,
+which can result in ﬂow congestion and inefﬁcient performance.
+We study the problem of online dependent task ofﬂoading
+(ODTO) in CEC, jointly considering network ﬂow scheduling.
+The objective is to optimize Quality of Service (QoS) by reduc-
+ing task completion time and energy consumption. Our research
+addresses several critical challenges, including: 1) How to si-
+multaneously ofﬂoad tasks and schedule bandwidth in an online
+setting and 2) How to optimize the task schedule considering
+task dependencies.
+To address these challenges, we propose an Asynchronous
+Deep Progressive Reinforcement Learning (ADPRL) algorithm.
+It is empowered by a Deep Deterministic Policy Gradient
+(DDPG) strategy with asynchronous data collection and a
+dependency-aware reward mechanism. We model ODTO as the
+Markov Decision Process (MDP). Through a dependency-aware
+reward mechanism, we progressively adjust the ofﬂoading deci-
+sions by taking two important factors into account: the estimated
+completion time of the selected tasks and the dependency of the
+selected tasks in the whole DAG. Through asynchronous data
+collection, we accelerate the model training.
+The novelty of this work lies in leveraging the dependency-
+aware reward mechanism to address task dependency issues
+and balancing the tradeoff between task completion time and
+energy consumption. By employing the dependency-aware re-
+ward mechanism and reinforcement learning, we can effectively
+respond to the evolving demands of tasks, resource needs, and
+2168-7161 © 2024 IEEE. Personal use is permitted, but republication/redistribution requires IEEE permission.
+See https://www.ieee.org/publications/rights/index.html for more information.
+Authorized licensed use limited to: Makerere University Library. Downloaded on August 09,2026 at 10:28:06 UTC from IEEE Xplore.  Restrictions apply. 
+
+CHEN et al.: DYNAMIC TASK OFFLOADING IN EDGE COMPUTING BASED ON DEPENDENCY-AWARE REINFORCEMENT LEARNING
+595
+Fig. 1.
+Scheduling results of different methods for the tasks in CEC system architecture.
+network conditions in real-time. Our reward function enables
+the deep reinforcement learning model to adaptively explore
+the tradeoff between task completion time and energy con-
+sumption. This method leads to more informed decisions about
+task dependency and dynamic network and more efﬁcient task
+ofﬂoading and execution. The major contributions of this work
+are summarized as follows:
+r We explore task dependency and dynamic network in
+online joint task ofﬂoading and bandwidth allocation in
+CEC. We investigate a novel optimization problem for
+efﬁcient online dependent task ofﬂoading: ODTO, which
+is NP-hard.
+r We build an optimization framework for online joint task
+ofﬂoading and bandwidth allocation in CEC. The objective
+is to optimize QoS by reducing task completion time and
+energy consumption of tasks. We thoroughly investigate
+the tradeoff between task completion time and energy
+consumption.
+r We propose ADPRL, an asynchronous deep progressive
+reinforcement learning algorithm, to optimize task ofﬂoad-
+ing, bandwidth allocation, and waiting time decisions. To
+address task dependency and dynamic network issues, we
+design a novel dependency-aware reward mechanism.
+r We conduct extensive simulation experiments using the
+Alibaba cluster trace dataset and synthetic dataset, cov-
+ering a wide range of network topologies, task numbers,
+and device numbers that correspond to the characteristics
+of real-world applications and computation environments.
+The results show the superiority of our method compared
+to both heuristic and learning-based algorithms.
+II. A MOTIVATING EXAMPLE
+In a simple case shown in Fig. 1, tasks (R1, R2, R3) originate
+from an edge node (Node 1) and are dispatched to another
+edge node (Node 2). In Fig. 1(a)), we provide detailed task and
+subtask information, including data transmission time of links
+(Link 1), computation time of nodes (Node 1 and Node 2), and
+the speciﬁc release time for each task and subtask. In Fig. 1(b)),
+the task graph illustrates the dependencies among tasks (R1,
+R2, and R3). Fig. 1(c)) presents a network model, elucidating
+the communication framework.
+As shown in Fig. 1(f)), the completion time of the optimal
+schedule is 40 units. As depicted in Fig. 1(f)), the optimal
+task schedule is the sequence of R21 →R33 →R22 →R1 →
+R31 →R32, achieving a completion time of 40 units. As shown
+in Fig. 1(d)), a simple heuristic method is suboptimal. We
+adopt a widely used heuristic task scheduling algorithm, Earliest
+Release Time First (ERTF). The inefﬁciency of ERTF arises
+from scheduling tasks solely based on release time, neglecting
+dependencies, and overall task execution and data communica-
+tion needs. For example, critical tasks with later release time
+may be scheduled later than less critical ones, leading to longer
+completion time and inefﬁcient resource utilization. Fig. 1(d))
+shows that according to ERTF, the scheduling sequence is R1 →
+R21 →R22 →R31 →R32 →R33 and the completion time
+is more than 50 units, while the optimal schedule can ﬁnish all
+tasks in 40 units (Fig. 1(f)). As shown in Fig. 1(e), schedul-
+ing computing and networking separately without dependency
+information is also suboptimal. Because it overlooks the inter-
+dependence between task execution and data communication.
+This can lead to suboptimal scheduling, where tasks ready for
+execution are delayed due to data unavailability or underutiliza-
+tion of network resources. It can result in increased completion
+time and inefﬁcient resource utilization. Set the completion
+time as the task execution time plus ﬂow transmission time. In
+this case, task preemption is allowed, the processing sequence
+is R21 →R33 →R22 →R31 →R11 →R32, leading to a
+completion time exceeding 40 (Fig. 1(e)).
+Therefore, it is evident that existing scheduling methods
+cannot optimally handle task dependencies. It is crucial to con-
+sider dependency information in task scheduling, and the joint
+scheduling of task ofﬂoading and network ﬂow is necessary for
+achieving optimal performance.
+Authorized licensed use limited to: Makerere University Library. Downloaded on August 09,2026 at 10:28:06 UTC from IEEE Xplore.  Restrictions apply. 
+
+596
+IEEE TRANSACTIONS ON CLOUD COMPUTING, VOL. 12, NO. 2, APRIL-JUNE 2024
+TABLE I
+MAIN NOTATIONS USED IN THE PAPER
+III. RELATED WORK
+A. Ofﬂine Task Ofﬂoading in Edge Computing
+In the realm of edge computing, the scheduling and of-
+ﬂoading of tasks have been studied extensively. A variety of
+approaches [9], [10], [11], [12] have been explored. These
+approachesrangefromalgorithmicsolutionsforcomputationof-
+ﬂoading and bandwidth allocation to heuristic methods for task
+ofﬂoading and resource optimization. However, these methods
+often overlook task dependencies, impacting application service
+quality and resource utilization. Additionally, the scheduling of
+dependent tasks has been investigated [13], [14], [15]. Tech-
+niques such as the heterogeneous earliest ﬁnish time algorithm
+by Topcuoglu et al. [13], Tetrium by Hung et al. [14] for geo-
+distributed clusters, and Sundar et al.’s [16] heuristic algorithm
+for cloud computing systems have been proposed. Despite their
+effectiveness, these methods primarily focus on ofﬂine scenarios
+and face challenges in adapting to online environments due to
+the unpredictability of task proﬁles.
+B. Online Task Ofﬂoading in Edge Computing
+In edge computing, online task ofﬂoading has garnered sig-
+niﬁcant attention. Initial efforts [17], [18] focused on heuristic
+scheduling methods. However, the effectiveness of these heuris-
+ticsislimitedbytheunpredictabilityoftaskarrivalsanddynamic
+network conditions. Deep Reinforcement Learning (DRL) has
+emerged as a promising approach to address these challenges.
+Chen et al. [19] explored deep Q-Learning and double deep
+Q-networks to optimize ofﬂoading strategies and reduce long-
+term delays. However, these methods often overlook complex
+scenarios like multi-hop ofﬂoading and high-dimensional action
+spaces. Recent advancements have addressed these limitations.
+Techniques ranging from policy gradient DRL [5], [20], [21],
+meta reinforcement learning [6], Long Short-Term Memory
+(LSTM)-enhanced Deep Q Network (DQN) [7], to actor-critic
+algorithms [8], [22] have been employed for various aspects of
+task ofﬂoading, including latency reduction, energy efﬁciency,
+and handling task dependencies. Despite these advancements,
+a common limitation is the lack of integrated network ﬂow
+scheduling, which can result in network congestion and sub-
+optimal completion time.
+IV. SYSTEM MODEL AND PROBLEM FORMULATION
+A. System Model
+The CEC system operates in a time-slot manner. The timeline
+is divided into K (K is a positive integer) time frames (e.g., sec-
+ond, milliseconds). Each time frame can be regarded as the com-
+position of time slots with length T, where T is also a positive in-
+teger. Given a sequence of time slots {0, 1, . . . , K ∗T −1}, we
+deﬁnet as thebeginningof eachtimeframe [t, t + T −1], where
+t = k ∗T and k represents a non-negative integer. Fig. 2(a)
+shows the architecture of a collaborative edge computing system
+where the intelligence is distributed and pushed within the
+network by sharing computation resources and data between
+the network of edge nodes. The system architecture includes a
+software-deﬁned networking (SDN) controller and edge nodes
+connected to each other. The role of the SDN controller with
+global knowledge is responsible for making the decision for
+ofﬂoading tasks and scheduling bandwidth in the network. It
+includesdifferentfunctionalcomponentsresponsibleforcollect-
+ing information and making scheduling decisions. Edge nodes
+can be heterogeneous in computation capacity.
+Deﬁnition (Path): A path denotes a sequence of connected
+nodes and links through which data can be routed from its
+source to its destination. Each node represents a device (such as
+routers, edge devices or end devices), and each link represents
+the connection between these nodes.
+Deﬁnition (Flow): A ﬂow is deﬁned as a sequence of packets
+passing an observation point of a path during a certain time
+interval. All packets that are part of a speciﬁc ﬂow share a set
+of common properties, which may include, but are not limited
+to, packet headers, source and destination addresses, protocols
+used, and quality of service parameters.
+Task Model is deﬁned by a collection of DAG tasks, denoted
+as CT. This collection CT includes each task CTi, denoted as
+CT = {CTi|1 ≤i ≤β}, where β is the total number of tasks.
+Each task i is modelled as a DAG CTi = (Ti, Pi). Ti is the set of
+dependent subtasks in task i. Ti = {j|1 ≤j ≤Ni}, where Ni
+is the number of subtasks in task i. Pi = {Di,j,k|j ∈Pdi,k, j ∈
+Authorized licensed use limited to: Makerere University Library. Downloaded on August 09,2026 at 10:28:06 UTC from IEEE Xplore.  Restrictions apply. 
+
+CHEN et al.: DYNAMIC TASK OFFLOADING IN EDGE COMPUTING BASED ON DEPENDENCY-AWARE REINFORCEMENT LEARNING
+597
+Fig. 2.
+System architecture of collaborative edge computing and example application with DAG tasks.
+Ti, k ∈Ti} is the set of dependencies (weights) among the
+subtasks in task i. Each DAG can have general dependencies.
+Task dependency is the degree to which the data and execution of
+different subtasks within a composite task rely on one another’s
+outputs or processing states. It reﬂects the interconnectedness
+and the reliance of subtasks on the sequential or parallel ﬂow
+of information [23]. Fig. 2(c) shows an example of general task
+dependencies by DAG topologies, ranging from low to high task
+dependency, depicted by the density of connections between
+subtasks. The amount of input data required for task i is IDi.
+Each subtask j in task i is associated with the computation load
+CLi,j. The weight of the link connecting subtask j and k of
+task i is Di,j,k, which represents the data transmission volume
+between dependent subtask j and k in task i. The predecessors
+for subtask j in task i is Pdi,j.
+Network Model is deﬁned as a connected graph G = (V, E).
+Inside, V = {k|1 ≤k ≤α} is the set of edge nodes, where α is
+the total number of edge nodes. E is the set of edge links, E =
+{ej,k,w|1 ≤j ≤p, ck,w = 1}, where p is the number of edge
+links. ck,w indicates whether edge node k and w are connected,
+with a value of ”1” representing the connection. Otherwise, it is
+set to “0”. PSn,t indicates the average processing speed of an
+edge node n at time t. Table I presents the main notations used
+in the paper.
+B. Problem Formulation
+Computation ofﬂoading management contains a series of
+operations to handle task computation demands in the network
+area. It includes the task ofﬂoading decision and bandwidth
+allocation decision of links. In a stochastic environment, the
+computation demands of tasks on edge nodes are uncertain and
+subject to constant change. Fig. 3 illustrates the dynamic task
+ofﬂoading framework. The ofﬂoading scheduler will make joint
+decisions of task ofﬂoading, bandwidth allocation, and waiting
+time at each time slot.
+1) Task Ofﬂoading: Considering the device heterogeneity,
+tasks can be ofﬂoaded to an edge device at a multi-hop distance.
+Therefore, the CEC system needs to decide which edge node
+the tasks will be ofﬂoaded. Task ofﬂoading decisions are signif-
+icantly inﬂuenced by task dependencies, as these dependencies
+dictate the order and timing of task execution.
+Deﬁnition (Task Ofﬂoading Decision): Let δi,j,n,t ∈{0, 1}
+be a binary decision variable to indicate whether the computing
+Fig. 3.
+Dynamic task ofﬂoading framework.
+power at edge node n is allocated to subtask j in task i at time
+t. The task dependencies imply that the value of δi,j,n,t may
+be contingent on the completion of predecessor tasks, thereby
+affecting the ofﬂoading decision.
+Deﬁnition (Task Computation Time): Let PTn,i,j represent
+the computation time of edge node n for subtask j in task i. It is
+composed of four parts: a) the time when the task is uploaded to
+the edge nodes, b) the waiting time of the task at an edge node,
+c) the calculation time of the task at the edge nodes, and d) the
+download time when the task result is returned to the user. The
+waiting time of subtask j in task i on node n Wn,i,j becomes
+particularly crucial, as it must account for the completion of all
+preceding dependent tasks before the current task can commence
+processing. This directly impacts the computation time PTn,i,j
+and, in turn, inﬂuences the ofﬂoading decision. Computation
+time PTn,i,j is deﬁned as:
+PTn,i,j = CLi,j/(PSn,t) + Wn,i,j
+if
+δi,j,n = 1
+(1)
+STi,j is the start time of subtask j in task i. ξf is the begin
+time of ﬂow f transmission. Gef,i,j = 1 ∈{0, 1} is a binary
+variable, which has the value “1” if subtask j in task i generates
+ﬂow f. Otherwise, it is set to “0”. STi is the start time of task i.
+Ri,j is the release time of subtask j in task i.
+2) Bandwidth Allocation: Task dependencies affect band-
+width allocation decisions. The allocation of bandwidth to spe-
+ciﬁc ﬂows for subtasks must consider the immediate demands of
+the subtask and the requirements of dependent tasks that follow.
+Authorized licensed use limited to: Makerere University Library. Downloaded on August 09,2026 at 10:28:06 UTC from IEEE Xplore.  Restrictions apply. 
+
+598
+IEEE TRANSACTIONS ON CLOUD COMPUTING, VOL. 12, NO. 2, APRIL-JUNE 2024
+Deﬁnition (Bandwidth Allocation Decision): Let ηt
+f,i,j ∈
+[0, νf,i,j] be a continuous decision variable to indicate the band-
+width allocated to the ﬂow f for subtask j in task i at time t.
+νf,i,j represents the bandwidth maximum available to ﬂow f for
+subtask j in task i on its path, determined by the minimum band-
+widthofalllinksinthepath.Thetaskdependencydeterminesthe
+priority and amount of bandwidth allocated, as dependent tasks
+might require immediate and substantial bandwidth to ensure
+efﬁcient data transfer and timely task completion.
+BWu,t is the remaining bandwidth of edge link u at time t. χf
+is the ﬁnish time of ﬂow f. ωf,i,j is a binary variable, which has
+the value “1” if subtask j in task i requires ﬂow f. Otherwise,
+it is “0”. Assume that the routing path is known, the remaining
+bandwidth maximum νf,i,j is calculated as:
+νf,i,j = min
+j∈path BWu,t
+(2)
+Deﬁnition (Flow Communication Time): Let BTf,i,j repre-
+sent the ﬂow communication time of ﬂow f for subtask j in task
+i. ϵf is the waiting time of the ﬂow f at the edge node. WBf is
+the waiting time of ﬂow f for links on the path. σf is the size of
+ﬂow f. A high ﬂow waiting time of ﬂow f WBf value may sug-
+gest reevaluating and possibly increasing bandwidth allocation
+to accommodate dependent tasks’ requirements. This directly
+affects the ﬂow communication time BTf,i,j and consequently
+inﬂuences the bandwidth allocation decision.
+The ﬂow transmission time BTf,i,j of ﬂow f for subtask j in
+task i is now recalculated as:
+BTf,i,j = max
+k∈P di,j FTk,j + IDi,j
+ηt
+f,i,j
++ ϵf
+(3)
+where ϵf represents the waiting time of the ﬂow f at the edge
+node. The ﬁnish time FTi,j of subtask j in task i is calculated
+as:
+FTi,j = Ri,j + PTn,i,j + BTf,i,j
+(4)
+In edge computing, the upload latency for task i to an edge
+node k is denoted as UTi. During upload, task i transmits a
+substantial data volume to node k via the shortest network path.
+Let PRi be the data amount of the task processing result. The
+transmission bandwidth for uploading task UBi and download-
+ing results DBi is constrained by the lowest bandwidth link on
+the path. The uploading time UTi and downloading time DTi
+for task i is calculated as IDi
+UTi and P Ri
+DBi , respectively.
+The ﬁnish time TTi of task i is calculated as:
+TTi = UTi + max
+j∈CTi FTi,j + DTi
+(5)
+3) Energy Consumption: Energy consumption is a critical
+factor that impacts system performance in CEC, which encom-
+passes both computation and transmission energy costs.
+Computation Energy Consumption: Energy consumption dur-
+ing local task execution is dominated by computational pro-
+cesses. The energy consumption ECc
+i,j of subtask j in task i is
+formulated as:
+ECc
+i,j = P c
+n ∗PTi,j
+(6)
+Where P c
+n represents the computational power of the edge
+node n while c is a power coefﬁcient [20]. PTi,j is the compu-
+tation time of subtask j in task i.
+Transmission Energy Consumption: When a task is ofﬂoaded,
+transmission energy consumption ECx
+i,j of subtask j in task i is
+primarily due to data transmission. P x
+u denotes the transmitting
+power of edge link u.
+ECx
+i,j = P x
+u ∗BTf,i,j
+(7)
+The energy consumption ECi of task i is calculated as:
+ECi = PT x ∗UTi +
+
+j∈CTi
+
+ECc
+i,j + ECx
+i,j
+
++ PRx ∗DTi
+(8)
+Where PT x and PRx are the transmission and reception
+power levels, respectively, and UTi and DTi are the uplink and
+downlink transmission time for task i.
+The overall energy consumption for an ofﬂoading plan of task
+i, considering both latency and energy, is given by:
+TT =
+
+1≤i≤β
+TTi/β
+(9)
+EC =
+
+1≤i≤β
+ECi
+(10)
+Quality of service (QoS) serves as a metric for evaluating the
+effectiveness of an ofﬂoading plan, taking into account both
+task completion time and energy consumption. As proposed
+in [20], the QoS can be quantiﬁed as a weighted sum where
+task completion time TT and energy consumption EC are
+normalized against their respective maximum values, TTmax
+and ECmax.
+J = −
+
+λt ∗
+TT
+TTmax
++ λe ∗
+EC
+ECmax
+
+(11)
+where λt and λe ∈[0, 1] are scalar weights of task completion
+time and energy consumption respectively.
+Guidelines for Conﬁguring Weighting Factors: We present
+a comprehensive framework for the adjustment of weighting
+factors, λt and λe, tailored to speciﬁc real-world applications.
+The framework initiates with normalization, where ACT and
+EC are normalized to ensure they are on a similar scale by
+dividing each by their maximum observed or possible value
+within the system. Weight assignment then allocates weights
+λt and λe, based on the importance of latency and energy
+consumption in real-world applications, ensuring λt + λe = 1.
+In the calculation step, these normalized values of ACT and
+EC are used to compute QoS, quantifying QoS as the weighted
+average of latency and energy differences. Finally, in adjustment
+andtesting,weadjusttheweightsbasedonreal-worldtestingand
+feedback, recognizing that different applications might require
+different balances between latency and energy consumption. We
+detail empirical values for λt and λe for three types of real world
+applications.
+1) Latency-Prioritized Applications: In applications where
+latency is critical, such as those involving real-time
+decision-making like pedestrian reidentiﬁcation and traf-
+ﬁc monitoring, a higher weight is assigned toλt (> 0.5)
+Authorized licensed use limited to: Makerere University Library. Downloaded on August 09,2026 at 10:28:06 UTC from IEEE Xplore.  Restrictions apply. 
+
+CHEN et al.: DYNAMIC TASK OFFLOADING IN EDGE COMPUTING BASED ON DEPENDENCY-AWARE REINFORCEMENT LEARNING
+599
+to prioritize latency reduction, while λe is set lower (<
+0.5). An example can be seen in [24], which minimizes
+latency in real-time video surveillance for pedestrian
+reidentiﬁcation.
+2) Balanced-Priority Applications: Applications requiring a
+balanced conﬁguration to latency and energy consump-
+tion, such as autonomous driving systems. Both λt and λe
+are crucial, with a slight preference for λt to ensure sys-
+tem responsiveness while maintaining energy efﬁciency.
+An example of autonomous driving services can be seen
+in [25], which balancing latency and energy consumption.
+3) Energy-Prioritized Applications: For scenarios where en-
+ergy consumption is a primary concern, such as remote
+environmental monitoring systems, prioritizing λe > 0.5
+and λt < 0.5 emphasizes energy efﬁciency over imme-
+diate task completion. This conﬁguration is particularly
+relevant for battery-powered devices deployed in isolated
+locations, where extending operational life is crucial. An
+example is detailed in [26], where a comprehensive envi-
+ronmental monitoring framework integrates energy-aware
+optimization components.
+C. NP-Hardness Proofs
+Theorem 1: The online joint dependent task ofﬂoading and
+bandwidth allocation problem in G = (V, E) is NP-hard.
+Proof: To establish the NP-hardness of the online joint de-
+pendent task ofﬂoading and bandwidth allocation problem in
+G = (V, E), we approach by demonstrating that even a sim-
+pliﬁed version of this problem can be shown to be NP-hard
+by reduction from a known NP-hard problem, speciﬁcally the
+Multi-dimensional Knapsack Problem (MKP) [27].
+The MKP involves selecting a subset of N items to maximize
+the total value without exceeding the multi-dimensional capacity
+constraints of a knapsack. Each item n has a value v(n) and
+consumes a certain amount of resource rd(n) in dimension d,
+with the knapsack having a capacity C(d) in each dimension d.
+The objective is to maximize the total value of the selected items
+while respecting the capacity constraints in all dimensions.
+To relate this to our problem, we consider each task or subtask
+in the online joint dependent task ofﬂoading and bandwidth allo-
+cation problem as an item in MKP, where the ”value” of an item
+corresponds to the negative of the ofﬂoading and execution cost
+of a subtask on an edge node. The multi-dimensional resources
+in MKP correspond to the computation and bandwidth resources
+in our problem, and the capacities in MKP are analogous to the
+computation and bandwidth capacities of the edge nodes.
+By demonstrating that any instance of MKP can be mapped to
+our problem, we establish its NP-hardness. The online nature, re-
+quiring decisions without future knowledge, further maintaining
+NP-hardness. Thus, the online joint dependent task ofﬂoading
+and bandwidth allocation problem in G = (V, E) is NP-hard.
+D. ILP Formulation of the Ofﬂine Problem Version
+We formulate an integer linear programming (ILP) formu-
+lation for the joint dependent task ofﬂoading and bandwidth
+allocation problem. For the ofﬂine version, the objective of
+the problem is to optimize the QoS by reducing the average
+completion time and energy consumption of all tasks. The joint
+dependent task ofﬂoading and bandwidth allocation problem can
+be formatted as:
+max J
+(12)
+This is equivalent to:
+min λt ∗
+TT
+TTmax
++ λe ∗
+EC
+ECmax
+(13)
+Subjects to Constraints:
+FTi,j ≤STi,k
+∀CTi,j ∈Pdi,k,
+(14)
+Ri,j ≤ξf
+if Gef,i,j = 1,
+(15)
+χf ≤STi
+if ωf,i,j = 1,
+(16)
+P c
+n ≤P c
+max,n
+∀1 ≤n ≤α,
+(17)
+P x
+u ≤P x
+max,u
+∀1 ≤u ≤p
+(18)
+r Constraint (14) enforces that a subtask can start only after
+preceding subtasks have ﬁnished.
+r Constraint (15) enforces that the network ﬂow starts only
+after the preceding subtask.
+r Constraint (16) enforces that the start time of a task is at
+least equal to the ﬁnish time of the required ﬂow.
+r Constraint (17) ensures that computation power P c
+n of edge
+node n does not exceed its maximum power threshold
+P c
+max,n, preventing node overloading.
+r Constraint (18) ensures that the transmission power P x
+u of
+edge link u does not exceed its maximum power threshold
+P x
+max,u, managing the power used in wireless communica-
+tion.
+The ILP formulation can provide an optimal solution, but it
+assumes request arrivals for all time slots are known. This makes
+it impractical for real-world scenarios and limits its applicability
+to dynamic problems.
+V. ASYNCHRONOUS DEEP PROGRESSIVE REINFORCEMENT
+LEARNING FOR ONLINE DEPENDENT TASK OFFLOADING
+This section models the ODTO problem as the Markov De-
+cision Process and presents our asynchronous deep progressive
+reinforcement learning algorithm.
+A. Markov Decision Process
+We employ the Markov Decision Process to model the ODTO
+problem. Here, scheduling actions involve selecting an ofﬂoad-
+ing target and bandwidth allocation for each incoming task, ini-
+tiating a state change described by Pr[St+1 = s′|St = s, At =
+a]. In this expression, St and St+1 represent the current and
+subsequent states, respectively, while At denotes the scheduler’s
+action. The scheduler, acting as the agent, aims to identify ac-
+tions that optimize state transitions towards maximizing overall
+rewards, effectively addressing the task ofﬂoading challenge.
+Authorized licensed use limited to: Makerere University Library. Downloaded on August 09,2026 at 10:28:06 UTC from IEEE Xplore.  Restrictions apply. 
+
+600
+IEEE TRANSACTIONS ON CLOUD COMPUTING, VOL. 12, NO. 2, APRIL-JUNE 2024
+B. State Space
+When scheduling the task CTi, the state of the CEC system
+depends on the scheduling results of the previous tasks and
+network ﬂows. Hence, we deﬁne the state space as a combination
+of the task information G (including DAG topologies and task
+proﬁles) and the network information E (including bandwidth
+conditions of links and load conditions of edge nodes). Let A1:i
+denotes the ofﬂoading plan for the sequence of tasks from 1 to
+i. The state S is represented by
+S = {s(t)|s(t) = (G, E, A1:i)}
+(19)
+G = {gi|gi = (CTi, Ti, Pi)}
+(20)
+E = {Te1(t), . . .Tep(t), Td1(t), . . ., Tdα(t)}
+(21)
+Speciﬁcally, task information G comprises of three ele-
+ments: 1) an index CTi of the task; 2) a vector Ti of de-
+pendent subtasks in task CTi; 3) a vector Pi of dependencies
+(weights) among subtasks in task CTi. Network information
+E is the condition of CEC network environment, consisting
+of: 1) the bandwidth conditions of links represented by the
+set of the waiting time for available bandwidth for edge links
+{Te1(t), . . ., Tej(t), . . ., Tep(t)} in which Tej(t) represents
+the waiting time for available bandwidth for edge link j; 2)
+the load conditions of edge nodes represented by the set of
+waiting time for available computation power for edge nodes
+{Td1(t), . . ., Tdj(t), . . ., Tdα(t)} in which Tdn(t) represents
+the waiting time for available computation power for edge nodes
+n at time slot t.
+C. Action Space
+Byobservingthecurrentenvironmentstate,theagentwilltake
+actions accordingly. The key step of task scheduling is to choose
+the ofﬂoading decision that indicates which device assigned to
+the current task and the amount of bandwidth of the according
+ﬂow. The actions at time t are deﬁned as:
+at = {ai,t|ai,t = {qi,t, ηi,t, ϵi,t}}
+(22)
+Speciﬁcally,theactionai,t attimetfortaskihasthreevectors,
+the ﬁrst vector qi,t = {δi,1,n,t, ..., δi,j,n,t, ..., δi,α,n,t} where α is
+the number of edge nodes and δi,j,n,t indicates whether subtask
+j in task i is allocated to edge node n. The second vector
+ηi,t = {ηi,1, ..., ηi,f, ..., ηi,fn} where fn is the number of ﬂows
+and ηf ∈[0, νf,i,j] represents the bandwidth allocated to ﬂow f.
+The third vector ϵi,t = {ϵi,1, ..., ϵi,f, ..., ϵi,fn} where fn is the
+number of ﬂows and ϵf ∈[0, +∞] represents the waiting time
+of the ﬂow f.
+D. Reward Function Design
+The reward function denotes the immediate beneﬁt the agent
+receives after executing an action. We deﬁne the reward rt as
+the negative value of the weighted sum where task completion
+time TT and energy consumption EC are normalized against
+their respective maximum values, TTmax and ECmax.
+rt =
+
+i
+−
+
+λt ∗
+TT
+TTmax
++ λe ∗
+EC
+ECmax
+
+(23)
+Algorithm 1: ADPRL Algorithm.
+Input: Training episode length Y , training sample length T;
+DAG task number β, edge node number α, edge link
+number p;
+1: Randomly initialize actor network Aθ and critic network
+Cw with weights θ and w, respectively
+2: Initialize target network Aθ and Cw with weights w′ and
+θ′, respectively
+3: w′ ←w, θ′ ←θ
+4: Initialize replay memory B
+5: for episode ←0 to Y do
+6:
+Get environment state st
+7:
+Initialize a random process N for action exploration
+8:
+for t ←1 to T do
+9:
+Select action at = (qt, ηt, ϵt) according to the
+current policy and exploration noise
+10:
+In collaborative edge computing, execute action at
+and obtain the reward rt and new state st+1
+11:
+Store state transition (st, at, rt, st+1) in pool B
+12:
+Randomly select a minibatch of N transitions
+(si, ai, ri, si+1) from B.
+13:
+yi ←ri + γQ′(si+1, μ′
+θ′(si+1); w′)
+14:
+Update the critic network by minimizing the loss
+L = 1/N 
+i(yi −Q(si, ai; w))2
+15:
+Update the actor network as follows: ∇θμJ ≈
+1/N 
+i Q(st, at; w)|st=si,a=μθ(si)∇θμμθ(st)|st=si
+16:
+θ′
+μ′ ←tθμ + (1 −t)θ′
+μ′ ▷Update one of the target
+networks
+17:
+w′
+Q′ ←twQ + (1 −t)w′
+Q′ ▷Update the other target
+network
+18:
+end for
+19: end for
+E. Deep Deterministic Policy Gradient
+To better adapt to the CEC network environment, we for-
+mulate it as a MDP. The system state transition obtained at time
+slot t is denoted as (st, at, rt, st+1), which includes state, action,
+reward and next state. The transition function m(s′|s, a) of the
+MDP represents the probability of transit from current state s to
+state s′, which can be deﬁned as:
+m (s′|s, a) = Pr {st+1 = s′|st = s; at = a}
+(24)
+In Fig. 4, the DDPG model has actor network, critic network
+and experience pool. The actor-network is policy-based while
+the critic network is value-based. The experience pool can store
+each system state record (st, at, rt, st+1). The deterministic
+strategy μ can be expressed as:
+μ : st →at
+(25)
+After approximating the strategy with parameter θ, the deter-
+ministic strategy is deﬁned as:
+μθ (at|st) = P (at|st; θ)
+(26)
+Then, the objective of the agent is to learn the optimal policy
+to maximize the progressive reward:
+J(θ) = Est∼ρμ,at∼μ[r]
+(27)
+Authorized licensed use limited to: Makerere University Library. Downloaded on August 09,2026 at 10:28:06 UTC from IEEE Xplore.  Restrictions apply. 
+
+CHEN et al.: DYNAMIC TASK OFFLOADING IN EDGE COMPUTING BASED ON DEPENDENCY-AWARE REINFORCEMENT LEARNING
+601
+Fig. 4.
+Diagram of asynchronous deep deterministic policy gradient
+algorithm.
+where ρμ is the state transition probability given the action
+distribution μ and r denotes the progressive expected rewards.
+Thetermr inthepolicygradientestimatorleadstohighvariance,
+as these returns can vary drastically as the number of episodes
+increases.
+The actor-critic network aims to address this issue by using a
+function Qω(s, a) to approximate the expected returns, and re-
+placing the original return term in the policy gradient estimator.
+According to the deep determine policy gradient theorem, the
+gradient of the objective J is:
+∇θJ(θ) = Est∼ρμ 
+∇θμθ(a | st)∇aQ′(st, a)|a=μθ(st)
+	
+(28)
+The replay buffer stores the prior system state transition
+experience in a replay memory pool. During training, we ran-
+domly sample data (st, at, rt, st+1) from it to increase learning
+performance. The replay memory pool comprises observed state
+transitions and gained rewards produced by activities in each
+time slot.
+In order to train the critic network parameters, a batch of
+stored experience is randomly selected from the replay memory
+pool as samples. The purpose of the training is to minimize the
+difference between Q(st, at; w) and Q′(st, at; w′). To represent
+the difference between Q and Q′, we deﬁne a loss function L,
+which is,
+L = 1/N
+
+i
+(yi −Q (st, at; w))2
+(29)
+yi = ri + γQ′ (si+1, μ′
+θ′(si+1); w′)
+(30)
+where N denotes the number of samples drawn from the ex-
+perience pool, yi is the temporal difference (TD) target for
+Q-learning, and w and w′ are parameter of critic network.
+The scheduling algorithm is summarized in Algorithm 1. The
+scheduler ﬁrst initializes the replay buffer, critic network, and
+actor network with weight w and θ (lines 1–3 in Algorithm 1).
+After obtaining the state st of the environment, the agent selects
+the action at according to the current policy and exploration
+noise (lines 5–8 in Algorithm 1). After performing the action
+and interacting with the environment in the processing pool, the
+agent will receive the reward rt and observe the next state st+1 of
+the environment, then store the state ⟨st, at, rt, st+1⟩into the RB
+(lines 9-10 in Algorithm 1). Then, the agent randomly samples a
+mini-batch experience from the B and updates the critic network
+by minimizing the loss (lines 11–13 in Algorithm 1). After
+each episode of interaction with the environment, the agent
+updates the actor network and critic network using the sampled
+policy gradient and the target network parameters (lines 14–19 in
+Algorithm 1).
+F. Comparison Between ADPRL and Optimal Ofﬂine Solution
+To further substantiate the efﬁcacy of ADPRL, we present a
+comparison with the optimal ofﬂine solution.
+Consider a simple scenario of dynamic edge computing envi-
+ronments depicted in Fig. 1, we compare ADPRL (Fig. 1(g)) and
+the optimal ofﬂine solution (Fig. 1(f)). Here, the completion time
+isacrucialmetric,deﬁnedastheaggregateoftaskexecutiontime
+and ﬂow transmission time. Importantly, we incorporate task
+preemption into our scenario to reﬂect the dynamic nature of
+real-world edge computing. For the optimal ofﬂine solution, the
+completion time is quantiﬁed at 40 units, as depicted in Fig. 1(f).
+The optimal task schedule is the sequence of R21 →R33 →
+R22 →R1 →R31 →R32, achieving a completion time of
+40 units. Compared to other methods such as Earliest Release
+Time First (56 units in Fig. 1(d)), and scheduling computing
+and networking separately (46 units in Fig. 1(e)), our ADPRL
+algorithm demonstrates a remarkable efﬁciency(43 units). As
+depicted in Fig. 1(g), ADPRL schedules tasks in a sequence of
+R21 →R22 →R1 →R33 →R31 →R32, achieving a com-
+pletion time of 43 units. This performance is notably closer to
+the optimal solution, thereby illustrating the effectiveness of our
+proposed method.
+This comparison demonstrates that while ADPRL does not
+always achieve the theoretical optimum, it signiﬁcantly outper-
+forms baselines and closely approximates the optimal ofﬂine
+solution, thereby validating the effectiveness of our proposed
+method in edge computing scenarios.
+G. Scalability Analysis on Heterogeneous Edge Nodes
+Our algorithm is uniquely equipped to manage the chal-
+lenges of heterogeneous edge devices. By leveraging the DRL
+framework, our approach adapts dynamically to the varying
+computational states and bandwidth conditions of these devices,
+learning through trial and error. This process is facilitated by a
+state space that incorporates both computational and bandwidth
+statuses, enabling the algorithm to optimize ofﬂoading decisions
+about task allocation and bandwidth distribution. These deci-
+sions encompass allocating tasks to speciﬁc devices and the
+corresponding bandwidth allocation for the ﬂow. The action
+space is informed by current device statuses, and a reward
+function that provides performance feedback. These elements
+are central to reﬁning the decision-making process. This en-
+sures continual adaptation and optimal alignment with network
+conditions and device capabilities, enhancing the management
+of heterogeneous edge environments.
+However, there are two main challenges associated with AD-
+PRL in terms of scalability. One challenge is increased signal
+Authorized licensed use limited to: Makerere University Library. Downloaded on August 09,2026 at 10:28:06 UTC from IEEE Xplore.  Restrictions apply. 
+
+602
+IEEE TRANSACTIONS ON CLOUD COMPUTING, VOL. 12, NO. 2, APRIL-JUNE 2024
+transmission delays. As the number of edge nodes increases,
+the volume of common signals transmitted between the central
+control and the edge nodes also escalates. This increase in signal
+trafﬁc results in higher transmission delays, potentially affecting
+the overall system efﬁciency. Another challenge is the slower
+convergence of model training. This is due to the more complex
+and varied data being processed and the need for more extensive
+coordination and synchronization across nodes.
+While these challenges are crucial to the scalability and per-
+formance of CEC systems, our algorithm has certain limitations
+in directly addressing them. Our work primarily focused on
+optimizing task ofﬂoading, bandwidth allocation, and waiting
+time decisions under small-scale networks and nodes. In our
+future studies, we will explore efﬁcient data compression tech-
+niques and optimize network protocols to mitigate increased
+signal transmission delays. For slower model convergence, we
+will consider advanced parallel training algorithms to accelerate
+the model training.
+VI. PERFORMANCE EVALUATION
+A. Simulation Settings
+We consider the average completion time (ACT) and energy
+consumption (EC) as performance metrics. ACT is calculated
+as the total completion time of tasks divided by the total number
+of tasks. EC measures the electrical energy used by system
+components like CPUs and networking equipment [20]. Com-
+putation energy consumption is measured by the power used
+in processing tasks, considering both active and idle states.
+Transmission energy consumption evaluates the energy used
+in data transmission, factoring in data volume and network
+efﬁciency.
+Network Model: We adopt a random topology generator1 to
+generate such a network topology. The link weight between
+two edge nodes represents the link bandwidth. Due to device
+heterogeneity, the processing speed of edge nodes is chosen
+from a normal distribution, with a default mean of 40 Mcps
+(megacycles per second) and a variance of 80%. Similarly, the
+bandwidthofeachlinkischosenfromanormaldistribution,with
+a default mean of 10 Mbps (megabits per second) and a variance
+of 80%. These default values may be subject to modiﬁcations as
+needed.
+Synthetic Dataset: We adopt a random DAG generator [23] to
+generate DAG tasks. The properties of each DAG task include
+task id, subtask id, data size, computation load, release time,
+and source device. The node and layer number of DAGs are
+chosen from a normal distribution [1, 100]. The number of edges
+(dependencies) between two layers in the DAG is selected from a
+uniform distribution [1, 100]. The tasks are randomly generated
+at edge nodes. The data size of each task is generated randomly
+from a normal distribution with a mean of 500 Mbit and a
+variance of 80%. The computation load of each task is randomly
+selected from a normal distribution with a mean of 500 KCC
+(Kilo Clock Cycles) and a variance of 60%. The release time of
+each task is randomly selected using a Poisson distribution.
+1[Online]. Available: https://github.com/cesarghali/topology-generator/.
+Alibaba cluster trace dataset: Alibaba cluster trace dataset
+contains the DAG information of real-world workload traces2.
+Due to the lack of certain information in the Alibaba cluster
+trace dataset, we have modiﬁed and used it to generate DAGs.
+The computation loads of tasks are acquired by properly scaling
+the value of “start time” minus “end time” multiplied by “plan
+cpu”. The data size of each task is randomly selected using
+a normal distribution with a mean of 500Mbit and variance
+of 80%. The release time of each task is randomly selected
+using a Poisson distribution. Tasks are generated at edge nodes
+randomly. We divide the dataset into two groups, where one
+group is the training dataset, and the rest is the test dataset.
+In our experiments, we set two different objectives: latency
+optimization (LO) and energy efﬁciency (EE), following the
+guidelines for conﬁguring weighting factors outlined in Section
+IV-B.3. The LO objective focuses on minimizing latency, and
+therefore we assign λt = 1.0 and λe = 0.0. The EE objective
+aimstooptimizebothlatencyandenergyconsumption,hencewe
+assign λt = λe = 0.5. We implement ADPRL on our platform
+with 32 cores and 2 GPU cards. The training converges at
+events for around 10,000. The training parameters are described
+as follows. The replay memory size is 10000. The mini-batch
+size is 64, representing the number of memories used for each
+training step. The learning rates of actor and critic networks
+are relatively 0.001 and 0.002. The reward decay is 0.001. For
+the setting of asynchronous deep reinforcement learning, the
+number of servers and workers is 1 and 4, relatively. The training
+information of each worker will be merged by the server. After
+training, we acquire two models: one for the LO target and the
+other for the EE target, which are subsequently deployed to edge
+nodes.Theinferenceoverheadisnegligiblecomparedtothetime
+costs of task ofﬂoading [20]. We implement four competitive
+task algorithms of task ofﬂoading for performance comparison.
+The baseline algorithms are as follows.
+r Random: Tasks are ofﬂoaded randomly to the edge nodes,
+and ﬂows are transmitted randomly through the network
+links.
+r Local Execution (LE): Tasks are executed on the edge node
+where they are generated, negating the need for network
+ﬂow scheduling.
+r Greedy: This strategy computes the estimated completion
+time for each device and prefers the device with the mini-
+mal time for ofﬂoading. Network ﬂow scheduling follows
+First Come First Served (FCFS).
+r DQN + FCFS: Tang et al. [7] proposed a DRL-based online
+ofﬂoading algorithm that incorporates the LSTM, dueling
+DQN, and double-DQN techniques without considering
+task dependency.
+B. Comparison of ADPRL and Baselines on Testbed
+We implement the Testbed with one IP camera, three edge
+devices, and a master device. For edge devices, we employ one
+NVIDIA Jetson Xavier NX and two NVIDIA Jetson TX2 units.
+The Jetson Xavier NX is equipped with a 384-core Volta GPU
+2[Online].
+Available:
+https://github.com/alibaba/clusterdata/tree/master/
+cluster-trace-v2018.
+Authorized licensed use limited to: Makerere University Library. Downloaded on August 09,2026 at 10:28:06 UTC from IEEE Xplore.  Restrictions apply. 
+
+CHEN et al.: DYNAMIC TASK OFFLOADING IN EDGE COMPUTING BASED ON DEPENDENCY-AWARE REINFORCEMENT LEARNING
+603
+Fig. 5.
+Demo of pedestrian face tracking analysis. The left corner illustrates
+the edge devices, cameras and routers in the environment. The captured images
+and analytics results of a camera are shown on the right.
+Fig. 6.
+Comparison of ADPRL (LO) and Baselines on Testbed.
+and 8 GB of RAM, whereas each Jetson TX2 features a 256-core
+GPU along with 8 GB of RAM. Notably, the Jetson Xavier NX
+boasts signiﬁcantly higher computational capabilities compared
+to the TX2 units. In order to simulate a heterogeneous resource
+environment, the memory of the Jetson TX2 units is artiﬁcially
+limited to 4 GB [24]. The master device is a high-performance
+workstation, containing four Intel Core i5-8300H processors and
+16 GB of RAM, serving as the scheduler. Network connectivity
+among the edge devices and the camera is established through
+a router.
+Pedestrian Face Tracking Analysis Pipeline: We utilize SSD-
+MobileNet-V2 [28] and VGG-16 [29] for processing input im-
+ages, facial localization, and emotion analysis. SSD-MobileNet-
+V2 is a streamlined deep convolutional network employing
+depth-wise separable convolutions. VGG-16, with its 16 con-
+volutional layers, excels in extracting complex features from
+images, a key aspect for our facial feature extraction and emotion
+analysis tasks. In Fig. 5, we efﬁciently extract facial features
+and analyze emotions for effective face tracking. We ﬁne-tune
+the pre-trained models of SSD-MobileNet-V2 and VGG-16 to
+optimize them for our speciﬁc application. These models are
+developed under serverless principles and accessed via RESTful
+APIs [30].
+Experiment Result: In Fig. 6, in terms of ACT, ADPRL (LO)
+exhibits superior performance when compared to the baselines.
+This can be attributed to the fact that ADPRL (LO)’s sophisti-
+cated decision-making process allows for more effective prior-
+itization of tasks, thereby ensuring efﬁcient task completion. In
+particular, ADPRL (LO) is 36.9% less than Random, 20.6% less
+Fig. 7.
+Tradeoff between task completion time and energy onsumption.
+than LE, and 26.3% less than Greedy, while also maintaining a
+30.0% less ACT compared to DQN+FCFS. In Fig. 6, in terms
+of EC, ADPRL (LO) outperforms the baselines signiﬁcantly,
+further highlighting its efﬁciency. This efﬁciency is attributed to
+its advanced learning mechanisms, which optimize the balance
+between computational load and energy usage. ADPRL (LO)
+is 35.9% less than Random, 11.8% less than LE, and 22.0%
+less than Greedy, while also maintaining a 26.2% less energy
+consumption compared to DQN+FCFS.
+C. Tradeoff Between Task Completion Time and Energy
+Consumption
+We delve into the tradeoff between task completion time and
+energy consumption, a pivotal aspect of our system’s perfor-
+mance. As mentioned earlier, we set λt as the weighting factor
+of task completion time and λe as the weighting factor of energy
+consumption to study the tradeoff between energy consumption
+and task completion time.
+In Fig. 7, we study the performance of ADPRL on the
+Alibaba cluster trace dataset with different values of λt =
+0.1, 0.3, 0.6, 0.9 and λe = 0.9, 0.7, 0.4, 0.1 in four scenarios. In
+the ﬁrst two scenarios, we assign lower values to λt (0.1 and
+0.3) and higher values to λe (0.9 and 0.7), emphasizing energy
+efﬁciency. In the latter two scenarios, the focus shifts to task
+completion time by setting higher values for λt (0.6 and 0.9) and
+lower values for λe (0.4 and 0.1). When the weighting factor for
+energy consumption (λe) is increased, we observe a reduction
+in energy consumption (EC), as the system is optimized more
+towards energy efﬁciency. With the decrease in λt, the system
+places less emphasis on completion time, potentially adopting
+strategies that are more energy-efﬁcient but slower.
+D. Simulation Results on Ofﬂoading Ratio
+The ofﬂoading ratio (OR) is deﬁned as the number of sub-
+tasks multi-hop ofﬂoading to remote edge nodes divided by the
+total number of subtasks. OR can reﬂect the behaviour of task
+ofﬂoading and the number of network ﬂows.
+For the Alibaba cluster trace dataset, in Fig. 8(a), we observed
+that the OR increases with the number of tasks, subtasks, and
+available bandwidth, as well as with the processing speed and
+number of edge nodes. Similarly, in Fig. 8(b), in the synthetic
+Authorized licensed use limited to: Makerere University Library. Downloaded on August 09,2026 at 10:28:06 UTC from IEEE Xplore.  Restrictions apply. 
+
+604
+IEEE TRANSACTIONS ON CLOUD COMPUTING, VOL. 12, NO. 2, APRIL-JUNE 2024
+Fig. 8.
+Simulation reult on ofﬂoading ratio.
+dataset, the trend remains consistent with the increase in task
+and subtask numbers, as well as bandwidth and processing
+speed. However, the OR shows more variability across different
+algorithms, highlighting the impact of task characteristics on
+ofﬂoading decisions.
+E. Inﬂuence of Change in the Number of Tasks
+1) Simulation Results for Alibaba Cluster Trace Dataset:
+Fig. 9(a) shows the effect of changing the number of tasks from
+10 to 40 on ACT. As shown in Fig. 8(a), the ofﬂoading ratio of
+DQN+FCFS arises with the number of tasks increasing from 10
+to 40. Consequently, the increase in ACT for DQN+FCFS is due
+to both increased network ﬂows and computation loads. There
+is a signiﬁcant difference in ACT between ADPRL (LO) and
+Random. The ACT difference between LE and ADPRL (LO)
+decreases from 63.3% at 20 tasks to 60.5% at 40 tasks. When
+the number of tasks increases to 40, ADPRL (LO) achieves an
+average delay of 40.3% lower than those of DQN + FCFS and
+Greedy.
+Fig. 10(a) illustrates the impact of increasing the number of
+tasks from 10 to 40 on energy consumption. All algorithms’
+energy consumption increases with the increasing number of
+tasks. This increase is primarily attributed to the increasing
+number of network ﬂows and computation loads as it manages
+a higher volume of tasks. A signiﬁcant difference in energy
+consumption is evident between the ADPRL (EE) and Random
+strategies.ADPRL(EE)outperformstheRandomstrategydueto
+its efﬁcient bandwidth allocation and optimized task scheduling.
+Speciﬁcally, the energy consumption disparity between LE and
+ADPRL (EE) increases from approximately 10.4% at 20 tasks to
+around 35.6% at 40 tasks. Notably, when the task count reaches
+40, ADPRL (EE) demonstrates a lower energy consumption,
+averaging 19.6% less than that of the DQN+FCFS and Greedy
+strategies. This is due to ADPRL (EE)’s advanced learning-
+based optimization, which becomes increasingly effective as the
+number of tasks increases.
+2) Simulation Results for Synthetic Dataset: As shown in
+Fig. 9(b), there is an increase in ACT for all algorithms due
+to both increases in waiting time at the devices to execute the
+subtasks and the total number of network ﬂows. The increase
+of network ﬂows can be proved by the rising OR in most
+Fig. 9.
+Simulation results for average completion time.
+algorithms from 10 tasks to 40 tasks in Fig. 8(b). ADPRL (LO)
+is signiﬁcantly better than Random and LE. Since DQN + FCFS
+cannot learn an effective task ofﬂoading policy, it obtains around
+26.4% higher than the ADPRL (LO) at task 40. ADPRL (LO)
+is around 10% lower than Greedy in terms of ACT.
+In Fig. 10(b), ADPRL (EE) demonstrates superior perfor-
+mance compared to the baselines on EC. As the number of tasks
+increases from 10 to 40, the EC of ADPRL (EE) is consistently
+lower than that of the other strategies, highlighting its efﬁciency.
+Speciﬁcally, at 40 tasks, ADPRL (EE)’s EC is approximately
+68.4% less than Random, about 63.0% less than LE, around
+16.5% less than DQN+FCFS, and about 45.3% lower compared
+to Greedy.
+F. Inﬂuence of Change in the Number of Subtasks
+1) Simulation Results for Alibaba Cluster Trace Dataset:
+Fig. 9(c) shows the effect of changing the number of subtasks
+from 25 to 100 in a task. ADPRL (LO) is signiﬁcantly better than
+Random. For LE, tasks are executed at the devices where they
+are generated, which leads to a longer waiting time as the number
+of subtasks increases. There is a signiﬁcant difference in ACT
+Authorized licensed use limited to: Makerere University Library. Downloaded on August 09,2026 at 10:28:06 UTC from IEEE Xplore.  Restrictions apply. 
+
+CHEN et al.: DYNAMIC TASK OFFLOADING IN EDGE COMPUTING BASED ON DEPENDENCY-AWARE REINFORCEMENT LEARNING
+605
+Fig. 10.
+Simulation results for energy consumption.
+between ADPRL (LO) and LE from about 10% at 25 subtasks to
+74.1% at 100 subtasks. The difference in ACT between ADPRL
+(LO) and DQN + FCFS is 40.0% at 100 subtasks because DQN
++ FCFS does not perform well with a large number of network
+ﬂows. It can be strengthened by Fig. 8(a), which shows the OR
+of both ADPRL (LO) and DQN + FCFS is above 90.0% at 100
+subtasks. ADPRL (LO) is around 35.9% better than Greedy.
+Fig. 10(c) demonstrates the impact of increasing the number
+of subtasks from 25 to 100 on EC. All algorithms exhibit an
+increase in EC with the growing number of subtasks. This rise
+in EC is mainly due to the augmented computational load and
+network ﬂows required to handle the increasing subtask number.
+Compared to Random, ADPRL (EE) exhibits up to 29.9%
+less energy consumption at 100 subtasks. The EC disparity
+between LE and ADPRL (EE) increases from about 26.2% at 50
+tasks to around 41.7% at 100 tasks. ADPRL (EE) demonstrates
+an approximate average reduction of 9.15% compared to the
+DQN+FCFS and Greedy strategies. This energy saving is due to
+ADPRL (EE)’s ability to optimize task execution and bandwidth
+allocation, reducing unnecessary computational efforts and data
+transmissions. As a result, ADPRL (EE) consumes less energy
+while improving task completion time.
+2) Simulation Results for Synthetic Dataset: In Fig. 9(d),
+ADPRL (LO) is signiﬁcantly better than both Random and LE.
+Since DQN + FCFS schedules task ofﬂoading and network ﬂows
+separately, it obtains around 11.8% higher than Greedy when the
+number of subtasks increases to 100. Since ADPRL (LO) can
+effectively leverage task dependency into a deep deterministic
+policy gradient, it achieves an average delay of 25.2% lower than
+those of DQN + FCFS and Greedy at 100 subtasks.
+In Fig. 10(d), ADPRL (EE) maintains a consistently lower
+energy consumption compared to the baselines with the number
+of subtasks from 25 to 100. At 100 subtasks, ADPRL (EE)’s
+energy consumption is 68.8% less than Random, 66% less
+than LE, and 46.5% less than Greedy, while also maintaining
+a relatively slighter edge of 33.4% less energy consumption
+compared to DQN+FCFS.
+G. Inﬂuence of Change in Network Bandwidth
+1) Simulation Results for Alibaba Cluster Trace Dataset:
+Fig. 9(e) shows the effect of changing the average bandwidth
+value in edge links from 2 Mbps to 8 Mbps on ACT of tasks. The
+ACT of LE is constant because all tasks are run on edge nodes
+where they are generated, which can be strengthened by the OR
+of LE remaining at 0 in Fig. 8(a). It is expected that ADPRL (LO)
+performs signiﬁcantly better than baselines in the low bandwidth
+condition while sharing similar results with baselines in the high
+bandwidth condition. There is a signiﬁcant difference in ACT
+performance between ADPRL (LO) and Random. Greedy is not
+able to make full use of computation and bandwidth resources
+when ofﬂoading tasks to target nodes. There is an increase in
+ACT performance difference between ADPRL (LO) and Greedy
+from about 10% at the average bandwidth 8 Mbps to 56.6% at
+the average bandwidth 2 Mbps. ADPRL (LO) is around 44.8%
+less than DQN + FCFS in terms of ACT.
+In Fig. 10(e), EC of ADPRL (EE) decreases as bandwidth
+increasesfrom2Mbpsto8Mbps. Thisdecreasecanbeattributed
+to the enhanced efﬁciency in data transmission at higher band-
+widths, reducing the time devices spend in energy-consuming
+states. The EC of LE is constant due to no network ﬂows.
+Additionally, when comparing ADPRL (EE) with other algo-
+rithms, it is evident that ADPRL (EE) is more energy efﬁcient.
+Speciﬁcally, at the highest bandwidth of 8 Mbps, ADPRL (EE)’s
+EC is about 73% less than Random, around 62.4% less than
+DQN+FCFS, and approximately 30.4% less than Greedy. By
+efﬁciently managing network resources, ADPRL (EE) mini-
+mizes energy waste, thus consuming less energy than the other
+methods.
+2) Simulation Results for Synthetic Dataset: Fig. 9(f) shows
+the effect of changing the average bandwidth value in edge links
+from 2 Mbps to 8 Mbps on the ACT of tasks. The ACT of LE
+is constant because all tasks are run on edge nodes where they
+are generated. When the bandwidth increases to 8 Mbps, the
+proposed algorithm ADPRL (LO) achieves an average delay
+of 43.1% lower than those of Random and LE. Given that
+the number of network ﬂows remains relatively constant, low
+bandwidth leads to high latency. Conversely, high bandwidth can
+substantially decrease latency. Since DQN + FCFS schedules
+Authorized licensed use limited to: Makerere University Library. Downloaded on August 09,2026 at 10:28:06 UTC from IEEE Xplore.  Restrictions apply. 
+
+606
+IEEE TRANSACTIONS ON CLOUD COMPUTING, VOL. 12, NO. 2, APRIL-JUNE 2024
+tasks and network ﬂows separately, which can hardly adapt to
+dynamic networks, there is an increase in ACT performance
+difference between ADPRL (LO) and DQN + FCFS from about
+10% at the average bandwidth 2 Mbps to 21.13% at the average
+bandwidth 8 Mbps. ADPRL (LO) is around 10% less than
+Greedy in terms of ACT.
+Fig. 10(f) shows the effect of changing the average value of
+bandwidth in edge links from 2 Mbps to 8 Mbps on the EC of
+tasks. The EC of LE remains constant as all tasks are executed
+on edge nodes where they are generated. When the bandwidth
+increases to 8 Mbps, ADPRL (EE) achieves an average EC that
+is 82% lower than both Random and LE. The EC gap between
+ADPRL (EE) and Greedy increases from approximately 48.3%
+at an average bandwidth of 2 Mbps to about 71.4% at 8 Mbps.
+ADPRL (EE) is also around 15.8% less than DQN+FCFS,
+showcasingtheadaptabilityofADPRL(EE)todynamicnetwork
+conditions.
+H. Inﬂuence of Change in Processing Speed
+1) Simulation Results for Alibaba Cluster Trace Dataset:
+Fig. 9(g) shows the effect of changing the average value of
+processing speed in edge links from 10 Mcps to 40 Mcps on ACT
+of tasks. It is expected that the ACT gap between ADPRL (LO)
+and baselines will decrease as the processing speed condition
+transitions from low to high. There is a signiﬁcant difference in
+ACT performance between ADPRL (LO) and Random. Greedy
+cannot make full use of computation and processing speed
+resources when ofﬂoading tasks to target nodes. There is an
+increase in ACT performance difference between ADPRL (LO)
+and Greedy from about 11.3% at the average processing speed of
+40 Mcps to 48.0% at the average processing speed of 10 Mcps.
+ADPRL (LO) is around 71.5% less than DQN + FCFS on ACT.
+Fig. 10(g) shows a trend of all algorithms decreasing EC
+as processing speed increases from 10 Mcps to 40 Mcps. All
+algorithms demonstrate a decrease in EC with faster processing
+speeds. This decrease is attributed to more efﬁcient task process-
+ing, leading to reduced active time and energy usage of devices.
+Furthermore, ADPRL (EE)’s EC is more pronounced compared
+to other baselines like Random, LE, Greedy, and DQN+FCFS.
+Speciﬁcally, at 20 Mcps, ADPRL (EE)’s energy consumption
+is approximately 62.7% less than Random, around 58.5% less
+than LE, about 22% lower than DQN+FCFS, and nearly 31%
+less than Greedy. By efﬁciently managing computational re-
+sources through optimized ofﬂoading decisions, ADPRL (EE)
+minimizes energy waste, thus consuming less energy than the
+other methods.
+2) Simulation Results for Synthetic Dataset: Fig. 9(h) shows
+the effect of changing the average value of processing speed in
+edge links from 10 Mcps to 40 Mcps on the ACT of tasks. When
+the processing speed increases to 40 Mcps, the proposed algo-
+rithm ADPRL (LO) achieves an average delay of 58.9% lower
+than those of Random and LE. ADPRL (LO) demonstrates a
+decrease of around 51.7% in ACT compared to the DQN+FCFS.
+ADPRL (LO) is around 41.6% less than Greedy in terms of ACT.
+Fig. 10(h) shows the energy consumption trend as processing
+speed increases from 10 Mcps to 40 Mcps. Speciﬁcally, at
+40 Mcps, ADPRL (EE) shows remarkable energy efﬁciency
+comparedtothebaselines.ADPRL(EE)isapproximately85.1%
+less than Random, around 83.4% less than LE, about 79.8%
+less than DQN+FCFS, and nearly 35.7% less than Greedy on
+energy consumption. ADPRL (EE)’s efﬁcient computational
+resource management and optimized ofﬂoading decisions result
+in signiﬁcantly lower energy consumption than other methods.
+I. Inﬂuence of Change in the Number of Edge Nodes
+1) Simulation Results for Alibaba Cluster Trace Dataset:
+Fig. 9(i) shows the effect of changing the number of edge
+nodes from 25 to 100 on the average completion time of tasks.
+It is expected that an increase in the number of edge nodes
+decreases the average completion time due to the availability
+of more resources. Given that task and data generation are
+assumed to be conﬁned to the ﬁrst 25 nodes, the ACT of LE is
+constant. It is expected that ADPRL (LO) performs signiﬁcantly
+better than baselines. There is a signiﬁcant difference in ACT
+performance between ADPRL (LO) and Random. Greedy is not
+able to make full use of computation and bandwidth resources
+when ofﬂoading tasks to target nodes. There is an average ACT
+performance difference of 24.8% between ADPRL (LO) and
+Greedy at the number of edge nodes ranging from 25 to 100.
+ADPRL (LO) is around 44.8% less than DQN + FCFS in terms
+of ACT.
+Fig. 10(i) reveals a trend of decreasing EC for all algorithms
+except LE as the number of edge nodes increases from 25 to
+100. This is due to a more balanced task distribution across
+the network, reducing the workload and active time for indi-
+vidual nodes, which consequently lowers energy consumption.
+However, it’s important to consider the tradeoff, as excessively
+increasing the number of edge nodes may not yield proportional
+gains in energy efﬁciency and task completion time. Given that
+task and data generation are assumed to be conﬁned to the ﬁrst 25
+nodes, the number of edge nodes does not impact the EC of LE.
+Speciﬁcally, at 100 nodes, ADPRL (EE)’s EC is approximately
+58.4% less than Random, around 35.8% less than DQN+FCFS,
+and about 7.7% lower compared to Greedy. These differences
+illustrate ADPRL (EE)’s effective task allocation and resource
+management strategies, which optimize task distribution across
+multiple nodes, minimizing energy waste while efﬁciently uti-
+lizing computational resources.
+2) Simulation Results for Synthetic Dataset: As shown in
+Fig. 9(j), there is a decrease in ACT for all algorithms due to an
+increase in the number of edge nodes. Given that task and data
+generation are assumed to be conﬁned to the ﬁrst 25 nodes, the
+ACT of LE is constant. ADPRL (LO) is signiﬁcantly better than
+Random and LE. The ACT of DQN + FCFS is around 36.4%
+higher than that of ADPRL (LO). ADPRL (LO) is around 11%
+lower than Greedy in terms of ACT.
+Fig. 10(j) shows the effect of changing the number of edge
+nodes from 25 to 100 on EC of tasks in the synthetic dataset.
+Given that task and data generation are assumed to be conﬁned
+to the ﬁrst 25 nodes, the EC of LE is constant. Speciﬁcally,
+at 100 nodes, ADPRL (EE) demonstrates remarkable energy
+efﬁciency compared to the baselines. It consumes approximately
+Authorized licensed use limited to: Makerere University Library. Downloaded on August 09,2026 at 10:28:06 UTC from IEEE Xplore.  Restrictions apply. 
+
+CHEN et al.: DYNAMIC TASK OFFLOADING IN EDGE COMPUTING BASED ON DEPENDENCY-AWARE REINFORCEMENT LEARNING
+607
+94.5% less energy than Random, about 94.3% less than LE,
+about 90.6% less than DQN+FCFS, and nearly 70.8% less than
+Greedy. ADPRL (EE) effectively utilizes the increased number
+of edge nodes to distribute tasks more evenly, thus reducing
+the energy consumption on individual nodes and the overall
+network.
+3) Challenges With Increasing Number of Edge Nodes:
+There are two main challenges associated with our approach,
+especiallyasthenumberofedgenodesscalesfrom25to100,and
+even more nodes. One challenge is increased signal transmission
+delays. As the number of edge nodes increases, the volume of
+common signals transmitted between the central control and the
+edge nodes also escalates. This increase in signal trafﬁc results
+in higher transmission delays, potentially affecting the overall
+efﬁciency of the CEC system. Another challenge is the slower
+convergence of model training. This is due to the more complex
+and varied data being processed and the need for more extensive
+coordination and synchronization across nodes.
+While these challenges are crucial to the scalability and
+performance of CEC systems, our current study has certain
+limitations in directly addressing them. Our work primarily fo-
+cused on optimizing task ofﬂoading, bandwidth allocation, and
+waiting time decisions under small-scale networks and nodes.
+In our future studies, we will explore efﬁcient data compression
+techniques and optimize network protocols to mitigate increased
+signal transmission delays. For slower model convergence, we
+will consider advanced parallel training algorithms to accelerate
+the model training.
+J. Performance Analysis Across Different Datasets
+The primary reason for employing both the Alibaba cluster
+trace dataset and the synthetic dataset was to showcase the
+adaptability and effectiveness of our algorithm across different
+scenarios. Both the Alibaba cluster trace dataset and the syn-
+thetic dataset exhibit a trend where ACT and EC increase as the
+number of tasks or subtasks rises and decrease as bandwidth,
+processing speed, and edge node number increase. However,
+the speciﬁc factors contributing to this trend vary between the
+datasets.
+ThissimilarityofperformanceontheAlibabaclustertraceand
+synthetic dataset arises primarily due to common distribution
+properties and modiﬁcations to the Alibaba cluster trace dataset.
+Alibaba cluster trace dataset and synthetic dataset exhibit sim-
+ilar distribution characteristics in some attributes, such as data
+size and release time. The Alibaba cluster trace dataset, while
+comprehensive, lacks speciﬁc information crucial for our exper-
+iments. To address this, we modiﬁed the dataset, particularly
+in attributes like data size and release time, to generate DAGs
+suitable for our analysis. These modiﬁcations, while necessary,
+led to a certain level of uniformity in the dataset’s behavior,
+aligning it more closely with the Synthetic Data. For instance,
+the release time of each task of two datasets is randomly selected
+using a Poisson distribution. The data size of each task is
+generated randomly from a normal distribution with a mean of
+500 Mbit and a variance of 80%.
+However, there are performance variations observed between
+the two datasets. In the Alibaba cluster trace dataset, the rise in
+ACT is primarily due to increased network ﬂows. For instance,
+as shown in Fig. 9(c), as the number of subtasks increases
+from 75 to 100, ACT sharply rises due to a dramatic increase
+in network ﬂows. Conversely, in the synthetic dataset, ACT is
+inﬂuenced by device waiting time for executing tasks and the
+total number of network ﬂows. For example, in Fig. 9, with
+an increasing task number and subtask number, the ACT trend
+in the synthetic dataset differs from the trend on the Alibaba
+cluster trace dataset. It initially shows a slow increase followed
+by a rapid escalation. This reﬂects the distinct nature of task
+characteristics in this dataset. The difference can be attributed
+to the controlled, synthetic nature of the dataset, which allows
+for a more varied and extensive range of task characteristics.
+VII. CONCLUSION
+In this work, we study the ODTO problem and propose AD-
+PRL, an asynchronous DRL-based algorithm. We evaluate AD-
+PRL on simulation experiments with the Alibaba cluster trace
+dataset and synthetic dataset. The simulation results demonstrate
+that ADPRL outperforms both heuristic and learning-based
+baselines. In future work, we will focus on developing strategies
+to improve the scalability of our approach, particularly by reduc-
+ing signal transmission delays and accelerating model training.
+REFERENCES
+[1] L. U. Khan, I. Yaqoob, N. H. Tran, S. A. Kazmi, T. N. Dang, and C. S.
+Hong, “Edge-computing-enabled smart cities: A comprehensive survey,”
+IEEE Internet Things J., vol. 7, no. 10, pp. 10200–10232, Oct. 2020.
+[2] M. Xu et al., “A full dive into realizing the edge-enabled metaverse:
+Visions, enabling technologies, and challenges,” IEEE Commun. Surv.
+Tut., vol. 25, no. 1, pp. 656–700, 2022.
+[3] Y. Sahni, J. Cao, L. Yang, and Y. Ji, “Multi-hop multi-task partial compu-
+tation ofﬂoading in collaborative edge computing,” IEEE Trans. Parallel
+Distrib. Syst., vol. 32, no. 5, pp. 1133–1145, May 2021.
+[4] X. Chen, J. Cao, Z. Liang, Y. Sahni, and M. Zhang, “Digital twin-assisted
+reinforcement learning for resource-aware microservice ofﬂoading in edge
+computing,” in Proc. IEEE 20th Int. Conf. Mobile Ad Hoc Smart Syst.,
+2023, pp. 28–36.
+[5] Y. Zhan, S. Guo, P. Li, and J. Zhang, “A deep reinforcement learning based
+ofﬂoading game in edge computing,” IEEE Trans. Comput., vol. 69, no. 6,
+pp. 883–893, Jun. 2020.
+[6] J. Wang, J. Hu, G. Min, A. Y. Zomaya, and N. Georgalas, “Fast adaptive
+task ofﬂoading in edge computing based on meta reinforcement learning,”
+IEEE Trans. Parallel Distrib. Syst., vol. 32, no. 1, pp. 242–253, Jan. 2021.
+[7] M. Tang and V. W. Wong, “Deep reinforcement learning for task ofﬂoading
+in mobile edge computing systems,” IEEE Trans. Mobile Comput., vol. 21,
+no. 6, pp. 1985–1997, Jun. 2022.
+[8] J. Zou, T. Hao, C. Yu, and H. Jin, “A3C-DO: A regional resource schedul-
+ing framework based on deep reinforcement learning in edge scenario,”
+IEEE Trans. Comput., vol. 70, no. 2, pp. 228–239, Feb. 2021.
+[9] K. Guo, M. Yang, Y. Zhang, and J. Cao, “Joint computation ofﬂoading and
+bandwidth assignment in cloud-assisted edge computing,” IEEE Trans.
+Cloud Comput., vol. 10, no. 1, pp. 451–460, Jan.-Mar. 2022.
+[10] T. X. Tran and D. Pompili, “Joint task ofﬂoading and resource allocation
+for multi-server mobile-edge computing networks,” IEEE Trans. Veh.
+Technol., vol. 68, no. 1, pp. 856–868, Jan. 2019.
+[11] A. Gholami and J. S. Baras, “Collaborative cloud-edge-local computation
+ofﬂoading for multi-component applications,” in Proc. IEEE/ACM Symp.
+Edge Comput., 2021, pp. 361–365.
+[12] P. Dai, K. Hu, X. Wu, H. Xing, and Z. Yu, “Asynchronous deep reinforce-
+ment learning for data-driven task ofﬂoading in MEC-empowered vehic-
+ular networks,” in Proc. IEEE Conf. Comput. Commun., 2021, pp. 1–10.
+Authorized licensed use limited to: Makerere University Library. Downloaded on August 09,2026 at 10:28:06 UTC from IEEE Xplore.  Restrictions apply. 
+
+608
+IEEE TRANSACTIONS ON CLOUD COMPUTING, VOL. 12, NO. 2, APRIL-JUNE 2024
+[13] H. Topcuoglu, S. Hariri, and M.-Y. Wu, “Performance-effective and low-
+complexity task scheduling for heterogeneous computing,” IEEE Trans.
+Parallel Distrib. Syst., vol. 13, no. 3, pp. 260–274, Mar. 2002.
+[14] C.-C. Hung, G. Ananthanarayanan, L. Golubchik, M. Yu, and M. Zhang,
+“Wide-area analytics with multiple resources,” in Proc. 13th EuroSys
+Conf., 2018, pp. 1–16.
+[15] J. Yan, S. Bi, Y. J. Zhang, and M. Tao, “Optimal task ofﬂoading and
+resource allocation in mobile-edge computing with inter-user task de-
+pendency,” IEEE Trans. Wireless Commun., vol. 19, no. 1, pp. 235–250,
+Jan. 2020.
+[16] S. Sundar and B. Liang, “Ofﬂoading dependent tasks with communication
+delay and deadline constraint,” in Proc. IEEE Conf. Comput. Commun.,
+2018, pp. 37–45.
+[17] J. Meng, H. Tan, C. Xu, W. Cao, L. Liu, and B. Li, “Dedas: Online task
+dispatching and scheduling with bandwidth constraint in edge computing,”
+in Proc. IEEE Conf. Comput. Commun., 2019, pp. 2287–2295.
+[18] Z. Han et al., “OnDisc: Online latency-sensitive job dispatching and
+scheduling in heterogeneous edge-clouds,” IEEE/ACM Trans. Netw.,
+vol. 27, no. 6, pp. 2472–2485, Dec. 2019.
+[19] M. Chen and Y. Hao, “Task ofﬂoading for mobile edge computing in
+software deﬁned ultra-dense network,” IEEE J. Sel. Areas Commun.,
+vol. 36, no. 3, pp. 587–597, Mar. 2018.
+[20] J. Wang, J. Hu, G. Min, W. Zhan, A. Zomaya, and N. Georgalas, “De-
+pendent task ofﬂoading for edge computing based on deep reinforcement
+learning,” IEEE Trans. Comput., vol. 71, no. 10, pp. 2449–2461, Oct. 2022.
+[21] Y. Wang, W. Fang, Y. Ding, and N. Xiong, “Computation ofﬂoading opti-
+mization for UAV-assisted mobile edge computing: A deep deterministic
+policy gradient approach,” Wireless Netw., vol. 27, no. 4, pp. 2991–3006,
+2021.
+[22] S. Bi, L. Huang, H. Wang, and Y.-J. A. Zhang, “Lyapunov-guided deep
+reinforcement learning for stable online computation ofﬂoading in mobile-
+edge computing networks,” IEEE Trans. Wireless Commun., vol. 20,
+no. 11, pp. 7519–7537, Nov. 2021.
+[23] Y. Sahni, J. Cao, L. Yang, and Y. Ji, “Multihop ofﬂoading of multiple DAG
+tasks in collaborative edge computing,” IEEE Internet Things J., vol. 8,
+no. 6, pp. 4893–4905, Mar. 2021.
+[24] M. Zhang, J. Cao, Y. Sahni, Q. Chen, S. Jiang, and L. Yang, “Blockchain-
+based collaborative edge intelligence for trustworthy and real-time video
+surveillance,” IEEE Trans. Ind. Informat., vol. 19, no. 2, pp. 1623–1633,
+Feb. 2023.
+[25] J. Tang, S. Liu, B. Yu, and W. Shi, “Pi-edge: A low-power edge com-
+puting system for real-time autonomous driving services,” 2018, arXiv:
+1901.04978.
+[26] S. Ahmad et al.. Aral, “Sustainable environmental monitoring via energy
+and information efﬁcient multi-node placement,” IEEE Internet Things J.,
+vol. 10, no. 24, pp. 22065–22079, Dec. 2023.
+[27] E. Angelelli, R. Mansini, and M. G. Speranza, “Kernel search: A general
+heuristic for the multi-dimensional knapsack problem,” Comput. Opera-
+tions Res., vol. 37, no. 11, pp. 2017–2026, 2010.
+[28] B. Jacob et al., “Quantization and training of neural networks for efﬁcient
+integer-arithmetic-only inference,” in Proc. IEEE Conf. Comput. Vis.
+Pattern Recognit., 2018, pp. 2704–2713.
+[29] K. Simonyan and A. Zisserman, “Very deep convolutional networks for
+large-scale image recognition,” 2014, arXiv:1409.1556.
+[30] W. Gong, W. Zhang, M. Bilal, Y. Chen, X. Xu, and W. Wang, “Efﬁcient
+web APIs recommendation with privacy-preservation for mobile app
+development in industry 4.0,” IEEE Trans. Ind. Informat., vol. 18, no. 9,
+pp. 6379–6387, Sep. 2022.
+Xiangchun Chen received the BEng degree in com-
+puter science and technology from the Harbin Insti-
+tute of Technology, China, in 2021. He is currently
+working toward the PhD degree with the Department
+of Computing, The Hong Kong Polytechnic Univer-
+sity, Hong Kong SAR, China. His research interests
+lie in digital twin, edge computing, edge AI, and
+Internet of Things.
+Jiannong Cao (Fellow, IEEE) is currently the Otto
+Poon Charitable Foundation professor in Data Sci-
+ence and the Chair professor of Distributed and Mo-
+bile Computing in the Department of Computing
+with the Hong Kong Polytechnic University (PolyU),
+Hong Kong. He is also the Dean of Graduate School,
+the Director of the Research Institute for Artiﬁcial
+Intelligence of Things in PolyU, and the director of
+the Internet and Mobile Computing Lab. He was the
+founding director and is now the associate director
+of PolyU’s University Research Facility in Big Data
+Analytics. He served as the department head from 2011 to 2017. He is a member
+of Academia Europaea, a fellow of the China Computer Federation (CCF),
+and an ACM distinguished member. His research interests include distributed
+systems and blockchain, wireless sensing and networking, Big Data and machine
+learning, and mobile cloud and edge computing.
+Yuvraj Sahni (Member, IEEE) received the BE
+(Hons) degree in electrical and electronics engineer-
+ing from the Birla Institute of Technology and Sci-
+ence, Pilani, India, in 2015 and the PhD degree
+from the Department of Computing, The Hong Kong
+Polytechnic University, Hong Kong, in 2021. He
+is currently a research assistant professor with the
+Department of Building Environment and Energy
+Engineering, The Hong Kong Polytechnic University,
+Hong Kong. Before that, he was a postdoctoral fellow
+with the Department of Computing, The Hong Kong
+Polytechnic University from 2021 to 2022. His research interests include wire-
+less sensor networks, edge computing, Internet of Things, and smart buildings.
+Shan Jiang received the BSc degree in computer
+science and technology from Sun Yat-Sen University,
+Guangzhou, China, in 2015, and the PhD degree in
+computer science from the Hong Kong Polytechnic
+University, Hong Kong, in 2021. He is currently a
+research assistant professor with the Department of
+Computing, The Hong Kong Polytechnic University.
+Before that, he visited Imperial College London from
+November 2018 to March 2019. His research in-
+terests include distributed systems and blockchain,
+blockchain-based Big Data sharing, and blockchain
+as a service. He was the recipient of the best paper award of BlockSys 2021.
+Zhixuan Liang received the bachelor’s degree in
+Shenzhen University and master’s degree in the Hong
+Kong Polytechnic University. He is a PhD of the
+department of computing, the Hong Kong Polytech-
+nic University. His research interests are machine
+learning, multi-agent reinforcement learning.
+Authorized licensed use limited to: Makerere University Library. Downloaded on August 09,2026 at 10:28:06 UTC from IEEE Xplore.  Restrictions apply. 
